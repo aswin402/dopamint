@@ -3,7 +3,6 @@ import { DOPAMINT_AGENTS } from '../../data/dopamint';
 import type { AgentProfile } from '../../data/dopamint';
 import { Play } from 'lucide-react';
 import { useVoiceSynthesis } from '../../hooks/useVoiceSynthesis';
-import { InteractiveArcCarousel } from '../ui/InteractiveArcCarousel';
 
 export const RenaissanceAgentRoster: React.FC = () => {
   const [selectedAgent, setSelectedAgent] = useState<AgentProfile>(DOPAMINT_AGENTS[0]);
@@ -101,11 +100,6 @@ export const RenaissanceAgentRoster: React.FC = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* 3D Morphing Squad Visual Explorer */}
-      <div className="pt-4">
-        <InteractiveArcCarousel />
       </div>
 
     </section>
