@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-cinzel: 'Cinzel', serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-parchment: #EBEAE5;
+  --color-parchment-deep: #E2E1DA;
+  --color-parchment-card: #F4F3EE;
+  --color-parchment-subtle: #F9F8F5;
+
+  --color-charcoal-primary: #141820;
+  --color-charcoal-secondary: #2C3240;
+  --color-slate-editorial: #525866;
+
+  --color-renaissance-purple: #7C3AED;
+  --color-renaissance-violet: #6D28D9;
+  --color-brand-emerald: #059669;
+  --color-brand-mint: #10B981;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    background-color: #EBEAE5;
+    color: #141820;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+    background-color: #EBEAE5;
+    color: #141820;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: #EBEAE5;
+    color: #141820;
+    min-height: 100vh;
+    overflow-x: hidden;
+    selection-background-color: #DDDBCF;
+    selection-color: #141820;
+  }
+
+  ::selection {
+    background-color: #D3D0C3;
+    color: #141820;
+  }
+}
+
+/* Renaissance Serif Typography */
+.font-editorial-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.font-cinzel-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.text-display {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.04em;
+  line-height: 0.96;
+  font-weight: 900;
+}
+
+.text-display-tight {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  font-weight: 800;
+}
+
+/* Floating Glassmorphic Prompt Pill */
+.prompt-glass {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px -5px rgba(20, 24, 32, 0.08), 0 4px 10px -2px rgba(20, 24, 32, 0.04);
+}
+
+.prompt-glass-dark {
+  background: rgba(20, 24, 32, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+}
+
+/* Parchment Card Styles */
+.parchment-card {
+  background: #F4F3EE;
+  border: 1px solid #DFDCD3;
+  box-shadow: 0 1px 3px rgba(20, 24, 32, 0.03);
+}
+
+/* Keyframes & Animations */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.animate-border-beam {
+  animation: border-beam var(--duration, 12s) linear infinite;
+}
+
+@keyframes scanLine {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+.animate-scan {
+  animation: scanLine 3.5s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EBEAE5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8C5B9;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #AFAAA0;
+}

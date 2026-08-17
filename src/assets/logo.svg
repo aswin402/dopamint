@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Neon Gradients -->
+    <linearGradient id="neonCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f3ff" />
+      <stop offset="100%" stop-color="#0066ff" />
+    </linearGradient>
+    
+    <linearGradient id="neonPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff00cc" />
+      <stop offset="100%" stop-color="#9900ff" />
+    </linearGradient>
+
+    <linearGradient id="cyanPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f3ff" />
+      <stop offset="50%" stop-color="#ab00ff" />
+      <stop offset="100%" stop-color="#ff00cc" />
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="glow-intense" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="15" result="blur1" />
+      <feGaussianBlur stdDeviation="5" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="blur2" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    /* Isometric Box Style */
+    .box-edge {
+      stroke: url(#cyanPurple);
+      stroke-width: 3.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: url(#glow);
+      opacity: 0.9;
+    }
+    
+    .box-back {
+      stroke: url(#neonPurple);
+      stroke-dasharray: 6 6;
+      opacity: 0.4;
+      stroke-width: 2;
+    }
+    
+    /* Circuits */
+    .circuit-line {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      filter: url(#glow);
+      stroke-dasharray: 300;
+      stroke-dashoffset: 300;
+      animation: drawCircuit 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .cyan-line {
+      stroke: url(#neonCyan);
+    }
+
+    .purple-line {
+      stroke: url(#neonPurple);
+    }
+    
+    /* Glowing Dots */
+    .glow-dot {
+      fill: #fff;
+      filter: url(#glow-intense);
+      opacity: 0;
+      animation: pulseDot 4s ease-in-out infinite;
+    }
+    
+    /* Particles */
+    .particle {
+      fill: #00f3ff;
+      filter: url(#glow);
+      opacity: 0;
+      animation: floatUp 5s ease-in-out infinite;
+    }
+
+    /* Keyframes */
+    @keyframes drawCircuit {
+      0% {
+        stroke-dashoffset: 300;
+      }
+      50% {
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dashoffset: -300;
+      }
+    }
+
+    @keyframes pulseDot {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+      30%, 70% {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(0, 0) scale(0.8);
+        opacity: 0;
+      }
+      20% {
+        opacity: 0.8;
+      }
+      80% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translate(var(--tx), var(--ty)) scale(0.3);
+        opacity: 0;
+      }
+    }
+    
+    /* Typography */
+    .text-title {
+      font-family: 'Outfit', 'Montserrat', 'Inter', sans-serif;
+      font-size: 76px;
+      font-weight: 800;
+      fill: url(#cyanPurple);
+      letter-spacing: 5px;
+      filter: url(#glow);
+    }
+
+    .text-subtitle {
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      fill: #94a3b8;
+      letter-spacing: 7px;
+      opacity: 0.8;
+    }
+  </style>
+
+  <g transform="translate(400, 360)">
+    <!-- Circuit Lines (Emerging from the Box) -->
+    <!-- Center Left -->
+    <path class="circuit-line cyan-line" d="M 0, -5 L -40, -65 L -120, -65 L -150, -115" style="animation-delay: 0s;" />
+    <!-- Center Right -->
+    <path class="circuit-line purple-line" d="M 0, -5 L 40, -65 L 120, -65 L 150, -115" style="animation-delay: 0.5s;" />
+    <!-- Mid Left Up -->
+    <path class="circuit-line purple-line" d="M -20, 15 L -80, -45 L -80, -125 L -130, -175" style="animation-delay: 1s;" />
+    <!-- Mid Right Up -->
+    <path class="circuit-line cyan-line" d="M 20, 15 L 80, -45 L 80, -125 L 130, -175" style="animation-delay: 1.5s;" />
+    <!-- Center Straight Up -->
+    <path class="circuit-line cyan-line" d="M 0, -10 L 0, -155 L -30, -205" style="animation-delay: 0.8s;" />
+    <path class="circuit-line purple-line" d="M 0, -10 L 0, -125 L 30, -175" style="animation-delay: 1.2s;" />
+
+    <!-- Glowing Dots at endpoints -->
+    <circle class="glow-dot" cx="-150" cy="-115" r="6" style="animation-delay: 2.0s; fill: #00f3ff;" />
+    <circle class="glow-dot" cx="150" cy="-115" r="6" style="animation-delay: 2.5s; fill: #ff00cc;" />
+    <circle class="glow-dot" cx="-130" cy="-175" r="6" style="animation-delay: 3.0s; fill: #ff00cc;" />
+    <circle class="glow-dot" cx="130" cy="-175" r="6" style="animation-delay: 3.5s; fill: #00f3ff;" />
+    <circle class="glow-dot" cx="-30" cy="-205" r="5" style="animation-delay: 2.8s; fill: #00f3ff;" />
+    <circle class="glow-dot" cx="30" cy="-175" r="5" style="animation-delay: 3.2s; fill: #ff00cc;" />
+
+    <!-- Floating Particles -->
+    <circle class="particle" cx="-20" cy="-50" r="3.5" style="--tx: -60px; --ty: -150px; animation-delay: 0s;" />
+    <circle class="particle" cx="30" cy="-30" r="2.5" style="--tx: 90px; --ty: -180px; animation-delay: 1.2s; fill: #ff00cc;" />
+    <circle class="particle" cx="-10" cy="-70" r="3" style="--tx: -40px; --ty: -200px; animation-delay: 2.4s;" />
+    <circle class="particle" cx="15" cy="-60" r="3.5" style="--tx: 50px; --ty: -130px; animation-delay: 3.6s; fill: #ff00cc;" />
+
+    <!-- Isometric Box (Package) -->
+    <!-- Back wireframe (inside the box) -->
+    <path class="box-edge box-back" d="M 0, -30 L 0, 60 M -90, 110 L 0, 60 L 90, 110" />
+    
+    <!-- Front Face Left -->
+    <path class="box-edge" d="M -90, 20 L -90, 110 L 0, 160 M 0, 160 L 0, 70" />
+    <!-- Front Face Right -->
+    <path class="box-edge" d="M 90, 20 L 90, 110 L 0, 160" />
+    <!-- Top Rim (Opening) -->
+    <path class="box-edge" d="M -90, 20 L 0, 70 L 90, 20 L 0, -30 Z" />
+
+    <!-- Left-Back Flap -->
+    <path class="box-edge" d="M -90, 20 L -140, -10 L -50, -60 L 0, -30" />
+    <!-- Right-Back Flap -->
+    <path class="box-edge" d="M 90, 20 L 140, -10 L 50, -60 L 0, -30" />
+    <!-- Front-Left Flap -->
+    <path class="box-edge" d="M -90, 20 L -140, 50 L -50, 100 L 0, 70" />
+    <!-- Front-Right Flap -->
+    <path class="box-edge" d="M 90, 20 L 140, 50 L 50, 100 L 0, 70" />
+  </g>
+
+  <!-- Text Branding -->
+  <g transform="translate(400, 610)" text-anchor="middle">
+    <!-- Stylized "onpkg" text -->
+    <text class="text-title" x="0" y="0">onpkg</text>
+    <!-- Subtitle -->
+    <text class="text-subtitle" x="0" y="45">AI AGENT PACKAGE MANAGER</text>
+  </g>
+</svg>
