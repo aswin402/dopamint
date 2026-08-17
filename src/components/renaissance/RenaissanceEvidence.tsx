@@ -62,8 +62,9 @@ export const RenaissanceEvidence: React.FC = () => {
                   <div className="text-[10px] text-neutral-400 font-mono">Today 6:04 PM</div>
                 </div>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-black font-bold border border-neutral-300">
-                iMessage
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>iMessage · Active</span>
               </span>
             </div>
 
@@ -87,9 +88,12 @@ export const RenaissanceEvidence: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-300 text-black font-mono text-[11px] space-y-1">
-                <div className="font-bold">Booked — table for 6, Fri 7:30pm. Deposit $40, under your cap.</div>
-                <div className="text-black font-bold pt-0.5">Receipt signed and added to your log ✓</div>
+              <div className="p-3.5 rounded-xl bg-emerald-950/10 border border-emerald-500/30 text-black font-mono text-[11px] space-y-1.5">
+                <div className="font-bold text-emerald-900 flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Booked — table for 6, Fri 7:30pm. Deposit $40, under your cap.</span>
+                </div>
+                <div className="text-emerald-700 font-bold pl-5.5">Receipt signed and added to your log ✓</div>
               </div>
 
               <div className="text-right text-[10px] font-mono text-neutral-400">
@@ -110,11 +114,11 @@ export const RenaissanceEvidence: React.FC = () => {
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
               <span className="text-white font-bold uppercase">Receipt for that booking</span>
-              <span className="text-neutral-400 text-[10px]">Interactive Log</span>
+              <span className="text-neutral-400 text-[10px]">Interactive Log (Click to test tamper)</span>
             </div>
 
             <p className="text-xs text-neutral-400 font-mono my-3">
-              Tap any step to try editing it after the fact.
+              Tap any step to simulate modifying the past log:
             </p>
 
             <div className="space-y-2.5 font-mono text-xs">
@@ -126,19 +130,22 @@ export const RenaissanceEvidence: React.FC = () => {
                     onClick={() => toggleTamper(idx)}
                     className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
                       isBroken
-                        ? 'bg-neutral-900 border-white/40 text-white'
+                        ? 'bg-red-950/40 border-red-500/60 text-red-200 shadow-md shadow-red-950/30'
                         : 'bg-neutral-900 hover:bg-neutral-850 border-neutral-800 text-white'
                     }`}
                   >
                     <div>
-                      <div className="font-bold text-white text-xs">{st.step}</div>
-                      <div className="text-[11px] text-neutral-300">{st.detail}</div>
+                      <div className={`font-bold text-xs flex items-center gap-1.5 ${isBroken ? 'text-red-300' : 'text-white'}`}>
+                        {isBroken && <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-ping" />}
+                        <span>{st.step}</span>
+                      </div>
+                      <div className={`text-[11px] ${isBroken ? 'text-red-400/90' : 'text-neutral-300'}`}>{st.detail}</div>
                     </div>
                     <div className="text-right">
-                      <div className="font-bold text-xs">
+                      <div className={`font-bold text-xs ${isBroken ? 'text-red-400 animate-pulse' : 'text-neutral-200'}`}>
                         {isBroken ? 'HASH MISMATCH ✕' : st.hash}
                       </div>
-                      <div className="text-[9px] text-neutral-400">
+                      <div className={`text-[9px] font-bold ${isBroken ? 'text-red-400' : 'text-emerald-400'}`}>
                         {isBroken ? 'CHAIN BROKEN' : 'VALIDATED ✓'}
                       </div>
                     </div>
@@ -149,16 +156,20 @@ export const RenaissanceEvidence: React.FC = () => {
           </div>
 
           {/* Verdict Status */}
-          <div className="p-4 rounded-2xl bg-neutral-900 border border-white/20 font-mono text-xs flex items-center gap-2">
+          <div className={`p-4 rounded-2xl border font-mono text-xs flex items-center gap-2 transition-all ${
+            tamperedStep === null
+              ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
+              : 'bg-red-950/30 border-red-500/40 text-red-300'
+          }`}>
             {tamperedStep === null ? (
               <>
-                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
-                <span className="text-white font-bold">Chain checks out. Every step matches what was signed.</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="font-bold">Chain checks out. Every step matches cryptographic signature.</span>
               </>
             ) : (
               <>
-                <AlertTriangle className="w-4 h-4 text-white shrink-0" />
-                <span className="text-white font-bold">Tamper detected at Step {tamperedStep + 1}! Downstream cryptographic hashes invalidated.</span>
+                <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 animate-bounce" />
+                <span className="font-bold">Tamper detected at Step {tamperedStep + 1}! Downstream cryptographic hashes invalidated.</span>
               </>
             )}
           </div>
@@ -169,8 +180,9 @@ export const RenaissanceEvidence: React.FC = () => {
       {/* Cryptographic Block Mining / Merkle Tower Banner */}
       <div className="p-8 rounded-3xl parchment-card border border-neutral-300 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="space-y-2 max-w-xl text-left">
-          <div className="text-[10px] font-mono uppercase font-bold text-neutral-500 tracking-widest">
-            FORWARD-SECURE RECEIPT MINING
+          <div className="text-[10px] font-mono uppercase font-bold text-emerald-700 tracking-widest flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>FORWARD-SECURE RECEIPT MINING</span>
           </div>
           <h3 className="text-2xl font-black text-black">
             Deterministic cryptographic proofs

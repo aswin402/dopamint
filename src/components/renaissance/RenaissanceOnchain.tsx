@@ -28,7 +28,7 @@ export const RenaissanceOnchain: React.FC = () => {
       {/* GROUP 1: Onchain */}
       <div className="space-y-6 mb-16">
         <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-600 uppercase">
-          <span className="w-2 h-2 rounded-full bg-black" />
+          <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
           <span>Onchain — settles on-chain from the agent's own wallet</span>
         </div>
 
@@ -40,8 +40,8 @@ export const RenaissanceOnchain: React.FC = () => {
                 <h3 className="text-2xl font-black text-black font-sans">
                   Swap
                 </h3>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-black/5 text-black border border-black/10">
-                  Policy-scoped
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300">
+                  Policy-scoped ✓
                 </span>
               </div>
               <p className="text-sm text-neutral-700 leading-relaxed font-normal">
@@ -49,8 +49,11 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between">
-              <span>Swap 500 USDC → ETH · Base</span>
+            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs">
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>Swap 500 USDC → ETH · Base</span>
+              </span>
               <ArrowRight className="w-4 h-4 text-neutral-500" />
             </div>
           </div>
@@ -62,7 +65,7 @@ export const RenaissanceOnchain: React.FC = () => {
                 <h3 className="text-2xl font-black text-white font-sans">
                   x402 payments
                 </h3>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-white border border-white/20">
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">
                   Spending-limited
                 </span>
               </div>
@@ -72,13 +75,13 @@ export const RenaissanceOnchain: React.FC = () => {
             </div>
 
             {/* Terminal Code Block */}
-            <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 font-mono text-[11px] text-neutral-300 space-y-1 overflow-x-auto leading-relaxed">
+            <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 font-mono text-[11px] text-neutral-300 space-y-1.5 overflow-x-auto leading-relaxed">
               <div className="text-neutral-500 font-bold">$ curl https://api.pricefeed.xyz/v1/quote?pair=ETH-USDC</div>
-              <div className="text-neutral-400">HTTP/1.1 402 Payment Required</div>
+              <div className="text-amber-400 font-bold">HTTP/1.1 402 Payment Required</div>
               <div className="text-neutral-400">x-402-price: 0.0021 ETH · x-402-chain: base</div>
-              <div className="text-white font-bold">→ agent settles 0.0021 ETH via x402 (cap 0.05 ETH/day)</div>
-              <div className="text-neutral-400">HTTP/1.1 200 OK</div>
-              <div className="text-neutral-400">{`{ "pair": "ETH-USDC", "mid": 3398.20, "receipt": "0x9f2c…41ab" }`}</div>
+              <div className="text-emerald-400 font-bold">→ agent settles 0.0021 ETH via x402 (cap 0.05 ETH/day)</div>
+              <div className="text-emerald-400 font-bold">HTTP/1.1 200 OK</div>
+              <div className="text-neutral-300">{`{ "pair": "ETH-USDC", "mid": 3398.20, "receipt": "0x9f2c…41ab" }`}</div>
             </div>
           </div>
         </div>
@@ -99,8 +102,8 @@ export const RenaissanceOnchain: React.FC = () => {
                 <h3 className="text-2xl font-black text-black font-sans">
                   Buy / sell
                 </h3>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-black/5 text-black border border-black/10">
-                  Policy-scoped
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300">
+                  Policy-scoped ✓
                 </span>
               </div>
               <p className="text-sm text-neutral-700 leading-relaxed font-normal">
@@ -108,8 +111,11 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between">
-              <span>Sell 0.4 ETH · OKX · market</span>
+            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs">
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>Sell 0.4 ETH · OKX · market</span>
+              </span>
               <ArrowRight className="w-4 h-4 text-neutral-500" />
             </div>
           </div>
@@ -121,7 +127,7 @@ export const RenaissanceOnchain: React.FC = () => {
                 <h3 className="text-2xl font-black text-black font-sans">
                   Alerts
                 </h3>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-black/5 text-black border border-black/10">
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-300">
                   Always watching
                 </span>
               </div>
@@ -134,7 +140,7 @@ export const RenaissanceOnchain: React.FC = () => {
               {ALERTS_LIST.map((alert, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-neutral-300 text-black font-mono text-[11px] font-bold"
+                  className="px-3 py-1.5 rounded-xl bg-white border border-neutral-300 text-black font-mono text-[11px] font-bold shadow-2xs hover:border-black transition-colors"
                 >
                   {alert}
                 </span>
@@ -144,7 +150,7 @@ export const RenaissanceOnchain: React.FC = () => {
         </div>
       </div>
 
-      {/* NEW SECTION: Machine to machine */}
+      {/* SECTION: Machine to machine */}
       <div id="machine-to-machine" className="pt-16 border-t border-neutral-300">
         <div className="max-w-3xl mb-12 space-y-3 text-left">
           <div className="text-xs font-mono uppercase font-bold text-neutral-500">Machine to machine</div>
@@ -163,11 +169,11 @@ export const RenaissanceOnchain: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12 items-stretch">
           
           {/* Left: Terminal Contract Card */}
-          <div className="lg:col-span-7 p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6 border border-neutral-800">
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
                 <span className="text-neutral-400 font-bold uppercase">Control layer · agent-to-agent</span>
-                <span className="text-white font-bold">x402.call</span>
+                <span className="text-emerald-400 font-bold bg-emerald-950/60 border border-emerald-500/40 px-2 py-0.5 rounded-md">x402.call · verified</span>
               </div>
 
               <div className="p-4 rounded-2xl bg-neutral-900 font-mono text-xs space-y-2.5">
@@ -181,24 +187,24 @@ export const RenaissanceOnchain: React.FC = () => {
                 </div>
                 <div className="flex justify-between text-neutral-400">
                   <span>request:</span>
-                  <span className="text-white font-bold">GET /quotes/eth-usd · 402 Payment Required</span>
+                  <span className="text-amber-400 font-bold">GET /quotes/eth-usd · 402 Payment Required</span>
                 </div>
                 <div className="flex justify-between text-neutral-400">
                   <span>payment:</span>
-                  <span className="text-white font-bold">0.0004 USDC · x402 · inside Iris' cap</span>
+                  <span className="text-emerald-400 font-bold">0.0004 USDC · x402 · inside Iris' cap</span>
                 </div>
                 <div className="flex justify-between text-neutral-400">
                   <span>result:</span>
-                  <span className="text-white font-bold">200 OK · quote returned in 340ms</span>
+                  <span className="text-emerald-400 font-bold">200 OK · quote returned in 340ms</span>
                 </div>
                 <div className="flex justify-between text-neutral-400">
                   <span>receipt:</span>
-                  <span className="text-white font-bold">signed by both agents · hash 0x9f31…c2</span>
+                  <span className="text-emerald-400 font-bold">signed by both agents · hash 0x9f31…c2 ✓</span>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-neutral-900 border border-white/20 flex items-center gap-2 font-mono text-xs text-white font-bold">
-                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
+              <div className="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-500/40 flex items-center gap-2 font-mono text-xs text-emerald-300 font-bold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>Settled agent-to-agent — same receipt, no human in the loop.</span>
               </div>
             </div>
@@ -207,8 +213,9 @@ export const RenaissanceOnchain: React.FC = () => {
           {/* Right: 3 Key Pillars */}
           <div className="lg:col-span-5 flex flex-col justify-between gap-4">
             <div className="parchment-card p-6 rounded-2xl space-y-2 text-left">
-              <h4 className="text-base font-black text-black font-sans">
-                Per-call, not per-contract
+              <h4 className="text-base font-black text-black font-sans flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Per-call, not per-contract</span>
               </h4>
               <p className="text-xs text-neutral-700 leading-relaxed font-normal">
                 No API keys to provision, no invoices. The callee quotes a price in the 402 response and your agent decides in-flight.
@@ -216,8 +223,9 @@ export const RenaissanceOnchain: React.FC = () => {
             </div>
 
             <div className="parchment-card p-6 rounded-2xl space-y-2 text-left">
-              <h4 className="text-base font-black text-black font-sans">
-                Caps still apply
+              <h4 className="text-base font-black text-black font-sans flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Caps still apply</span>
               </h4>
               <p className="text-xs text-neutral-700 leading-relaxed font-normal">
                 An agent-to-agent payment runs the same policy evaluation as a payment to a human — per-action cap, daily cap, payee history.
@@ -225,8 +233,9 @@ export const RenaissanceOnchain: React.FC = () => {
             </div>
 
             <div className="parchment-card p-6 rounded-2xl space-y-2 text-left">
-              <h4 className="text-base font-black text-black font-sans">
-                Both sides sign
+              <h4 className="text-base font-black text-black font-sans flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Both sides sign</span>
               </h4>
               <p className="text-xs text-neutral-700 leading-relaxed font-normal">
                 The request and the settlement are hashed into the same append-only chain you can inspect in Evidence.

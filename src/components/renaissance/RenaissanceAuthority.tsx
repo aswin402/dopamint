@@ -48,23 +48,25 @@ export const RenaissanceAuthority: React.FC = () => {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setSelectedCase('blocked')}
-                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
+                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer flex items-center gap-2 ${
                     selectedCase === 'blocked'
-                      ? 'bg-black text-white border-black shadow-md'
+                      ? 'bg-red-950/80 text-red-200 border-red-500 shadow-md shadow-red-950/40'
                       : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
                   }`}
                 >
-                  Blocked Call ($25,000.00 USDC)
+                  <span className={`w-2 h-2 rounded-full ${selectedCase === 'blocked' ? 'bg-red-500 animate-pulse' : 'bg-neutral-400'}`} />
+                  <span>Blocked Call ($25,000.00 USDC)</span>
                 </button>
                 <button
                   onClick={() => setSelectedCase('approved')}
-                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
+                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer flex items-center gap-2 ${
                     selectedCase === 'approved'
-                      ? 'bg-black text-white border-black shadow-md'
+                      ? 'bg-emerald-950/80 text-emerald-200 border-emerald-500 shadow-md shadow-emerald-950/40'
                       : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
                   }`}
                 >
-                  Approved Call ($5.00 USDC)
+                  <span className={`w-2 h-2 rounded-full ${selectedCase === 'approved' ? 'bg-emerald-400 animate-pulse' : 'bg-neutral-400'}`} />
+                  <span>Approved Call ($5.00 USDC)</span>
                 </button>
               </div>
             </div>
@@ -88,11 +90,17 @@ export const RenaissanceAuthority: React.FC = () => {
         </div>
 
         {/* Verdict Live Card */}
-        <div className="p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6">
+        <div className={`p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6 border transition-colors duration-300 ${
+          selectedCase === 'blocked' ? 'border-red-500/30' : 'border-emerald-500/30'
+        }`}>
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
               <span className="text-neutral-400">DECISION RECORD</span>
-              <span className="text-white font-bold">
+              <span className={`font-bold px-2.5 py-0.5 rounded-full border text-[11px] ${
+                selectedCase === 'blocked'
+                  ? 'bg-red-950/60 border-red-500/40 text-red-400'
+                  : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-400'
+              }`}>
                 {selectedCase === 'blocked' ? 'STATUS: BLOCKED' : 'STATUS: APPROVED'}
               </span>
             </div>
@@ -100,7 +108,7 @@ export const RenaissanceAuthority: React.FC = () => {
             <div className="p-4 rounded-2xl bg-neutral-900 font-mono text-xs space-y-2.5">
               <div className="flex justify-between text-neutral-400">
                 <span>amount:</span>
-                <span className="text-white font-bold">
+                <span className={`font-bold ${selectedCase === 'blocked' ? 'text-red-400' : 'text-emerald-400'}`}>
                   {selectedCase === 'blocked' ? '$25,000.00 USDC' : '$5.00 USDC'}
                 </span>
               </div>
@@ -110,29 +118,33 @@ export const RenaissanceAuthority: React.FC = () => {
               </div>
               <div className="flex justify-between text-neutral-400">
                 <span>risk check:</span>
-                <span className="text-white">
-                  {selectedCase === 'blocked' ? 'brand new payee' : 'known payee, seen 14 times'}
+                <span className={`font-medium ${selectedCase === 'blocked' ? 'text-red-400' : 'text-emerald-400'}`}>
+                  {selectedCase === 'blocked' ? 'brand new payee (FLAGGED)' : 'known payee, seen 14 times'}
                 </span>
               </div>
               <div className="flex justify-between text-neutral-400">
                 <span>receipt:</span>
-                <span className="text-white font-bold">
+                <span className={`font-bold ${selectedCase === 'blocked' ? 'text-neutral-400' : 'text-emerald-400'}`}>
                   {selectedCase === 'blocked' ? 'attempt logged, nothing sent' : 'signed + logged onchain ✓'}
                 </span>
               </div>
             </div>
 
             {/* Verdict Box */}
-            <div className="p-4 rounded-2xl border border-white/20 bg-neutral-900 flex items-center justify-between font-mono text-xs font-bold text-white">
+            <div className={`p-4 rounded-2xl border flex items-center justify-between font-mono text-xs font-bold transition-all ${
+              selectedCase === 'blocked'
+                ? 'border-red-500/40 bg-red-950/30 text-red-300'
+                : 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300'
+            }`}>
               <div className="flex items-center gap-2">
                 {selectedCase === 'blocked' ? (
                   <>
-                    <XCircle className="w-5 h-5 text-neutral-400 shrink-0" />
-                    <span>Blocked — way past your limit. Nothing moved.</span>
+                    <XCircle className="w-5 h-5 text-red-400 shrink-0" />
+                    <span>Blocked — way past your limit ($250.00/day). Nothing moved.</span>
                   </>
                 ) : (
                   <>
-                    <CheckCircle2 className="w-5 h-5 text-white shrink-0" />
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
                     <span>Approved — inside your daily cap. Receipt signed.</span>
                   </>
                 )}
