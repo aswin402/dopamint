@@ -34,9 +34,9 @@ export const RenaissanceEvidence: React.FC = () => {
       {/* Editorial Title */}
       <div className="max-w-3xl mb-16 space-y-4 text-left">
         <h2 className="text-4xl sm:text-6xl font-black text-display text-black tracking-tight leading-[0.96]">
-          Don't take our <br />
+          Everything has <br />
           <span className="font-serif italic font-normal text-black">
-            word for it.
+            receipts.
           </span>
         </h2>
         <p className="text-base text-neutral-700 font-normal leading-relaxed">
@@ -47,7 +47,7 @@ export const RenaissanceEvidence: React.FC = () => {
       {/* 2-Column Interface Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
         
-        {/* Left: Ada iMessage Phone */}
+        {/* Left: Dope iMessage Phone */}
         <div className="lg:col-span-6 rounded-[2.5rem] bg-black p-4 shadow-2xl">
           <div className="rounded-[2rem] bg-white overflow-hidden border border-neutral-200 flex flex-col justify-between min-h-[460px]">
             
@@ -55,10 +55,10 @@ export const RenaissanceEvidence: React.FC = () => {
             <div className="p-4 bg-neutral-50 border-b border-neutral-200 flex items-center justify-between text-xs">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-black text-white font-mono font-bold flex items-center justify-center text-xs">
-                  A
+                  D
                 </div>
                 <div>
-                  <div className="font-bold text-black text-sm">Ada</div>
+                  <div className="font-bold text-black text-sm">Dope</div>
                   <div className="text-[10px] text-neutral-400 font-mono">Today 6:04 PM</div>
                 </div>
               </div>
@@ -99,7 +99,7 @@ export const RenaissanceEvidence: React.FC = () => {
 
             {/* Footer */}
             <div className="p-3 bg-neutral-50 border-t border-neutral-200 text-center text-[10px] text-neutral-400 font-mono">
-              + iMessage Native
+              + iMessage
             </div>
 
           </div>

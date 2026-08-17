@@ -32,7 +32,7 @@ export const RenaissanceClosingCta: React.FC = () => {
           </Type1Button>
 
           <Type1Button
-            href="#authority"
+            href="#control"
             variant="light"
             className="!w-56 !h-12 !border-white/40 opacity-90 hover:opacity-100"
           >
@@ -53,13 +53,13 @@ export const RenaissanceClosingCta: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-6 text-neutral-300">
             <a href="#agents" className="hover:text-white transition-colors">Agents</a>
             <span>·</span>
-            <a href="#authority" className="hover:text-white transition-colors">Authority</a>
-            <span>·</span>
             <a href="#evidence" className="hover:text-white transition-colors">Evidence</a>
             <span>·</span>
             <a href="#engineering" className="hover:text-white transition-colors">Engineering</a>
             <span>·</span>
             <a href="#ecosystem" className="hover:text-white transition-colors">Ecosystem</a>
+            <span>·</span>
+            <a href="#docs" className="hover:text-white transition-colors">For developers</a>
           </div>
 
           <div>

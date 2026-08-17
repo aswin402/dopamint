@@ -16,7 +16,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Trading',
     initial: 'S',
     description: 'Watches the market while you sleep. Only moves when you say so.',
-    voiceText: "Watching the market while you sleep. Swapping 500 USDC to ETH on Base L2 — inside your limits.",
+    voiceText: "Watching the market while you sleep. Only moves when you say so.",
   },
   {
     id: 'iris',
@@ -25,7 +25,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Onchain',
     initial: 'I',
     description: 'Swaps, pays, settles — always inside your limits.',
-    voiceText: "Settling HTTP 402 challenge for 0.0021 ETH. No checkout page needed.",
+    voiceText: "Swaps, pays, settles — always inside your limits.",
   },
   {
     id: 'kai',
@@ -34,7 +34,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Finance',
     initial: 'K',
     description: "Finds where your money's quietly leaking and says something.",
-    voiceText: "Found 3 recurring subscriptions unused for 60 days. Flagged for review.",
+    voiceText: "Finds where your money's quietly leaking and says something.",
   },
   {
     id: 'ada',
@@ -43,7 +43,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Travel',
     initial: 'A',
     description: 'Books the whole trip, including the boring parts.',
-    voiceText: "Booked table for 6 at Kiln this Friday 7:30pm. Deposit $40, under your cap.",
+    voiceText: "Books the whole trip, including the boring parts.",
   },
   {
     id: 'eve',
@@ -52,7 +52,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Calendar',
     initial: 'E',
     description: "Keeps your day together and reshuffles when it isn't.",
-    voiceText: "Rescheduled the 4pm sync and moved your focus blocks to preserve evening downtime.",
+    voiceText: "Keeps your day together and reshuffles when it isn't.",
   },
   {
     id: 'nora',
@@ -61,7 +61,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Inbox',
     initial: 'N',
     description: 'Runs your inbox and writes the replies you keep avoiding.',
-    voiceText: "Triaged 28 unread emails, drafted replies for the top 3 priority threads.",
+    voiceText: "Runs your inbox and writes the replies you keep avoiding.",
   },
   {
     id: 'zara',
@@ -70,7 +70,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Shopping',
     initial: 'Z',
     description: 'Finds it, buys it, tracks it. You never run out.',
-    voiceText: "Tracked down the replacement part with 2-day delivery and signed receipt.",
+    voiceText: "Finds it, buys it, tracks it. You never run out.",
   },
   {
     id: 'leo',
@@ -79,7 +79,7 @@ export const DOPAMINT_AGENTS: AgentProfile[] = [
     category: 'Research',
     initial: 'L',
     description: 'Reads everything so you just get the answer.',
-    voiceText: "Synthesized 14 technical research papers into a 3-bullet decision summary.",
+    voiceText: "Reads everything so you just get the answer.",
   },
 ];
 
@@ -88,6 +88,13 @@ export const REAL_ASKS = [
   'grab me a flight to Austin Friday, aisle seat',
   "tell my landlord the sink's still broken",
   'cancel the 4pm and get me home before traffic',
+];
+
+export const ALERTS_LIST = [
+  'ETH crossed $3,400',
+  'BTC steady above $61,000',
+  'New listing: $NBLK → Coinbase',
+  'SOL down 6% in the last hour',
 ];
 
 export const ECOSYSTEM_ROW_1 = [

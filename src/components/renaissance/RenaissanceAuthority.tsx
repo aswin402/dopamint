@@ -4,16 +4,14 @@ import { MacCodeCard } from '../ui/MacCodeCard';
 import { IsometricCubeLoader } from '../ui/IsometricCubeLoader';
 
 export const RenaissanceAuthority: React.FC = () => {
-  const [amount, setAmount] = useState<number>(5.0);
-  const capPerAction = 100.0;
-  const isApproved = amount <= capPerAction;
+  const [selectedCase, setSelectedCase] = useState<'blocked' | 'approved'>('blocked');
 
   return (
-    <section id="authority" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
+    <section id="control" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
       
       {/* Chapter Marker */}
       <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
-        <span>AUTHORITY & TRUST LAYER</span>
+        <span>AUTHORITY & CONTROL LAYER</span>
         <span className="font-serif italic text-base text-black">Authority</span>
       </div>
 
@@ -30,8 +28,8 @@ export const RenaissanceAuthority: React.FC = () => {
         </p>
       </div>
 
-      {/* Interactive Trust Playground (2 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 items-stretch">
+      {/* Interactive Control Layer Playground */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20 items-stretch">
         
         {/* Controls Card */}
         <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
@@ -41,53 +39,41 @@ export const RenaissanceAuthority: React.FC = () => {
               <span className="text-black font-bold">payments.send</span>
             </div>
 
-            <p className="text-xs sm:text-sm text-neutral-700 font-medium">
-              Pick something for the agent to propose and watch the call get made.
+            <p className="text-xs sm:text-sm text-neutral-700 font-medium leading-relaxed">
+              It cycles through both on its own — or pick one and watch the call get made.
             </p>
 
-            {/* Quick Test Amount Buttons */}
+            {/* Selector Buttons */}
             <div className="space-y-2 pt-2">
-              <label className="block text-[11px] font-mono font-bold text-neutral-500 uppercase">
-                Select Proposed Amount:
-              </label>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => setAmount(5.0)}
-                  className={`px-4 py-2 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
-                    amount === 5.0
-                      ? 'bg-black text-white border-black'
+                  onClick={() => setSelectedCase('blocked')}
+                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
+                    selectedCase === 'blocked'
+                      ? 'bg-black text-white border-black shadow-md'
                       : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
                   }`}
                 >
-                  $5.00 USDC (Micro)
+                  Blocked Call ($25,000.00 USDC)
                 </button>
                 <button
-                  onClick={() => setAmount(42.0)}
-                  className={`px-4 py-2 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
-                    amount === 42.0
-                      ? 'bg-black text-white border-black'
+                  onClick={() => setSelectedCase('approved')}
+                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
+                    selectedCase === 'approved'
+                      ? 'bg-black text-white border-black shadow-md'
                       : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
                   }`}
                 >
-                  $42.00 USDC (Standard)
-                </button>
-                <button
-                  onClick={() => setAmount(180.0)}
-                  className={`px-4 py-2 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer ${
-                    amount === 180.0
-                      ? 'bg-black text-white border-black'
-                      : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
-                  }`}
-                >
-                  $180.00 USDC (Over Limit)
+                  Approved Call ($5.00 USDC)
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white border border-neutral-200 font-mono text-xs space-y-2 text-black">
+          {/* Runtime Context */}
+          <div className="p-4 rounded-2xl bg-white border border-neutral-200 font-mono text-xs space-y-2.5 text-black">
             <div className="flex justify-between">
-              <span className="text-neutral-500">Trust layer:</span>
+              <span className="text-neutral-500">Control layer:</span>
               <span className="font-bold">payments.send</span>
             </div>
             <div className="flex justify-between">
@@ -106,33 +92,50 @@ export const RenaissanceAuthority: React.FC = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
               <span className="text-neutral-400">DECISION RECORD</span>
-              <span className="text-white font-bold">{isApproved ? 'RISK: LOW' : 'RISK: OVER CAP'}</span>
+              <span className="text-white font-bold">
+                {selectedCase === 'blocked' ? 'STATUS: BLOCKED' : 'STATUS: APPROVED'}
+              </span>
             </div>
 
             <div className="p-4 rounded-2xl bg-neutral-900 font-mono text-xs space-y-2.5">
               <div className="flex justify-between text-neutral-400">
                 <span>amount:</span>
-                <span className="text-white font-bold">${amount.toFixed(2)} USDC</span>
+                <span className="text-white font-bold">
+                  {selectedCase === 'blocked' ? '$25,000.00 USDC' : '$5.00 USDC'}
+                </span>
+              </div>
+              <div className="flex justify-between text-neutral-400">
+                <span>your cap:</span>
+                <span className="text-white">$100 per action / $250 a day</span>
               </div>
               <div className="flex justify-between text-neutral-400">
                 <span>risk check:</span>
-                <span className="text-white">known payee, seen 12 times</span>
+                <span className="text-white">
+                  {selectedCase === 'blocked' ? 'brand new payee' : 'known payee, seen 14 times'}
+                </span>
               </div>
               <div className="flex justify-between text-neutral-400">
                 <span>receipt:</span>
-                <span className="text-white font-bold">{isApproved ? 'signed + logged' : 'unauthorized'}</span>
+                <span className="text-white font-bold">
+                  {selectedCase === 'blocked' ? 'attempt logged, nothing sent' : 'signed + logged onchain ✓'}
+                </span>
               </div>
             </div>
 
             {/* Verdict Box */}
             <div className="p-4 rounded-2xl border border-white/20 bg-neutral-900 flex items-center justify-between font-mono text-xs font-bold text-white">
               <div className="flex items-center gap-2">
-                {isApproved ? <CheckCircle2 className="w-5 h-5 text-white" /> : <XCircle className="w-5 h-5 text-neutral-400" />}
-                <span>
-                  {isApproved
-                    ? 'Approved — went through, and here\'s the receipt.'
-                    : 'Blocked — exceeded $100 per-action limit.'}
-                </span>
+                {selectedCase === 'blocked' ? (
+                  <>
+                    <XCircle className="w-5 h-5 text-neutral-400 shrink-0" />
+                    <span>Blocked — way past your limit. Nothing moved.</span>
+                  </>
+                ) : (
+                  <>
+                    <CheckCircle2 className="w-5 h-5 text-white shrink-0" />
+                    <span>Approved — inside your daily cap. Receipt signed.</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -144,36 +147,58 @@ export const RenaissanceAuthority: React.FC = () => {
 
       </div>
 
-      {/* Code Contract & 3D Isometric Policy Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8 border-t border-neutral-300">
-        <div className="lg:col-span-7">
-          <MacCodeCard
-            title="policy.payments-v2.ts"
-            description="Hardware-enforced policy contract evaluated on every single agent invocation."
-            tags={["POL-882", "ENCLAVE-VERIFIED", "DETERMINISTIC"]}
-            code={`export async function verifyAction(intent: AgentIntent): Promise<PolicyVerdict> {
-  const cap = await Enclave.getDailyCap(intent.agentId);
-  
-  // 1. Strict per-action limit check
-  if (intent.amount > cap.perAction) {
-    return { status: "BLOCKED", reason: "Exceeds $100 per-action limit" };
-  }
-  
-  // 2. Cryptographic receipt signature
-  const receipt = await Enclave.signReceipt(intent);
-  return { status: "APPROVED", receiptHash: receipt.merkleRoot };
-}`}
-          />
+      {/* SECTION: Transparency */}
+      <div id="transparency" className="pt-16 border-t border-neutral-300">
+        <div className="max-w-3xl mb-12 space-y-3 text-left">
+          <div className="text-xs font-mono uppercase font-bold text-neutral-500">Transparency</div>
+          <h3 className="text-3xl sm:text-5xl font-black text-display text-black tracking-tight leading-[0.98]">
+            Every agent is transparent <br />
+            <span className="font-serif italic font-normal text-black">
+              by default.
+            </span>
+          </h3>
+          <p className="text-base text-neutral-700 font-normal leading-relaxed">
+            Not a system-prompt promise. An explicit policy file the runtime checks on every call.
+          </p>
         </div>
 
-        <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-neutral-900 text-white shadow-xl">
-          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
-            ISOMETRIC ENCLAVE RUNTIME
+        {/* Code Card and 3D Sandbox Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7">
+            <MacCodeCard
+              title="policy.payments-v2.ts"
+              description="This is the exact policy the payments demo above checks against — not illustrative copy."
+              tags={["EXPLICIT-POLICY", "RUNTIME-ENFORCED", "DECLARATIVE"]}
+              code={`export const policy = definePolicy({
+  capability: "payments.send",
+  version: "payments-v2",
+  limits: {
+    perTransaction: { amount: 100, currency: "USDC" },
+    perDay: { amount: 250, currency: "USDC" },
+    maxPendingActions: 3,
+  },
+  payees: {
+    allow: ["seen>=3", "contacts:*"],
+    block: ["firstSeen<24h", "sanctioned:*"],
+  },
+  requireHumanApproval: (a) => a.amount > 100,
+  onViolation: "block", // log attempt, sign verdict, notify user
+});`}
+            />
+            <p className="mt-3 text-xs font-mono text-neutral-600">
+              This is the exact policy the payments demo above checks against — not illustrative copy.
+            </p>
           </div>
-          <IsometricCubeLoader className="my-2" />
-          <p className="text-xs text-neutral-400 text-center font-mono mt-2">
-            Isolated memory sandboxes with zero shared access
-          </p>
+
+          <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-neutral-900 text-white shadow-xl">
+            <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
+              ISOMETRIC ENCLAVE RUNTIME
+            </div>
+            <IsometricCubeLoader className="my-2" />
+            <p className="text-xs text-neutral-400 text-center font-mono mt-2">
+              Isolated memory sandboxes with zero shared access
+            </p>
+          </div>
         </div>
       </div>
 

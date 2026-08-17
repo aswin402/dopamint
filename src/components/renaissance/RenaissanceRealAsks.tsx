@@ -4,7 +4,7 @@ import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
 import { TestimonialsColumn } from '../ui/TestimonialsColumn';
 
 export const RenaissanceRealAsks: React.FC = () => {
-  const [selectedAsk, setSelectedAsk] = useState<string>(REAL_ASKS[1]);
+  const [selectedAsk, setSelectedAsk] = useState<string>(REAL_ASKS[3]);
 
   return (
     <section className="py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
@@ -16,7 +16,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       </div>
 
       {/* Title */}
-      <div className="max-w-3xl mb-12 text-left">
+      <div className="max-w-3xl mb-10 text-left">
         <h2 className="text-3xl sm:text-5xl font-black text-display text-black tracking-tight leading-[0.98]">
           This is what people <br />
           <span className="font-serif italic font-normal text-black">
@@ -26,7 +26,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       </div>
 
       {/* Interactive Asks Pills */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
         {REAL_ASKS.map((ask, idx) => {
           const isSelected = selectedAsk === ask;
           return (
@@ -44,6 +44,19 @@ export const RenaissanceRealAsks: React.FC = () => {
             </button>
           );
         })}
+      </div>
+
+      {/* Featured Callout */}
+      <div className="p-6 rounded-3xl bg-black text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+        <div className="space-y-1">
+          <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">Active Ask</div>
+          <div className="text-lg sm:text-2xl font-black font-sans text-white">
+            “{selectedAsk}”
+          </div>
+        </div>
+        <div className="text-xs font-mono text-neutral-300 bg-white/10 px-4 py-2 rounded-xl border border-white/20">
+          Eve + Iris + Ada standby ✓
+        </div>
       </div>
 
       {/* Real Verified Agent Testimonials Columns */}

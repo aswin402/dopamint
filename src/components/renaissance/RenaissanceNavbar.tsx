@@ -6,7 +6,7 @@ export const RenaissanceNavbar: React.FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 flex items-center justify-between text-xs font-sans select-none bg-[#ddddd1]/90 backdrop-blur-md border-b border-neutral-300/60">
+    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 flex items-center justify-between text-xs font-sans select-none bg-[#ddddd1]/90 backdrop-blur-md border-b border-neutral-400/30">
       
       {/* Brand */}
       <a href="#hero" className="flex items-center gap-2.5 font-bold text-black group">
@@ -17,11 +17,12 @@ export const RenaissanceNavbar: React.FC = () => {
       </a>
 
       {/* Nav Links */}
-      <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-neutral-600">
+      <nav className="hidden md:flex items-center gap-8 text-xs font-bold text-neutral-700">
         <a href="#agents" className="hover:text-black transition-colors">Agents</a>
-        <a href="#authority" className="hover:text-black transition-colors">Authority</a>
+        <a href="#control" className="hover:text-black transition-colors">Control</a>
         <a href="#evidence" className="hover:text-black transition-colors">Evidence</a>
         <a href="#engineering" className="hover:text-black transition-colors">Engineering</a>
+        <a href="#docs" className="hover:text-black transition-colors">Docs</a>
       </nav>
 
       {/* Right Action */}
@@ -44,11 +45,12 @@ export const RenaissanceNavbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileNavOpen && (
-        <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-6 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-neutral-200 text-sm space-y-4 text-black">
+        <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-6 bg-[#e6e6dc] backdrop-blur-xl rounded-2xl shadow-2xl border border-neutral-300 text-sm space-y-4 text-black">
           <a href="#agents" onClick={() => setMobileNavOpen(false)} className="block font-bold">Agents</a>
-          <a href="#authority" onClick={() => setMobileNavOpen(false)} className="block font-bold">Authority</a>
+          <a href="#control" onClick={() => setMobileNavOpen(false)} className="block font-bold">Control</a>
           <a href="#evidence" onClick={() => setMobileNavOpen(false)} className="block font-bold">Evidence</a>
           <a href="#engineering" onClick={() => setMobileNavOpen(false)} className="block font-bold">Engineering</a>
+          <a href="#docs" onClick={() => setMobileNavOpen(false)} className="block font-bold">Docs</a>
           <div className="pt-2">
             <Type1Button href="#cta" onClick={() => setMobileNavOpen(false)} className="!w-full !h-11">
               Get access

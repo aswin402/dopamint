@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layers, ShieldCheck, Cpu, Code2 } from 'lucide-react';
+import { Layers, ShieldCheck, ArrowRight, FileCode } from 'lucide-react';
 
 interface LayerItem {
   id: string;
@@ -11,30 +11,33 @@ interface LayerItem {
 
 const LAYERS: LayerItem[] = [
   {
-    id: 'tools',
-    name: 'Tools & Connectors',
-    badge: 'Surface 01',
-    description: 'Hundreds of connected apps and APIs, each one scoped to exactly what that agent needs and nothing more.',
-    tags: ['scoped access', 'app connectors', 'x402 APIs'],
+    id: 'verifiability',
+    name: 'Verifiability layer',
+    badge: 'Layer 01',
+    description:
+      'Every proposed action is evaluated against a declarative policy set — caller identity, agent scope, spend envelope, payee history — and the evaluation itself is recorded, not just its verdict. The decision plus the canonical action payload is signed by the platform key and hashed into an append-only chain where each entry commits to the previous hash. Because the chain is tamper-evident, editing any past step invalidates every hash after it, which is exactly what the Evidence demo above shows.',
+    tags: ['policy evaluation', 'signed decisions', 'hash-chained log'],
   },
   {
-    id: 'trust',
-    name: 'Authority & Policy Engine',
-    badge: 'Core 02',
-    description: 'Deterministic interceptor checking capability bounds, rate limits, and risk profiles before dispatching.',
-    tags: ['policy verification', 'per-action caps', 'revocable access'],
+    id: 'control',
+    name: 'Control layer',
+    badge: 'Layer 02',
+    description:
+      'Deterministic interceptor checking capability bounds, spend limits, and risk profiles before dispatching any payment, swap, or external API execution.',
+    tags: ['per-action caps', 'spending envelope', 'revocable credentials'],
   },
   {
     id: 'runtime',
-    name: 'Isolated VM & Evidence Log',
-    badge: 'Hardware 03',
-    description: 'Sandboxed execution environment generating forward-secure Merkle receipts for every consequential action.',
+    name: 'Isolated Enclave & Runtime',
+    badge: 'Layer 03',
+    description:
+      'Hardware-isolated execution environments with scoped access tokens that ensure no rogue process can leak private keys or bypass policy rules.',
     tags: ['isolated runtime', 'signed receipts', 'Merkle chain'],
   },
 ];
 
 export const RenaissanceEngineering: React.FC = () => {
-  const [hoveredLayer, setHoveredLayer] = useState<string>('tools');
+  const [hoveredLayer, setHoveredLayer] = useState<string>('verifiability');
 
   return (
     <section id="engineering" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
@@ -46,16 +49,26 @@ export const RenaissanceEngineering: React.FC = () => {
       </div>
 
       {/* Editorial Title */}
-      <div className="max-w-3xl mb-16 space-y-4 text-left">
+      <div className="max-w-3xl mb-12 space-y-4 text-left">
         <h2 className="text-4xl sm:text-6xl font-black text-display text-black tracking-tight leading-[0.96]">
           What's actually <br />
           <span className="font-serif italic font-normal text-black">
             running underneath.
           </span>
         </h2>
-        <p className="text-base text-neutral-700 font-normal leading-relaxed">
-          Hover a layer to pull it out of the stack.
+        <p className="text-sm sm:text-base text-neutral-700 font-normal leading-relaxed">
+          Follow the path a request takes. Hover any node — or any layer — to pull it out of the stack. The trust layer isn't a box in this diagram — it's what the verifiability layer and the control layer add up to: a proof that something was allowed, plus a proof that it actually happened that way.
         </p>
+
+        <div>
+          <a
+            href="#docs"
+            className="inline-flex items-center gap-1 text-xs font-mono font-bold text-black hover:underline"
+          >
+            <span>Technical overview</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
       </div>
 
       {/* Interactive 3D Stack Showcase */}
@@ -72,7 +85,7 @@ export const RenaissanceEngineering: React.FC = () => {
                   : 'parchment-card hover:bg-white text-black'
               }`}
             >
-              <div className="space-y-2 max-w-2xl text-left">
+              <div className="space-y-3 max-w-2xl text-left">
                 <div className="flex items-center gap-3">
                   <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full ${
                     isHovered ? 'bg-neutral-800 text-white' : 'bg-black/5 text-neutral-600'
@@ -85,7 +98,7 @@ export const RenaissanceEngineering: React.FC = () => {
                 </div>
 
                 <p className={`text-xs sm:text-sm leading-relaxed ${
-                  isHovered ? 'text-neutral-300' : 'text-neutral-600'
+                  isHovered ? 'text-neutral-300' : 'text-neutral-700 font-normal'
                 }`}>
                   {layer.description}
                 </p>
