@@ -186,31 +186,32 @@ export const RenaissanceAgentRoster: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            4. ACTIVE AGENT FLOATING CARD & CONNECTING DASHED LINE (1:1 Locked)
+            4. ACTIVE AGENT FLOATING CARD & CONNECTING DASHED LINE (Pure Fixed Center Anchor)
             ========================================================================= */}
         <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
-          <AnimatePresence mode="wait">
-            {activeAgent && (
-              <motion.div
-                key={activeAgent.id}
-                initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                transition={{ duration: 0.2, ease: 'easeOut' }}
-                style={{
-                  position: 'absolute',
-                  left: `${activeAgent.xPercent}%`,
-                  transform: 'translateX(-50%)',
-                  bottom: '1.5rem',
-                }}
-                className="pointer-events-auto flex flex-col items-center"
-              >
-                {/* Dashed Connecting Line (From Table Surface Directly Down to Card) */}
-                <div className="w-px h-8 sm:h-12 border-l border-dashed border-white/80 mx-auto mb-1.5" />
+          {activeAgent && (
+            <div
+              style={{
+                position: 'absolute',
+                left: `${activeAgent.xPercent}%`,
+                bottom: '1.5rem',
+                transform: 'translateX(-50%)',
+              }}
+              className="pointer-events-auto flex flex-col items-center"
+            >
+              {/* Dashed Connecting Line (From Table Surface Directly Down to Card) */}
+              <div className="w-px h-8 sm:h-12 border-l border-dashed border-white/80 mb-1.5" />
 
-                {/* Frosted Glass Floating Card */}
-                <div className="w-[215px] sm:w-[250px] md:w-[260px] p-3.5 sm:p-5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/25 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-white space-y-2.5 sm:space-y-3">
-                  
+              {/* Animate Card Content without overriding parent translateX(-50%) */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeAgent.id}
+                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="w-[215px] sm:w-[250px] md:w-[260px] p-3.5 sm:p-5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/25 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-white space-y-2.5 sm:space-y-3"
+                >
                   {/* Header: Circle Avatar + Name + Role */}
                   <div className="flex items-center gap-2.5 sm:gap-3">
                     <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-white/40 shrink-0 shadow-md bg-neutral-800">
@@ -236,11 +237,10 @@ export const RenaissanceAgentRoster: React.FC = () => {
                       {activeAgent.description}
                     </p>
                   </div>
-
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          )}
         </div>
 
       </div>
