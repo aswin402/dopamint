@@ -1,8 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ALERTS_LIST } from '../../data/dopamint';
-import { ArrowRight, Bot, Cpu, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Bot, Cpu, CheckCircle2, RefreshCw, Zap, TrendingUp, Radio, Activity, ShieldCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const RenaissanceOnchain: React.FC = () => {
+  // Interactive states for live animations
+  const [isSwapping, setIsSwapping] = useState(false);
+  const [swapDone, setSwapDone] = useState(false);
+
+  const [activeAlertIndex, setActiveAlertIndex] = useState<number>(0);
+  const [isSimulatingTrade, setIsSimulatingTrade] = useState(false);
+
+  const alertDetails = [
+    { title: "ETH crossed $3,400", trigger: "Price: $3,398.20 → $3,404.10", action: "Iris executed 500 USDC limit order · Receipt #0x8f2c…41ab signed ✓", status: "EXECUTED" },
+    { title: "BTC steady above $61,000", trigger: "Consolidation 61,240 USD (+0.8%)", action: "Portfolio rebalancing check passed · No action needed", status: "STABLE" },
+    { title: "New listing: $NBLK → Coinbase", trigger: "Coinbase Asset API Webhook event #4092", action: "Safety audit verified contract address · Alert sent to user inbox", status: "NOTIFIED" },
+    { title: "SOL down 6% in the last hour", trigger: "Velocity alert: -$9.40 / 60min", action: "Stop-loss trigger evaluated · Within tolerance envelope", status: "MONITORED" },
+  ];
+
+  const handleRunSwap = () => {
+    setIsSwapping(true);
+    setSwapDone(false);
+    setTimeout(() => {
+      setIsSwapping(false);
+      setSwapDone(true);
+    }, 1400);
+  };
+
+  const handleRunTrade = () => {
+    setIsSimulatingTrade(true);
+    setTimeout(() => {
+      setIsSimulatingTrade(false);
+    }, 1200);
+  };
+
   return (
     <section id="onchain" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
       
@@ -32,9 +63,10 @@ export const RenaissanceOnchain: React.FC = () => {
           <span>Onchain — settles on-chain from the agent's own wallet</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 1. Swap */}
-          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          
+          {/* 1. Swap (Interactive Routing & DEX Execution Card) */}
+          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-black font-sans">
@@ -49,17 +81,74 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs">
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>Swap 500 USDC → ETH · Base</span>
-              </span>
-              <ArrowRight className="w-4 h-4 text-neutral-500" />
+            {/* Visual Animated Multi-Hop Router Diagram */}
+            <div className="p-4 rounded-2xl bg-white border border-neutral-300/90 shadow-xs space-y-3 font-mono">
+              <div className="flex items-center justify-between text-[11px] pb-2 border-b border-neutral-200">
+                <span className="text-neutral-500 uppercase font-bold flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>DEX Route Synthesis</span>
+                </span>
+                <span className="text-emerald-700 font-bold text-[10px] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                  Optimal · Base L2
+                </span>
+              </div>
+
+              {/* Animated Routing Pipeline */}
+              <div className="grid grid-cols-3 items-center text-center gap-2 py-2 relative">
+                {/* Step 1: Input */}
+                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200">
+                  <div className="text-[10px] text-neutral-400 font-bold uppercase">PAY</div>
+                  <div className="text-xs font-black text-black">500 USDC</div>
+                </div>
+
+                {/* Step 2: Bridge/Router with animated pulse */}
+                <div className="flex flex-col items-center justify-center relative">
+                  <div className="w-full h-0.5 bg-neutral-200 relative overflow-hidden">
+                    <motion.div
+                      animate={{ x: ['-100%', '100%'] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+                      className="w-8 h-full bg-emerald-500 rounded-full"
+                    />
+                  </div>
+                  <div className="mt-1 text-[9px] font-bold text-neutral-500">Uniswap v3</div>
+                </div>
+
+                {/* Step 3: Output */}
+                <div className="p-2.5 rounded-xl bg-neutral-50 border border-neutral-200">
+                  <div className="text-[10px] text-neutral-400 font-bold uppercase">RECEIVE</div>
+                  <div className="text-xs font-black text-emerald-700">≈ 0.1471 ETH</div>
+                </div>
+              </div>
+
+              {/* Execution Telemetry Badges */}
+              <div className="grid grid-cols-2 gap-2 text-[10px] text-neutral-500 pt-1">
+                <div>Price Impact: <span className="font-bold text-black">&lt;0.01%</span></div>
+                <div className="text-right">Gas Estimate: <span className="font-bold text-black">$0.0018</span></div>
+              </div>
             </div>
+
+            {/* Interactive Action Button */}
+            <button
+              onClick={handleRunSwap}
+              disabled={isSwapping}
+              className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs hover:border-black transition-all cursor-pointer w-full group"
+            >
+              <span className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${swapDone ? 'bg-emerald-500' : isSwapping ? 'bg-amber-400 animate-ping' : 'bg-black'}`} />
+                <span>
+                  {isSwapping
+                    ? 'Synthesizing DEX Route & Signing...'
+                    : swapDone
+                    ? 'Swap 500 USDC → ETH Settled ✓'
+                    : 'Swap 500 USDC → ETH · Base'}
+                </span>
+              </span>
+              <ArrowRight className={`w-4 h-4 text-neutral-500 transition-transform ${isSwapping ? 'rotate-90 animate-spin' : 'group-hover:translate-x-1'}`} />
+            </button>
           </div>
 
-          {/* 2. x402 Payments with curl call */}
-          <div className="p-8 rounded-3xl bg-black text-white shadow-xl space-y-6 flex flex-col justify-between">
+          {/* 2. x402 Payments with curl call & Handshake Trace */}
+          <div className="p-8 rounded-3xl bg-black text-white shadow-xl space-y-6 flex flex-col justify-between border border-neutral-800">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-white font-sans">
@@ -74,16 +163,37 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            {/* Terminal Code Block */}
-            <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 font-mono text-[11px] text-neutral-300 space-y-1.5 overflow-x-auto leading-relaxed">
-              <div className="text-neutral-500 font-bold">$ curl https://api.pricefeed.xyz/v1/quote?pair=ETH-USDC</div>
-              <div className="text-amber-400 font-bold">HTTP/1.1 402 Payment Required</div>
-              <div className="text-neutral-400">x-402-price: 0.0021 ETH · x-402-chain: base</div>
-              <div className="text-emerald-400 font-bold">→ agent settles 0.0021 ETH via x402 (cap 0.05 ETH/day)</div>
-              <div className="text-emerald-400 font-bold">HTTP/1.1 200 OK</div>
-              <div className="text-neutral-300">{`{ "pair": "ETH-USDC", "mid": 3398.20, "receipt": "0x9f2c…41ab" }`}</div>
+            {/* Interactive Terminal Code Block */}
+            <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 font-mono text-[11px] text-neutral-300 space-y-2 overflow-x-auto leading-relaxed shadow-inner">
+              <div className="flex items-center justify-between pb-1.5 border-b border-neutral-800 text-[10px] text-neutral-500">
+                <span>TERMINAL · LIVE x402 HANDSHAKE</span>
+                <span className="text-emerald-400 font-bold">LATENCY: 340ms</span>
+              </div>
+              <div className="text-neutral-400 font-bold">$ curl -i https://api.pricefeed.xyz/v1/quote?pair=ETH-USDC</div>
+              <div className="text-amber-400 font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                <span>HTTP/1.1 402 Payment Required</span>
+              </div>
+              <div className="text-neutral-400 pl-3">x-402-price: 0.0021 ETH · x-402-chain: base</div>
+              <div className="text-emerald-400 font-bold pl-3 border-l-2 border-emerald-500">
+                → agent settles 0.0021 ETH via x402 (cap 0.05 ETH/day)
+              </div>
+              <div className="text-emerald-400 font-bold flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                <span>HTTP/1.1 200 OK</span>
+              </div>
+              <div className="text-neutral-300 pl-3">{`{ "pair": "ETH-USDC", "mid": 3398.20, "receipt": "0x9f2c…41ab" }`}</div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-between text-xs font-mono text-neutral-400">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Zero pre-shared API keys</span>
+              </span>
+              <span className="text-white font-bold">Automatic Settlement ✓</span>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -94,9 +204,10 @@ export const RenaissanceOnchain: React.FC = () => {
           <span>Exchanges — centralized venues, over their APIs with your connected keys</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* 3. Buy / sell */}
-          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          
+          {/* 3. Buy / sell (Micro Order Book & Exchange Execution) */}
+          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-black font-sans">
@@ -111,24 +222,66 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs">
-              <span className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>Sell 0.4 ETH · OKX · market</span>
-              </span>
-              <ArrowRight className="w-4 h-4 text-neutral-500" />
+            {/* Visual Animated Order Book Depth Meter */}
+            <div className="p-4 rounded-2xl bg-white border border-neutral-300/90 shadow-xs space-y-2.5 font-mono text-xs">
+              <div className="flex items-center justify-between text-[11px] pb-2 border-b border-neutral-200">
+                <span className="font-bold text-black uppercase flex items-center gap-1.5">
+                  <TrendingUp className="w-3.5 h-3.5 text-black" />
+                  <span>OKX Order Book · ETH/USDT</span>
+                </span>
+                <span className="text-neutral-500 font-bold text-[10px]">SPREAD: $0.10</span>
+              </div>
+
+              {/* Order Book Depth Rows */}
+              <div className="space-y-1.5 text-[11px]">
+                {/* Ask (Red) */}
+                <div className="flex items-center justify-between text-neutral-600 relative overflow-hidden p-1 rounded-sm">
+                  <div className="absolute top-0 right-0 h-full bg-red-500/10 w-[35%] pointer-events-none" />
+                  <span className="text-red-600 font-bold">$3,401.50</span>
+                  <span className="text-neutral-400">1.24 ETH</span>
+                </div>
+                {/* Ask Target (Highlighted Match) */}
+                <div className="flex items-center justify-between text-neutral-900 relative overflow-hidden p-1 rounded-md bg-emerald-50 border border-emerald-200">
+                  <div className="absolute top-0 right-0 h-full bg-emerald-500/15 w-[65%] pointer-events-none" />
+                  <span className="text-emerald-800 font-black flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>$3,398.20 (FILLED)</span>
+                  </span>
+                  <span className="text-emerald-900 font-bold">0.40 ETH</span>
+                </div>
+                {/* Bid (Green) */}
+                <div className="flex items-center justify-between text-neutral-600 relative overflow-hidden p-1 rounded-sm">
+                  <div className="absolute top-0 right-0 h-full bg-emerald-500/10 w-[45%] pointer-events-none" />
+                  <span className="text-emerald-600 font-bold">$3,396.10</span>
+                  <span className="text-neutral-400">2.80 ETH</span>
+                </div>
+              </div>
             </div>
+
+            {/* Action Button */}
+            <button
+              onClick={handleRunTrade}
+              disabled={isSimulatingTrade}
+              className="p-4 rounded-2xl bg-white border border-neutral-300 font-mono text-xs text-black font-bold flex items-center justify-between shadow-xs hover:border-black transition-all cursor-pointer w-full group"
+            >
+              <span className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full ${isSimulatingTrade ? 'bg-amber-400 animate-ping' : 'bg-emerald-500'}`} />
+                <span>{isSimulatingTrade ? 'Executing API Fill on OKX...' : 'Sell 0.4 ETH · OKX · Market (Executed ✓)'}</span>
+              </span>
+              <ArrowRight className={`w-4 h-4 text-neutral-500 transition-transform ${isSimulatingTrade ? 'rotate-90 animate-spin' : 'group-hover:translate-x-1'}`} />
+            </button>
           </div>
 
-          {/* 4. Alerts */}
-          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+          {/* 4. Alerts (Live Sentinel Radar Stream & Dynamic Insights) */}
+          <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden">
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="text-2xl font-black text-black font-sans">
                   Alerts
                 </h3>
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-300">
-                  Always watching
+                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-300 flex items-center gap-1.5">
+                  <Radio className="w-3 h-3 text-amber-600 animate-pulse" />
+                  <span>Always watching</span>
                 </span>
               </div>
               <p className="text-sm text-neutral-700 leading-relaxed font-normal">
@@ -136,17 +289,45 @@ export const RenaissanceOnchain: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-2 pt-2">
+            {/* Clickable Interactive Alert Selector Pills */}
+            <div className="flex flex-wrap gap-2">
               {ALERTS_LIST.map((alert, idx) => (
-                <span
+                <button
                   key={idx}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-neutral-300 text-black font-mono text-[11px] font-bold shadow-2xs hover:border-black transition-colors"
+                  onClick={() => setActiveAlertIndex(idx)}
+                  className={`px-3 py-2 rounded-xl font-mono text-[11px] font-bold border transition-all cursor-pointer text-left ${
+                    activeAlertIndex === idx
+                      ? 'bg-black text-white border-black shadow-sm'
+                      : 'bg-white border-neutral-300 text-black hover:bg-neutral-50'
+                  }`}
                 >
                   {alert}
-                </span>
+                </button>
               ))}
             </div>
+
+            {/* Live Telemetry Card for Selected Alert */}
+            <div className="p-4 rounded-2xl bg-white border border-neutral-300 shadow-xs font-mono text-xs space-y-2">
+              <div className="flex items-center justify-between text-[10px] pb-1.5 border-b border-neutral-200">
+                <span className="text-neutral-500 uppercase font-bold">
+                  {alertDetails[activeAlertIndex].title}
+                </span>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 text-[9px]">
+                  {alertDetails[activeAlertIndex].status}
+                </span>
+              </div>
+              <div className="text-[11px] text-neutral-600">
+                <span className="text-neutral-400">Trigger Condition: </span>
+                <span className="font-bold text-black">{alertDetails[activeAlertIndex].trigger}</span>
+              </div>
+              <div className="text-[11px] text-emerald-800 font-medium">
+                <span className="text-neutral-400">Agent Action: </span>
+                {alertDetails[activeAlertIndex].action}
+              </div>
+            </div>
+
           </div>
+
         </div>
       </div>
 
