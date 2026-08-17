@@ -63,8 +63,10 @@ export const RenaissanceHero: React.FC = () => {
 
         {/* Animated Hero Headline Overlay (Bottom Center) */}
         <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4 pointer-events-none">
-          <div className="inline-flex items-center justify-center flex-wrap gap-x-3 text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-            <span className="whitespace-nowrap font-serif font-normal text-white">Your Agents can</span>
+          <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+            <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
+              Your Agents can
+            </span>
             <div className="inline-flex items-center justify-start min-w-[130px] sm:min-w-[180px] md:min-w-[240px] lg:min-w-[300px] text-left">
               <AnimatePresence mode="wait">
                 <motion.span
@@ -73,7 +75,7 @@ export const RenaissanceHero: React.FC = () => {
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: -22, filter: 'blur(6px)' }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+                  className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
                 >
                   {ACTION_WORDS[actionIndex]}
                 </motion.span>
