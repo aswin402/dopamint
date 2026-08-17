@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import heroImg1 from '../../assets/herosectionimg1.png';
-import heroImg2 from '../../assets/herosectionimg2.png';
-import heroImg3 from '../../assets/herosectionimg3.png';
-import heroImg4 from '../../assets/herosectionimg4.png';
+import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
 
-const HERO_IMAGES = [heroImg1, heroImg2, heroImg3, heroImg4];
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
 
 export const RenaissanceHero: React.FC = () => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [actionIndex, setActionIndex] = useState(0);
-
-  // 4-second automatic slideshow loop
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
-    }, 4000);
-
-    return () => clearInterval(timer);
-  }, []);
 
   // 2.4-second smooth action word cycling loop
   useEffect(() => {
@@ -36,28 +22,22 @@ export const RenaissanceHero: React.FC = () => {
     <section id="hero" className="relative w-full flex flex-col justify-start select-none">
       
       {/* =========================================================================
-          1. HERO IMAGE SLIDESHOW CANVAS (4s delay, smooth cross-fade transition)
+          1. HERO VIDEO BACKGROUND (herosectionbgvid.webm)
           ========================================================================= */}
       <div className="relative w-full min-h-[70vh] sm:min-h-[85vh] lg:min-h-[92vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl flex items-end justify-center">
         
-        <AnimatePresence initial={false} mode="sync">
-          <motion.img
-            key={currentImageIndex}
-            src={HERO_IMAGES[currentImageIndex]}
-            alt={`DopaMint Renaissance Era ${currentImageIndex + 1}`}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{
-              opacity: { duration: 1.2, ease: "easeInOut" },
-              scale: { duration: 4, ease: "easeOut" },
-            }}
-            className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
-          />
-        </AnimatePresence>
+        {/* Fullscreen Ambient Hero Video */}
+        <video
+          src={heroBgVid}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+        />
 
         {/* Subtle Bottom Ambient Vignette to ensure text readability */}
-        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none z-10" />
 
         {/* Animated Hero Headline Overlay (Bottom Center) */}
         <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4 pointer-events-none">
