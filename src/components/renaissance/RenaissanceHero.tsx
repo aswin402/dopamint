@@ -85,13 +85,13 @@ export const RenaissanceHero: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. SECOND SECTION: House of AI Agents (Exact Match to Design Mockup)
+          2. SECOND SECTION: House of AI Agents (Enlarged & Bottom-Anchored Artwork)
           ========================================================================= */}
-      <div id="manifesto" className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-20 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div id="manifesto" className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 lg:pt-28 pb-0">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
           
           {/* Left Column: House of AI Agents Copy & Action Pills */}
-          <div className="lg:col-span-6 space-y-6 sm:space-y-8 text-left">
+          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left pb-16 sm:pb-20 lg:pb-28">
             
             {/* Editorial Title */}
             <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04] select-none">
@@ -127,13 +127,13 @@ export const RenaissanceHero: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Hand with Mobile Artwork */}
-          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end">
-            <div className="relative w-full max-w-[480px] lg:max-w-[560px] flex items-center justify-center">
+          {/* Right Column: Hand with Mobile Artwork (Enlarged & Touching Bottom Boundary) */}
+          <div className="lg:col-span-7 flex items-end justify-center lg:justify-end self-end">
+            <div className="relative w-full max-w-[560px] sm:max-w-[680px] lg:max-w-[780px] xl:max-w-[860px] flex items-end justify-center lg:justify-end">
               <img
                 src={handWithMobile}
                 alt="House of AI Agents - Hand with Mobile"
-                className="w-full h-auto object-contain select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.02]"
+                className="w-full h-auto object-contain object-bottom select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] block -mb-1 sm:-mb-2"
               />
             </div>
           </div>
