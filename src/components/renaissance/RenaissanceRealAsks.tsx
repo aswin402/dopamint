@@ -1,130 +1,232 @@
-import React, { useState } from 'react';
-import { REAL_ASKS } from '../../data/dopamint';
-import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
-import { TestimonialsColumn } from '../ui/TestimonialsColumn';
+import React from 'react';
+import { motion } from 'framer-motion';
+
+import divImg from '../../assets/div_img.png';
+
+import profile1 from '../../assets/Profiles/Profile_ (1).png';
+import profile2 from '../../assets/Profiles/Profile_ (2).png';
+import profile3 from '../../assets/Profiles/Profile_ (3).png';
+import profile4 from '../../assets/Profiles/Profile_ (4).png';
+import profile5 from '../../assets/Profiles/Profile_ (5).png';
+import profile6 from '../../assets/Profiles/Profile_ (6).png';
+import profile7 from '../../assets/Profiles/Profile_ (7).png';
+
+import avatarAiko from '../../assets/avatars/aiko.jpg';
+import avatarAria from '../../assets/avatars/aria.jpg';
+import avatarCody from '../../assets/avatars/cody.jpg';
+import avatarLuna from '../../assets/avatars/luna.jpg';
 
 export const RenaissanceRealAsks: React.FC = () => {
-  const [selectedAsk, setSelectedAsk] = useState<string>(REAL_ASKS[3]);
-
   return (
-    <section className="py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70 relative z-20 bg-[#f7f3ef]">
+    <section id="asks" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none relative z-20 bg-[#f7f3ef] overflow-hidden">
       
-      {/* Kicker */}
-      <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-6 pb-2 border-b border-neutral-300">
-        <span>REAL ASKS, REAL PEOPLE</span>
-        <span className="font-serif italic text-base text-black">Proof of Agency</span>
-      </div>
-
       {/* Title */}
-      <div className="max-w-3xl mb-10 text-left">
-        <h2 className="text-3xl sm:text-5xl font-black text-display text-black tracking-tight leading-[0.98]">
-          This is what people <br />
-          <span className="font-serif italic font-normal text-black">
-            actually ask for.
-          </span>
+      <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+        <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#334638] select-none font-serif font-normal">
+          What <span className="font-serif italic font-normal text-[#405445]">people</span> actually ask for.
         </h2>
       </div>
 
-      {/* Interactive Asks Pills */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-        {REAL_ASKS.map((ask, idx) => {
-          const isSelected = selectedAsk === ask;
-          return (
-            <button
-              key={idx}
-              onClick={() => setSelectedAsk(ask)}
-              className={`p-4 rounded-2xl text-left text-xs sm:text-sm font-bold font-mono transition-all cursor-pointer flex items-center justify-between ${
-                isSelected
-                  ? 'bg-black text-white shadow-lg ring-2 ring-black'
-                  : 'parchment-card text-neutral-800 hover:bg-white'
-              }`}
-            >
-              <span>“{ask}”</span>
-              <ArrowRight className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-white' : 'text-neutral-400'}`} />
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Featured Callout */}
-      <div className="p-6 rounded-3xl bg-black text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
-        <div className="space-y-1">
-          <div className="text-[10px] font-mono text-neutral-400 uppercase tracking-widest">Active Ask</div>
-          <div className="text-lg sm:text-2xl font-black font-sans text-white">
-            “{selectedAsk}”
+      {/* 2-Column Content Grid: Woman Artwork on Left + Floating Cards Canvas on Right */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
+        
+        {/* Left Column: Renaissance Woman Artwork looking to the right */}
+        <div className="lg:col-span-5 flex items-center justify-center lg:justify-start">
+          <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]">
+            <img
+              src={divImg}
+              alt="What people actually ask for"
+              className="w-full h-auto object-contain select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] block"
+            />
           </div>
         </div>
-        <div className="text-xs font-mono text-neutral-300 bg-white/10 px-4 py-2 rounded-xl border border-white/20">
-          Eve + Iris + Ada standby ✓
+
+        {/* Right Column: Floating Interactive Thoughts & Preview Cards */}
+        <div className="lg:col-span-7 relative w-full min-h-[560px] sm:min-h-[620px] lg:min-h-[680px] flex items-center justify-center">
+          
+          {/* Card 1: Top Center */}
+          <motion.div
+            animate={{ y: [-6, 6, -6] }}
+            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-0 sm:top-2 left-4 sm:left-12 max-w-[280px] sm:max-w-[320px] p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-xl flex items-start gap-3 z-20 hover:scale-105 transition-transform"
+          >
+            <img
+              src={profile1}
+              alt="User"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover bg-neutral-100 shrink-0"
+            />
+            <div className="space-y-2">
+              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
+                The text was tiny so I had to zoom in, and then buttons were hard to press accurately
+              </p>
+              <div className="flex flex-wrap items-center gap-1.5 font-mono text-[9px]">
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                  Current theme
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Mobile experience
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 2: Mid-Left */}
+          <motion.div
+            animate={{ y: [6, -6, 6] }}
+            transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+            className="absolute top-28 sm:top-32 left-0 sm:left-4 max-w-[240px] sm:max-w-[280px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-10 hover:scale-105 transition-transform"
+          >
+            <img
+              src={profile2}
+              alt="User"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
+            />
+            <div className="space-y-1.5">
+              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
+                Moving around the site was much easier than
+              </p>
+              <div className="flex items-center gap-1.5 font-mono text-[9px]">
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                  Current theme
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Navigation
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Center Visual Preview Cards Pair (Cards 3 & 4) */}
+          <motion.div
+            animate={{ y: [-5, 5, -5] }}
+            transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+            className="absolute top-44 sm:top-48 left-16 sm:left-24 lg:left-28 flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 z-20"
+          >
+            {/* Visual Card A */}
+            <div className="w-[150px] sm:w-[175px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
+              <div className="h-20 sm:h-24 bg-neutral-900 relative flex items-center justify-center overflow-hidden">
+                <img
+                  src={avatarAiko}
+                  alt="Pushing Boundaries"
+                  className="w-full h-full object-cover opacity-80"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[9px] font-bold text-white font-mono uppercase tracking-wider">
+                  PUSHING BOUNDARIES
+                </span>
+              </div>
+              <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
+                <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 inline-block text-[8px]">
+                  Current theme
+                </span>
+                <div className="font-bold text-black text-[10px]">Pushing Boundaries Hero</div>
+                <div className="text-neutral-400 text-[8px]">Horizon 3.0.0</div>
+              </div>
+            </div>
+
+            {/* Visual Card B */}
+            <div className="w-[150px] sm:w-[175px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
+              <div className="h-20 sm:h-24 bg-neutral-900 relative flex items-center justify-center overflow-hidden">
+                <img
+                  src={avatarLuna}
+                  alt="Art In Motion"
+                  className="w-full h-full object-cover opacity-80"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <span className="absolute bottom-2 left-2 text-[9px] font-bold text-white font-mono uppercase tracking-wider">
+                  DECKS OF VIRTUE
+                </span>
+              </div>
+              <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
+                <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200 inline-block text-[8px]">
+                  Unpublished theme
+                </span>
+                <div className="font-bold text-black text-[10px]">Art in Motion Hero</div>
+                <div className="text-neutral-400 text-[8px]">Horizon 3.1.0</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 5: Mid-Right */}
+          <motion.div
+            animate={{ y: [7, -7, 7] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            className="absolute top-36 sm:top-40 right-0 sm:right-4 max-w-[220px] sm:max-w-[260px] p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-10 hover:scale-105 transition-transform"
+          >
+            <img
+              src={profile4}
+              alt="User"
+              className="w-8 h-8 rounded-xl object-cover bg-neutral-100 shrink-0"
+            />
+            <div className="space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
+                I found exactly what I was looking for within seconds using search
+              </p>
+              <div className="flex items-center gap-1 font-mono text-[8px]">
+                <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Unpublished
+                </span>
+                <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-bold border border-blue-200">
+                  Discovery
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 6: Lower Left */}
+          <motion.div
+            animate={{ y: [-6, 6, -6] }}
+            transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
+            className="absolute bottom-16 sm:bottom-20 left-4 sm:left-10 max-w-[260px] sm:max-w-[300px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+          >
+            <img
+              src={profile5}
+              alt="User"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
+            />
+            <div className="space-y-1.5">
+              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
+                I loved seeing actual customer photos in the reviews section
+              </p>
+              <div className="flex items-center gap-1.5 font-mono text-[9px]">
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                  Current theme
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Trust signals
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 7: Bottom Right */}
+          <motion.div
+            animate={{ y: [6, -6, 6] }}
+            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
+            className="absolute bottom-4 sm:bottom-6 right-2 sm:right-10 max-w-[270px] sm:max-w-[310px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+          >
+            <img
+              src={profile6}
+              alt="User"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
+            />
+            <div className="space-y-1.5">
+              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
+                Finding the "About us" page was difficult, consider making it easier to find
+              </p>
+              <div className="flex items-center gap-1.5 font-mono text-[9px]">
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                  Unpublished theme
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-bold border border-blue-200">
+                  Navigation
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
         </div>
-      </div>
 
-      {/* Real Verified Agent Testimonials Columns */}
-      <div className="mt-16 pt-12 border-t border-neutral-300">
-        <div className="text-center max-w-xl mx-auto mb-10 space-y-2">
-          <div className="text-xs font-mono font-bold uppercase text-neutral-500 tracking-widest">
-            LIVE EXECUTION LOGS & REVIEWS
-          </div>
-          <h3 className="text-2xl sm:text-3xl font-black text-black">
-            What builders & teams say.
-          </h3>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative mask-radial overflow-hidden">
-          <TestimonialsColumn
-            testimonials={[
-              {
-                text: "Ada handled a 6-person dinner booking in Austin without exceeding our $250 team limit. Perfect table at Kiln with receipt signed in 4 seconds.",
-                image: "/avatars/aiko.jpg",
-                name: "Elena Rostova",
-                role: "Founding Engineer @ Synapse",
-              },
-              {
-                text: "Having Iris pay per-call x402 endpoints autonomously removed our checkout bottlenecks completely. Clean onchain receipts every time.",
-                image: "/avatars/aria.jpg",
-                name: "Marcus Vance",
-                role: "Infrastructure Lead @ Base Labs",
-              },
-            ]}
-            duration={14}
-          />
-
-          <TestimonialsColumn
-            testimonials={[
-              {
-                text: "Sol caught the 3,398 ETH dip while I was completely asleep. Stayed inside my $250 cap, swapped on Base, and logged the receipt.",
-                image: "/avatars/sarang.jpg",
-                name: "David Kim",
-                role: "DeFi Researcher & Angel",
-              },
-              {
-                text: "Kai spotted 4 forgotten SaaS subscriptions quietly draining $680/mo and sent me a 1-tap cancellation bundle. Paid for itself on day 1.",
-                image: "/avatars/cody.jpg",
-                name: "Sophia Martinez",
-                role: "COO @ HyperScale",
-              },
-            ]}
-            duration={11}
-          />
-
-          <TestimonialsColumn
-            testimonials={[
-              {
-                text: "Nora drafts all my vendor replies and triages 150+ daily emails. The sandbox guarantee means she never accidentally confirms a wire.",
-                image: "/avatars/nora.jpg",
-                name: "Julian Sterling",
-                role: "Managing Director @ Apex Capital",
-              },
-              {
-                text: "Leo read 20 whitepapers overnight and gave me a 3-bullet comparison for our architecture sprint. Incredible depth.",
-                image: "/avatars/vale.jpg",
-                name: "Amara Chen",
-                role: "Head of AI @ Protocol Labs",
-              },
-            ]}
-            duration={16}
-          />
-        </div>
       </div>
 
     </section>
