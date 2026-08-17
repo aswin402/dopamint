@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import hubIcon from '../../assets/Icon.png';
 
 interface ConnectedNode {
   id: string;
@@ -335,19 +336,16 @@ export const CentralHubConnectedDiagram: React.FC<{ className?: string }> = ({ c
             <div className="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-white/10 animate-ping opacity-20 pointer-events-none" />
             <div className="absolute w-28 h-28 sm:w-34 sm:h-34 rounded-full border border-dashed border-white/20 animate-spin [animation-duration:24s] pointer-events-none" />
             
-            {/* Central Solid Hub Badge */}
+            {/* Central Solid Hub Badge with Icon.png */}
             <motion.div
               whileHover={{ scale: 1.08 }}
-              className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white text-black flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.25)] ring-4 ring-white/20 cursor-pointer"
+              className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white flex items-center justify-center shadow-[0_0_40px_rgba(255,255,255,0.25)] ring-4 ring-white/20 cursor-pointer overflow-hidden p-3.5 sm:p-4"
             >
-              <div className="text-center">
-                <div className="font-serif italic font-black text-3xl sm:text-4xl text-black leading-none">
-                  D
-                </div>
-                <div className="text-[8px] font-mono font-black tracking-widest uppercase text-neutral-600 mt-0.5">
-                  HUB
-                </div>
-              </div>
+              <img
+                src={hubIcon}
+                alt="DopaMint Hub Icon"
+                className="w-full h-full object-contain select-none drop-shadow-sm"
+              />
             </motion.div>
 
           </div>
