@@ -14,33 +14,33 @@ import profile8 from '../../assets/Profiles/Profile_ (8).png';
 
 export const RenaissanceRealAsks: React.FC = () => {
   return (
-    <section id="asks" className="w-full bg-[#ffffff] pt-14 sm:pt-20 pb-8 sm:pb-12 select-none relative z-20 overflow-hidden border-y border-neutral-200/60">
+    <section id="asks" className="w-full bg-[#ffffff] pt-14 sm:pt-20 pb-0 select-none relative z-20 overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
         
         {/* Title */}
-        <div className="text-center w-full max-w-6xl mx-auto mb-10 sm:mb-12">
+        <div className="text-center w-full max-w-6xl mx-auto mb-8 sm:mb-10">
           <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] select-none font-serif font-normal">
             What <span className="font-serif italic font-bold text-[#142218]">people</span> actually ask for.
           </h2>
         </div>
 
         {/* 2-Column Content Grid: Woman Artwork on Left + Floating Cards Canvas on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end">
           
-          {/* Left Column: Renaissance Woman Artwork looking to the right */}
-          <div className="lg:col-span-5 flex items-center justify-center lg:justify-start">
-            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px]">
+          {/* Left Column: Renaissance Woman Artwork sitting flush with bottom */}
+          <div className="lg:col-span-5 flex items-end justify-center lg:justify-start self-end">
+            <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[540px] flex items-end">
               <img
                 src={divImg}
                 alt="What people actually ask for"
-                className="w-full h-auto object-contain select-none drop-shadow-xl transition-transform duration-500 hover:scale-[1.01] block"
+                className="w-full h-auto object-contain object-bottom select-none drop-shadow-xl block -mb-[1px]"
               />
             </div>
           </div>
 
           {/* Right Column: Floating Interactive Thoughts & Preview Cards Canvas */}
-          <div className="lg:col-span-7 relative w-full h-[520px] sm:h-[560px] lg:h-[600px] select-none">
+          <div className="lg:col-span-7 relative w-full h-[480px] sm:h-[520px] lg:h-[560px] select-none pb-6 sm:pb-8">
             
             {/* Card 1: Top Center */}
             <motion.div
@@ -226,7 +226,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             <motion.div
               animate={{ y: [5, -5, 5] }}
               transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
-              className="absolute bottom-0 left-[26%] sm:left-[32%] max-w-[270px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+              className="absolute bottom-1 sm:bottom-2 left-[26%] sm:left-[32%] max-w-[270px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
             >
               <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
                 <img src={profile6} alt="Profile" className="w-full h-full object-cover" />
