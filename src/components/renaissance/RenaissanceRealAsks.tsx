@@ -11,11 +11,6 @@ import profile5 from '../../assets/Profiles/Profile_ (5).png';
 import profile6 from '../../assets/Profiles/Profile_ (6).png';
 import profile7 from '../../assets/Profiles/Profile_ (7).png';
 
-import avatarAiko from '../../assets/avatars/aiko.jpg';
-import avatarAria from '../../assets/avatars/aria.jpg';
-import avatarCody from '../../assets/avatars/cody.jpg';
-import avatarLuna from '../../assets/avatars/luna.jpg';
-
 export const RenaissanceRealAsks: React.FC = () => {
   return (
     <section id="asks" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none relative z-20 bg-[#f7f3ef] overflow-hidden">
@@ -28,7 +23,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       </div>
 
       {/* 2-Column Content Grid: Woman Artwork on Left + Floating Cards Canvas on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
         
         {/* Left Column: Renaissance Woman Artwork looking to the right */}
         <div className="lg:col-span-5 flex items-center justify-center lg:justify-start">
@@ -41,184 +36,198 @@ export const RenaissanceRealAsks: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: Floating Interactive Thoughts & Preview Cards */}
-        <div className="lg:col-span-7 relative w-full min-h-[560px] sm:min-h-[620px] lg:min-h-[680px] flex items-center justify-center">
+        {/* Right Column: Floating Interactive Thoughts & Preview Cards Canvas */}
+        <div className="lg:col-span-7 relative w-full h-[580px] sm:h-[640px] lg:h-[700px] select-none">
           
           {/* Card 1: Top Center */}
           <motion.div
-            animate={{ y: [-6, 6, -6] }}
+            animate={{ y: [-5, 5, -5] }}
             transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-0 sm:top-2 left-4 sm:left-12 max-w-[280px] sm:max-w-[320px] p-3 sm:p-4 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-xl flex items-start gap-3 z-20 hover:scale-105 transition-transform"
+            className="absolute top-0 left-[12%] sm:left-[18%] max-w-[280px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
           >
-            <img
-              src={profile1}
-              alt="User"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover bg-neutral-100 shrink-0"
-            />
-            <div className="space-y-2">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile1} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
               <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
                 The text was tiny so I had to zoom in, and then buttons were hard to press accurately
               </p>
               <div className="flex flex-wrap items-center gap-1.5 font-mono text-[9px]">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                <span className="px-2 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
                   Current theme
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
                   Mobile experience
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 2: Mid-Left */}
+          {/* Card 2: Top Right (Subtle Faded Background Accent) */}
           <motion.div
-            animate={{ y: [6, -6, 6] }}
-            transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-            className="absolute top-28 sm:top-32 left-0 sm:left-4 max-w-[240px] sm:max-w-[280px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-10 hover:scale-105 transition-transform"
+            animate={{ y: [4, -4, 4] }}
+            transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+            className="absolute top-2 right-[2%] sm:right-[6%] max-w-[170px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
           >
-            <img
-              src={profile2}
-              alt="User"
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
-            />
-            <div className="space-y-1.5">
-              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
+            <div className="w-8 h-8 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
+              <img src={profile7} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2 rounded-xl bg-white/90 border border-neutral-200 shadow-sm space-y-1">
+              <div className="h-2 w-16 bg-neutral-300 rounded" />
+              <div className="flex gap-1">
+                <span className="h-1.5 w-6 bg-emerald-200 rounded" />
+                <span className="h-1.5 w-6 bg-purple-200 rounded" />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 3: Mid-Left */}
+          <motion.div
+            animate={{ y: [5, -5, 5] }}
+            transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+            className="absolute top-[22%] sm:top-[24%] left-0 max-w-[210px] sm:max-w-[240px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile2} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
                 Moving around the site was much easier than
               </p>
-              <div className="flex items-center gap-1.5 font-mono text-[9px]">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
                   Current theme
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
                   Navigation
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Center Visual Preview Cards Pair (Cards 3 & 4) */}
+          {/* Cards 4 & 5: Center Visual Theme Preview Cards */}
           <motion.div
-            animate={{ y: [-5, 5, -5] }}
+            animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
-            className="absolute top-44 sm:top-48 left-16 sm:left-24 lg:left-28 flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 z-20"
+            className="absolute top-[20%] sm:top-[22%] left-[24%] sm:left-[27%] lg:left-[29%] flex items-center gap-2.5 sm:gap-3.5 z-30"
           >
             {/* Visual Card A */}
-            <div className="w-[150px] sm:w-[175px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
-              <div className="h-20 sm:h-24 bg-neutral-900 relative flex items-center justify-center overflow-hidden">
-                <img
-                  src={avatarAiko}
-                  alt="Pushing Boundaries"
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <span className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute bottom-2 left-2 text-[9px] font-bold text-white font-mono uppercase tracking-wider">
+            <div className="w-[130px] sm:w-[155px] lg:w-[165px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
+              <div className="h-20 sm:h-24 bg-gradient-to-br from-neutral-800 via-neutral-900 to-black relative flex items-center justify-center p-2 text-center">
+                <span className="text-[9px] sm:text-[10px] font-bold text-white font-mono uppercase tracking-wider drop-shadow-md">
                   PUSHING BOUNDARIES
                 </span>
               </div>
               <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
-                <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200 inline-block text-[8px]">
+                <span className="px-1.5 py-0.5 rounded bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3] inline-block text-[8px]">
                   Current theme
                 </span>
-                <div className="font-bold text-black text-[10px]">Pushing Boundaries Hero</div>
+                <div className="font-bold text-black text-[9.5px] sm:text-[10px] truncate">Pushing Boundaries Hero</div>
                 <div className="text-neutral-400 text-[8px]">Horizon 3.0.0</div>
               </div>
             </div>
 
             {/* Visual Card B */}
-            <div className="w-[150px] sm:w-[175px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
-              <div className="h-20 sm:h-24 bg-neutral-900 relative flex items-center justify-center overflow-hidden">
-                <img
-                  src={avatarLuna}
-                  alt="Art In Motion"
-                  className="w-full h-full object-cover opacity-80"
-                />
-                <span className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <span className="absolute bottom-2 left-2 text-[9px] font-bold text-white font-mono uppercase tracking-wider">
+            <div className="w-[130px] sm:w-[155px] lg:w-[165px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
+              <div className="h-20 sm:h-24 bg-gradient-to-br from-neutral-700 via-neutral-800 to-neutral-950 relative flex items-center justify-center p-2 text-center">
+                <span className="text-[9px] sm:text-[10px] font-bold text-white font-mono uppercase tracking-wider drop-shadow-md">
                   DECKS OF VIRTUE
                 </span>
               </div>
               <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
-                <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200 inline-block text-[8px]">
+                <span className="px-1.5 py-0.5 rounded bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb] inline-block text-[8px]">
                   Unpublished theme
                 </span>
-                <div className="font-bold text-black text-[10px]">Art in Motion Hero</div>
+                <div className="font-bold text-black text-[9.5px] sm:text-[10px] truncate">Art in Motion Hero</div>
                 <div className="text-neutral-400 text-[8px]">Horizon 3.1.0</div>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 5: Mid-Right */}
+          {/* Card 6: Mid-Right */}
           <motion.div
-            animate={{ y: [7, -7, 7] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="absolute top-36 sm:top-40 right-0 sm:right-4 max-w-[220px] sm:max-w-[260px] p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-10 hover:scale-105 transition-transform"
+            animate={{ y: [6, -6, 6] }}
+            transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+            className="absolute top-[23%] sm:top-[25%] right-0 max-w-[190px] sm:max-w-[220px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
           >
-            <img
-              src={profile4}
-              alt="User"
-              className="w-8 h-8 rounded-xl object-cover bg-neutral-100 shrink-0"
-            />
-            <div className="space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                I found exactly what I was looking for within seconds using search
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile4} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1">
+              <p className="text-[10px] sm:text-[10.5px] text-neutral-800 font-sans leading-snug">
+                I found exactly what I was looking for within seconds
               </p>
-              <div className="flex items-center gap-1 font-mono text-[8px]">
-                <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-bold border border-purple-200">
-                  Unpublished
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8px]">
+                <span className="px-1.5 py-0.5 rounded bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
+                  Unpublished theme
                 </span>
-                <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-bold border border-blue-200">
-                  Discovery
+                <span className="px-1.5 py-0.5 rounded bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
+                  Product discovery
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 6: Lower Left */}
+          {/* Card 7: Lower Left */}
           <motion.div
-            animate={{ y: [-6, 6, -6] }}
-            transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-            className="absolute bottom-16 sm:bottom-20 left-4 sm:left-10 max-w-[260px] sm:max-w-[300px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            animate={{ y: [-5, 5, -5] }}
+            transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
+            className="absolute bottom-[20%] sm:bottom-[22%] left-[1%] sm:left-[3%] max-w-[240px] sm:max-w-[270px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
           >
-            <img
-              src={profile5}
-              alt="User"
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
-            />
-            <div className="space-y-1.5">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile5} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
               <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
                 I loved seeing actual customer photos in the reviews section
               </p>
-              <div className="flex items-center gap-1.5 font-mono text-[9px]">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+              <div className="flex items-center gap-1.5 font-mono text-[8.5px]">
+                <span className="px-2 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
                   Current theme
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
                   Trust signals
                 </span>
               </div>
             </div>
           </motion.div>
 
-          {/* Card 7: Bottom Right */}
+          {/* Card 8: Bottom Right (Subtle Faded Background Accent) */}
           <motion.div
-            animate={{ y: [6, -6, 6] }}
-            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
-            className="absolute bottom-4 sm:bottom-6 right-2 sm:right-10 max-w-[270px] sm:max-w-[310px] p-3 sm:p-3.5 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/90 shadow-lg flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            animate={{ y: [-4, 4, -4] }}
+            transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
+            className="absolute bottom-[20%] right-[6%] sm:right-[10%] max-w-[140px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
           >
-            <img
-              src={profile6}
-              alt="User"
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl object-cover bg-neutral-100 shrink-0"
-            />
-            <div className="space-y-1.5">
+            <div className="w-7 h-7 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
+              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-1.5 rounded-xl bg-white/90 border border-neutral-200 shadow-sm space-y-1">
+              <div className="h-1.5 w-12 bg-neutral-300 rounded" />
+              <div className="flex gap-1">
+                <span className="h-1 w-4 bg-emerald-200 rounded" />
+                <span className="h-1 w-4 bg-purple-200 rounded" />
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 9: Bottom Center */}
+          <motion.div
+            animate={{ y: [5, -5, 5] }}
+            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
+            className="absolute bottom-2 sm:bottom-4 left-[28%] sm:left-[34%] max-w-[270px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+          >
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile6} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
               <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
                 Finding the "About us" page was difficult, consider making it easier to find
               </p>
-              <div className="flex items-center gap-1.5 font-mono text-[9px]">
-                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 font-bold border border-purple-200">
+              <div className="flex items-center gap-1.5 font-mono text-[8.5px]">
+                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
                   Unpublished theme
                 </span>
-                <span className="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 font-bold border border-blue-200">
+                <span className="px-2 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
                   Navigation
                 </span>
               </div>
