@@ -38,7 +38,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* Right Column: Floating Interactive Thoughts & Preview Cards Canvas */}
-        <div className="lg:col-span-7 relative w-full h-[580px] sm:h-[640px] lg:h-[700px] select-none">
+        <div className="lg:col-span-7 relative w-full h-[600px] sm:h-[660px] lg:h-[720px] select-none">
           
           {/* Card 1: Top Center */}
           <motion.div
@@ -82,11 +82,11 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Card 3: Mid-Left */}
+          {/* Card 3: Mid-Left (Upper Tier) */}
           <motion.div
             animate={{ y: [5, -5, 5] }}
             transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="absolute top-[22%] sm:top-[24%] left-0 max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
+            className="absolute top-[18%] sm:top-[20%] left-0 max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile2} alt="Profile" className="w-full h-full object-cover" />
@@ -106,59 +106,11 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Card 4: Center-Left Speech Card */}
-          <motion.div
-            animate={{ y: [-4, 4, -4] }}
-            transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
-            className="absolute top-[21%] sm:top-[23%] left-[22%] sm:left-[26%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                Checkout flow and product grid loaded instantly
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
-                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
-                  Current theme
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Speed
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 5: Center-Right Speech Card */}
-          <motion.div
-            animate={{ y: [4, -4, 4] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-            className="absolute top-[21%] sm:top-[23%] left-[48%] sm:left-[52%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile8} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                Loved the smooth animation when filtering categories
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
-                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Unpublished
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Interactions
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 6: Mid-Right */}
+          {/* Card 6: Mid-Right (Upper Tier) */}
           <motion.div
             animate={{ y: [6, -6, 6] }}
             transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="absolute top-[22%] sm:top-[24%] right-0 max-w-[190px] sm:max-w-[220px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
+            className="absolute top-[18%] sm:top-[20%] right-0 max-w-[190px] sm:max-w-[220px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile4} alt="Profile" className="w-full h-full object-cover" />
@@ -178,11 +130,59 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
+          {/* Card 4: Center-Left (Moved Down to Mid-Tier) */}
+          <motion.div
+            animate={{ y: [-4, 4, -4] }}
+            transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+            className="absolute top-[40%] sm:top-[42%] left-[10%] sm:left-[14%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
+                Checkout flow and product grid loaded instantly
+              </p>
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
+                  Current theme
+                </span>
+                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
+                  Speed
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Card 5: Center-Right (Moved Down to Mid-Tier) */}
+          <motion.div
+            animate={{ y: [4, -4, 4] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+            className="absolute top-[41%] sm:top-[43%] left-[54%] sm:left-[56%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile8} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
+                Loved the smooth animation when filtering categories
+              </p>
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
+                  Unpublished
+                </span>
+                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
+                  Interactions
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Card 7: Lower Left */}
           <motion.div
             animate={{ y: [-5, 5, -5] }}
             transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
-            className="absolute bottom-[20%] sm:bottom-[22%] left-[1%] sm:left-[3%] max-w-[240px] sm:max-w-[270px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            className="absolute bottom-[18%] sm:bottom-[20%] left-0 sm:left-[2%] max-w-[230px] sm:max-w-[260px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile5} alt="Profile" className="w-full h-full object-cover" />
@@ -206,7 +206,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
-            className="absolute bottom-[20%] right-[6%] sm:right-[10%] max-w-[140px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
+            className="absolute bottom-[18%] right-[4%] sm:right-[8%] max-w-[140px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
           >
             <div className="w-7 h-7 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
               <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
@@ -224,7 +224,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [5, -5, 5] }}
             transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
-            className="absolute bottom-2 sm:bottom-4 left-[28%] sm:left-[34%] max-w-[270px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            className="absolute bottom-0 left-[26%] sm:left-[32%] max-w-[270px] sm:max-w-[310px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile6} alt="Profile" className="w-full h-full object-cover" />
