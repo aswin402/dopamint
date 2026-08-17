@@ -8,92 +8,90 @@ export const RenaissanceHero: React.FC = () => {
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start select-none">
       
-      {/* 1. True 100% Full-Width Edge-to-Edge Hero Banner Canvas */}
-      <div className="relative w-full min-h-[85vh] sm:min-h-[92vh] lg:min-h-screen bg-black flex flex-col justify-between pt-28 sm:pt-32 pb-10 sm:pb-12 shadow-2xl overflow-hidden">
-        
-        {/* Full-Width Background Image Layer */}
-        <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat scale-100 transition-transform duration-1000"
-          style={{
-            backgroundImage: `url(${heroBg})`,
-          }}
+      {/* =========================================================================
+          1. HERO IMAGE CANVAS (Clean, full-width artwork presentation)
+          ========================================================================= */}
+      <div className="relative w-full min-h-[60vh] sm:min-h-[75vh] lg:min-h-[90vh] xl:min-h-screen bg-black overflow-hidden shadow-xl">
+        <img
+          src={heroBg}
+          alt="DopaMint Renaissance Era"
+          className="w-full h-full object-cover object-center scale-100 transition-transform duration-1000"
         />
+      </div>
+
+      {/* =========================================================================
+          2. SECOND SECTION: DopaMint Manifesto & Agency Core
+          ========================================================================= */}
+      <div id="manifesto" className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 pb-16">
         
-
-
-        {/* Top Kicker (Inside Responsive Max-Width Container) */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-3 text-white text-xs font-mono">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm">
+        {/* Kicker Pill & Subheader */}
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono mb-8 pb-4 border-b border-neutral-300">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black text-white shadow-sm">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-white uppercase tracking-wider font-bold text-[11px] sm:text-xs">The Age of AiFi is upon us</span>
+            <span className="uppercase tracking-wider font-bold text-[11px] sm:text-xs">The Age of AiFi is upon us</span>
           </div>
-          <div className="text-neutral-300 font-bold uppercase tracking-widest text-[10px] sm:text-[11px]">
+          <div className="text-neutral-600 font-bold uppercase tracking-widest text-[10px] sm:text-[11px]">
             House of AI Agents
           </div>
         </div>
 
-        {/* Center Hero Copy (Inside Responsive Max-Width Container) */}
-        <div className="relative z-10 w-full max-w-4xl mx-auto my-auto px-4 sm:px-8 text-center text-white space-y-6 sm:space-y-8 py-8">
+        {/* Center Editorial Manifesto Copy */}
+        <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8 my-8">
           <div className="space-y-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-300 font-bold">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 font-bold">
               What is DopaMint?
             </span>
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-display tracking-tight leading-[1.02] text-white drop-shadow-lg">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black text-display tracking-tight leading-[1.02] text-black">
               DopaMint is the home for AI agents <br />
-              <span className="font-serif italic font-normal text-white">
+              <span className="font-serif italic font-normal text-black">
                 where agency meets control.
               </span>
             </h1>
           </div>
 
-          <div className="space-y-3.5 max-w-2xl mx-auto text-neutral-200">
-            <p className="text-sm sm:text-base lg:text-lg font-bold leading-relaxed text-white drop-shadow-sm">
+          <div className="space-y-4 max-w-2xl mx-auto text-neutral-800">
+            <p className="text-base sm:text-lg lg:text-xl font-bold leading-relaxed text-black">
               DopaMint is the home for AI agents — where every agent gets a trust layer, a verifiability layer, and a control layer, so it can actually act on your behalf without you having to babysit it.
             </p>
-            <p className="text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-600 font-normal leading-relaxed">
               Your AI can mess up sometimes. That's why we built it a home where every single thing it does leaves proof you can check yourself. No “trust us,” no vibes.
             </p>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Type1Button
               href="#agents"
-              variant="light"
-              className="!w-52 !h-12 shadow-xl"
+              className="!w-52 !h-12 shadow-lg"
             >
               Get the app
             </Type1Button>
 
             <Type1Button
               href="#evidence"
-              variant="light"
-              className="!w-52 !h-12 !border-white/50 opacity-90 hover:opacity-100 shadow-xl"
+              className="!w-52 !h-12 shadow-lg"
             >
               Try iMessage
             </Type1Button>
           </div>
+
+          {/* Specs Ribbon */}
+          <div className="pt-8 border-t border-neutral-300 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-neutral-600">
+            <div className="flex items-center gap-3 text-black font-bold">
+              <span>Trust Layer</span>
+              <span className="text-neutral-400">·</span>
+              <span>Verifiability Layer</span>
+              <span className="text-neutral-400">·</span>
+              <span>Control Layer</span>
+            </div>
+            <div className="text-black font-bold tracking-wide">
+              Built in San Francisco
+            </div>
+          </div>
         </div>
 
-        {/* Bottom Specs Ribbon (Inside Responsive Max-Width Container) */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono text-neutral-300">
-          <div className="flex items-center gap-3 text-white font-medium">
-            <span>Trust Layer</span>
-            <span className="text-neutral-500">·</span>
-            <span>Verifiability Layer</span>
-            <span className="text-neutral-500">·</span>
-            <span>Control Layer</span>
-          </div>
-          <div className="text-white font-bold tracking-wide">
-            Built in San Francisco
-          </div>
-        </div>
-
-      </div>
-
-      {/* 2. Live iMessage Mockup (Dope) & Architecture Highlights */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch w-full">
+        {/* 3. Live iMessage Mockup (Dope) & Architecture Highlights */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-16 items-stretch w-full">
           
           {/* Left: Dope iMessage Phone */}
           <div className="lg:col-span-7 rounded-[2.5rem] bg-black p-4 shadow-2xl">
@@ -159,6 +157,7 @@ export const RenaissanceHero: React.FC = () => {
           </div>
 
         </div>
+
       </div>
 
     </section>
