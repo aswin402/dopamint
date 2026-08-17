@@ -190,7 +190,7 @@ export const RenaissanceAuthority: React.FC = () => {
             </p>
           </div>
 
-          <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-neutral-900 text-white shadow-xl">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-[#171717] border border-neutral-800 text-white shadow-xl">
             <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
               ISOMETRIC ENCLAVE RUNTIME
             </div>

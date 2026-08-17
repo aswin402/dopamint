@@ -280,9 +280,10 @@
    ========================================================================= */
 .isometric-cube-loader {
   --duration: 3s;
-  --primary: #141820;
-  --primary-light: #333842;
-  --primary-rgba: rgba(20, 24, 32, 0);
+  --primary: #ffffff;
+  --primary-light: #e5e5e5;
+  --primary-rgba: rgba(255, 255, 255, 0);
+  --mask-bg: #171717;
   width: 200px;
   height: 320px;
   position: relative;
@@ -304,7 +305,7 @@
   position: absolute;
   right: 32%;
   bottom: -11px;
-  background: #ddddd1;
+  background: var(--mask-bg, #171717);
   transform: translateZ(200px) rotate(var(--r));
   animation: cubeMask var(--duration) linear forwards infinite;
 }
