@@ -29,20 +29,15 @@ export const RenaissanceNavbar: React.FC = () => {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      {/* Brand with logo_dope.png */}
-      <a href="#hero" className="flex items-center gap-2.5 font-bold group">
+      {/* Brand with logo_dope.png (Switches from White to Black on scroll) */}
+      <a href="#hero" className="flex items-center group" aria-label="Home">
         <img
           src={logoDope}
-          alt="DopaMint"
-          className="h-7 sm:h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
-        />
-        <span
-          className={`text-base tracking-tight font-black font-sans transition-colors duration-300 ${
-            isScrolled ? 'text-black' : 'text-white drop-shadow-md'
+          alt="Dope"
+          className={`h-7 sm:h-8 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
+            isScrolled ? 'brightness-0 opacity-100' : 'brightness-100 drop-shadow-md'
           }`}
-        >
-          DopaMint
-        </span>
+        />
       </a>
 
       {/* Nav Links */}
