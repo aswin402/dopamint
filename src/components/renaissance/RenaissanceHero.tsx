@@ -1,42 +1,46 @@
 import React from 'react';
 import { Type1Button } from '../ui/Type1Button';
 import { MetricProgressCard } from '../ui/MetricProgressCard';
-import { ShieldCheck, ShieldAlert } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
+import heroBg from '../../assets/herosectionimg1.png';
 
 export const RenaissanceHero: React.FC = () => {
   return (
-    <section id="hero" className="relative pt-32 pb-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col justify-start select-none">
+    <section id="hero" className="relative w-full pt-28 pb-20 px-3 sm:px-6 lg:px-10 max-w-[1440px] mx-auto flex flex-col justify-start select-none">
       
-      {/* 1. Neoclassical Full-Bleed Hero Canvas */}
-      <div className="relative rounded-[2.5rem] overflow-hidden bg-black min-h-[580px] sm:min-h-[660px] flex flex-col justify-between p-6 sm:p-12 shadow-xl border border-black/10">
+      {/* 1. Full-Width Responsive Hero Canvas with herosectionimg1.png */}
+      <div className="relative w-full rounded-[2rem] sm:rounded-[2.75rem] overflow-hidden bg-black min-h-[600px] sm:min-h-[700px] lg:min-h-[780px] flex flex-col justify-between p-6 sm:p-10 lg:p-14 shadow-2xl border border-black/15">
         
         {/* Background Image Layer */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-85 mix-blend-luminosity scale-105 transition-transform duration-1000"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-100 transition-transform duration-1000"
           style={{
-            backgroundImage: `url('/avatars/hero-trio.jpg')`,
+            backgroundImage: `url(${heroBg})`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/80" />
+        
+        {/* Balanced Contrast Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/75 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
 
         {/* Top Kicker */}
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 text-white text-xs font-mono">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-white uppercase tracking-wider font-bold">The Age of AiFi is upon us</span>
+            <span className="text-white uppercase tracking-wider font-bold text-[11px] sm:text-xs">The Age of AiFi is upon us</span>
           </div>
-          <div className="text-neutral-300 font-bold uppercase tracking-widest text-[11px]">
+          <div className="text-neutral-300 font-bold uppercase tracking-widest text-[10px] sm:text-[11px]">
             House of AI Agents
           </div>
         </div>
 
         {/* Center Hero Copy */}
-        <div className="relative z-10 max-w-3xl mx-auto my-auto text-center text-white space-y-6">
-          <div className="space-y-2">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-400 font-bold">
+        <div className="relative z-10 max-w-3xl mx-auto my-auto text-center text-white space-y-6 sm:space-y-8 py-6">
+          <div className="space-y-2.5">
+            <span className="text-xs font-mono uppercase tracking-widest text-neutral-300 font-bold">
               What is DopaMint?
             </span>
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-display tracking-tight leading-[1.05] text-white">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-display tracking-tight leading-[1.03] text-white drop-shadow-md">
               DopaMint is the home for AI agents <br />
               <span className="font-serif italic font-normal text-white">
                 where agency meets control.
@@ -45,7 +49,7 @@ export const RenaissanceHero: React.FC = () => {
           </div>
 
           <div className="space-y-3 max-w-2xl mx-auto text-neutral-200">
-            <p className="text-sm sm:text-base font-bold leading-relaxed text-white">
+            <p className="text-sm sm:text-base lg:text-lg font-bold leading-relaxed text-white">
               DopaMint is the home for AI agents — where every agent gets a trust layer, a verifiability layer, and a control layer, so it can actually act on your behalf without you having to babysit it.
             </p>
             <p className="text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed">
@@ -54,11 +58,11 @@ export const RenaissanceHero: React.FC = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Type1Button
               href="#agents"
               variant="light"
-              className="!w-52 !h-12"
+              className="!w-52 !h-12 shadow-lg"
             >
               Get the app
             </Type1Button>
@@ -66,7 +70,7 @@ export const RenaissanceHero: React.FC = () => {
             <Type1Button
               href="#evidence"
               variant="light"
-              className="!w-52 !h-12 !border-white/40 opacity-90 hover:opacity-100"
+              className="!w-52 !h-12 !border-white/50 opacity-90 hover:opacity-100 shadow-lg"
             >
               Try iMessage
             </Type1Button>
@@ -75,14 +79,14 @@ export const RenaissanceHero: React.FC = () => {
 
         {/* Bottom Specs Ribbon */}
         <div className="relative z-10 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono text-neutral-300">
-          <div className="flex items-center gap-3 text-white">
+          <div className="flex items-center gap-3 text-white font-medium">
             <span>Trust Layer</span>
             <span className="text-neutral-500">·</span>
             <span>Verifiability Layer</span>
             <span className="text-neutral-500">·</span>
             <span>Control Layer</span>
           </div>
-          <div className="text-white font-bold">
+          <div className="text-white font-bold tracking-wide">
             Built in San Francisco
           </div>
         </div>
@@ -90,7 +94,7 @@ export const RenaissanceHero: React.FC = () => {
       </div>
 
       {/* 2. Live iMessage Mockup (Dope) & Architecture Highlights */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-16 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-16 items-stretch w-full">
         
         {/* Left: Dope iMessage Phone */}
         <div className="lg:col-span-7 rounded-[2.5rem] bg-black p-4 shadow-2xl">
@@ -115,7 +119,7 @@ export const RenaissanceHero: React.FC = () => {
             {/* Chat Messages */}
             <div className="p-6 space-y-4 text-xs font-sans my-auto">
               <div className="flex justify-end">
-                <div className="bg-black text-white p-4 rounded-2xl rounded-tr-xs max-w-[85%] font-medium text-sm">
+                <div className="bg-black text-white p-4 rounded-2xl rounded-tr-xs max-w-[85%] font-medium text-sm shadow-sm">
                   Swap 500 USDC to ETH if it dips under 3,400.
                 </div>
               </div>
