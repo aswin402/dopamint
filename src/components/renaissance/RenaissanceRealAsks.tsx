@@ -21,9 +21,9 @@ export const RenaissanceRealAsks: React.FC = () => {
     <section id="asks" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none relative z-20 bg-[#f7f3ef] overflow-hidden">
       
       {/* Title */}
-      <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
-        <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#334638] select-none font-serif font-normal">
-          What <span className="font-serif italic font-normal text-[#405445]">people</span> actually ask for.
+      <div className="text-center w-full max-w-6xl mx-auto mb-14 sm:mb-18">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] select-none font-serif font-normal">
+          What <span className="font-serif italic font-bold text-[#142218]">people</span> actually ask for.
         </h2>
       </div>
 
