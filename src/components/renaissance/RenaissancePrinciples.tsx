@@ -1,6 +1,7 @@
 import React from 'react';
 import { PRINCIPLES } from '../../data/dopamint';
 import { ArrowUpRight } from 'lucide-react';
+import { Type1Button } from '../ui/Type1Button';
 
 export const RenaissancePrinciples: React.FC = () => {
   return (
@@ -147,20 +148,21 @@ export const RenaissancePrinciples: React.FC = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-          <a
+          <Type1Button
             href="#hero"
-            className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-bold hover:bg-neutral-200 transition-all shadow-md flex items-center justify-center gap-1 group"
+            variant="light"
+            className="!w-56 !h-12"
           >
-            <span>Get DopaMint</span>
-            <ArrowUpRight className="w-4 h-4 text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
+            Get DopaMint
+          </Type1Button>
 
-          <a
+          <Type1Button
             href="#trust"
-            className="w-full sm:w-auto px-6 py-4 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium transition-all"
+            variant="light"
+            className="!w-56 !h-12 !border-white/40 opacity-90 hover:opacity-100"
           >
-            See how it works →
-          </a>
+            See How It Works
+          </Type1Button>
         </div>
 
         <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-6 text-[11px] font-mono text-neutral-400">

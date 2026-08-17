@@ -162,3 +162,120 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #AFAAA0;
 }
+
+/* Custom Type 1 Expanding Button */
+.button-type1 {
+  height: 50px;
+  width: 200px;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: 2px solid #252525;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #333;
+  transition: all 0.5s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.button-type1 .btn-txt {
+  position: relative;
+  z-index: 1;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  transition: color 0.4s ease-in-out;
+}
+
+.button-type1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.5s ease-in-out;
+  background-color: #252525;
+  border-radius: 30px;
+  visibility: hidden;
+  height: 10px;
+  width: 10px;
+  z-index: 0;
+}
+
+.button-type1:hover {
+  box-shadow: 1px 1px 50px rgba(37, 37, 37, 0.35);
+  color: #fff;
+  border-color: #252525;
+}
+
+.button-type1:hover .btn-txt {
+  color: #fff;
+}
+
+.button-type1:hover::after {
+  visibility: visible;
+  transform: scale(100) translateX(2px);
+}
+
+/* Light / Inverted variant for dark backgrounds */
+.button-type1-light {
+  height: 50px;
+  width: 200px;
+  position: relative;
+  background-color: transparent;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  overflow: hidden;
+  border-radius: 30px;
+  color: #ffffff;
+  transition: all 0.5s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.button-type1-light .btn-txt {
+  position: relative;
+  z-index: 1;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #ffffff;
+  transition: color 0.4s ease-in-out;
+}
+
+.button-type1-light::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: all 0.5s ease-in-out;
+  background-color: #ffffff;
+  border-radius: 30px;
+  visibility: hidden;
+  height: 10px;
+  width: 10px;
+  z-index: 0;
+}
+
+.button-type1-light:hover {
+  box-shadow: 1px 1px 50px rgba(255, 255, 255, 0.4);
+  color: #141820;
+  border-color: #ffffff;
+}
+
+.button-type1-light:hover .btn-txt {
+  color: #141820;
+}
+
+.button-type1-light:hover::after {
+  visibility: visible;
+  transform: scale(100) translateX(2px);
+}

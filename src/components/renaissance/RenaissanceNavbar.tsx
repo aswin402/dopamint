@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, ChevronDown, ArrowUpRight, Menu, X } from 'lucide-react';
+import { Type1Button } from '../ui/Type1Button';
 
 export const RenaissanceNavbar: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -61,13 +62,12 @@ export const RenaissanceNavbar: React.FC = () => {
           DopaMint.com
         </a>
 
-        <a
+        <Type1Button
           href="#cta"
-          className="px-4 py-2 rounded-full bg-black text-white font-bold hover:bg-neutral-800 transition-all shadow-sm flex items-center gap-1 group"
+          className="!h-10 !w-44"
         >
-          <span>Get DopaMint</span>
-          <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </a>
+          Get DopaMint
+        </Type1Button>
 
         {/* Mobile menu trigger */}
         <button
