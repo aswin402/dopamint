@@ -522,22 +522,26 @@
    3. MAC-STYLE CODE PREVIEW CARD
    ========================================================================= */
 .mac-code-card {
-  max-width: 480px;
+  max-width: 100%;
   width: 100%;
-  padding: 24px;
+  padding: 28px;
   border: 1px solid #262626;
-  border-radius: 20px;
+  border-radius: 24px;
   background-color: #000000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   font-family: var(--font-sans);
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .mac-code-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.6);
 }
 
 .mac-header {
@@ -549,8 +553,8 @@
 
 .mac-header span {
   display: inline-block;
-  width: 11px;
-  height: 11px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
 }
 
@@ -559,7 +563,7 @@
 .mac-header .green { background-color: #28c941; }
 
 .mac-card-title {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: bold;
   margin: 0 0 8px;
   color: #f5f5f5;
@@ -581,8 +585,8 @@
   border-radius: 6px;
   background-color: #171717;
   border: 1px solid #333333;
-  padding: 3px 8px;
-  margin-bottom: 14px;
+  padding: 4px 10px;
+  margin-bottom: 16px;
   margin-right: 6px;
   color: #e5e5e5;
 }
@@ -591,13 +595,13 @@
   background-color: #0a0a0a;
   color: #e5e5e5;
   font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.6;
-  border-radius: 12px;
-  padding: 16px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  border-radius: 14px;
+  padding: 20px;
   overflow: auto;
-  max-height: 160px;
   border: 1px solid #262626;
+  flex: 1;
 }
 
 .mac-code-editor::-webkit-scrollbar {

@@ -167,7 +167,7 @@ export const RenaissanceAuthority: React.FC = () => {
           <div className="lg:col-span-7">
             <MacCodeCard
               title="policy.payments-v2.ts"
-              description="This is the exact policy the payments demo above checks against — not illustrative copy."
+              description="Declarative capability envelope evaluated by the isolated runtime on every call."
               tags={["EXPLICIT-POLICY", "RUNTIME-ENFORCED", "DECLARATIVE"]}
               code={`export const policy = definePolicy({
   capability: "payments.send",
@@ -185,9 +185,6 @@ export const RenaissanceAuthority: React.FC = () => {
   onViolation: "block", // log attempt, sign verdict, notify user
 });`}
             />
-            <p className="mt-3 text-xs font-mono text-neutral-600">
-              This is the exact policy the payments demo above checks against — not illustrative copy.
-            </p>
           </div>
 
           <div className="lg:col-span-5 flex flex-col justify-between items-center p-8 sm:p-10 rounded-3xl bg-[#141820] border border-neutral-800 text-white shadow-2xl min-h-[520px] relative overflow-hidden">
