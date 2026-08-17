@@ -19,18 +19,18 @@ export const RenaissanceAuthority: React.FC = () => {
           1. TILTED RENAISSANCE CROWNS (LEFT & RIGHT)
           ========================================================================= */}
       
-      {/* Left Crown - positioned on the middle-left edge, tilted towards top-right */}
+      {/* Left Crown - with swapped angle */}
       <img
         src={crownImg}
         alt="Royal Crown Left"
-        className="absolute -left-20 sm:-left-24 lg:-left-28 top-[42%] sm:top-[38%] w-52 sm:w-64 lg:w-80 h-auto -rotate-45 opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)] z-0"
+        className="absolute -left-20 sm:-left-24 lg:-left-28 top-[42%] sm:top-[38%] w-52 sm:w-64 lg:w-80 h-auto rotate-[38deg] opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)] z-0"
       />
 
-      {/* Right Crown - positioned on the top-right corner, tilted towards top-left */}
+      {/* Right Crown - with swapped angle */}
       <img
         src={crownImg}
         alt="Royal Crown Right"
-        className="absolute -right-16 sm:-right-20 lg:-right-24 -top-12 sm:-top-16 lg:-top-20 w-56 sm:w-72 lg:w-96 h-auto rotate-[38deg] opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.22)] z-0"
+        className="absolute -right-16 sm:-right-20 lg:-right-24 -top-12 sm:-top-16 lg:-top-20 w-56 sm:w-72 lg:w-96 h-auto -rotate-45 opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.22)] z-0"
       />
 
       <div className="relative z-10 max-w-6xl mx-auto space-y-12 sm:space-y-16">
