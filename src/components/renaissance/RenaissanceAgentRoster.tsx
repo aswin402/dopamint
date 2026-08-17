@@ -22,10 +22,10 @@ interface SupperAgent {
   role: string;
   description: string;
   avatar: string;
-  xPercent: number; // Exact horizontal percentage of character across the image
+  xPercent: number; // Exact horizontal percentage of character across the uncropped painting
 }
 
-// Exactly 12 agents: First 6 on the left (6,5,4,3,2,1), Center silhouette skipped, Second 6 on the right (7,8,9,10,11,12)
+// Exactly 12 agents: First 6 on left (6,5,4,3,2,1), Center silhouette skipped, Second 6 on right (7,8,9,10,11,12)
 const SUPPER_AGENTS: SupperAgent[] = [
   // --- FIRST 6 CHARACTERS (LEFT OF CROWNED FIGURE: 6, 5, 4, 3, 2, 1) ---
   {
@@ -86,7 +86,7 @@ const SUPPER_AGENTS: SupperAgent[] = [
     role: 'CALENDAR AGENT',
     description: 'Keeps your day together and reshuffles when it isn\'t.',
     avatar: profile7,
-    xPercent: 58.5,
+    xPercent: 59.0,
   },
   {
     id: 8,
@@ -94,7 +94,7 @@ const SUPPER_AGENTS: SupperAgent[] = [
     role: 'SECURITY AGENT',
     description: 'Enforces MPC cryptographic sandbox bounds and daily spending limits.',
     avatar: profile8,
-    xPercent: 66.0,
+    xPercent: 66.5,
   },
   {
     id: 9,
@@ -140,35 +140,35 @@ export const RenaissanceAgentRoster: React.FC = () => {
     <section id="agents" className="relative w-full overflow-hidden bg-neutral-950 select-none">
       
       {/* =========================================================================
-          1. SUPPERS.PNG PANORAMIC PAINTING CANVAS
+          1. SUPPERS.PNG PANORAMIC PAINTING CANVAS (Natural Aspect Ratio Locked)
           ========================================================================= */}
-      <div className="relative w-full min-h-[600px] sm:min-h-[720px] lg:min-h-[880px] flex flex-col justify-between items-center overflow-hidden">
+      <div className="relative w-full overflow-hidden">
         
-        {/* Background Painting */}
+        {/* Background Painting - in normal flow so coordinates never get cropped */}
         <img
           src={suppersBg}
           alt="The Last Supper AI Agents"
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          className="w-full h-auto min-h-[520px] object-cover sm:object-contain object-center select-none block pointer-events-none"
         />
 
         {/* Ambient Top & Bottom Shadow Gradients for Readability */}
-        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
-        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/85 via-black/40 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 top-0 h-36 sm:h-48 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-none z-10" />
+        <div className="absolute inset-x-0 bottom-0 h-44 sm:h-56 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
 
         {/* =========================================================================
             2. TOP EDITORIAL HEADLINE
             ========================================================================= */}
-        <div className="relative z-20 pt-12 sm:pt-16 lg:pt-20 px-4 sm:px-8 text-center max-w-5xl mx-auto space-y-3 pointer-events-none">
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-white select-none font-serif font-normal drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+        <div className="absolute top-6 sm:top-10 md:top-14 inset-x-0 z-20 px-4 sm:px-8 text-center max-w-5xl mx-auto space-y-2 sm:space-y-3 pointer-events-none">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white select-none font-serif font-normal drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             One app, a <span className="font-serif italic font-bold text-white">whole crew.</span>
           </h2>
-          <p className="text-xs sm:text-sm font-mono tracking-widest uppercase text-white/90 font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+          <p className="text-[10px] sm:text-xs md:text-sm font-mono tracking-widest uppercase text-white/90 font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
             JUST ASK, AND WHICHEVER AGENT HANDLES THAT SHOWS UP.
           </p>
         </div>
 
         {/* =========================================================================
-            3. 12 INTERACTIVE HOVER HOTSPOTS (Directly Over Each Character)
+            3. 12 INTERACTIVE HOVER HOTSPOTS (Directly Over Character Coordinates)
             ========================================================================= */}
         <div className="absolute inset-0 z-30 pointer-events-auto">
           {SUPPER_AGENTS.map((agent) => (
@@ -178,15 +178,15 @@ export const RenaissanceAgentRoster: React.FC = () => {
               onClick={() => setActiveAgentId(agent.id)}
               style={{
                 left: `${agent.xPercent}%`,
-                top: '25%',
+                top: '20%',
               }}
-              className="absolute -translate-x-1/2 w-[7.5%] sm:w-[7%] h-[44%] sm:h-[48%] cursor-pointer bg-transparent"
+              className="absolute -translate-x-1/2 w-[7%] sm:w-[6.5%] h-[48%] sm:h-[50%] cursor-pointer bg-transparent"
             />
           ))}
         </div>
 
         {/* =========================================================================
-            4. ACTIVE AGENT FLOATING CARD & CONNECTING DASHED LINE (Direct 1:1 Placement)
+            4. ACTIVE AGENT FLOATING CARD & CONNECTING DASHED LINE (1:1 Locked)
             ========================================================================= */}
         <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
           <AnimatePresence mode="wait">
@@ -201,19 +201,19 @@ export const RenaissanceAgentRoster: React.FC = () => {
                   position: 'absolute',
                   left: `${activeAgent.xPercent}%`,
                   transform: 'translateX(-50%)',
-                  bottom: '2rem',
+                  bottom: '1.5rem',
                 }}
                 className="pointer-events-auto flex flex-col items-center"
               >
                 {/* Dashed Connecting Line (From Table Surface Directly Down to Card) */}
-                <div className="w-px h-10 sm:h-14 border-l border-dashed border-white/80 mx-auto mb-1.5" />
+                <div className="w-px h-8 sm:h-12 border-l border-dashed border-white/80 mx-auto mb-1.5" />
 
                 {/* Frosted Glass Floating Card */}
-                <div className="w-[230px] sm:w-[260px] p-4 sm:p-5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/25 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-white space-y-3">
+                <div className="w-[215px] sm:w-[250px] md:w-[260px] p-3.5 sm:p-5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/25 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-white space-y-2.5 sm:space-y-3">
                   
                   {/* Header: Circle Avatar + Name + Role */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-white/40 shrink-0 shadow-md bg-neutral-800">
+                  <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-white/40 shrink-0 shadow-md bg-neutral-800">
                       <img
                         src={activeAgent.avatar}
                         alt={activeAgent.name}
@@ -221,10 +221,10 @@ export const RenaissanceAgentRoster: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <h4 className="font-serif text-lg sm:text-xl font-bold text-white leading-tight">
+                      <h4 className="font-serif text-base sm:text-lg md:text-xl font-bold text-white leading-tight">
                         {activeAgent.name}
                       </h4>
-                      <div className="text-[9px] sm:text-[10px] font-mono text-neutral-300 uppercase tracking-widest">
+                      <div className="text-[8.5px] sm:text-[9.5px] font-mono text-neutral-300 uppercase tracking-widest">
                         {activeAgent.role}
                       </div>
                     </div>
@@ -232,7 +232,7 @@ export const RenaissanceAgentRoster: React.FC = () => {
 
                   {/* Body: Left Gold Accent Bar + Description */}
                   <div className="border-l-2 border-[#c5a880] pl-2.5 py-0.5">
-                    <p className="text-xs text-neutral-200 font-sans leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-neutral-200 font-sans leading-relaxed">
                       {activeAgent.description}
                     </p>
                   </div>
