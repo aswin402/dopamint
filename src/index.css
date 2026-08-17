@@ -10,10 +10,10 @@
   --font-display: 'Winslow Book', 'Winslow', serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-parchment: #ddddd1;
-  --color-parchment-deep: #d5d5c8;
-  --color-parchment-card: #e6e6dc;
-  --color-parchment-subtle: #f0f0e8;
+  --color-parchment: #f7f3ef;
+  --color-parchment-deep: #eeeae4;
+  --color-parchment-card: #f2ece5;
+  --color-parchment-subtle: #fcfaf8;
 
   --color-charcoal-primary: #141820;
   --color-charcoal-secondary: #2C3240;
@@ -23,14 +23,14 @@
 @layer base {
   :root {
     color-scheme: light;
-    background-color: #ddddd1;
+    background-color: #f7f3ef;
     color: #141820;
   }
 
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    background-color: #ddddd1;
+    background-color: #f7f3ef;
     color: #141820;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,16 +38,16 @@
   }
 
   body {
-    background-color: #ddddd1;
+    background-color: #f7f3ef;
     color: #141820;
     min-height: 100vh;
     overflow-x: hidden;
-    selection-background-color: #c8c8ba;
+    selection-background-color: #e5ddd4;
     selection-color: #141820;
   }
 
   ::selection {
-    background-color: #c8c8ba;
+    background-color: #e5ddd4;
     color: #141820;
   }
 }
@@ -82,7 +82,7 @@
 
 /* Floating Glassmorphic Prompt Pill */
 .prompt-glass {
-  background: rgba(221, 221, 209, 0.92);
+  background: rgba(247, 243, 239, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.6);
@@ -99,8 +99,8 @@
 
 /* Parchment Card Styles */
 .parchment-card {
-  background: #e6e6dc;
-  border: 1px solid #d0d0c2;
+  background: #f0ebe4;
+  border: 1px solid #e2dad0;
   box-shadow: 0 1px 3px rgba(20, 24, 32, 0.03);
 }
 
@@ -146,16 +146,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #ddddd1;
+  background: #f7f3ef;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #bebeb0;
+  background: #d8d0c5;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a9a999;
+  background: #c5bcae;
 }
 
 /* Custom Type 1 Expanding Button */

@@ -25,7 +25,7 @@ export const RenaissanceNavbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 flex items-center justify-between text-xs font-sans select-none transition-all duration-500 ease-in-out ${
         isScrolled
-          ? 'bg-[#ddddd1]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
+          ? 'bg-[#f7f3ef]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
