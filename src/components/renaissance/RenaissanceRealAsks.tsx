@@ -7,7 +7,7 @@ export const RenaissanceRealAsks: React.FC = () => {
   const [selectedAsk, setSelectedAsk] = useState<string>(REAL_ASKS[3]);
 
   return (
-    <section className="py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
+    <section className="py-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70 relative z-20 bg-[#f7f3ef]">
       
       {/* Kicker */}
       <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-6 pb-2 border-b border-neutral-300">

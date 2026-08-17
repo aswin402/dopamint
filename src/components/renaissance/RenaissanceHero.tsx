@@ -85,13 +85,13 @@ export const RenaissanceHero: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. SECOND SECTION: House of AI Agents (Prominent Mobile Device)
+          2. SECOND SECTION: House of AI Agents (Compact Bottom & Clean Masked Cut)
           ========================================================================= */}
-      <div id="manifesto" className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 lg:pt-28 pb-0 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-end">
+      <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f7f3ef]">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start">
           
-          {/* Left Column: House of AI Agents Copy & Action Pills */}
-          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left pb-16 sm:pb-20 lg:pb-24 z-10">
+          {/* Left Column: Top-Aligned with the Top of the Mobile Phone */}
+          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-2 sm:pt-4 lg:pt-6 pb-10 sm:pb-12 lg:pb-16 z-20">
             
             {/* Editorial Title */}
             <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04] select-none">
@@ -127,18 +127,21 @@ export const RenaissanceHero: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Hand with Mobile Artwork (Scaled to match left side height) */}
-          <div className="lg:col-span-7 flex items-end justify-center lg:justify-end self-end relative">
-            <div className="relative w-full flex items-end justify-center lg:justify-end lg:-mr-16 xl:-mr-24">
+          {/* Right Column: Large Mobile Device with Bottom Cut Hidden/Tucked Under */}
+          <div className="lg:col-span-7 relative flex items-start justify-center lg:justify-end z-10">
+            <div className="relative w-full sm:w-[115%] lg:w-[135%] xl:w-[150%] lg:-mr-[6vw] xl:-mr-[10vw] 2xl:-mr-[14vw] flex items-start justify-end -mb-10 sm:-mb-14 lg:-mb-16">
               <img
                 src={handWithMobile}
                 alt="House of AI Agents - Hand with Mobile"
-                className="w-[115%] sm:w-[125%] lg:w-[135%] xl:w-[145%] max-w-none h-auto object-contain object-bottom select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] block -mb-1"
+                className="w-full h-auto object-contain object-top-right select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] block"
               />
             </div>
           </div>
 
         </div>
+
+        {/* Bottom Seamless Gradient Fade Mask */}
+        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-[#f7f3ef] via-[#f7f3ef]/90 to-transparent pointer-events-none z-20" />
       </div>
 
     </section>
