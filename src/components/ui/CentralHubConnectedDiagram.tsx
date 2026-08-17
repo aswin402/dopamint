@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface ConnectedNode {
   id: string;
@@ -133,7 +133,7 @@ export const CentralHubConnectedDiagram: React.FC<{ className?: string }> = ({ c
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f242d_1px,transparent_1px),linear-gradient(to_bottom,#1f242d_1px,transparent_1px)] bg-[size:32px_32px] opacity-20 pointer-events-none" />
       
       {/* Subtle Central Radial Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/[0.03] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/[0.04] rounded-full blur-3xl pointer-events-none" />
 
       {/* SVG Connecting Bezier Pathways */}
       <svg
@@ -144,135 +144,141 @@ export const CentralHubConnectedDiagram: React.FC<{ className?: string }> = ({ c
         <defs>
           {/* Active Gradient for Left Pathways */}
           <linearGradient id="glowLeft" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.15" />
-            <stop offset="60%" stopColor="#ffffff" stopOpacity="0.8" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.3" />
+            <stop offset="60%" stopColor="#ffffff" stopOpacity="0.85" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="1" />
           </linearGradient>
 
           {/* Active Gradient for Right Pathways */}
           <linearGradient id="glowRight" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
-            <stop offset="40%" stopColor="#ffffff" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.15" />
-          </linearGradient>
-
-          {/* Idle Base Gradient */}
-          <linearGradient id="idleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
-            <stop offset="50%" stopColor="#ffffff" stopOpacity="0.25" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.08" />
+            <stop offset="40%" stopColor="#ffffff" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.3" />
           </linearGradient>
         </defs>
 
         {/* --- LEFT PATHS to Center (450, 210) --- */}
-        {/* 1. Top Left: (130, 80) -> (450, 210) */}
+        
+        {/* 1. Top Left: Google Drive (140, 80) -> (450, 210) */}
         <path
           id="path-left-top"
-          d="M 130 80 C 290 80, 310 210, 450 210"
+          d="M 140 80 C 280 80, 310 210, 450 210"
           fill="none"
-          stroke={hoveredNode === 'gdrive' ? 'url(#glowLeft)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'gdrive' ? 'url(#glowLeft)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'gdrive' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'gdrive' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'gdrive' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'gdrive' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
-        {/* 2. Mid Left: (130, 210) -> (450, 210) */}
+        {/* 2. Mid Left: Notion (160, 210) -> (450, 210) */}
         <path
           id="path-left-mid"
-          d="M 130 210 L 450 210"
+          d="M 160 210 L 450 210"
           fill="none"
-          stroke={hoveredNode === 'notion' ? 'url(#glowLeft)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'notion' ? 'url(#glowLeft)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'notion' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'notion' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'notion' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'notion' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
-        {/* 3. Bot Left: (130, 340) -> (450, 210) */}
+        {/* 3. Bot Left: WhatsApp (140, 340) -> (450, 210) */}
         <path
           id="path-left-bot"
-          d="M 130 340 C 290 340, 310 210, 450 210"
+          d="M 140 340 C 280 340, 310 210, 450 210"
           fill="none"
-          stroke={hoveredNode === 'whatsapp' ? 'url(#glowLeft)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'whatsapp' ? 'url(#glowLeft)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'whatsapp' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'whatsapp' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'whatsapp' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'whatsapp' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
         {/* --- RIGHT PATHS from Center (450, 210) --- */}
-        {/* 4. Top Right: (450, 210) -> (770, 80) */}
+        
+        {/* 4. Top Right: Google Docs (450, 210) -> (760, 80) */}
         <path
           id="path-right-top"
-          d="M 450 210 C 590 210, 610 80, 770 80"
+          d="M 450 210 C 590 210, 620 80, 760 80"
           fill="none"
-          stroke={hoveredNode === 'gdocs' ? 'url(#glowRight)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'gdocs' ? 'url(#glowRight)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'gdocs' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'gdocs' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'gdocs' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'gdocs' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
-        {/* 5. Mid Right: (450, 210) -> (770, 210) */}
+        {/* 5. Mid Right: Zapier (450, 210) -> (740, 210) */}
         <path
           id="path-right-mid"
-          d="M 450 210 L 770 210"
+          d="M 450 210 L 740 210"
           fill="none"
-          stroke={hoveredNode === 'zapier' ? 'url(#glowRight)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'zapier' ? 'url(#glowRight)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'zapier' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'zapier' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'zapier' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'zapier' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
-        {/* 6. Bot Right: (450, 210) -> (770, 340) */}
+        {/* 6. Bot Right: Slack (450, 210) -> (760, 340) */}
         <path
           id="path-right-bot"
-          d="M 450 210 C 590 210, 610 340, 770 340"
+          d="M 450 210 C 590 210, 620 340, 760 340"
           fill="none"
-          stroke={hoveredNode === 'slack' ? 'url(#glowRight)' : 'url(#idleGrad)'}
+          stroke={hoveredNode === 'slack' ? 'url(#glowRight)' : '#ffffff'}
+          strokeOpacity={hoveredNode === 'slack' ? 1 : 0.28}
           strokeWidth={hoveredNode === 'slack' ? '2.5' : '1.5'}
-          strokeDasharray={hoveredNode === 'slack' ? 'none' : '4 5'}
+          strokeDasharray={hoveredNode === 'slack' ? 'none' : '4 6'}
           className="transition-all duration-300"
         />
 
-        {/* Animated Traveling Data Pulses */}
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        {/* Animated Traveling Data Pulses Across All 6 Paths */}
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
             dur="3.2s"
             repeatCount="indefinite"
-            path="M 130 80 C 290 80, 310 210, 450 210"
+            path="M 140 80 C 280 80, 310 210, 450 210"
           />
         </circle>
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
-            dur="2.6s"
+            dur="2.8s"
             repeatCount="indefinite"
-            path="M 130 210 L 450 210"
+            path="M 160 210 L 450 210"
           />
         </circle>
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
-            dur="3.6s"
+            dur="3.5s"
             repeatCount="indefinite"
-            path="M 130 340 C 290 340, 310 210, 450 210"
+            path="M 140 340 C 280 340, 310 210, 450 210"
           />
         </circle>
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
             dur="3.0s"
             repeatCount="indefinite"
-            path="M 450 210 C 590 210, 610 80, 770 80"
+            path="M 450 210 C 590 210, 620 80, 760 80"
           />
         </circle>
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
-            dur="2.4s"
+            dur="2.6s"
             repeatCount="indefinite"
-            path="M 450 210 L 770 210"
+            path="M 450 210 L 740 210"
           />
         </circle>
-        <circle r="3" fill="#ffffff" className="shadow-[0_0_8px_#fff]">
+        
+        <circle r="3.5" fill="#ffffff" className="drop-shadow-[0_0_8px_#ffffff]">
           <animateMotion
             dur="3.4s"
             repeatCount="indefinite"
-            path="M 450 210 C 590 210, 610 340, 770 340"
+            path="M 450 210 C 590 210, 620 340, 760 340"
           />
         </circle>
       </svg>
