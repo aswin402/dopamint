@@ -6,7 +6,7 @@ export const RenaissanceNavbar: React.FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 flex items-center justify-between text-xs font-sans select-none bg-[#EBEAE5]/90 backdrop-blur-md border-b border-neutral-300/60">
+    <header className="fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 flex items-center justify-between text-xs font-sans select-none bg-[#ddddd1]/90 backdrop-blur-md border-b border-neutral-300/60">
       
       {/* Brand */}
       <a href="#hero" className="flex items-center gap-2.5 font-bold text-black group">

@@ -13,7 +13,7 @@ import { RenaissanceClosingCta } from '../components/renaissance/RenaissanceClos
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#EBEAE5] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#D3D0C3] selection:text-[#141820]">
+    <div className="relative min-h-screen bg-[#ddddd1] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#c8c8ba] selection:text-[#141820]">
       {/* Top Navigation */}
       <RenaissanceNavbar />
 
