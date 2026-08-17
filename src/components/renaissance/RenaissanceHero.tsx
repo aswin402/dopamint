@@ -1,22 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Type1Button } from '../ui/Type1Button';
 import { MetricProgressCard } from '../ui/MetricProgressCard';
 import { ShieldCheck } from 'lucide-react';
-import heroBg from '../../assets/herosectionimg1.png';
+
+import heroImg1 from '../../assets/herosectionimg1.png';
+import heroImg2 from '../../assets/herosectionimg2.png';
+import heroImg3 from '../../assets/herosectionimg3.png';
+import heroImg4 from '../../assets/herosectionimg4.png';
+
+const HERO_IMAGES = [heroImg1, heroImg2, heroImg3, heroImg4];
 
 export const RenaissanceHero: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // 4-second automatic slideshow loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start select-none">
       
       {/* =========================================================================
-          1. HERO IMAGE CANVAS (Clean, full-width artwork presentation)
+          1. HERO IMAGE SLIDESHOW CANVAS (4s delay, smooth cross-fade transition)
           ========================================================================= */}
-      <div className="relative w-full min-h-[60vh] sm:min-h-[75vh] lg:min-h-[90vh] xl:min-h-screen bg-black overflow-hidden shadow-xl">
-        <img
-          src={heroBg}
-          alt="DopaMint Renaissance Era"
-          className="w-full h-full object-cover object-center scale-100 transition-transform duration-1000"
-        />
+      <div className="relative w-full min-h-[60vh] sm:min-h-[75vh] lg:min-h-[90vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl">
+        
+        <AnimatePresence initial={false} mode="sync">
+          <motion.img
+            key={currentImageIndex}
+            src={HERO_IMAGES[currentImageIndex]}
+            alt={`DopaMint Renaissance Era ${currentImageIndex + 1}`}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 1.2, ease: "easeInOut" },
+              scale: { duration: 4, ease: "easeOut" },
+            }}
+            className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
+          />
+        </AnimatePresence>
+
+        {/* Slideshow Progress Indicator Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
+          {HERO_IMAGES.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentImageIndex(idx)}
+              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                currentImageIndex === idx
+                  ? 'w-6 bg-white shadow-[0_0_8px_#ffffff]'
+                  : 'w-1.5 bg-white/40 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+
       </div>
 
       {/* =========================================================================
