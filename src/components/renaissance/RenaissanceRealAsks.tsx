@@ -10,6 +10,7 @@ import profile4 from '../../assets/Profiles/Profile_ (4).png';
 import profile5 from '../../assets/Profiles/Profile_ (5).png';
 import profile6 from '../../assets/Profiles/Profile_ (6).png';
 import profile7 from '../../assets/Profiles/Profile_ (7).png';
+import profile8 from '../../assets/Profiles/Profile_ (8).png';
 
 export const RenaissanceRealAsks: React.FC = () => {
   return (
@@ -85,7 +86,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [5, -5, 5] }}
             transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="absolute top-[22%] sm:top-[24%] left-0 max-w-[210px] sm:max-w-[240px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
+            className="absolute top-[22%] sm:top-[24%] left-0 max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile2} alt="Profile" className="w-full h-full object-cover" />
@@ -105,41 +106,50 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Cards 4 & 5: Center Visual Theme Preview Cards */}
+          {/* Card 4: Center-Left Speech Card */}
           <motion.div
             animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
-            className="absolute top-[20%] sm:top-[22%] left-[24%] sm:left-[27%] lg:left-[29%] flex items-center gap-2.5 sm:gap-3.5 z-30"
+            className="absolute top-[21%] sm:top-[23%] left-[22%] sm:left-[26%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
           >
-            {/* Visual Card A */}
-            <div className="w-[130px] sm:w-[155px] lg:w-[165px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
-              <div className="h-20 sm:h-24 bg-gradient-to-br from-neutral-800 via-neutral-900 to-black relative flex items-center justify-center p-2 text-center">
-                <span className="text-[9px] sm:text-[10px] font-bold text-white font-mono uppercase tracking-wider drop-shadow-md">
-                  PUSHING BOUNDARIES
-                </span>
-              </div>
-              <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
-                <span className="px-1.5 py-0.5 rounded bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3] inline-block text-[8px]">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
+                Checkout flow and product grid loaded instantly
+              </p>
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
                   Current theme
                 </span>
-                <div className="font-bold text-black text-[9.5px] sm:text-[10px] truncate">Pushing Boundaries Hero</div>
-                <div className="text-neutral-400 text-[8px]">Horizon 3.0.0</div>
+                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
+                  Speed
+                </span>
               </div>
             </div>
+          </motion.div>
 
-            {/* Visual Card B */}
-            <div className="w-[130px] sm:w-[155px] lg:w-[165px] rounded-2xl bg-white border border-neutral-200 shadow-xl overflow-hidden hover:scale-105 transition-transform">
-              <div className="h-20 sm:h-24 bg-gradient-to-br from-neutral-700 via-neutral-800 to-neutral-950 relative flex items-center justify-center p-2 text-center">
-                <span className="text-[9px] sm:text-[10px] font-bold text-white font-mono uppercase tracking-wider drop-shadow-md">
-                  DECKS OF VIRTUE
+          {/* Card 5: Center-Right Speech Card */}
+          <motion.div
+            animate={{ y: [4, -4, 4] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+            className="absolute top-[21%] sm:top-[23%] left-[48%] sm:left-[52%] max-w-[200px] sm:max-w-[230px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
+          >
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
+              <img src={profile8} alt="Profile" className="w-full h-full object-cover" />
+            </div>
+            <div className="p-2.5 sm:p-3 rounded-2xl bg-white/95 backdrop-blur-md border border-neutral-200/80 shadow-lg space-y-1.5">
+              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
+                Loved the smooth animation when filtering categories
+              </p>
+              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
+                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
+                  Unpublished
                 </span>
-              </div>
-              <div className="p-2 sm:p-2.5 space-y-1 font-mono text-[9px]">
-                <span className="px-1.5 py-0.5 rounded bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb] inline-block text-[8px]">
-                  Unpublished theme
+                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
+                  Interactions
                 </span>
-                <div className="font-bold text-black text-[9.5px] sm:text-[10px] truncate">Art in Motion Hero</div>
-                <div className="text-neutral-400 text-[8px]">Horizon 3.1.0</div>
               </div>
             </div>
           </motion.div>
@@ -148,7 +158,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [6, -6, 6] }}
             transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="absolute top-[23%] sm:top-[25%] right-0 max-w-[190px] sm:max-w-[220px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
+            className="absolute top-[22%] sm:top-[24%] right-0 max-w-[190px] sm:max-w-[220px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile4} alt="Profile" className="w-full h-full object-cover" />
