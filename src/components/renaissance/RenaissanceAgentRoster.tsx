@@ -173,28 +173,15 @@ export const RenaissanceAgentRoster: React.FC = () => {
             3. 12 INTERACTIVE HOVER HOTSPOTS (Spread Across the Feast Table)
             ========================================================================= */}
         <div className="absolute inset-0 z-30 pointer-events-auto">
-          {SUPPER_AGENTS.map((agent) => {
-            const isActive = activeAgentId === agent.id;
-
-            return (
-              <div
-                key={agent.id}
-                onMouseEnter={() => setActiveAgentId(agent.id)}
-                onClick={() => setActiveAgentId(agent.id)}
-                style={{ left: `${agent.xPercent}%` }}
-                className="absolute top-[32%] sm:top-[30%] -translate-x-1/2 w-[7.5%] sm:w-[6.5%] h-[38%] sm:h-[42%] cursor-pointer group"
-              >
-                {/* Subtle Hover Pulse Halo */}
-                <div
-                  className={`w-full h-full rounded-full transition-all duration-300 ${
-                    isActive
-                      ? 'bg-white/10 ring-2 ring-white/40 shadow-[0_0_20px_rgba(255,255,255,0.3)]'
-                      : 'group-hover:bg-white/5'
-                  }`}
-                />
-              </div>
-            );
-          })}
+          {SUPPER_AGENTS.map((agent) => (
+            <div
+              key={agent.id}
+              onMouseEnter={() => setActiveAgentId(agent.id)}
+              onClick={() => setActiveAgentId(agent.id)}
+              style={{ left: `${agent.xPercent}%` }}
+              className="absolute top-[28%] sm:top-[26%] -translate-x-1/2 w-[7.5%] sm:w-[6.5%] h-[42%] sm:h-[46%] cursor-pointer bg-transparent"
+            />
+          ))}
         </div>
 
         {/* =========================================================================
