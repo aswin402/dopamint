@@ -14,10 +14,10 @@ import profile8 from '../../assets/Profiles/Profile_ (8).png';
 
 export const RenaissanceRealAsks: React.FC = () => {
   return (
-    <section id="asks" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none relative z-20 bg-[#f7f3ef] overflow-hidden">
+    <section id="asks" className="pt-12 sm:pt-16 pb-4 sm:pb-6 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none relative z-20 bg-[#f7f3ef] overflow-hidden">
       
       {/* Title */}
-      <div className="text-center w-full max-w-6xl mx-auto mb-14 sm:mb-18">
+      <div className="text-center w-full max-w-6xl mx-auto mb-10 sm:mb-12">
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] select-none font-serif font-normal">
           What <span className="font-serif italic font-bold text-[#142218]">people</span> actually ask for.
         </h2>
@@ -38,7 +38,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* Right Column: Floating Interactive Thoughts & Preview Cards Canvas */}
-        <div className="lg:col-span-7 relative w-full h-[600px] sm:h-[660px] lg:h-[720px] select-none">
+        <div className="lg:col-span-7 relative w-full h-[520px] sm:h-[560px] lg:h-[600px] select-none">
           
           {/* Card 1: Top Center */}
           <motion.div
@@ -130,7 +130,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Card 4: Center-Left (Moved Down to Mid-Tier) */}
+          {/* Card 4: Center-Left (Mid-Tier) */}
           <motion.div
             animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
@@ -154,7 +154,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Card 5: Center-Right (Moved Down to Mid-Tier) */}
+          {/* Card 5: Center-Right (Mid-Tier) */}
           <motion.div
             animate={{ y: [4, -4, 4] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
@@ -182,7 +182,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [-5, 5, -5] }}
             transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
-            className="absolute bottom-[18%] sm:bottom-[20%] left-0 sm:left-[2%] max-w-[230px] sm:max-w-[260px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            className="absolute bottom-[16%] sm:bottom-[18%] left-0 sm:left-[2%] max-w-[230px] sm:max-w-[260px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
           >
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
               <img src={profile5} alt="Profile" className="w-full h-full object-cover" />
@@ -206,7 +206,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             animate={{ y: [-4, 4, -4] }}
             transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
-            className="absolute bottom-[18%] right-[4%] sm:right-[8%] max-w-[140px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
+            className="absolute bottom-[16%] right-[4%] sm:right-[8%] max-w-[140px] opacity-35 blur-[0.4px] hidden sm:flex items-center gap-2 z-10 pointer-events-none"
           >
             <div className="w-7 h-7 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
               <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
