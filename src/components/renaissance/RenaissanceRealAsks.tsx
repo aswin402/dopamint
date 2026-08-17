@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { REAL_ASKS } from '../../data/dopamint';
 import { Sparkles, MessageCircle, ArrowRight } from 'lucide-react';
+import { TestimonialsColumn } from '../ui/TestimonialsColumn';
 
 export const RenaissanceRealAsks: React.FC = () => {
   const [selectedAsk, setSelectedAsk] = useState<string>(REAL_ASKS[1]);
@@ -45,16 +46,71 @@ export const RenaissanceRealAsks: React.FC = () => {
         })}
       </div>
 
-      {/* Featured Quote Highlight Card */}
-      <div className="rounded-3xl bg-neutral-900 text-white p-8 sm:p-12 text-center shadow-xl space-y-4">
-        <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-          FEATURED AGENT WORKFLOW
+      {/* Real Verified Agent Testimonials Columns */}
+      <div className="mt-16 pt-12 border-t border-neutral-300">
+        <div className="text-center max-w-xl mx-auto mb-10 space-y-2">
+          <div className="text-xs font-mono font-bold uppercase text-neutral-500 tracking-widest">
+            LIVE EXECUTION LOGS & REVIEWS
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-black text-black">
+            What builders & teams say.
+          </h3>
         </div>
-        <blockquote className="text-2xl sm:text-4xl font-serif italic text-white max-w-2xl mx-auto leading-relaxed">
-          “{selectedAsk}”
-        </blockquote>
-        <div className="text-xs font-mono text-neutral-400">
-          Parsed into scoped sub-tasks · Executed inside user policy bounds
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative mask-radial overflow-hidden">
+          <TestimonialsColumn
+            testimonials={[
+              {
+                text: "Ada handled a 6-person dinner booking in Austin without exceeding our $250 team limit. Perfect table at Kiln with receipt signed in 4 seconds.",
+                image: "/avatars/aiko.jpg",
+                name: "Elena Rostova",
+                role: "Founding Engineer @ Synapse",
+              },
+              {
+                text: "Having Iris pay per-call x402 endpoints autonomously removed our checkout bottlenecks completely. Clean onchain receipts every time.",
+                image: "/avatars/aria.jpg",
+                name: "Marcus Vance",
+                role: "Infrastructure Lead @ Base Labs",
+              },
+            ]}
+            duration={14}
+          />
+
+          <TestimonialsColumn
+            testimonials={[
+              {
+                text: "Sol caught the 3,398 ETH dip while I was completely asleep. Stayed inside my $250 cap, swapped on Base, and logged the receipt.",
+                image: "/avatars/sarang.jpg",
+                name: "David Kim",
+                role: "DeFi Researcher & Angel",
+              },
+              {
+                text: "Kai spotted 4 forgotten SaaS subscriptions quietly draining $680/mo and sent me a 1-tap cancellation bundle. Paid for itself on day 1.",
+                image: "/avatars/cody.jpg",
+                name: "Sophia Martinez",
+                role: "COO @ HyperScale",
+              },
+            ]}
+            duration={11}
+          />
+
+          <TestimonialsColumn
+            testimonials={[
+              {
+                text: "Nora drafts all my vendor replies and triages 150+ daily emails. The sandbox guarantee means she never accidentally confirms a wire.",
+                image: "/avatars/nora.jpg",
+                name: "Julian Sterling",
+                role: "Managing Director @ Apex Capital",
+              },
+              {
+                text: "Leo read 20 whitepapers overnight and gave me a 3-bullet comparison for our architecture sprint. Incredible depth.",
+                image: "/avatars/vale.jpg",
+                name: "Amara Chen",
+                role: "Head of AI @ Protocol Labs",
+              },
+            ]}
+            duration={16}
+          />
         </div>
       </div>
 

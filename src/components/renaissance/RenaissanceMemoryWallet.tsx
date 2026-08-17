@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Trash2, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { InteractiveWalletCard } from '../ui/InteractiveWalletCard';
 
 export const RenaissanceMemoryWallet: React.FC = () => {
   const [activeCaps, setActiveCaps] = useState({ daily: 250, perAction: 100, spent: 40 });
@@ -65,34 +66,14 @@ export const RenaissanceMemoryWallet: React.FC = () => {
         </div>
 
         {/* Right: Its Wallet */}
-        <div className="lg:col-span-5 p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6">
-          <div className="space-y-6 font-mono">
-            
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs">
-              <span className="text-neutral-400 uppercase font-bold">Its wallet</span>
-              <span className="text-white font-bold">MPC Enclave</span>
-            </div>
-
-            <div>
-              <div className="text-4xl sm:text-5xl font-black text-white">$1,240.00</div>
-              <div className="text-xs text-neutral-400 mt-1">available to spend</div>
-            </div>
-
-            <div className="space-y-3 pt-2">
-              <div className="p-3.5 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-between text-xs">
-                <span className="text-neutral-400">per day</span>
-                <span className="font-bold text-white">${activeCaps.spent} / ${activeCaps.daily}</span>
-              </div>
-
-              <div className="p-3.5 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-between text-xs">
-                <span className="text-neutral-400">per action</span>
-                <span className="font-bold text-white">${activeCaps.spent} / ${activeCaps.perAction}</span>
-              </div>
-            </div>
-
-          </div>
-
-          <div className="p-4 rounded-2xl bg-neutral-900 border border-white/20 text-xs font-sans text-neutral-300">
+        <div className="lg:col-span-5 flex flex-col items-center justify-center">
+          <InteractiveWalletCard
+            balance="$1,240.00"
+            perDay="$40 / $250"
+            perAction="$40 / $100"
+            className="!max-w-full shadow-2xl"
+          />
+          <div className="mt-3 p-4 rounded-2xl bg-black text-white border border-neutral-800 text-xs font-sans text-neutral-300 w-full text-center">
             Move the caps whenever. Pull the plug whenever. It's your money.
           </div>
         </div>

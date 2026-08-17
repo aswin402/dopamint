@@ -1,5 +1,6 @@
 import React from 'react';
 import { ECOSYSTEM_ROW_1, ECOSYSTEM_ROW_2 } from '../../data/dopamint';
+import { CentralHubConnectedDiagram } from '../ui/CentralHubConnectedDiagram';
 
 export const RenaissanceEcosystem: React.FC = () => {
   return (
@@ -19,6 +20,11 @@ export const RenaissanceEcosystem: React.FC = () => {
             Any exchange. One agent.
           </span>
         </h2>
+      </div>
+
+      {/* Central Hub Connected Node Network (Visual Integration Map) */}
+      <div className="mb-14">
+        <CentralHubConnectedDiagram />
       </div>
 
       {/* Marquee Row 1 */}

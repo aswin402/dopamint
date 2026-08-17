@@ -1,6 +1,7 @@
 import React from 'react';
 import { Type1Button } from '../ui/Type1Button';
 import { CheckCircle2, ShieldAlert, ShieldCheck } from 'lucide-react';
+import { MetricProgressCard } from '../ui/MetricProgressCard';
 
 export const RenaissanceHero: React.FC = () => {
   return (
@@ -171,6 +172,14 @@ export const RenaissanceHero: React.FC = () => {
               Every agent operates inside deterministic, per-action and per-day caps. Nothing executes without policy verification and cryptographic receipts.
             </p>
           </div>
+
+          {/* Animated Metric Progress Card */}
+          <MetricProgressCard
+            title="Volume Cleared"
+            value="$2,480,000"
+            percentage="+20%"
+            className="!max-w-full"
+          />
 
         </div>
 

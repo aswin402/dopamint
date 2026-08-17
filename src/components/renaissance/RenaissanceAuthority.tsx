@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { MacCodeCard } from '../ui/MacCodeCard';
+import { IsometricCubeLoader } from '../ui/IsometricCubeLoader';
 
 export const RenaissanceAuthority: React.FC = () => {
   const [amount, setAmount] = useState<number>(5.0);
@@ -140,6 +142,39 @@ export const RenaissanceAuthority: React.FC = () => {
           </p>
         </div>
 
+      </div>
+
+      {/* Code Contract & 3D Isometric Policy Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-8 border-t border-neutral-300">
+        <div className="lg:col-span-7">
+          <MacCodeCard
+            title="policy.payments-v2.ts"
+            description="Hardware-enforced policy contract evaluated on every single agent invocation."
+            tags={["POL-882", "ENCLAVE-VERIFIED", "DETERMINISTIC"]}
+            code={`export async function verifyAction(intent: AgentIntent): Promise<PolicyVerdict> {
+  const cap = await Enclave.getDailyCap(intent.agentId);
+  
+  // 1. Strict per-action limit check
+  if (intent.amount > cap.perAction) {
+    return { status: "BLOCKED", reason: "Exceeds $100 per-action limit" };
+  }
+  
+  // 2. Cryptographic receipt signature
+  const receipt = await Enclave.signReceipt(intent);
+  return { status: "APPROVED", receiptHash: receipt.merkleRoot };
+}`}
+          />
+        </div>
+
+        <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-neutral-900 text-white shadow-xl">
+          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
+            ISOMETRIC ENCLAVE RUNTIME
+          </div>
+          <IsometricCubeLoader className="my-2" />
+          <p className="text-xs text-neutral-400 text-center font-mono mt-2">
+            Isolated memory sandboxes with zero shared access
+          </p>
+        </div>
       </div>
 
     </section>

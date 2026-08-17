@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle2, AlertTriangle } from 'lucide-react';
+import { IsometricTowerLoader } from '../ui/IsometricTowerLoader';
 
 interface ReceiptStep {
   step: string;
@@ -163,6 +164,25 @@ export const RenaissanceEvidence: React.FC = () => {
           </div>
         </div>
 
+      </div>
+
+      {/* Cryptographic Block Mining / Merkle Tower Banner */}
+      <div className="p-8 rounded-3xl parchment-card border border-neutral-300 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="space-y-2 max-w-xl text-left">
+          <div className="text-[10px] font-mono uppercase font-bold text-neutral-500 tracking-widest">
+            FORWARD-SECURE RECEIPT MINING
+          </div>
+          <h3 className="text-2xl font-black text-black">
+            Deterministic cryptographic proofs
+          </h3>
+          <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
+            Every step hashes into the next block. Modifying past transactions invalidates the enclave root signature immediately.
+          </p>
+        </div>
+
+        <div className="shrink-0 flex items-center justify-center p-4">
+          <IsometricTowerLoader />
+        </div>
       </div>
 
     </section>
