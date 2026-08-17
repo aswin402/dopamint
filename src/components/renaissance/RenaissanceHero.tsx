@@ -19,9 +19,7 @@ export const RenaissanceHero: React.FC = () => {
           }}
         />
         
-        {/* Contrast Overlay Gradients for Perfect Legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/75 pointer-events-none" />
-        <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+
 
         {/* Top Kicker (Inside Responsive Max-Width Container) */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-wrap items-center justify-between gap-3 text-white text-xs font-mono">
