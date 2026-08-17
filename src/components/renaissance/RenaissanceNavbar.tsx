@@ -34,7 +34,7 @@ export const RenaissanceNavbar: React.FC = () => {
         <img
           src={logoDope}
           alt="Dope"
-          className={`h-7 sm:h-8 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
+          className={`h-5 sm:h-6 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
             isScrolled ? 'brightness-0 opacity-100' : 'brightness-100 drop-shadow-md'
           }`}
         />
