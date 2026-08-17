@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
-import { INITIAL_HASH_CHAIN } from '../../data/dopamint';
-import type { HashBlock } from '../../data/dopamint';
+import { CheckCircle2, AlertTriangle } from 'lucide-react';
+
+interface ReceiptStep {
+  step: string;
+  detail: string;
+  hash: string;
+}
+
+const INITIAL_STEPS: ReceiptStep[] = [
+  { step: '01. Intent Parsed', detail: 'Dinner for 6 · Kiln · Fri 7:30pm', hash: '0x8f72…a19c' },
+  { step: '02. Policy Check', detail: 'Deposit $40 <= $100 limit · Approved', hash: '0xb231…c409' },
+  { step: '03. Booking Executed', detail: 'Reservation #KILN-8842 confirmed', hash: '0x994a…ee10' },
+  { step: '04. Log Signed', detail: 'Receipt signed by agent enclave key', hash: '0xfa88…7712' },
+];
 
 export const RenaissanceEvidence: React.FC = () => {
-  const [chain, setChain] = useState<HashBlock[]>(INITIAL_HASH_CHAIN);
-  const [tamperedIndex, setTamperedIndex] = useState<number | null>(null);
+  const [tamperedStep, setTamperedStep] = useState<number | null>(null);
 
-  const simulateTamper = (index: number) => {
-    if (tamperedIndex === index) {
-      setChain(INITIAL_HASH_CHAIN);
-      setTamperedIndex(null);
-    } else {
-      const newChain = [...INITIAL_HASH_CHAIN];
-      newChain[index] = {
-        ...newChain[index],
-        hash: '0xBAD0…9999',
-        isTampered: true,
-      };
-      setChain(newChain);
-      setTamperedIndex(index);
-    }
+  const toggleTamper = (idx: number) => {
+    setTamperedStep(tamperedStep === idx ? null : idx);
   };
 
   return (
@@ -27,112 +26,119 @@ export const RenaissanceEvidence: React.FC = () => {
       
       {/* Chapter Marker */}
       <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
-        <span>CHAPTER VI // EVIDENCE & RECEIPT LOGS</span>
-        <span className="font-serif italic text-base text-black">VI</span>
+        <span>CRYPTOGRAPHIC EVIDENCE LOG</span>
+        <span className="font-serif italic text-base text-black">Evidence</span>
       </div>
 
       {/* Editorial Title */}
       <div className="max-w-3xl mb-16 space-y-4 text-left">
         <h2 className="text-4xl sm:text-6xl font-black text-display text-black tracking-tight leading-[0.96]">
-          Autonomy without evidence <br />
+          Don't take our <br />
           <span className="font-serif italic font-normal text-black">
-            is just a black box.
+            word for it.
           </span>
         </h2>
         <p className="text-base text-neutral-700 font-normal leading-relaxed">
-          Every consequential action produces a receipt — and every receipt links to the one before it, so nobody's quietly rewriting history.
+          Watch it book a table, then look at exactly what it did. Change one thing in the log and the whole chain screams.
         </p>
       </div>
 
-      {/* 2-Column Evidence Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 items-stretch">
+      {/* 2-Column Interface Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-16">
         
-        {/* Action Receipt Card */}
-        <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-300 text-xs font-mono">
-              <span className="text-neutral-500 uppercase font-bold">Action Receipt #8F72A</span>
-              <span className="text-black font-bold">Verified ✓</span>
+        {/* Left: Ada iMessage Phone */}
+        <div className="lg:col-span-6 rounded-[2.5rem] bg-black p-4 shadow-2xl">
+          <div className="rounded-[2rem] bg-white overflow-hidden border border-neutral-200 flex flex-col justify-between min-h-[460px]">
+            
+            {/* Header */}
+            <div className="p-4 bg-neutral-50 border-b border-neutral-200 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-black text-white font-mono font-bold flex items-center justify-center text-xs">
+                  A
+                </div>
+                <div>
+                  <div className="font-bold text-black text-sm">Ada</div>
+                  <div className="text-[10px] text-neutral-400 font-mono">Today 6:04 PM</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-black font-bold border border-neutral-300">
+                iMessage
+              </span>
             </div>
 
-            <div className="pt-4 space-y-2.5 font-mono text-xs text-black">
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Agent:</span>
-                <span className="font-bold text-black">dopamint / personal-agent-v0.4</span>
+            {/* Chat Messages */}
+            <div className="p-5 space-y-3.5 text-xs font-sans">
+              <div className="flex justify-end">
+                <div className="bg-black text-white p-3.5 rounded-2xl rounded-tr-xs max-w-[85%] font-medium">
+                  Can you book dinner for six this Friday?
+                </div>
               </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Task:</span>
-                <span className="font-bold text-black">Book dinner for Friday</span>
+
+              <div className="flex justify-start">
+                <div className="bg-neutral-100 text-black p-3.5 rounded-2xl rounded-tl-xs max-w-[85%]">
+                  Yep. 7:30 at Kiln? You liked it last time.
+                </div>
               </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Capability:</span>
-                <span className="font-bold text-black">booking.create</span>
+
+              <div className="flex justify-end">
+                <div className="bg-black text-white px-4 py-2 rounded-2xl rounded-tr-xs text-xs font-medium">
+                  perfect
+                </div>
               </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Policy:</span>
-                <span className="font-bold text-black">travel-policy-v3</span>
+
+              <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-300 text-black font-mono text-[11px] space-y-1">
+                <div className="font-bold">Booked — table for 6, Fri 7:30pm. Deposit $40, under your cap.</div>
+                <div className="text-black font-bold pt-0.5">Receipt signed and added to your log ✓</div>
               </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Authorization:</span>
-                <span className="font-bold text-black">Approved</span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">Execution:</span>
-                <span className="font-bold text-black">Successful</span>
-              </div>
-              <div className="flex justify-between py-1 border-b border-neutral-200">
-                <span className="text-neutral-500">External ref:</span>
-                <span className="font-bold text-black">reservation_8F72A</span>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-neutral-500">Receipt hash:</span>
-                <span className="font-bold text-black">0x8a91…72bd</span>
+
+              <div className="text-right text-[10px] font-mono text-neutral-400">
+                Delivered
               </div>
             </div>
-          </div>
 
-          <div className="text-[11px] font-mono text-neutral-500">
-            Cryptographic signature verified against user trust enclave.
+            {/* Footer */}
+            <div className="p-3 bg-neutral-50 border-t border-neutral-200 text-center text-[10px] text-neutral-400 font-mono">
+              + iMessage Native
+            </div>
+
           </div>
         </div>
 
-        {/* Tamper-Evident Hash Chain Terminal */}
-        <div className="p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6">
+        {/* Right: Receipt for that booking & Merkle Chain */}
+        <div className="lg:col-span-6 p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6">
           <div>
             <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
-              <span className="text-white font-bold uppercase">Tamper-evident action log</span>
-              <span className="text-neutral-400">Click a block to test edit</span>
+              <span className="text-white font-bold uppercase">Receipt for that booking</span>
+              <span className="text-neutral-400 text-[10px]">Interactive Log</span>
             </div>
 
-            <div className="pt-6 space-y-3 font-mono text-xs">
-              {chain.map((block, idx) => {
-                const isBroken = tamperedIndex !== null && idx >= tamperedIndex;
+            <p className="text-xs text-neutral-400 font-mono my-3">
+              Tap any step to try editing it after the fact.
+            </p>
+
+            <div className="space-y-2.5 font-mono text-xs">
+              {INITIAL_STEPS.map((st, idx) => {
+                const isBroken = tamperedStep !== null && idx >= tamperedStep;
                 return (
                   <div
-                    key={block.id}
-                    onClick={() => simulateTamper(idx)}
+                    key={idx}
+                    onClick={() => toggleTamper(idx)}
                     className={`p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between ${
                       isBroken
                         ? 'bg-neutral-900 border-white/40 text-white'
                         : 'bg-neutral-900 hover:bg-neutral-850 border-neutral-800 text-white'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="w-7 h-7 rounded-xl flex items-center justify-center font-bold text-xs bg-neutral-800 text-white border border-neutral-700">
-                        {block.id}
-                      </span>
-                      <div>
-                        <div className="font-bold text-white text-xs">{block.task}</div>
-                        <div className="text-[10px] text-neutral-400">{block.timestamp}</div>
-                      </div>
+                    <div>
+                      <div className="font-bold text-white text-xs">{st.step}</div>
+                      <div className="text-[11px] text-neutral-300">{st.detail}</div>
                     </div>
-
                     <div className="text-right">
-                      <div className="font-mono text-xs font-bold text-white">
-                        {isBroken ? 'INVALID ✕' : block.hash}
+                      <div className="font-bold text-xs">
+                        {isBroken ? 'HASH MISMATCH ✕' : st.hash}
                       </div>
                       <div className="text-[9px] text-neutral-400">
-                        {isBroken ? 'CHAIN BROKEN' : 'VALIDATED'}
+                        {isBroken ? 'CHAIN BROKEN' : 'VALIDATED ✓'}
                       </div>
                     </div>
                   </div>
@@ -141,13 +147,18 @@ export const RenaissanceEvidence: React.FC = () => {
             </div>
           </div>
 
-          <div className="text-[11px] text-neutral-400 font-mono">
-            {tamperedIndex !== null ? (
-              <span className="text-white font-bold">
-                ⚠️ Tamper detected at Block {chain[tamperedIndex].id}! Downstream hashes invalidated.
-              </span>
+          {/* Verdict Status */}
+          <div className="p-4 rounded-2xl bg-neutral-900 border border-white/20 font-mono text-xs flex items-center gap-2">
+            {tamperedStep === null ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 text-white shrink-0" />
+                <span className="text-white font-bold">Chain checks out. Every step matches what was signed.</span>
+              </>
             ) : (
-              'Every receipt is cryptographically tied to the previous action in a forward-secure Merkle chain.'
+              <>
+                <AlertTriangle className="w-4 h-4 text-white shrink-0" />
+                <span className="text-white font-bold">Tamper detected at Step {tamperedStep + 1}! Downstream cryptographic hashes invalidated.</span>
+              </>
             )}
           </div>
         </div>

@@ -1,61 +1,53 @@
 import React from 'react';
 import { RenaissanceNavbar } from '../components/renaissance/RenaissanceNavbar';
 import { RenaissanceHero } from '../components/renaissance/RenaissanceHero';
-import { RenaissanceWhyWeBuilt } from '../components/renaissance/RenaissanceWhyWeBuilt';
+import { RenaissanceRealAsks } from '../components/renaissance/RenaissanceRealAsks';
 import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAgentRoster';
-import { RenaissanceTrustSimulator } from '../components/renaissance/RenaissanceTrustSimulator';
-import { RenaissanceExecution } from '../components/renaissance/RenaissanceExecution';
+import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
 import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
-import { RenaissanceMemory } from '../components/renaissance/RenaissanceMemory';
-import { RenaissanceMessaging } from '../components/renaissance/RenaissanceMessaging';
-import { RenaissanceVoice } from '../components/renaissance/RenaissanceVoice';
-import { RenaissancePayments } from '../components/renaissance/RenaissancePayments';
+import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
 import { RenaissanceOnchain } from '../components/renaissance/RenaissanceOnchain';
-import { RenaissancePrinciples } from '../components/renaissance/RenaissancePrinciples';
+import { RenaissanceEcosystem } from '../components/renaissance/RenaissanceEcosystem';
+import { RenaissanceEngineering } from '../components/renaissance/RenaissanceEngineering';
+import { RenaissanceClosingCta } from '../components/renaissance/RenaissanceClosingCta';
 
 export function HomePage() {
   return (
     <div className="relative min-h-screen bg-[#EBEAE5] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#D3D0C3] selection:text-[#141820]">
-      {/* Top Renaissance Editions Header */}
+      {/* Top Navigation */}
       <RenaissanceNavbar />
 
-      {/* Main Chapter Content Area */}
+      {/* Main Content Sections */}
       <main className="w-full">
-        {/* Chapter I: Agents & Renaissance Portal */}
+        {/* 1. Hero: The Age of AI & Sol iMessage Demo */}
         <RenaissanceHero />
 
-        {/* Chapter II: Why We Built This & Track Record */}
-        <RenaissanceWhyWeBuilt />
+        {/* 2. Real asks, real people */}
+        <RenaissanceRealAsks />
 
-        {/* Chapter III: The 8-Agent Squad Roster */}
+        {/* 3. the Dope App: 8 Agent Crew */}
         <RenaissanceAgentRoster />
 
-        {/* Chapter IV: Authority & Policy Decision Sandbox */}
-        <RenaissanceTrustSimulator />
+        {/* 4. Authority: Trust Layer Sandbox */}
+        <RenaissanceAuthority />
 
-        {/* Chapter V: Sandbox Isolation & Trust Boundary */}
-        <RenaissanceExecution />
-
-        {/* Chapter VI: Evidence & Action Receipts */}
+        {/* 5. Evidence: Ada Kiln Booking & Receipt Chain */}
         <RenaissanceEvidence />
 
-        {/* Chapter VII: Memory Provenance & 6 Dimensions */}
-        <RenaissanceMemory />
+        {/* 6. Memory + agency & Its wallet */}
+        <RenaissanceMemoryWallet />
 
-        {/* Chapter VIII: iMessage Messaging via Linq */}
-        <RenaissanceMessaging />
-
-        {/* Chapter IX: Voice Native & Low-Latency Audio */}
-        <RenaissanceVoice />
-
-        {/* Chapter X: Agency Payments & Wallet Bounds */}
-        <RenaissancePayments />
-
-        {/* Chapter XI: Onchain Actions, x402 & Ecosystem */}
+        {/* 7. Onchain actions: Swap, x402, Buy/Sell, Alerts */}
         <RenaissanceOnchain />
 
-        {/* Chapter XII: Principles, Dev Console & Closing Launchpad */}
-        <RenaissancePrinciples />
+        {/* 8. Ecosystem: Any app, any exchange */}
+        <RenaissanceEcosystem />
+
+        {/* 9. Engineering: System stack */}
+        <RenaissanceEngineering />
+
+        {/* 10. Closing CTA & Footer */}
+        <RenaissanceClosingCta />
       </main>
     </div>
   );

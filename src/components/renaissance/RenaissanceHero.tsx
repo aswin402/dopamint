@@ -1,91 +1,77 @@
-import React, { useState } from 'react';
-import { ArrowUp, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import React from 'react';
+import { Type1Button } from '../ui/Type1Button';
+import { CheckCircle2, ShieldAlert, ShieldCheck } from 'lucide-react';
 
 export const RenaissanceHero: React.FC = () => {
-  const [promptText, setPromptText] = useState('Swap 500 USDC to ETH when it drops under 3,400.');
-  const [executed, setExecuted] = useState(false);
-
-  const handleSendPrompt = (e: React.FormEvent) => {
-    e.preventDefault();
-    setExecuted(true);
-    setTimeout(() => setExecuted(false), 4000);
-  };
-
   return (
-    <section id="hero" className="relative min-h-screen pt-20 pb-28 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col justify-start select-none">
+    <section id="hero" className="relative pt-32 pb-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto flex flex-col justify-start select-none">
       
       {/* 1. Neoclassical Full-Bleed Hero Canvas */}
-      <div className="relative rounded-[2.5rem] overflow-hidden bg-black min-h-[580px] sm:min-h-[680px] flex flex-col justify-between p-6 sm:p-12 shadow-xl border border-black/10">
+      <div className="relative rounded-[2.5rem] overflow-hidden bg-black min-h-[580px] sm:min-h-[660px] flex flex-col justify-between p-6 sm:p-12 shadow-xl border border-black/10">
         
-        {/* Renaissance Painterly Background Image */}
+        {/* Background Image Layer */}
         <div
           className="absolute inset-0 bg-cover bg-center opacity-85 mix-blend-luminosity scale-105 transition-transform duration-1000"
           style={{
             backgroundImage: `url('/avatars/hero-trio.jpg')`,
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/80" />
 
-        {/* Top Header Tag */}
+        {/* Top Tag */}
         <div className="relative z-10 flex items-center justify-between text-white text-xs font-mono">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            <span className="text-white">DopaMint — built in SF, agents that actually go</span>
+            <span className="text-white uppercase tracking-wider font-bold">The Age of AI</span>
           </div>
-          <span className="text-neutral-400 font-sans">Chapter I</span>
         </div>
 
-        {/* Center Renaissance Title & Index Box */}
-        <div className="relative z-10 max-w-xl mx-auto my-auto text-center text-white space-y-4">
-          <h1 className="text-4xl sm:text-6xl font-black text-display tracking-tight leading-tight text-white">
-            Give your AI <br />
-            some agency. <br />
+        {/* Center Hero Copy */}
+        <div className="relative z-10 max-w-2xl mx-auto my-auto text-center text-white space-y-5">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-display tracking-tight leading-[0.95] text-white">
+            Your AI can f**k up <br />
             <span className="font-serif italic font-normal text-white">
-              Not a blank check.
+              sometimes.
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-neutral-300 max-w-md mx-auto font-normal leading-relaxed">
-            A whole squad of autonomous agents boxed in by a cryptographic trust layer they can't sneak past.
-          </p>
+          <div className="space-y-3 max-w-lg mx-auto">
+            <p className="text-base sm:text-lg font-bold text-white leading-snug">
+              That's why we built it a “verifiable” home.
+            </p>
+            <p className="text-xs sm:text-sm text-neutral-300 font-normal leading-relaxed">
+              DopaMint gives your agents somewhere to actually live and work — where every single thing they do leaves proof you can check yourself. No “trust us,” no vibes.
+            </p>
+          </div>
 
-          {/* Floating Glassmorphic Prompt Pill */}
-          <form
-            onSubmit={handleSendPrompt}
-            className="prompt-glass rounded-full p-2 pl-5 max-w-lg mx-auto flex items-center justify-between text-black shadow-2xl transition-all hover:scale-[1.01]"
-          >
-            <input
-              type="text"
-              value={promptText}
-              onChange={(e) => setPromptText(e.target.value)}
-              className="w-full bg-transparent text-xs sm:text-sm font-medium focus:outline-none text-black placeholder:text-neutral-500"
-              placeholder="Ask an agent to execute..."
-            />
-            <button
-              type="submit"
-              className="w-8 h-8 rounded-full bg-black hover:bg-neutral-800 text-white flex items-center justify-center shrink-0 shadow-md cursor-pointer transition-transform hover:scale-105"
+          {/* CTAs using Type1Button */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
+            <Type1Button
+              href="#agents"
+              variant="light"
+              className="!w-52 !h-12"
             >
-              <ArrowUp className="w-4 h-4 text-white" />
-            </button>
-          </form>
+              Meet the agents
+            </Type1Button>
 
-          {/* Execution feedback toast */}
-          {executed && (
-            <div className="animate-fadeIn p-3 rounded-2xl bg-black/90 border border-white/20 text-white text-xs font-mono flex items-center justify-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-white" />
-              <span className="text-white">Policy verified · Order routed to Sol (Trading) on Base L2</span>
-            </div>
-          )}
+            <Type1Button
+              href="#authority"
+              variant="light"
+              className="!w-52 !h-12 !border-white/40 opacity-90 hover:opacity-100"
+            >
+              See how it works
+            </Type1Button>
+          </div>
         </div>
 
         {/* Bottom Specs Ribbon */}
         <div className="relative z-10 pt-4 border-t border-white/15 flex flex-wrap items-center justify-between gap-4 text-[11px] font-mono text-neutral-300">
-          <div className="flex items-center gap-4 text-white">
-            <span>Policy-scoped</span>
+          <div className="flex items-center gap-3 text-white">
+            <span>DopaMint OS</span>
             <span className="text-neutral-500">·</span>
-            <span>Signed receipts</span>
+            <span>Verifiable Runtime</span>
             <span className="text-neutral-500">·</span>
-            <span>Revocable credentials</span>
+            <span>Deterministic Receipts</span>
           </div>
           <div className="text-white font-bold">
             Built in San Francisco
@@ -94,114 +80,98 @@ export const RenaissanceHero: React.FC = () => {
 
       </div>
 
-      {/* 2. Renaissance Category Break Transition ("Agents") */}
-      <div className="my-20 relative rounded-[2rem] overflow-hidden bg-black p-12 sm:p-20 text-white flex items-center justify-between shadow-xl">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 mix-blend-luminosity"
-          style={{ backgroundImage: `url('/avatars/portal.jpg')` }}
-        />
-        <div className="relative z-10 space-y-2">
-          <div className="text-xs font-mono uppercase tracking-widest text-neutral-400">
-            AUTONOMOUS OPERATING SQUAD
-          </div>
-          <h2 className="text-6xl sm:text-8xl font-black tracking-tighter font-sans text-white">
-            Agents
-          </h2>
-        </div>
-        <div className="relative z-10 hidden md:block text-right font-serif italic text-2xl text-neutral-300">
-          "Agents you can actually put to work. Today."
-        </div>
-      </div>
-
-      {/* 3. 2-Column Renaissance Feature Showcase Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      {/* 2. Live iMessage Mockup (Sol) & Problem / Solution Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 my-16 items-stretch">
         
-        {/* Left Feature Card with Painting & Floating Prompt */}
-        <div className="space-y-4">
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-neutral-900 p-6 sm:p-8 flex flex-col justify-between shadow-sm border border-black/5">
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-              style={{ backgroundImage: `url('/avatars/serina.jpg')` }}
-            />
-            <div className="relative z-10 flex justify-between text-[11px] font-mono text-white">
-              <span>Sol · Trading Engine</span>
-              <span>01. SWAP</span>
-            </div>
-
-            {/* Floating Prompt Pill */}
-            <div className="relative z-10 prompt-glass rounded-2xl p-4 text-black shadow-xl space-y-2">
-              <div className="text-xs font-bold flex items-center justify-between text-black">
-                <span>"Swap 500 USDC to ETH when under 3,400"</span>
-                <span className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center text-[10px]">
-                  ↑
-                </span>
+        {/* Left: Sol iMessage Phone */}
+        <div className="lg:col-span-7 rounded-[2.5rem] bg-black p-4 shadow-2xl">
+          <div className="rounded-[2rem] bg-white overflow-hidden border border-neutral-200 flex flex-col justify-between min-h-[440px]">
+            
+            {/* Header */}
+            <div className="p-4 bg-neutral-50 border-b border-neutral-200 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-full bg-black text-white font-mono font-bold flex items-center justify-center text-xs">
+                  S
+                </div>
+                <div>
+                  <div className="font-bold text-black text-sm">Sol</div>
+                  <div className="text-[10px] text-neutral-400 font-mono">Today 9:41 AM</div>
+                </div>
               </div>
-              <div className="text-[10px] font-mono text-neutral-800 font-bold">
-                ✓ Policy-checked ($100/txn bound) · Verified onchain
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 text-black font-bold border border-neutral-300">
+                iMessage
+              </span>
+            </div>
+
+            {/* Chat Messages */}
+            <div className="p-5 space-y-3.5 text-xs font-sans">
+              <div className="flex justify-end">
+                <div className="bg-black text-white p-3.5 rounded-2xl rounded-tr-xs max-w-[85%] font-medium">
+                  Swap 500 USDC to ETH if it dips under 3,400.
+                </div>
+              </div>
+
+              <div className="flex justify-start">
+                <div className="bg-neutral-100 text-black p-3.5 rounded-2xl rounded-tl-xs max-w-[85%]">
+                  On it. I'll watch it and stay inside your $250/day cap.
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-neutral-50 border border-neutral-300 text-black font-mono text-[11px] space-y-1">
+                <div className="font-bold">Hit 3,398.20 — done. Receipt's signed and logged ✓</div>
+                <div className="text-[10px] text-neutral-500">Base L2 · Route: 0x48a…210c</div>
+              </div>
+
+              <div className="flex justify-end">
+                <div className="bg-black text-white px-4 py-2 rounded-2xl rounded-tr-xs text-xs font-medium">
+                  nice
+                </div>
+              </div>
+
+              <div className="text-right text-[10px] font-mono text-neutral-400">
+                Delivered
               </div>
             </div>
 
-            <div className="relative z-10 text-[10px] font-mono text-neutral-400">
-              Threshold hit · 3,398.20 · Base L2
+            {/* Footer */}
+            <div className="p-3 bg-neutral-50 border-t border-neutral-200 text-center text-[10px] text-neutral-400 font-mono">
+              + iMessage Native
             </div>
-          </div>
 
-          <div className="space-y-1 text-left">
-            <h3 className="text-base font-bold text-black">
-              Policy-scoped execution
-            </h3>
-            <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
-              Sol watches the market 24/7 and moves only inside the strict dollar bounds you have set in your personal policy file.
-            </p>
-            <a href="#roster" className="inline-flex items-center gap-1 text-xs font-bold text-black hover:underline pt-1">
-              <span>Inspect Sol agent</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-black" />
-            </a>
           </div>
         </div>
 
-        {/* Right Feature Card with Painterly Sage Backdrop & Floating Prompt */}
-        <div className="space-y-4">
-          <div className="relative rounded-3xl overflow-hidden aspect-[4/3] bg-neutral-900 p-6 sm:p-8 flex flex-col justify-between shadow-sm border border-black/5">
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-40 mix-blend-overlay"
-              style={{ backgroundImage: `url('/avatars/aiko.jpg')` }}
-            />
-            <div className="relative z-10 flex justify-between text-[11px] font-mono text-white">
-              <span>Iris · Onchain Native</span>
-              <span>02. x402 SETTLE</span>
+        {/* Right: The Problem vs What We Do */}
+        <div className="lg:col-span-5 flex flex-col justify-between gap-4">
+          
+          {/* The Problem */}
+          <div className="parchment-card p-6 sm:p-8 rounded-3xl space-y-3 text-left">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-neutral-500 uppercase font-bold">The problem</span>
+              <ShieldAlert className="w-4 h-4 text-black" />
             </div>
-
-            {/* Floating Prompt Pill */}
-            <div className="relative z-10 prompt-glass rounded-2xl p-4 text-black shadow-xl space-y-2">
-              <div className="text-xs font-bold flex items-center justify-between text-black">
-                <span>"Settle 0.0021 ETH for API access via x402"</span>
-                <span className="w-5 h-5 rounded-full bg-black text-white flex items-center justify-center text-[10px]">
-                  ↑
-                </span>
-              </div>
-              <div className="text-[10px] font-mono text-neutral-800 font-bold">
-                ✓ HTTP 402 challenge settled · Machine payment
-              </div>
-            </div>
-
-            <div className="relative z-10 text-[10px] font-mono text-neutral-400">
-              No invoice · No checkout page · Zero human friction
-            </div>
-          </div>
-
-          <div className="space-y-1 text-left">
-            <h3 className="text-base font-bold text-black">
-              HTTP x402 Machine Settlements
+            <h3 className="text-2xl font-black text-black">
+              Shared Keys
             </h3>
-            <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
-              Iris pays any machine endpoint speaking the HTTP-native x402 standard with signed cryptographic receipts.
+            <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed font-normal">
+              Giving an AI blanket API keys or unrestricted wallet access means one hallucination drains your account or compromises your systems.
             </p>
-            <a href="#onchain" className="inline-flex items-center gap-1 text-xs font-bold text-black hover:underline pt-1">
-              <span>Inspect Iris agent</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-black" />
-            </a>
           </div>
+
+          {/* DopaMint: What We Do */}
+          <div className="p-6 sm:p-8 rounded-3xl bg-black text-white shadow-xl space-y-3 text-left">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-neutral-400 uppercase font-bold">DopaMint · What we do</span>
+              <ShieldCheck className="w-4 h-4 text-white" />
+            </div>
+            <h3 className="text-2xl font-black text-white">
+              Scoped Access
+            </h3>
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-normal">
+              Every agent operates inside deterministic, per-action and per-day caps. Nothing executes without policy verification and cryptographic receipts.
+            </p>
+          </div>
+
         </div>
 
       </div>
