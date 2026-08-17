@@ -10,9 +10,11 @@ import heroImg3 from '../../assets/herosectionimg3.png';
 import heroImg4 from '../../assets/herosectionimg4.png';
 
 const HERO_IMAGES = [heroImg1, heroImg2, heroImg3, heroImg4];
+const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
 
 export const RenaissanceHero: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [actionIndex, setActionIndex] = useState(0);
 
   // 4-second automatic slideshow loop
   useEffect(() => {
@@ -23,13 +25,22 @@ export const RenaissanceHero: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // 2.4-second smooth action word cycling loop
+  useEffect(() => {
+    const wordTimer = setInterval(() => {
+      setActionIndex((prev) => (prev + 1) % ACTION_WORDS.length);
+    }, 2400);
+
+    return () => clearInterval(wordTimer);
+  }, []);
+
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start select-none">
       
       {/* =========================================================================
           1. HERO IMAGE SLIDESHOW CANVAS (4s delay, smooth cross-fade transition)
           ========================================================================= */}
-      <div className="relative w-full min-h-[60vh] sm:min-h-[75vh] lg:min-h-[90vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl">
+      <div className="relative w-full min-h-[70vh] sm:min-h-[85vh] lg:min-h-[92vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl flex items-end justify-center">
         
         <AnimatePresence initial={false} mode="sync">
           <motion.img
@@ -47,8 +58,32 @@ export const RenaissanceHero: React.FC = () => {
           />
         </AnimatePresence>
 
+        {/* Subtle Bottom Ambient Vignette to ensure text readability */}
+        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none z-10" />
+
+        {/* Animated Hero Headline Overlay (Bottom Center) */}
+        <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4 pointer-events-none">
+          <div className="inline-flex items-center justify-center flex-wrap gap-x-3 text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white font-medium tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+            <span className="whitespace-nowrap font-serif text-white">Your Agents can</span>
+            <div className="inline-flex items-center justify-start min-w-[130px] sm:min-w-[180px] md:min-w-[240px] lg:min-w-[300px] text-left">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={ACTION_WORDS[actionIndex]}
+                  initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -22, filter: 'blur(6px)' }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block font-serif italic font-normal text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]"
+                >
+                  {ACTION_WORDS[actionIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
         {/* Slideshow Progress Indicator Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
+        <div className="absolute bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
           {HERO_IMAGES.map((_, idx) => (
             <button
               key={idx}
