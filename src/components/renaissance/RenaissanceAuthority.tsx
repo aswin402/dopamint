@@ -1,222 +1,174 @@
-import React, { useState } from 'react';
-import { CheckCircle2, XCircle } from 'lucide-react';
-import { MacCodeCard } from '../ui/MacCodeCard';
-import { IsometricCubeLoader } from '../ui/IsometricCubeLoader';
+import React, { useState, useEffect } from 'react';
+import crownImg from '../../assets/Crown.png';
 
 export const RenaissanceAuthority: React.FC = () => {
   const [selectedCase, setSelectedCase] = useState<'blocked' | 'approved'>('blocked');
 
+  // Auto-cycle through both cases every 6 seconds if user hasn't interacted
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSelectedCase((prev) => (prev === 'blocked' ? 'approved' : 'blocked'));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
-    <section id="control" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
+    <section id="control" className="relative w-full bg-[#f7f3ef] py-20 sm:py-28 px-4 sm:px-8 lg:px-16 overflow-hidden select-none border-t border-neutral-300/70">
       
-      {/* Chapter Marker */}
-      <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
-        <span>AUTHORITY & CONTROL LAYER</span>
-        <span className="font-serif italic text-base text-black">Authority</span>
-      </div>
+      {/* =========================================================================
+          1. TILTED RENAISSANCE CROWNS (LEFT & RIGHT)
+          ========================================================================= */}
+      
+      {/* Left Crown - positioned on the middle-left edge, tilted towards top-right */}
+      <img
+        src={crownImg}
+        alt="Royal Crown Left"
+        className="absolute -left-20 sm:-left-24 lg:-left-28 top-[42%] sm:top-[38%] w-52 sm:w-64 lg:w-80 h-auto -rotate-45 opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.18)] z-0"
+      />
 
-      {/* Editorial Title */}
-      <div className="max-w-3xl mb-16 space-y-4 text-left">
-        <h2 className="text-4xl sm:text-6xl font-black text-display text-black tracking-tight leading-[0.96]">
-          Your agent can run in a sandbox — <br />
-          <span className="font-serif italic font-normal text-black">
-            so can you actually trust it?
-          </span>
-        </h2>
-        <p className="text-base text-neutral-700 font-normal leading-relaxed">
-          Here's what happens the second it tries to do something you didn't approve.
-        </p>
-      </div>
+      {/* Right Crown - positioned on the top-right corner, tilted towards top-left */}
+      <img
+        src={crownImg}
+        alt="Royal Crown Right"
+        className="absolute -right-16 sm:-right-20 lg:-right-24 -top-12 sm:-top-16 lg:-top-20 w-56 sm:w-72 lg:w-96 h-auto rotate-[38deg] opacity-95 pointer-events-none drop-shadow-[0_12px_28px_rgba(0,0,0,0.22)] z-0"
+      />
 
-      {/* Interactive Control Layer Playground */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20 items-stretch">
+      <div className="relative z-10 max-w-6xl mx-auto space-y-12 sm:space-y-16">
         
-        {/* Controls Card */}
-        <div className="parchment-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-300 text-xs font-mono">
-              <span className="text-neutral-500 uppercase font-bold">Try it</span>
-              <span className="text-black font-bold">payments.send</span>
-            </div>
-
-            <p className="text-xs sm:text-sm text-neutral-700 font-medium leading-relaxed">
-              It cycles through both on its own — or pick one and watch the call get made.
-            </p>
-
-            {/* Selector Buttons */}
-            <div className="space-y-2 pt-2">
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => setSelectedCase('blocked')}
-                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer flex items-center gap-2 ${
-                    selectedCase === 'blocked'
-                      ? 'bg-red-950/80 text-red-200 border-red-500 shadow-md shadow-red-950/40'
-                      : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
-                  }`}
-                >
-                  <span className={`w-2 h-2 rounded-full ${selectedCase === 'blocked' ? 'bg-red-500 animate-pulse' : 'bg-neutral-400'}`} />
-                  <span>Blocked Call ($25,000.00 USDC)</span>
-                </button>
-                <button
-                  onClick={() => setSelectedCase('approved')}
-                  className={`px-4 py-2.5 text-xs font-mono font-bold rounded-xl border transition-all cursor-pointer flex items-center gap-2 ${
-                    selectedCase === 'approved'
-                      ? 'bg-emerald-950/80 text-emerald-200 border-emerald-500 shadow-md shadow-emerald-950/40'
-                      : 'bg-white text-black border-neutral-300 hover:bg-neutral-50'
-                  }`}
-                >
-                  <span className={`w-2 h-2 rounded-full ${selectedCase === 'approved' ? 'bg-emerald-400 animate-pulse' : 'bg-neutral-400'}`} />
-                  <span>Approved Call ($5.00 USDC)</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Runtime Context */}
-          <div className="p-4 rounded-2xl bg-white border border-neutral-200 font-mono text-xs space-y-2.5 text-black">
-            <div className="flex justify-between">
-              <span className="text-neutral-500">Control layer:</span>
-              <span className="font-bold">payments.send</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-neutral-500">who's asking:</span>
-              <span className="font-bold">Iris · onchain agent</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-neutral-500">your cap:</span>
-              <span className="font-bold">$100 per action / $250 a day</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Verdict Live Card */}
-        <div className={`p-8 rounded-3xl bg-black text-white shadow-xl flex flex-col justify-between space-y-6 border transition-colors duration-300 ${
-          selectedCase === 'blocked' ? 'border-red-500/30' : 'border-emerald-500/30'
-        }`}>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-800 text-xs font-mono">
-              <span className="text-neutral-400">DECISION RECORD</span>
-              <span className={`font-bold px-2.5 py-0.5 rounded-full border text-[11px] ${
-                selectedCase === 'blocked'
-                  ? 'bg-red-950/60 border-red-500/40 text-red-400'
-                  : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-400'
-              }`}>
-                {selectedCase === 'blocked' ? 'STATUS: BLOCKED' : 'STATUS: APPROVED'}
-              </span>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-neutral-900 font-mono text-xs space-y-2.5">
-              <div className="flex justify-between text-neutral-400">
-                <span>amount:</span>
-                <span className={`font-bold ${selectedCase === 'blocked' ? 'text-red-400' : 'text-emerald-400'}`}>
-                  {selectedCase === 'blocked' ? '$25,000.00 USDC' : '$5.00 USDC'}
-                </span>
-              </div>
-              <div className="flex justify-between text-neutral-400">
-                <span>your cap:</span>
-                <span className="text-white">$100 per action / $250 a day</span>
-              </div>
-              <div className="flex justify-between text-neutral-400">
-                <span>risk check:</span>
-                <span className={`font-medium ${selectedCase === 'blocked' ? 'text-red-400' : 'text-emerald-400'}`}>
-                  {selectedCase === 'blocked' ? 'brand new payee (FLAGGED)' : 'known payee, seen 14 times'}
-                </span>
-              </div>
-              <div className="flex justify-between text-neutral-400">
-                <span>receipt:</span>
-                <span className={`font-bold ${selectedCase === 'blocked' ? 'text-neutral-400' : 'text-emerald-400'}`}>
-                  {selectedCase === 'blocked' ? 'attempt logged, nothing sent' : 'signed + logged onchain ✓'}
-                </span>
-              </div>
-            </div>
-
-            {/* Verdict Box */}
-            <div className={`p-4 rounded-2xl border flex items-center justify-between font-mono text-xs font-bold transition-all ${
-              selectedCase === 'blocked'
-                ? 'border-red-500/40 bg-red-950/30 text-red-300'
-                : 'border-emerald-500/40 bg-emerald-950/30 text-emerald-300'
-            }`}>
-              <div className="flex items-center gap-2">
-                {selectedCase === 'blocked' ? (
-                  <>
-                    <XCircle className="w-5 h-5 text-red-400 shrink-0" />
-                    <span>Blocked — way past your limit ($250.00/day). Nothing moved.</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                    <span>Approved — inside your daily cap. Receipt signed.</span>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <p className="text-xs text-neutral-400 font-sans">
-            Every call is intercepted by the deterministic policy layer prior to dispatch.
+        {/* =========================================================================
+            2. SECTION EDITORIAL HEADLINE
+            ========================================================================= */}
+        <div className="space-y-4 text-left max-w-4xl">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-serif text-[#141820] tracking-tight leading-[1.04]">
+            Your agent can run in a <span className="font-serif italic font-bold text-[#141820]">sandbox</span>
+            <br />
+            so can you actually trust it?
+          </h2>
+          <p className="text-sm sm:text-base text-neutral-700 font-sans leading-relaxed pt-2">
+            Here's what happens the second it tries to do something you didn't approve.
           </p>
         </div>
 
-      </div>
-
-      {/* SECTION: Transparency */}
-      <div id="transparency" className="pt-16 border-t border-neutral-300">
-        <div className="max-w-3xl mb-12 space-y-3 text-left">
-          <div className="text-xs font-mono uppercase font-bold text-neutral-500">Transparency</div>
-          <h3 className="text-3xl sm:text-5xl font-black text-display text-black tracking-tight leading-[0.98]">
-            Every agent is transparent <br />
-            <span className="font-serif italic font-normal text-black">
-              by default.
-            </span>
-          </h3>
-          <p className="text-base text-neutral-700 font-normal leading-relaxed">
-            Not a system-prompt promise. An explicit policy file the runtime checks on every call.
-          </p>
-        </div>
-
-        {/* Code Card and 3D Sandbox Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7">
-            <MacCodeCard
-              title="policy.payments-v2.ts"
-              description="Declarative capability envelope evaluated by the isolated runtime on every call."
-              tags={["EXPLICIT-POLICY", "RUNTIME-ENFORCED", "DECLARATIVE"]}
-              code={`export const policy = definePolicy({
-  capability: "payments.send",
-  version: "payments-v2",
-  limits: {
-    perTransaction: { amount: 100, currency: "USDC" },
-    perDay: { amount: 250, currency: "USDC" },
-    maxPendingActions: 3,
-  },
-  payees: {
-    allow: ["seen>=3", "contacts:*"],
-    block: ["firstSeen<24h", "sanctioned:*"],
-  },
-  requireHumanApproval: (a) => a.amount > 100,
-  onViolation: "block", // log attempt, sign verdict, notify user
-});`}
-            />
-          </div>
-
-          <div className="lg:col-span-5 flex flex-col justify-between items-center p-8 sm:p-10 rounded-3xl bg-[#141820] border border-neutral-800 text-white shadow-2xl min-h-[520px] relative overflow-hidden">
-            <div className="w-full text-center">
-              <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400">
-                ISOMETRIC ENCLAVE RUNTIME
-              </div>
-            </div>
-
-            <div className="w-full flex items-center justify-center my-auto py-4">
-              <IsometricCubeLoader />
-            </div>
-
-            <div className="w-full text-center pt-3 border-t border-neutral-800/80">
-              <p className="text-xs text-neutral-400 font-mono">
-                Isolated memory sandboxes with zero shared access
+        {/* =========================================================================
+            3. TWO-COLUMN INTERACTIVE CONTROL PLAYGROUND
+            ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          
+          {/* Left Column: Try it Selectors */}
+          <div className="lg:col-span-5 space-y-5 text-left">
+            <div>
+              <h3 className="text-lg font-bold text-neutral-950 font-sans">Try it</h3>
+              <p className="text-xs sm:text-sm text-neutral-600 font-sans mt-1 leading-relaxed">
+                It cycles through both on its own — or pick one and watch the call get made.
               </p>
             </div>
+
+            {/* Option 1: Propose Send $5 */}
+            <button
+              type="button"
+              onClick={() => setSelectedCase('approved')}
+              className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer ${
+                selectedCase === 'approved'
+                  ? 'bg-[#e7e1d8] border-neutral-900 shadow-sm'
+                  : 'bg-white/70 border-neutral-300 hover:bg-neutral-100/80'
+              }`}
+            >
+              <div className="font-bold text-sm sm:text-base text-neutral-950">
+                Propose: Send $5
+              </div>
+              <div className="text-xs text-neutral-600 font-sans mt-0.5">
+                normal payment, inside your rules
+              </div>
+            </button>
+
+            {/* Option 2: Propose Send $25,000 */}
+            <button
+              type="button"
+              onClick={() => setSelectedCase('blocked')}
+              className={`w-full text-left p-4 sm:p-5 rounded-2xl border transition-all duration-200 cursor-pointer ${
+                selectedCase === 'blocked'
+                  ? 'bg-[#e7e1d8] border-neutral-900 shadow-sm'
+                  : 'bg-white/70 border-neutral-300 hover:bg-neutral-100/80'
+              }`}
+            >
+              <div className="font-bold text-sm sm:text-base text-neutral-950">
+                Propose: Send $25,000
+              </div>
+              <div className="text-xs text-neutral-600 font-sans mt-0.5">
+                way over what the agent's allowed
+              </div>
+            </button>
           </div>
+
+          {/* Right Column: Control Layer Live Audit Table */}
+          <div className="lg:col-span-7">
+            <div className="rounded-2xl border border-neutral-300 bg-[#ede8e1]/80 backdrop-blur-md overflow-hidden shadow-sm">
+              
+              {/* Header Bar */}
+              <div className="px-5 py-3 flex justify-between items-center font-mono text-[11px] uppercase tracking-wider text-neutral-600 bg-neutral-200/50 border-b border-neutral-300">
+                <span>CONTROL LAYER</span>
+                <span className="text-[#1a365d] font-bold">payments.send</span>
+              </div>
+
+              {/* Rows */}
+              <div className="divide-y divide-neutral-300/80 font-mono text-xs text-neutral-800">
+                
+                {/* Row 1: who's asking */}
+                <div className="px-5 py-3.5 flex justify-between items-center">
+                  <span className="text-neutral-600">who's asking</span>
+                  <span className="font-bold text-neutral-950">Iris · onchain agent</span>
+                </div>
+
+                {/* Row 2: amount */}
+                <div className="px-5 py-3.5 flex justify-between items-center">
+                  <span className="text-neutral-600">amount</span>
+                  <span className="font-bold text-neutral-950">
+                    {selectedCase === 'blocked' ? '$25,000.00 USDC' : '$5.00 USDC'}
+                  </span>
+                </div>
+
+                {/* Row 3: your cap */}
+                <div className="px-5 py-3.5 flex justify-between items-center">
+                  <span className="text-neutral-600">your cap</span>
+                  <span className="font-bold text-red-700">
+                    $100 per action / $250 a day
+                  </span>
+                </div>
+
+                {/* Row 4: risk check */}
+                <div className="px-5 py-3.5 flex justify-between items-center">
+                  <span className="text-neutral-600">risk check</span>
+                  <span className={`font-bold ${selectedCase === 'blocked' ? 'text-red-700' : 'text-emerald-700'}`}>
+                    {selectedCase === 'blocked' ? 'brand new payee' : 'known payee, seen 14 times'}
+                  </span>
+                </div>
+
+                {/* Row 5: receipt */}
+                <div className="px-5 py-3.5 flex justify-between items-center">
+                  <span className="text-neutral-600">receipt</span>
+                  <span className="text-neutral-900 font-medium">
+                    {selectedCase === 'blocked' ? 'attempt logged, nothing sent' : 'signed + logged onchain ✓'}
+                  </span>
+                </div>
+
+              </div>
+
+              {/* Bottom Notification Banner */}
+              <div className={`px-5 py-3 text-xs font-mono font-medium transition-colors duration-200 ${
+                selectedCase === 'blocked'
+                  ? 'bg-[#f4c7c7] text-[#841919]'
+                  : 'bg-[#c5eed4] text-[#135d33]'
+              }`}>
+                {selectedCase === 'blocked'
+                  ? 'Blocked — way past your limit. Nothing moved.'
+                  : 'Approved — inside your daily cap. Receipt signed.'}
+              </div>
+
+            </div>
+          </div>
+
         </div>
+
       </div>
 
     </section>
