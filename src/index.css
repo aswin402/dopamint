@@ -276,23 +276,24 @@
 }
 
 /* =========================================================================
-   1. ISOMETRIC 3D CUBE LOADER
+   1. ISOMETRIC 3D 8-BOX CUBE LOADER
    ========================================================================= */
 .isometric-cube-loader {
   --duration: 3s;
   --primary: #ffffff;
-  --primary-light: #e5e5e5;
+  --primary-light: #d4d4d4;
   --primary-rgba: rgba(255, 255, 255, 0);
-  --mask-bg: #171717;
+  --mask-bg: #141820;
   width: 200px;
-  height: 320px;
+  height: 300px;
   position: relative;
   transform-style: preserve-3d;
+  margin: 0 auto;
 }
 
 @media (max-width: 480px) {
   .isometric-cube-loader {
-    zoom: 0.55;
+    zoom: 0.65;
   }
 }
 
@@ -305,9 +306,10 @@
   position: absolute;
   right: 32%;
   bottom: -11px;
-  background: var(--mask-bg, #171717);
+  background: var(--mask-bg, #141820);
   transform: translateZ(200px) rotate(var(--r));
   animation: cubeMask var(--duration) linear forwards infinite;
+  pointer-events: none;
 }
 
 .isometric-cube-loader:after {

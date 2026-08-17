@@ -190,14 +190,22 @@ export const RenaissanceAuthority: React.FC = () => {
             </p>
           </div>
 
-          <div className="lg:col-span-5 flex flex-col items-center justify-center p-8 rounded-3xl bg-[#171717] border border-neutral-800 text-white shadow-xl">
-            <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 mb-2">
-              ISOMETRIC ENCLAVE RUNTIME
+          <div className="lg:col-span-5 flex flex-col justify-between items-center p-8 sm:p-10 rounded-3xl bg-[#141820] border border-neutral-800 text-white shadow-2xl min-h-[520px] relative overflow-hidden">
+            <div className="w-full text-center">
+              <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400">
+                ISOMETRIC ENCLAVE RUNTIME
+              </div>
             </div>
-            <IsometricCubeLoader className="my-2" />
-            <p className="text-xs text-neutral-400 text-center font-mono mt-2">
-              Isolated memory sandboxes with zero shared access
-            </p>
+
+            <div className="w-full flex items-center justify-center my-auto py-4">
+              <IsometricCubeLoader />
+            </div>
+
+            <div className="w-full text-center pt-3 border-t border-neutral-800/80">
+              <p className="text-xs text-neutral-400 font-mono">
+                Isolated memory sandboxes with zero shared access
+              </p>
+            </div>
           </div>
         </div>
       </div>

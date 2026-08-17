@@ -2,7 +2,7 @@ import React from 'react';
 
 export const IsometricCubeLoader: React.FC<{ className?: string }> = ({ className = '' }) => {
   return (
-    <div className={`flex items-center justify-center p-6 ${className}`}>
+    <div className={`relative w-full flex items-center justify-center py-6 select-none ${className}`}>
       <div className="isometric-cube-loader">
         <div className="box box0">
           <div></div>
