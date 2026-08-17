@@ -84,21 +84,7 @@ export const RenaissanceHero: React.FC = () => {
           </div>
         </div>
 
-        {/* Slideshow Progress Indicator Dots */}
-        <div className="absolute bottom-5 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20">
-          {HERO_IMAGES.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentImageIndex(idx)}
-              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                currentImageIndex === idx
-                  ? 'w-6 bg-white shadow-[0_0_8px_#ffffff]'
-                  : 'w-1.5 bg-white/40 hover:bg-white/70'
-              }`}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
-          ))}
-        </div>
+
 
       </div>
 
