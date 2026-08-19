@@ -1,254 +1,336 @@
 import React, { useState } from 'react';
-import { Trash2, CheckCircle2, XCircle, ShieldCheck, Brain, VolumeX, Sparkles, ShieldAlert, RotateCcw } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { InteractiveWalletCard } from '../ui/InteractiveWalletCard';
+import { motion } from 'framer-motion';
+import { Sparkles, ShieldCheck, CheckCircle2, ArrowRight, Zap, RefreshCw, Layers, TrendingUp, Search, Lock } from 'lucide-react';
+import { BurnTransition } from '../ui/BurnTransition';
 
-interface MemoryNode {
-  id: string;
-  type: 'remembers' | 'acts' | 'stops';
-  title: string;
-  detail: string;
-  tag: string;
-  timestamp: string;
-  active: boolean;
-  statusColor?: 'neutral' | 'green' | 'red';
-}
+const EXCHANGES_RAILS = [
+  'Upbit',
+  'Coinbase',
+  'Binance',
+  'OKX',
+  'Bybit',
+  'Kraken',
+  'Bithumb',
+  'Gate',
+];
+
+const WALLET_RAILS = [
+  'MetaMask',
+  'Phantom',
+  'Base',
+  'Coinbase Wallet',
+  'Rabby',
+  'Ledger',
+  'Backpack',
+];
 
 export const RenaissanceMemoryWallet: React.FC = () => {
-  const [memories, setMemories] = useState<MemoryNode[]>([
-    {
-      id: 'mem-1',
-      type: 'remembers',
-      title: "You're vegetarian.",
-      detail: "Told it back in March · Verified explicit preference",
-      tag: "USER PROFILE",
-      timestamp: "MARCH 14",
-      active: true,
-      statusColor: 'neutral',
-    },
-    {
-      id: 'mem-2',
-      type: 'remembers',
-      title: "You hate anywhere loud on a weeknight.",
-      detail: "Inferred from prior booking feedback · Decibel < 65dB",
-      tag: "CONTEXT VECTOR",
-      timestamp: "MAY 02",
-      active: true,
-      statusColor: 'neutral',
-    },
-    {
-      id: 'mem-3',
-      type: 'acts',
-      title: "Books Kiln, 7:30pm, veg tasting menu.",
-      detail: "Matched vegetarian criteria + quiet weeknight acoustics",
-      tag: "ACTION PROPOSAL",
-      timestamp: "TODAY 6:04 PM",
-      active: true,
-      statusColor: 'green',
-    },
-    {
-      id: 'mem-4',
-      type: 'stops',
-      title: "Deposit's $40 — fine. A $600 chef's table? Not without you.",
-      detail: "$40 <= $100 cap (Approved ✓) · $600 > $100 cap (Blocked ✕)",
-      tag: "ENCLAVE BOUNDARY",
-      timestamp: "ENFORCED",
-      active: true,
-      statusColor: 'red',
-    },
-  ]);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [stepActive, setStepActive] = useState<1 | 2 | 3>(3);
 
-  const toggleDelete = (id: string) => {
-    setMemories(prev => prev.map(m => m.id === id ? { ...m, active: !m.active } : m));
-  };
-
-  const resetMemories = () => {
-    setMemories(prev => prev.map(m => ({ ...m, active: true })));
+  const handleReplay = () => {
+    setIsSimulating(true);
+    setStepActive(1);
+    setTimeout(() => setStepActive(2), 700);
+    setTimeout(() => {
+      setStepActive(3);
+      setIsSimulating(false);
+    }, 1800);
   };
 
   return (
-    <section id="memory" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
+    <section id="the-floor" className="w-full bg-[#D9D6CA] text-[#141820] py-24 sm:py-32 select-none relative overflow-hidden">
       
-      {/* Chapter Marker */}
-      <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
-        <span>BOUNDED CONTEXT & WALLET</span>
-        <span className="font-serif italic text-base text-black">Memory + agency</span>
+      {/* =========================================================================
+          1. TOP BURN TRANSITION (STARTING EDGE)
+          ========================================================================= */}
+      <div className="absolute top-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
+        <BurnTransition
+          color="#D9D6CA"
+          transitionColor="#FFFFFF"
+          noiseScale={2.5}
+          noiseIntensity={0.52}
+          scrollSensitivity={0.015}
+          baseAnimationSpeed={0.08}
+          edgeSoftness={0.38}
+          bloomIntensity={0.75}
+          bloomRadius={0.35}
+          parallaxEnabled={true}
+          movement={{ horizontal: 'center', vertical: 0.5 }}
+          className="h-full w-full"
+        />
       </div>
 
-      {/* Editorial Title */}
-      <div className="max-w-3xl mb-16 space-y-4 text-left">
-        <h2 className="text-4xl sm:text-6xl font-black text-display text-black tracking-tight leading-[0.96]">
-          It remembers you. <br />
-          <span className="font-serif italic font-normal text-black">
-            It still can't go wild.
-          </span>
-        </h2>
-        <p className="text-base text-neutral-700 font-normal leading-relaxed">
-          Small example: it knows you're vegetarian, so it picks the right spot — and it books the table without ever going past what you let it spend.
-        </p>
-      </div>
-
-      {/* 2-Column Memory + Wallet Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
-        {/* Left: Interactive Memory-to-Policy Synthesis Flowchart */}
-        <div className="lg:col-span-7 parchment-card p-6 sm:p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden">
-          
-          <div className="flex items-center justify-between pb-3 border-b border-neutral-300">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-xs font-mono font-bold text-neutral-700 uppercase tracking-wider">
-                Cryptographic Memory Pipeline
-              </span>
-            </div>
-            <button
-              onClick={resetMemories}
-              className="text-[11px] font-mono text-neutral-500 hover:text-black flex items-center gap-1 transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span>Reset Context</span>
-            </button>
-          </div>
+        {/* Chapter Marker */}
+        <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
+          <span>06 THE FLOOR</span>
+          <span className="font-serif italic text-base text-black">Watch the house work</span>
+        </div>
 
-          {/* Sequential Animated Step Cards */}
-          <div className="space-y-4 font-mono text-xs relative">
-            
-            {/* Step 1: Memory 1 */}
-            <div className={`p-4 rounded-2xl border transition-all duration-300 ${
-              memories[0].active
-                ? 'bg-white border-neutral-300 shadow-xs'
-                : 'bg-neutral-100 border-dashed border-neutral-300 opacity-50'
-            }`}>
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <Brain className="w-3.5 h-3.5 text-neutral-600" />
-                  <span className="text-[10px] font-bold text-neutral-500 uppercase">
-                    REMEMBERS · {memories[0].tag}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[9px] text-neutral-400">{memories[0].timestamp}</span>
-                  <button
-                    onClick={() => toggleDelete('mem-1')}
-                    className="text-neutral-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
-                    title="Delete Memory"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-              <div className="font-bold text-black text-sm">{memories[0].title}</div>
-              <div className="text-[11px] text-neutral-500 mt-0.5">{memories[0].detail}</div>
-            </div>
-
-            {/* Connecting Indicator Downward */}
-            <div className="flex justify-center -my-2 relative z-10">
-              <div className="w-0.5 h-4 bg-neutral-300 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400 animate-ping" />
-              </div>
-            </div>
-
-            {/* Step 2: Memory 2 */}
-            <div className={`p-4 rounded-2xl border transition-all duration-300 ${
-              memories[1].active
-                ? 'bg-white border-neutral-300 shadow-xs'
-                : 'bg-neutral-100 border-dashed border-neutral-300 opacity-50'
-            }`}>
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <VolumeX className="w-3.5 h-3.5 text-neutral-600" />
-                  <span className="text-[10px] font-bold text-neutral-500 uppercase">
-                    REMEMBERS · {memories[1].tag}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-[9px] text-neutral-400">{memories[1].timestamp}</span>
-                  <button
-                    onClick={() => toggleDelete('mem-2')}
-                    className="text-neutral-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
-                    title="Delete Memory"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-              <div className="font-bold text-black text-sm">{memories[1].title}</div>
-              <div className="text-[11px] text-neutral-500 mt-0.5">{memories[1].detail}</div>
-            </div>
-
-            {/* Connecting Indicator Downward */}
-            <div className="flex justify-center -my-2 relative z-10">
-              <div className="w-0.5 h-4 bg-emerald-400 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              </div>
-            </div>
-
-            {/* Step 3: Action Proposal */}
-            <div className="p-4 rounded-2xl bg-white border border-neutral-300 shadow-xs">
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5 text-emerald-700">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="text-[10px] font-bold uppercase">
-                    ACTS · SYNTHESIZED PLAN
-                  </span>
-                </div>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[9px] border border-emerald-200">
-                  AUTO-MATCHED ✓
-                </span>
-              </div>
-              <div className="font-bold text-black text-sm">{memories[2].title}</div>
-              <div className="text-[11px] text-neutral-500 mt-0.5">{memories[2].detail}</div>
-            </div>
-
-            {/* Connecting Indicator Downward */}
-            <div className="flex justify-center -my-2 relative z-10">
-              <div className="w-0.5 h-4 bg-neutral-800 flex items-center justify-center">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-              </div>
-            </div>
-
-            {/* Step 4: Safety Enclave Cap */}
-            <div className="p-4 rounded-2xl bg-black text-white border border-neutral-800 shadow-xl space-y-1.5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-neutral-400">
-                  <ShieldAlert className="w-3.5 h-3.5 text-red-400" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-red-400">
-                    STOPS · HARD SPENDING LIMIT
-                  </span>
-                </div>
-                <span className="px-2 py-0.5 rounded-full bg-red-950/80 text-red-300 border border-red-500/50 text-[9px] font-bold">
-                  ENFORCED
-                </span>
-              </div>
-              <div className="font-bold text-white text-sm">
-                Deposit's $40 — fine. A $600 chef's table? <span className="text-red-400 font-black">Not without you.</span>
-              </div>
-              <div className="text-[11px] text-neutral-400 pt-1 flex items-center gap-2">
-                <span className="text-emerald-400 font-bold">$40 &lt;= $100 Cap (Approved ✓)</span>
-                <span>·</span>
-                <span className="text-red-400 font-bold">$600 &gt; $100 Cap (Blocked ✕)</span>
-              </div>
-            </div>
-
-          </div>
-
-          <p className="text-xs text-neutral-600 font-sans leading-relaxed pt-3 border-t border-neutral-300">
-            Every memory came from somewhere, and you can delete any of it. Nothing gets treated as fact just because the model said it.
+        {/* Editorial Title & Subtitle */}
+        <div className="max-w-3xl mb-16 space-y-4 text-left">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-display text-black tracking-tight leading-[0.94]">
+            Watch the <br />
+            <span className="font-serif italic font-normal text-black">
+              house work.
+            </span>
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-700 font-normal leading-relaxed">
+            One sentence enters the house. Skills wake up, reason together and settle it on the rails you already use.
           </p>
         </div>
 
-        {/* Right: Interactive MPC Wallet Card Enclave */}
-        <div className="lg:col-span-5 flex flex-col items-center justify-center space-y-4">
-          <InteractiveWalletCard
-            balance="$1,240.00"
-            className="!max-w-full shadow-2xl"
-          />
-          <div className="p-4 rounded-2xl bg-black text-white border border-neutral-800 text-xs font-mono text-neutral-300 w-full text-center shadow-lg flex items-center justify-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Move the caps whenever. Pull the plug whenever. It's your money.</span>
+        {/* =========================================================================
+            2. THE 3-STEP PIPELINE: intent 01 → reasoning 02 → execution 03
+            ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20">
+          
+          {/* STEP 1: intent 01 */}
+          <div className="lg:col-span-4 parchment-card p-6 sm:p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden shadow-lg border border-neutral-300/80">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-black text-white font-mono text-[10px] font-bold uppercase tracking-wider">
+                  intent 01
+                </span>
+                <span className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-700">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Incoming voice/text</span>
+                </span>
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="text-xs font-mono text-neutral-500 uppercase tracking-wider font-bold">
+                  User prompt entered
+                </h3>
+                <div className="p-4 rounded-2xl bg-white border border-neutral-300 shadow-sm relative overflow-hidden group">
+                  <div className="flex items-start gap-2.5">
+                    <Sparkles className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                    <p className="text-base sm:text-lg font-serif italic text-black font-semibold leading-snug">
+                      “put idle USDC to work above 8%”
+                    </p>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2 font-mono text-[10px] text-neutral-400">
+                    <span>Parsed: Asset=USDC</span>
+                    <span>·</span>
+                    <span>MinYield=8.0%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-neutral-100/90 border border-neutral-200 text-xs font-mono text-neutral-600 flex items-center justify-between">
+              <span>Dispatched to Agent Cluster</span>
+              <ArrowRight className="w-3.5 h-3.5 text-neutral-500" />
+            </div>
           </div>
+
+          {/* STEP 2: reasoning 02 */}
+          <div className="lg:col-span-5 parchment-card p-6 sm:p-8 rounded-3xl space-y-6 flex flex-col justify-between relative overflow-hidden shadow-lg border border-neutral-300/80">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-[#3d5143] text-white font-mono text-[10px] font-bold uppercase tracking-wider">
+                  reasoning 02
+                </span>
+                <span className="text-xs font-mono text-neutral-500 font-bold">
+                  Multi-Skill Consensus
+                </span>
+              </div>
+
+              {/* 3 Reasoning Nodes */}
+              <div className="space-y-3 font-mono text-xs">
+                
+                {/* Node 1: yield */}
+                <div className="p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+                      <TrendingUp className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-black flex items-center gap-1.5">
+                        <span className="text-emerald-700 font-black">yield</span>
+                        <span className="text-neutral-400">·</span>
+                        <span>4 vaults screened</span>
+                      </div>
+                      <div className="text-[10px] text-neutral-500">Morpho, Aave v3, Aerodrome, Moonwell</div>
+                    </div>
+                  </div>
+                  <span className="text-emerald-700 font-bold text-[11px] bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                    9.2% Max
+                  </span>
+                </div>
+
+                {/* Node 2: research */}
+                <div className="p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700">
+                      <Search className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-black flex items-center gap-1.5">
+                        <span className="text-blue-700 font-black">research</span>
+                        <span className="text-neutral-400">·</span>
+                        <span>audit + TVL checked</span>
+                      </div>
+                      <div className="text-[10px] text-neutral-500">OpenZeppelin audit ✓ · $42M TVL</div>
+                    </div>
+                  </div>
+                  <span className="text-blue-700 font-bold text-[11px] bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">
+                    Verified
+                  </span>
+                </div>
+
+                {/* Node 3: risk */}
+                <div className="p-3.5 rounded-2xl bg-white border border-neutral-200 shadow-xs flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700">
+                      <Lock className="w-3.5 h-3.5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-black flex items-center gap-1.5">
+                        <span className="text-purple-700 font-black">risk</span>
+                        <span className="text-neutral-400">·</span>
+                        <span>single-venue cap 25%</span>
+                      </div>
+                      <div className="text-[10px] text-neutral-500">Allocation safety envelope bounded</div>
+                    </div>
+                  </div>
+                  <span className="text-purple-700 font-bold text-[11px] bg-purple-50 px-2 py-0.5 rounded-md border border-purple-200">
+                    Passed ✓
+                  </span>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-mono text-emerald-800 flex items-center justify-between">
+              <span className="font-bold">Consensus Reached (3/3 approvals)</span>
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            </div>
+          </div>
+
+          {/* STEP 3: execution 03 */}
+          <div className="lg:col-span-3 p-6 sm:p-8 rounded-3xl bg-[#141820] text-white space-y-6 flex flex-col justify-between relative overflow-hidden shadow-2xl border border-neutral-800">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-emerald-500 text-black font-mono text-[10px] font-bold uppercase tracking-wider">
+                  execution 03
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-neutral-800 text-emerald-400 font-mono text-[10px] font-bold border border-emerald-500/30">
+                  ONCHAIN
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-xs font-mono text-neutral-400 uppercase tracking-wider font-bold">
+                  Signed & Settled
+                </h3>
+
+                <div className="p-4 rounded-2xl bg-neutral-900 border border-neutral-800 font-mono space-y-3">
+                  <div className="text-sm font-black text-white leading-snug">
+                    swap + deposit signed onchain · <span className="text-emerald-400">9.2% net</span>
+                  </div>
+
+                  <div className="pt-2 border-t border-neutral-800 flex items-center justify-between text-xs">
+                    <span className="text-neutral-400">Venue:</span>
+                    <span className="font-bold text-white">Morpho Vault</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-neutral-400">Execution:</span>
+                    <span className="font-bold text-emerald-400">settled on Base</span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-[10px] text-neutral-500 pt-1">
+                    <span>Tx Hash:</span>
+                    <span className="text-neutral-400 font-mono">0x4e29…81fd</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={handleReplay}
+              disabled={isSimulating}
+              className="p-3.5 rounded-2xl bg-white text-black font-mono text-xs font-bold flex items-center justify-center gap-2 hover:bg-neutral-100 transition-all cursor-pointer shadow-md w-full"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isSimulating ? 'animate-spin' : ''}`} />
+              <span>{isSimulating ? 'Simulating Pipeline...' : 'Replay Floor Flow'}</span>
+            </button>
+          </div>
+
         </div>
 
+        {/* =========================================================================
+            3. MARQUEE TICKERS: THE RAILS (Exchanges & Wallets)
+            ========================================================================= */}
+        <div className="w-full space-y-4 pt-4 pb-4 overflow-hidden relative z-20">
+          
+          <div className="text-center font-mono text-xs text-neutral-500 font-bold uppercase tracking-wider mb-2">
+            Integrated Rails & Venues
+          </div>
+
+          {/* Marquee Row 1: Exchanges (Upbit, Coinbase, Binance, OKX, Bybit, Kraken, Bithumb, Gate) */}
+          <div className="relative w-full overflow-hidden py-1">
+            <div className="flex gap-4 animate-marquee whitespace-nowrap will-change-transform">
+              {[...EXCHANGES_RAILS, ...EXCHANGES_RAILS, ...EXCHANGES_RAILS, ...EXCHANGES_RAILS].map((exchange, idx) => (
+                <div
+                  key={idx}
+                  className="px-6 py-3.5 rounded-2xl bg-white border border-neutral-300/80 shadow-xs font-mono text-xs font-bold text-black flex items-center gap-2.5 hover:bg-neutral-50 transition-colors shrink-0"
+                >
+                  <div className="w-2 h-2 rounded-full bg-[#3d5143] shrink-0" />
+                  <span>{exchange}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Marquee Row 2: Wallets (MetaMask, Phantom, Base, Coinbase Wallet, Rabby, Ledger, Backpack) */}
+          <div className="relative w-full overflow-hidden py-1">
+            <div className="flex gap-4 animate-marquee whitespace-nowrap will-change-transform" style={{ animationDirection: 'reverse' }}>
+              {[...WALLET_RAILS, ...WALLET_RAILS, ...WALLET_RAILS, ...WALLET_RAILS].map((wallet, idx) => (
+                <div
+                  key={idx}
+                  className="px-6 py-3.5 rounded-2xl bg-[#141820] border border-neutral-800 shadow-xs font-mono text-xs font-bold text-white flex items-center gap-2.5 hover:bg-neutral-800 transition-colors shrink-0"
+                >
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                  <span>{wallet}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Disclaimer Text */}
+          <div className="pt-6 text-center max-w-3xl mx-auto">
+            <p className="text-xs font-mono text-neutral-500 leading-relaxed">
+              Names shown indicate the kinds of rails agents are built to work across. No partnership or endorsement is implied.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      {/* =========================================================================
+          4. BOTTOM BURN TRANSITION (ENDING EDGE)
+          ========================================================================= */}
+      <div className="absolute bottom-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
+        <BurnTransition
+          color="#D9D6CA"
+          transitionColor="#FFFFFF"
+          noiseScale={2.5}
+          noiseIntensity={0.52}
+          scrollSensitivity={0.015}
+          baseAnimationSpeed={0.08}
+          edgeSoftness={0.38}
+          bloomIntensity={0.75}
+          bloomRadius={0.35}
+          parallaxEnabled={true}
+          inverted={true}
+          movement={{ horizontal: 'center', vertical: 0.5 }}
+          className="h-full w-full"
+        />
       </div>
 
     </section>

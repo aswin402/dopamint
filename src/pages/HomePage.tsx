@@ -6,10 +6,6 @@ import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAge
 import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
 import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
 import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
-import { RenaissanceOnchain } from '../components/renaissance/RenaissanceOnchain';
-import { RenaissanceEcosystem } from '../components/renaissance/RenaissanceEcosystem';
-import { RenaissanceEngineering } from '../components/renaissance/RenaissanceEngineering';
-import { RenaissanceClosingCta } from '../components/renaissance/RenaissanceClosingCta';
 
 export function HomePage() {
   return (
@@ -34,20 +30,8 @@ export function HomePage() {
         {/* 5. Evidence: Ada Kiln Booking & Receipt Chain */}
         <RenaissanceEvidence />
 
-        {/* 6. Memory + agency & Its wallet */}
+        {/* 6. The Floor: Watch the house work */}
         <RenaissanceMemoryWallet />
-
-        {/* 7. Onchain actions: Swap, x402, Buy/Sell, Alerts */}
-        <RenaissanceOnchain />
-
-        {/* 8. Ecosystem: Any app, any exchange */}
-        <RenaissanceEcosystem />
-
-        {/* 9. Engineering: System stack */}
-        <RenaissanceEngineering />
-
-        {/* 10. Closing CTA & Footer */}
-        <RenaissanceClosingCta />
       </main>
     </div>
   );

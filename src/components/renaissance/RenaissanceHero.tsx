@@ -70,8 +70,8 @@ export const RenaissanceHero: React.FC = () => {
       <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f7f3ef]">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start">
           
-          {/* Left Column: Top-Aligned with the Top of the Mobile Phone */}
-          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-2 sm:pt-4 lg:pt-6 pb-10 sm:pb-12 lg:pb-16 z-20">
+          {/* Left Column: Shifted slightly down for balanced editorial breathing room */}
+          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-6 sm:pt-10 lg:pt-16 xl:pt-20 pb-10 sm:pb-12 lg:pb-16 z-20">
             
             {/* Editorial Title */}
             <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04] select-none">
@@ -107,21 +107,21 @@ export const RenaissanceHero: React.FC = () => {
 
           </div>
 
-          {/* Right Column: Large Mobile Device with Bottom Cut Hidden/Tucked Under */}
+          {/* Right Column: Large Mobile Device Shifted Further Right */}
           <div className="lg:col-span-7 relative flex items-start justify-center lg:justify-end z-10">
-            <div className="relative w-full sm:w-[115%] lg:w-[135%] xl:w-[150%] lg:-mr-[6vw] xl:-mr-[10vw] 2xl:-mr-[14vw] flex items-start justify-end -mb-10 sm:-mb-14 lg:-mb-16">
+            <div className="relative w-full sm:w-[115%] lg:w-[135%] xl:w-[150%] lg:-mr-[6vw] xl:-mr-[10vw] 2xl:-mr-[14vw] translate-x-8 sm:translate-x-14 lg:translate-x-20 xl:translate-x-28 2xl:translate-x-36 flex items-start justify-end pb-0">
               <img
                 src={handWithMobile}
                 alt="House of AI Agents - Hand with Mobile"
-                className="w-full h-auto object-contain object-top-right select-none drop-shadow-2xl transition-transform duration-500 hover:scale-[1.01] block"
+                className="w-full h-auto object-contain object-top-right select-none transition-transform duration-500 hover:scale-[1.01] block"
               />
             </div>
           </div>
 
         </div>
 
-        {/* Bottom Seamless Gradient Fade Mask */}
-        <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-[#f7f3ef] via-[#f7f3ef]/90 to-transparent pointer-events-none z-20" />
+        {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners */}
+        <div className="absolute inset-x-0 bottom-0 h-8 sm:h-10 lg:h-12 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
       </div>
 
     </section>

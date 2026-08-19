@@ -1,13 +1,34 @@
 import React from 'react';
 import { ECOSYSTEM_ROW_1, ECOSYSTEM_ROW_2 } from '../../data/dopamint';
 import { CentralHubConnectedDiagram } from '../ui/CentralHubConnectedDiagram';
+import { BurnTransition } from '../ui/BurnTransition';
 
 export const RenaissanceEcosystem: React.FC = () => {
   return (
-    <section id="ecosystem" className="py-20 select-none border-t border-neutral-300/70 overflow-hidden">
+    <section id="ecosystem" className="w-full bg-[#D9D6CA] text-[#141820] py-24 select-none relative overflow-hidden">
       
+      {/* =========================================================================
+          1. TOP BURN TRANSITION (STARTING EDGE)
+          ========================================================================= */}
+      <div className="absolute top-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
+        <BurnTransition
+          color="#D9D6CA"
+          transitionColor="#FFFFFF"
+          noiseScale={2.5}
+          noiseIntensity={0.52}
+          scrollSensitivity={0.015}
+          baseAnimationSpeed={0.08}
+          edgeSoftness={0.38}
+          bloomIntensity={0.75}
+          bloomRadius={0.35}
+          parallaxEnabled={true}
+          movement={{ horizontal: 'center', vertical: 0.5 }}
+          className="h-full w-full"
+        />
+      </div>
+
       {/* Top Container: Chapter Header & Connected Hub Diagram */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         {/* Chapter Marker */}
         <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">
           <span>INTEROPERABILITY & APIS</span>
@@ -31,7 +52,7 @@ export const RenaissanceEcosystem: React.FC = () => {
       </div>
 
       {/* FULL-WIDTH EDGE-TO-EDGE MARQUEE TICKERS */}
-      <div className="w-full space-y-4 pt-4 overflow-hidden">
+      <div className="w-full space-y-4 pt-4 pb-8 overflow-hidden relative z-20">
         
         {/* Marquee Row 1 */}
         <div className="relative w-full overflow-hidden py-1">
@@ -63,6 +84,27 @@ export const RenaissanceEcosystem: React.FC = () => {
           </div>
         </div>
 
+      </div>
+
+      {/* =========================================================================
+          2. BOTTOM BURN TRANSITION (ENDING EDGE)
+          ========================================================================= */}
+      <div className="absolute bottom-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
+        <BurnTransition
+          color="#D9D6CA"
+          transitionColor="#FFFFFF"
+          noiseScale={2.5}
+          noiseIntensity={0.52}
+          scrollSensitivity={0.015}
+          baseAnimationSpeed={0.08}
+          edgeSoftness={0.38}
+          bloomIntensity={0.75}
+          bloomRadius={0.35}
+          parallaxEnabled={true}
+          inverted={true}
+          movement={{ horizontal: 'center', vertical: 0.5 }}
+          className="h-full w-full"
+        />
       </div>
 
     </section>

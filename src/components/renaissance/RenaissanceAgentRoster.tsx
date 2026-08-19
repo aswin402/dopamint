@@ -151,8 +151,7 @@ export const RenaissanceAgentRoster: React.FC = () => {
           className="w-full h-auto min-h-[520px] object-cover sm:object-contain object-center select-none block pointer-events-none"
         />
 
-        {/* Ambient Top & Bottom Shadow Gradients for Readability */}
-        <div className="absolute inset-x-0 top-0 h-36 sm:h-48 bg-gradient-to-b from-black/85 via-black/40 to-transparent pointer-events-none z-10" />
+        {/* Ambient Bottom Shadow Gradient for Readability */}
         <div className="absolute inset-x-0 bottom-0 h-44 sm:h-56 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
 
         {/* =========================================================================
