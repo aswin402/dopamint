@@ -128,7 +128,7 @@ export const CentralHubConnectedDiagram: React.FC<{ className?: string }> = ({ c
   ];
 
   return (
-    <div className={`relative w-full max-w-5xl mx-auto rounded-[2.5rem] bg-[#0c0e12] p-6 sm:p-12 overflow-hidden shadow-2xl border border-neutral-800/90 select-none ${className}`}>
+    <div className={`relative w-full max-w-5xl mx-auto rounded-[2.5rem] bg-[#0c0e12] p-6 sm:p-12 overflow-hidden shadow-2xl border border-neutral-800/90 ${className}`}>
       
       {/* Background Architectural Grid Matrix */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f242d_1px,transparent_1px),linear-gradient(to_bottom,#1f242d_1px,transparent_1px)] bg-[size:32px_32px] opacity-20 pointer-events-none" />

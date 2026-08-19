@@ -6,7 +6,7 @@ import { BorderBeam } from './ui/BorderBeam';
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative pt-28 sm:pt-36 lg:pt-40 pb-20 sm:pb-28 overflow-hidden tech-dot-bg bg-white select-none">
+    <section className="relative pt-28 sm:pt-36 lg:pt-40 pb-20 sm:pb-28 overflow-hidden tech-dot-bg bg-white">
       {/* Top Ambient Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[650px] hero-glow pointer-events-none -z-10" />
 

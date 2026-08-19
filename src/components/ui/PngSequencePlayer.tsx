@@ -166,7 +166,7 @@ export const PngSequencePlayer: React.FC<PngSequencePlayerProps> = ({
   return (
     <div
       ref={containerRef}
-      className={`relative rounded-[2.5rem] bg-slate-950 p-4 sm:p-6 border-2 border-slate-800 shadow-2xl overflow-hidden flex flex-col justify-between select-none ${className}`}
+      className={`relative rounded-[2.5rem] bg-slate-950 p-4 sm:p-6 border-2 border-slate-800 shadow-2xl overflow-hidden flex flex-col justify-between ${className}`}
     >
       <BorderBeam size={280} duration={12} colorFrom="#10B981" colorTo="#06B6D4" />
 

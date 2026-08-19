@@ -19,7 +19,7 @@ export const RenaissanceHero: React.FC = () => {
   }, []);
 
   return (
-    <section id="hero" className="relative w-full flex flex-col justify-start select-none">
+    <section id="hero" className="relative w-full flex flex-col justify-start">
       
       {/* =========================================================================
           1. HERO VIDEO BACKGROUND (herosectionbgvid.webm)
@@ -40,7 +40,7 @@ export const RenaissanceHero: React.FC = () => {
         <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none z-10" />
 
         {/* Animated Hero Headline Overlay (Bottom Center) */}
-        <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4 pointer-events-none">
+        <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4">
           <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
               Your Agents can
@@ -74,7 +74,7 @@ export const RenaissanceHero: React.FC = () => {
           <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-6 sm:pt-10 lg:pt-16 xl:pt-20 pb-10 sm:pb-12 lg:pb-16 z-20">
             
             {/* Editorial Title */}
-            <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04] select-none">
+            <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04]">
               <span className="block font-serif font-normal text-[#c5a880]">
                 House of
               </span>
@@ -113,7 +113,7 @@ export const RenaissanceHero: React.FC = () => {
               <img
                 src={handWithMobile}
                 alt="House of AI Agents - Hand with Mobile"
-                className="w-full h-auto object-contain object-top-right select-none transition-transform duration-500 hover:scale-[1.01] block"
+                className="w-full h-auto object-contain object-top-right transition-transform duration-500 hover:scale-[1.01] block"
               />
             </div>
           </div>

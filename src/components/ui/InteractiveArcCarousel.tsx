@@ -44,7 +44,7 @@ function FlipCard({
         transformStyle: "preserve-3d",
         perspective: "1000px",
       }}
-      className="cursor-pointer group select-none"
+      className="cursor-pointer group"
     >
       <motion.div
         className="relative h-full w-full"
@@ -205,10 +205,10 @@ export const InteractiveArcCarousel: React.FC<{ className?: string }> = ({ class
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-[460px] rounded-[2.5rem] bg-[#e6e6dc] border border-[#d0d0c2] overflow-hidden flex flex-col items-center justify-center p-6 select-none ${className}`}
+      className={`relative w-full h-[460px] rounded-[2.5rem] bg-[#e6e6dc] border border-[#d0d0c2] overflow-hidden flex flex-col items-center justify-center p-6 ${className}`}
     >
       {/* Intro Center Text */}
-      <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-12">
+      <div className="absolute z-0 flex flex-col items-center justify-center text-center top-12">
         <h3 className="text-xl sm:text-2xl font-black text-black font-sans">
           Curated Squad Explorer
         </h3>

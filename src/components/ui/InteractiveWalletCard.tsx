@@ -25,7 +25,7 @@ export const InteractiveWalletCard: React.FC<InteractiveWalletCardProps> = ({
   const isBlocked = isLocked || isOverActionCap || isOverDailyCap;
 
   return (
-    <div className={`w-full max-w-[380px] rounded-[2rem] bg-white border border-neutral-300 shadow-2xl p-6 font-sans select-none relative overflow-hidden transition-all duration-300 ${className}`}>
+    <div className={`w-full max-w-[380px] rounded-[2rem] bg-white border border-neutral-300 shadow-2xl p-6 font-sans relative overflow-hidden transition-all duration-300 ${className}`}>
       
       {/* Background Subtle Gradient */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full blur-2xl pointer-events-none" />

@@ -137,7 +137,7 @@ export const RenaissanceAgentRoster: React.FC = () => {
   const activeAgent = SUPPER_AGENTS.find((a) => a.id === activeAgentId) || SUPPER_AGENTS[6];
 
   return (
-    <section id="agents" className="relative w-full overflow-hidden bg-neutral-950 select-none">
+    <section id="agents" className="relative w-full overflow-hidden bg-neutral-950">
       
       {/* =========================================================================
           1. SUPPERS.PNG PANORAMIC PAINTING CANVAS (Natural Aspect Ratio Locked)
@@ -157,8 +157,8 @@ export const RenaissanceAgentRoster: React.FC = () => {
         {/* =========================================================================
             2. TOP EDITORIAL HEADLINE
             ========================================================================= */}
-        <div className="absolute top-6 sm:top-10 md:top-14 inset-x-0 z-20 px-4 sm:px-8 text-center max-w-5xl mx-auto space-y-2 sm:space-y-3 pointer-events-none">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white select-none font-serif font-normal drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
+        <div className="absolute top-6 sm:top-10 md:top-14 inset-x-0 z-20 px-4 sm:px-8 text-center max-w-5xl mx-auto space-y-2 sm:space-y-3">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white font-serif font-normal drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
             One app, a <span className="font-serif italic font-bold text-white">whole crew.</span>
           </h2>
           <p className="text-[10px] sm:text-xs md:text-sm font-mono tracking-widest uppercase text-white/90 font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">

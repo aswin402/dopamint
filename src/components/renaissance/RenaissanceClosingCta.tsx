@@ -5,7 +5,7 @@ import { BurnTransition } from '../ui/BurnTransition';
 
 export const RenaissanceClosingCta: React.FC = () => {
   return (
-    <section id="cta" className="w-full bg-[#D9D6CA] pt-24 pb-16 sm:pb-24 select-none relative overflow-hidden">
+    <section id="cta" className="w-full bg-[#D9D6CA] pt-24 pb-16 sm:pb-24 relative overflow-hidden">
       
       {/* =========================================================================
           1. TOP BURN TRANSITION (STARTING EDGE FROM DARK SECTION 9)

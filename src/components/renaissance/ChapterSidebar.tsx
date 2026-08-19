@@ -42,7 +42,7 @@ export const ChapterSidebar: React.FC = () => {
   }, []);
 
   return (
-    <aside className="hidden lg:flex fixed top-0 left-0 bottom-0 w-60 xl:w-64 p-8 flex-col justify-between z-40 select-none bg-transparent pointer-events-none">
+    <aside className="hidden lg:flex fixed top-0 left-0 bottom-0 w-60 xl:w-64 p-8 flex-col justify-between z-40 bg-transparent pointer-events-none">
       
       {/* Top Edition Brand */}
       <div className="pointer-events-auto space-y-1">

@@ -16,7 +16,7 @@ export const MarqueeTicker: React.FC = () => {
   ];
 
   return (
-    <div className="w-full bg-slate-950 py-3.5 border-y border-slate-800 overflow-hidden select-none">
+    <div className="w-full bg-slate-950 py-3.5 border-y border-slate-800 overflow-hidden">
       <div className="flex w-max animate-marquee">
         {[...items, ...items, ...items, ...items].map((item, idx) => (
           <div key={idx} className="flex items-center gap-3 mx-4 text-xs font-mono font-bold text-slate-300">

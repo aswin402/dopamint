@@ -39,7 +39,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
   };
 
   return (
-    <section id="the-floor" className="w-full bg-[#D9D6CA] text-[#141820] py-24 sm:py-32 select-none relative overflow-hidden">
+    <section id="the-floor" className="w-full bg-[#D9D6CA] text-[#141820] py-24 sm:py-32 relative overflow-hidden">
       
       {/* =========================================================================
           1. TOP BURN TRANSITION (STARTING EDGE)

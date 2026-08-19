@@ -14,7 +14,7 @@ export const RenaissanceMessaging: React.FC = () => {
   ];
 
   return (
-    <section id="messaging" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto select-none border-t border-neutral-300/70">
+    <section id="messaging" className="py-20 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto border-t border-neutral-300/70">
       
       {/* Chapter Marker */}
       <div className="flex items-center justify-between text-xs font-mono text-neutral-500 mb-8 pb-3 border-b border-neutral-300">

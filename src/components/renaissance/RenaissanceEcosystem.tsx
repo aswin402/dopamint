@@ -5,7 +5,7 @@ import { BurnTransition } from '../ui/BurnTransition';
 
 export const RenaissanceEcosystem: React.FC = () => {
   return (
-    <section id="ecosystem" className="w-full bg-[#D9D6CA] text-[#141820] py-24 select-none relative overflow-hidden">
+    <section id="ecosystem" className="w-full bg-[#D9D6CA] text-[#141820] py-24 relative overflow-hidden">
       
       {/* =========================================================================
           1. TOP BURN TRANSITION (STARTING EDGE)

@@ -35,7 +35,7 @@ export const RenaissanceOnchain: React.FC = () => {
   };
 
   return (
-    <section id="onchain" className="w-full bg-[#363928] text-white py-24 px-4 sm:px-8 lg:px-12 select-none relative overflow-hidden">
+    <section id="onchain" className="w-full bg-[#363928] text-white py-24 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
       
       <div className="max-w-7xl mx-auto relative z-20">
         

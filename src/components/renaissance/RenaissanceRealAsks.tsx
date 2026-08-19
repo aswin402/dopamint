@@ -12,19 +12,19 @@ import profile8 from '../../assets/Profiles/Profile_ (8).png';
 
 export const RenaissanceRealAsks: React.FC = () => {
   return (
-    <section id="asks" className="w-full bg-[#ffffff] pt-14 sm:pt-20 pb-16 sm:pb-24 select-none relative z-20 overflow-hidden">
+    <section id="asks" className="w-full bg-[#ffffff] pt-14 sm:pt-20 pb-16 sm:pb-24 relative z-20 overflow-hidden">
       
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* Title */}
         <div className="text-center w-full max-w-4xl mx-auto mb-10 sm:mb-14">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] select-none font-serif font-normal">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] font-serif font-normal">
             What <span className="font-serif italic font-bold text-[#142218]">people</span> actually ask for.
           </h2>
         </div>
 
         {/* Centered Floating Interactive Thoughts & Preview Cards Canvas */}
-        <div className="relative w-full max-w-5xl mx-auto h-[520px] sm:h-[580px] lg:h-[620px] select-none">
+        <div className="relative w-full max-w-5xl mx-auto h-[520px] sm:h-[580px] lg:h-[620px]">
           
           {/* Card 1: Top Left / Center-Left */}
           <motion.div
