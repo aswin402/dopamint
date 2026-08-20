@@ -1,93 +1,38 @@
-import React, { useRef } from 'react';
-import { motion, useInView, type Variants } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
+import { GenieEffectCanvas } from './GenieEffectCanvas';
 
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.28, once: false });
+  const [isOpen, setIsOpen] = useState(false);
+  const [showInteractiveDom, setShowInteractiveDom] = useState(false);
 
-  // =========================================================================
-  // macOS APP LAUNCH / GENIE EMERGENCE VARIANTS
-  // Cards start scaled down at the bottom-center Stone Pedestal and fly outward
-  // =========================================================================
-  const card1Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.06,
-      x: 180,
-      y: 290,
-      rotate: 0,
-      filter: 'blur(10px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: -5,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 95,
-        damping: 14,
-        mass: 0.85,
-        delay: 0.15,
-      },
-    },
-  };
+  // Sync scroll in-view with Genie Effect
+  useEffect(() => {
+    if (isInView) {
+      setIsOpen(true);
+      const timer = setTimeout(() => {
+        setShowInteractiveDom(true);
+      }, 750);
+      return () => clearTimeout(timer);
+    } else {
+      setShowInteractiveDom(false);
+      setIsOpen(false);
+    }
+  }, [isInView]);
 
-  const card2Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.06,
-      x: 0,
-      y: 330,
-      rotate: 0,
-      filter: 'blur(10px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 4,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 95,
-        damping: 14,
-        mass: 0.85,
-        delay: 0.32,
-      },
-    },
-  };
-
-  const card3Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.06,
-      x: -180,
-      y: 170,
-      rotate: 0,
-      filter: 'blur(10px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 6,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 95,
-        damping: 14,
-        mass: 0.85,
-        delay: 0.48,
-      },
-    },
+  const handleToggle = () => {
+    if (isOpen) {
+      setShowInteractiveDom(false);
+      setIsOpen(false);
+    } else {
+      setIsOpen(true);
+      setTimeout(() => setShowInteractiveDom(true), 750);
+    }
   };
 
   return (
@@ -129,101 +74,113 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            3. PURE CODE CANVAS WITH 3 CONVERSATION CARDS & STONE PEDESTAL
+            3. PURE CODE CANVAS WITH WEBGL GENIE EFFECT & INTERACTIVE CARDS
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
           
-          {/* -----------------------------------------------------------------------
-              CARD 1: LEFT CONVERSATION CARD
-              Launches out from stone pedestal -> Lands at -5deg -> Hover: zoom in (1.06x) & ease to -1.5deg
-              ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card1Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: -1.5,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
-          >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble
-                text="why is BTC bid this morning, funding or spot?"
-                side="left"
-              />
-              <IMessageBubble
-                text="my ETH is up 34% scale."
-                side="right"
-              />
-            </div>
-          </motion.div>
+          {/* Authentic WebGL macOS Genie Shader Canvas (Sucks into / Expands from Stone Pedestal) */}
+          <GenieEffectCanvas isOpen={isOpen} />
 
-          {/* -----------------------------------------------------------------------
-              CARD 2: TOP-CENTER CONVERSATION CARD
-              Launches out from stone pedestal -> Lands at +4deg -> Hover: zoom in (1.07x) & ease to +1.2deg
-              ----------------------------------------------------------------------- */}
+          {/* Interactive DOM Layer (Activates after Genie opens for hover zoom/straighten physics) */}
           <motion.div
-            variants={card2Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.07,
-              rotate: 1.2,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
+            animate={{ opacity: showInteractiveDom ? 1 : 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className={`w-full h-full ${showInteractiveDom ? 'pointer-events-auto' : 'pointer-events-none'}`}
           >
-            <div className="flex flex-col">
-              <IMessageBubble
-                text="laddered. Stop trailing behind it."
-                side="left"
-              />
-            </div>
-          </motion.div>
-
-          {/* -----------------------------------------------------------------------
-              CARD 3: RIGHT CONVERSATION CARD
-              Launches out from stone pedestal -> Lands at +6deg -> Hover: zoom in (1.06x) & ease to +1.8deg
-              ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card3Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: 1.8,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
-          >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble
-                text="what am I paying in gas this week?"
-                side="left"
-              />
-              <IMessageBubble
-                text="pay this invoice in USDC."
-                side="right"
-              />
-            </div>
-          </motion.div>
-
-          {/* -----------------------------------------------------------------------
-              BOTTOM CENTER: PURE CODE CARVED STONE iMESSAGE PEDESTAL
-              Subtle tactile scale pop when cards emerge
-              ----------------------------------------------------------------------- */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 pointer-events-none z-20 flex flex-col items-center">
+            {/* -----------------------------------------------------------------------
+                CARD 1: LEFT CONVERSATION CARD
+                ----------------------------------------------------------------------- */}
             <motion.div
-              animate={isInView ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
-              transition={{ duration: 0.7, ease: 'easeOut' }}
+              animate={{ y: [-4, 4, -4] }}
+              transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut' }}
+              whileHover={{
+                scale: 1.06,
+                rotate: -1.5,
+                zIndex: 40,
+                boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+                transition: { type: 'spring', stiffness: 280, damping: 20 },
+              }}
+              style={{ rotate: -5 }}
+              className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
+            >
+              <div className="flex flex-col gap-3.5 sm:gap-4">
+                <IMessageBubble
+                  text="why is BTC bid this morning, funding or spot?"
+                  side="left"
+                />
+                <IMessageBubble
+                  text="my ETH is up 34% scale."
+                  side="right"
+                />
+              </div>
+            </motion.div>
+
+            {/* -----------------------------------------------------------------------
+                CARD 2: TOP-CENTER CONVERSATION CARD
+                ----------------------------------------------------------------------- */}
+            <motion.div
+              animate={{ y: [3, -3, 3] }}
+              transition={{ duration: 5.0, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+              whileHover={{
+                scale: 1.07,
+                rotate: 1.2,
+                zIndex: 40,
+                boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+                transition: { type: 'spring', stiffness: 280, damping: 20 },
+              }}
+              style={{ rotate: 4 }}
+              className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
+            >
+              <div className="flex flex-col">
+                <IMessageBubble
+                  text="laddered. Stop trailing behind it."
+                  side="left"
+                />
+              </div>
+            </motion.div>
+
+            {/* -----------------------------------------------------------------------
+                CARD 3: RIGHT CONVERSATION CARD
+                ----------------------------------------------------------------------- */}
+            <motion.div
+              animate={{ y: [-3, 3, -3] }}
+              transition={{ duration: 5.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+              whileHover={{
+                scale: 1.06,
+                rotate: 1.8,
+                zIndex: 40,
+                boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+                transition: { type: 'spring', stiffness: 280, damping: 20 },
+              }}
+              style={{ rotate: 6 }}
+              className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
+            >
+              <div className="flex flex-col gap-3.5 sm:gap-4">
+                <IMessageBubble
+                  text="what am I paying in gas this week?"
+                  side="left"
+                />
+                <IMessageBubble
+                  text="pay this invoice in USDC."
+                  side="right"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* -----------------------------------------------------------------------
+              BOTTOM CENTER: CARVED STONE iMESSAGE PEDESTAL
+              Click to toggle macOS Genie Open / Close
+              ----------------------------------------------------------------------- */}
+          <div
+            onClick={handleToggle}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 z-40 flex flex-col items-center cursor-pointer group"
+          >
+            <motion.div
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              animate={isOpen ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
               className="w-full"
             >
               <CarvedStonePedestal />
