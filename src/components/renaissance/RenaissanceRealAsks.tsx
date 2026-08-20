@@ -1,234 +1,154 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-import profile1 from '../../assets/Profiles/Profile_ (1).png';
-import profile2 from '../../assets/Profiles/Profile_ (2).png';
-import profile3 from '../../assets/Profiles/Profile_ (3).png';
-import profile4 from '../../assets/Profiles/Profile_ (4).png';
-import profile5 from '../../assets/Profiles/Profile_ (5).png';
-import profile6 from '../../assets/Profiles/Profile_ (6).png';
-import profile7 from '../../assets/Profiles/Profile_ (7).png';
-import profile8 from '../../assets/Profiles/Profile_ (8).png';
+import { AntiqueCandleSconce } from './AntiqueCandleSconce';
+import { CarvedStonePedestal } from './CarvedStonePedestal';
+import { IMessageBubble } from './IMessageBubble';
 
 export const RenaissanceRealAsks: React.FC = () => {
   return (
-    <section id="asks" className="w-full bg-[#ffffff] pt-14 sm:pt-20 pb-16 sm:pb-24 relative z-20 overflow-hidden">
+    <section id="asks" className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-hidden select-none">
       
+      {/* =========================================================================
+          1. PURE CODE ANTIQUE CANDLE SCONCES (TOP RIGHT & BOTTOM LEFT)
+          ========================================================================= */}
+      {/* Top Right Candle Sconce */}
+      <motion.div
+        animate={{ y: [-3, 3, -3], rotate: [0, 0.4, 0] }}
+        transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-2 sm:top-6 -right-3 sm:right-2 md:right-6 lg:right-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+      >
+        <AntiqueCandleSconce candlesCount={2} variant="right" />
+      </motion.div>
+
+      {/* Bottom Left Candle Sconce */}
+      <motion.div
+        animate={{ y: [3, -3, 3], rotate: [0, -0.4, 0] }}
+        transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+        className="absolute bottom-4 sm:bottom-8 -left-3 sm:left-2 md:left-6 lg:left-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+      >
+        <AntiqueCandleSconce candlesCount={3} variant="left" />
+      </motion.div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
-        {/* Title */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-10 sm:mb-14">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-[#2d3e32] font-serif font-normal">
-            What <span className="font-serif italic font-bold text-[#142218]">people</span> actually ask for.
+        {/* =========================================================================
+            2. PURE CODE TITLE: "Talk Markets. It Trades"
+            ========================================================================= */}
+        <div className="text-center w-full max-w-4xl mx-auto mb-12 sm:mb-16">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#2d3e32] font-serif font-normal">
+            Talk <span className="font-serif italic font-bold text-[#142218]">Markets.</span> It <span className="font-serif italic font-normal text-[#142218]">Trades</span>
           </h2>
         </div>
 
-        {/* Centered Floating Interactive Thoughts & Preview Cards Canvas */}
-        <div className="relative w-full max-w-5xl mx-auto h-[520px] sm:h-[580px] lg:h-[620px]">
+        {/* =========================================================================
+            3. PURE CODE CANVAS WITH 3 CONVERSATION CARDS & STONE PEDESTAL
+            ========================================================================= */}
+        <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
           
-          {/* Card 1: Top Left / Center-Left */}
+          {/* -----------------------------------------------------------------------
+              CARD 1: LEFT CONVERSATION CARD
+              Initial: -5deg tilt -> Hover: zoom in (1.06x) & partially straighten to -1.5deg
+              ----------------------------------------------------------------------- */}
           <motion.div
+            initial={{ opacity: 0, y: 20, rotate: -5 }}
+            whileInView={{ opacity: 1, y: 0, rotate: -5 }}
+            viewport={{ once: true }}
             animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute top-0 left-[2%] sm:left-[8%] lg:left-[10%] max-w-[280px] sm:max-w-[320px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
+            whileHover={{
+              scale: 1.06,
+              rotate: -1.5,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+            }}
+            transition={{
+              y: { duration: 4.6, repeat: Infinity, ease: 'easeInOut' },
+              scale: { type: 'spring', stiffness: 280, damping: 20 },
+              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
           >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile1} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
-                The text was tiny so I had to zoom in, and then buttons were hard to press accurately
-              </p>
-              <div className="flex flex-wrap items-center gap-1.5 font-mono text-[9px]">
-                <span className="px-2 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
-                  Current theme
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Mobile experience
-                </span>
-              </div>
+            <div className="flex flex-col gap-3.5 sm:gap-4">
+              <IMessageBubble
+                text="why is BTC bid this morning, funding or spot?"
+                side="left"
+              />
+              <IMessageBubble
+                text="my ETH is up 34% scale."
+                side="right"
+              />
             </div>
           </motion.div>
 
-          {/* Card 2: Top Right Accent (Subtle Faded Background Accent) */}
+          {/* -----------------------------------------------------------------------
+              CARD 2: TOP-CENTER CONVERSATION CARD
+              Initial: +4deg tilt -> Hover: zoom in (1.07x) & partially straighten to +1.2deg
+              ----------------------------------------------------------------------- */}
           <motion.div
+            initial={{ opacity: 0, y: 20, rotate: 4 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 4 }}
+            viewport={{ once: true }}
             animate={{ y: [4, -4, 4] }}
-            transition={{ duration: 4.6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-            className="absolute top-2 right-[2%] sm:right-[6%] max-w-[170px] opacity-40 hidden sm:flex items-center gap-2 z-10 pointer-events-none"
+            whileHover={{
+              scale: 1.07,
+              rotate: 1.2,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+            }}
+            transition={{
+              y: { duration: 5.0, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
+              scale: { type: 'spring', stiffness: 280, damping: 20 },
+              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
           >
-            <div className="w-8 h-8 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
-              <img src={profile7} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2 rounded-xl bg-white border border-neutral-200 shadow-sm space-y-1">
-              <div className="h-2 w-16 bg-neutral-300 rounded" />
-              <div className="flex gap-1">
-                <span className="h-1.5 w-6 bg-emerald-200 rounded" />
-                <span className="h-1.5 w-6 bg-purple-200 rounded" />
-              </div>
+            <div className="flex flex-col">
+              <IMessageBubble
+                text="laddered. Stop trailing behind it."
+                side="left"
+              />
             </div>
           </motion.div>
 
-          {/* Card 6: Top-Mid Right */}
+          {/* -----------------------------------------------------------------------
+              CARD 3: RIGHT CONVERSATION CARD
+              Initial: +6deg tilt -> Hover: zoom in (1.06x) & partially straighten to +1.8deg
+              ----------------------------------------------------------------------- */}
           <motion.div
-            animate={{ y: [6, -6, 6] }}
-            transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-            className="absolute top-1 sm:top-2 right-[18%] sm:right-[22%] lg:right-[26%] max-w-[210px] sm:max-w-[250px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile4} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1">
-              <p className="text-[10px] sm:text-[10.5px] text-neutral-800 font-sans leading-snug">
-                I found exactly what I was looking for within seconds
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8px]">
-                <span className="px-1.5 py-0.5 rounded bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Unpublished theme
-                </span>
-                <span className="px-1.5 py-0.5 rounded bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Product discovery
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 3: Mid-Left (Upper Tier) */}
-          <motion.div
-            animate={{ y: [5, -5, 5] }}
-            transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-            className="absolute top-[22%] sm:top-[24%] left-0 sm:left-[2%] lg:left-[4%] max-w-[210px] sm:max-w-[240px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile2} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                Moving around the site was much easier than
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
-                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
-                  Current theme
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Navigation
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 5: Mid-Right (Upper Tier) */}
-          <motion.div
-            animate={{ y: [4, -4, 4] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-            className="absolute top-[24%] sm:top-[26%] right-0 sm:right-[3%] lg:right-[5%] max-w-[210px] sm:max-w-[250px] flex items-start gap-2 z-20 hover:scale-105 transition-transform"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile8} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                Loved the smooth animation when filtering categories
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
-                <span className="px-1.5 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Unpublished
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Interactions
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 4: Dead Center (Mid-Tier Highlight) */}
-          <motion.div
+            initial={{ opacity: 0, y: 20, rotate: 6 }}
+            whileInView={{ opacity: 1, y: 0, rotate: 6 }}
+            viewport={{ once: true }}
             animate={{ y: [-4, 4, -4] }}
-            transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
-            className="absolute top-[44%] sm:top-[46%] left-1/2 -translate-x-1/2 max-w-[230px] sm:max-w-[270px] flex items-start gap-2 z-30 hover:scale-105 transition-transform"
+            whileHover={{
+              scale: 1.06,
+              rotate: 1.8,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+            }}
+            transition={{
+              y: { duration: 5.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
+              scale: { type: 'spring', stiffness: 280, damping: 20 },
+              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-2.5 sm:p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[10px] sm:text-[11px] text-neutral-800 font-sans leading-snug">
-                Checkout flow and product grid loaded instantly
-              </p>
-              <div className="flex flex-wrap items-center gap-1 font-mono text-[8.5px]">
-                <span className="px-1.5 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
-                  Current theme
-                </span>
-                <span className="px-1.5 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Speed
-                </span>
-              </div>
+            <div className="flex flex-col gap-3.5 sm:gap-4">
+              <IMessageBubble
+                text="what am I paying in gas this week?"
+                side="left"
+              />
+              <IMessageBubble
+                text="pay this invoice in USDC."
+                side="right"
+              />
             </div>
           </motion.div>
 
-          {/* Card 7: Lower Left */}
-          <motion.div
-            animate={{ y: [-5, 5, -5] }}
-            transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
-            className="absolute bottom-[16%] sm:bottom-[18%] left-[2%] sm:left-[6%] lg:left-[8%] max-w-[240px] sm:max-w-[280px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
-          >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile5} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
-                I loved seeing actual customer photos in the reviews section
-              </p>
-              <div className="flex items-center gap-1.5 font-mono text-[8.5px]">
-                <span className="px-2 py-0.5 rounded-md bg-[#eafaf1] text-[#22864f] font-bold border border-[#c4ebd3]">
-                  Current theme
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Trust signals
-                </span>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 8: Lower Right Accent (Faded Background Accent) */}
-          <motion.div
-            animate={{ y: [-4, 4, -4] }}
-            transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
-            className="absolute bottom-[18%] sm:bottom-[20%] right-[3%] sm:right-[6%] max-w-[140px] opacity-40 hidden sm:flex items-center gap-2 z-10 pointer-events-none"
-          >
-            <div className="w-7 h-7 rounded-lg bg-neutral-800 overflow-hidden shrink-0">
-              <img src={profile3} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-1.5 rounded-xl bg-white border border-neutral-200 shadow-sm space-y-1">
-              <div className="h-1.5 w-12 bg-neutral-300 rounded" />
-              <div className="flex gap-1">
-                <span className="h-1 w-4 bg-emerald-200 rounded" />
-                <span className="h-1 w-4 bg-purple-200 rounded" />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Card 9: Bottom Center */}
-          <motion.div
-            animate={{ y: [5, -5, 5] }}
-            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 1.0 }}
-            className="absolute bottom-1 sm:bottom-2 left-[24%] sm:left-[34%] lg:left-[38%] max-w-[280px] sm:max-w-[320px] flex items-start gap-2.5 z-20 hover:scale-105 transition-transform"
-          >
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-neutral-900 overflow-hidden shadow-md shrink-0 border border-neutral-200">
-              <img src={profile6} alt="Profile" className="w-full h-full object-cover" />
-            </div>
-            <div className="p-3 rounded-2xl bg-white border border-neutral-200/90 shadow-md space-y-1.5">
-              <p className="text-[11px] sm:text-xs text-neutral-800 font-sans leading-snug">
-                Finding the "About us" page was difficult, consider making it easier to find
-              </p>
-              <div className="flex items-center gap-1.5 font-mono text-[8.5px]">
-                <span className="px-2 py-0.5 rounded-md bg-[#f4effe] text-[#6b38c2] font-bold border border-[#dfd0fb]">
-                  Unpublished theme
-                </span>
-                <span className="px-2 py-0.5 rounded-md bg-[#edf5ff] text-[#2463eb] font-bold border border-[#cbe0fc]">
-                  Navigation
-                </span>
-              </div>
-            </div>
-          </motion.div>
+          {/* -----------------------------------------------------------------------
+              BOTTOM CENTER: PURE CODE CARVED STONE iMESSAGE PEDESTAL
+              ----------------------------------------------------------------------- */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 pointer-events-none z-20 flex flex-col items-center">
+            <CarvedStonePedestal />
+          </div>
 
         </div>
 
