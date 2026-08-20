@@ -107,8 +107,15 @@ export const RenaissanceRealAsks: React.FC = () => {
   const isInView = useInView(sectionRef, { amount: 0.25, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
+  // Wait 1s after section enters view, then trigger card emergence
   useEffect(() => {
-    setIsOpen(isInView);
+    let timer: ReturnType<typeof setTimeout>;
+    if (isInView) {
+      timer = setTimeout(() => setIsOpen(true), 1000);
+    } else {
+      setIsOpen(false);
+    }
+    return () => clearTimeout(timer);
   }, [isInView]);
 
   const handleToggle = () => setIsOpen((p) => !p);
