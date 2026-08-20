@@ -6,66 +6,29 @@ import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
 
 // =========================================================================
-// EXACT CODEPEN macOS GENIE EFFECT — SVG PATH MORPHING
-// =========================================================================
-//
-// Reproduces the exact CodePen animation:
-//   #element morphSVG: step3 → step2 → step0
-//
-// Using flubber to smoothly morph between 3 SVG path shapes applied as
-// clip-path on each card div (clipPathUnits="objectBoundingBox", 0-1 coords).
-//
-// Step 3: tiny rectangle at bottom center (the "dock icon" at pedestal)
-// Step 2: hourglass funnel with curved sides (wide top, narrow bottom)
-// Step 0: full rectangle (card fully open)
-//
-// Original CodePen GSAP timeline (open):
-//   .to(element, .3, { delay: .45, y: "10px" })
-//   .to(element, .3, { morphSVG: step2 })
-//   .to(element, .3, { morphSVG: step0 }, "-=.15")
-//   .to(element, .3, { y: "0" }, "-=.3")
+// EXACT CODEPEN GENIE MORPH — step3 → step2 → step0
+// Applied as clip-path on top of the ORIGINAL card styling
 // =========================================================================
 
-// SVG path shapes in objectBoundingBox coordinates (0-1)
-
-// Step 3: tiny bar at bottom center (~24% wide, 10% tall)
+// SVG morph paths in objectBoundingBox 0-1 coordinates
 const STEP3 = 'M 0.38 0.90 L 0.62 0.90 L 0.62 1.00 L 0.38 1.00 Z';
-
-// Step 2: hourglass funnel — wide at top, curved sides, narrow at bottom
 const STEP2 =
   'M 0.00 0.00 L 1.00 0.00 C 0.96 0.18 0.88 0.36 0.80 0.52 C 0.74 0.64 0.68 0.78 0.62 1.00 L 0.38 1.00 C 0.32 0.78 0.26 0.64 0.20 0.52 C 0.12 0.36 0.04 0.18 0.00 0.00 Z';
-
-// Step 0: full rectangle
 const STEP0 = 'M 0.00 0.00 L 1.00 0.00 L 1.00 1.00 L 0.00 1.00 Z';
 
-// Pre-compute flubber interpolators (expensive, do once)
+// Pre-compute flubber interpolators
 const morph3to2 = flubberInterpolate(STEP3, STEP2, { maxSegmentLength: 0.05 });
 const morph2to0 = flubberInterpolate(STEP2, STEP0, { maxSegmentLength: 0.05 });
 
 // =========================================================================
-// GenieCard — wraps a card div with the exact CodePen SVG morph clip-path
+// useGenieMorph — hook that drives the SVG path morph animation
+// Returns a ref to attach to the <path> inside a <clipPath>
 // =========================================================================
-interface GenieCardProps {
-  isOpen: boolean;
-  delayMs: number;
-  clipId: string;
-  children: React.ReactNode;
-  className?: string;
-}
-
-const GenieCard: React.FC<GenieCardProps> = ({
-  isOpen,
-  delayMs,
-  clipId,
-  children,
-  className,
-}) => {
+function useGenieMorph(isOpen: boolean, delayMs: number) {
   const pathRef = useRef<SVGPathElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Compute path from progress (0 = step3, 0.5 = step2, 1 = step0)
   const getPath = useCallback((progress: number): string => {
     if (progress <= 0.5) {
       return morph3to2(progress * 2);
@@ -74,34 +37,23 @@ const GenieCard: React.FC<GenieCardProps> = ({
   }, []);
 
   useEffect(() => {
-    // Cleanup previous animation
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
 
     if (isOpen) {
-      // ── OPEN: step3 → step2 → step0 (matching CodePen timing) ──
+      // OPEN: step3 → step2 → step0
       timeoutRef.current = setTimeout(() => {
         let start: number | null = null;
-        const duration = 750; // ms — matches ~0.3+0.3 with overlap
+        const duration = 750;
 
         const animate = (ts: number) => {
           if (!start) start = ts;
-          const elapsed = ts - start;
-          const rawT = Math.min(elapsed / duration, 1);
-          // Ease out cubic (power2.out equivalent)
-          const t = 1 - Math.pow(1 - rawT, 3);
+          const rawT = Math.min((ts - start) / duration, 1);
+          const t = 1 - Math.pow(1 - rawT, 3); // ease-out cubic
 
-          // Update clip path
           if (pathRef.current) {
             pathRef.current.setAttribute('d', getPath(t));
           }
-
-          // Fade in content after 55% morph progress
-          if (contentRef.current) {
-            const contentOpacity = t > 0.55 ? Math.min((t - 0.55) / 0.35, 1) : 0;
-            contentRef.current.style.opacity = String(contentOpacity);
-          }
-
           if (rawT < 1) {
             rafRef.current = requestAnimationFrame(animate);
           }
@@ -110,30 +62,21 @@ const GenieCard: React.FC<GenieCardProps> = ({
         rafRef.current = requestAnimationFrame(animate);
       }, delayMs);
     } else {
-      // ── CLOSE: step0 → step2 → step3 (reverse of open) ──
+      // CLOSE: step0 → step2 → step3
       let start: number | null = null;
       const duration = 550;
 
       const animate = (ts: number) => {
         if (!start) start = ts;
-        const elapsed = ts - start;
-        const rawT = Math.min(elapsed / duration, 1);
-        // Ease in-out for close
+        const rawT = Math.min((ts - start) / duration, 1);
         const eased = rawT < 0.5
           ? 2 * rawT * rawT
           : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
-
-        // Reverse: progress goes from 1 → 0
         const progress = 1 - eased;
 
         if (pathRef.current) {
           pathRef.current.setAttribute('d', getPath(progress));
         }
-
-        if (contentRef.current) {
-          contentRef.current.style.opacity = String(Math.min(progress, 1) > 0.6 ? 1 : 0);
-        }
-
         if (rawT < 1) {
           rafRef.current = requestAnimationFrame(animate);
         }
@@ -148,41 +91,16 @@ const GenieCard: React.FC<GenieCardProps> = ({
     };
   }, [isOpen, delayMs, getPath]);
 
-  return (
-    <>
-      {/* Hidden SVG: defines the morphing clipPath */}
-      <svg
-        width="0"
-        height="0"
-        style={{ position: 'absolute', pointerEvents: 'none' }}
-      >
-        <defs>
-          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
-            <path ref={pathRef} d={STEP3} />
-          </clipPath>
-        </defs>
-      </svg>
-
-      {/* Card div clipped by the morphing path */}
-      <div
-        style={{ clipPath: `url(#${clipId})` }}
-        className={className}
-      >
-        <div ref={contentRef} style={{ opacity: 0 }}>
-          {children}
-        </div>
-      </div>
-    </>
-  );
-};
+  return pathRef;
+}
 
 // =========================================================================
-// Position animation ease (for framer-motion x/y translation)
+// Position ease
 // =========================================================================
 const GENIE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // =========================================================================
-// MAIN SECTION COMPONENT
+// MAIN SECTION
 // =========================================================================
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -194,6 +112,11 @@ export const RenaissanceRealAsks: React.FC = () => {
   }, [isInView]);
 
   const handleToggle = () => setIsOpen((p) => !p);
+
+  // Genie morph refs — one per card
+  const path1Ref = useGenieMorph(isOpen, 60);
+  const path2Ref = useGenieMorph(isOpen, 220);
+  const path3Ref = useGenieMorph(isOpen, 380);
 
   // Position variants — cards translate from pedestal to final spot
   const pos1: Variants = {
@@ -215,6 +138,21 @@ export const RenaissanceRealAsks: React.FC = () => {
       id="asks"
       className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-x-clip select-none"
     >
+      {/* ── Hidden SVG defs: 3 morphing clipPaths ── */}
+      <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
+        <defs>
+          <clipPath id="genie-clip-1" clipPathUnits="objectBoundingBox">
+            <path ref={path1Ref} d={STEP3} />
+          </clipPath>
+          <clipPath id="genie-clip-2" clipPathUnits="objectBoundingBox">
+            <path ref={path2Ref} d={STEP3} />
+          </clipPath>
+          <clipPath id="genie-clip-3" clipPathUnits="objectBoundingBox">
+            <path ref={path3Ref} d={STEP3} />
+          </clipPath>
+        </defs>
+      </svg>
+
       {/* =========================================================================
           ANTIQUE CANDLE SCONCES
           ========================================================================= */}
@@ -249,8 +187,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            CARDS + PEDESTAL — each card emerges from the stone pedestal
-            with exact CodePen SVG morphing genie clip-path
+            CARDS + PEDESTAL
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
 
@@ -261,17 +198,15 @@ export const RenaissanceRealAsks: React.FC = () => {
             animate={isOpen ? 'open' : 'closed'}
             className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
-            <GenieCard
-              isOpen={isOpen}
-              delayMs={60}
-              clipId="genie-clip-1"
-              className="rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+            <div
+              style={{ clipPath: 'url(#genie-clip-1)' }}
+              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
             >
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
                 <IMessageBubble text="my ETH is up 34% scale." side="right" />
               </div>
-            </GenieCard>
+            </div>
           </motion.div>
 
           {/* ─── CARD 2: TOP-CENTER ─── */}
@@ -281,16 +216,14 @@ export const RenaissanceRealAsks: React.FC = () => {
             animate={isOpen ? 'open' : 'closed'}
             className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
-            <GenieCard
-              isOpen={isOpen}
-              delayMs={220}
-              clipId="genie-clip-2"
-              className="rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 cursor-pointer"
+            <div
+              style={{ clipPath: 'url(#genie-clip-2)' }}
+              className="imsg-card rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 cursor-pointer"
             >
               <div className="flex flex-col">
                 <IMessageBubble text="laddered. Stop trailing behind it." side="left" />
               </div>
-            </GenieCard>
+            </div>
           </motion.div>
 
           {/* ─── CARD 3: RIGHT ─── */}
@@ -300,17 +233,15 @@ export const RenaissanceRealAsks: React.FC = () => {
             animate={isOpen ? 'open' : 'closed'}
             className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
-            <GenieCard
-              isOpen={isOpen}
-              delayMs={380}
-              clipId="genie-clip-3"
-              className="rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+            <div
+              style={{ clipPath: 'url(#genie-clip-3)' }}
+              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
             >
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="what am I paying in gas this week?" side="left" />
                 <IMessageBubble text="pay this invoice in USDC." side="right" />
               </div>
-            </GenieCard>
+            </div>
           </motion.div>
 
           {/* ─── BOTTOM CENTER: STONE PEDESTAL ─── */}
