@@ -130,17 +130,23 @@ export const RenaissanceRealAsks: React.FC = () => {
   const path2Ref = useGenieMorph(isOpen, 220);
   const path3Ref = useGenieMorph(isOpen, 380);
 
-  // Position variants — cards translate from pedestal to final spot
+  // Position variants — ALL cards start from the SAME point (bottom-center pedestal)
+  // then fan out to their final CSS positions
+  // Offsets calculated: pedestal is at bottom-center (~50% x, ~95% y of container)
+
+  // Card 1: final at top:12%, left:8% → pedestal is ~580px below, ~350px to the right
   const pos1: Variants = {
-    closed: { y: 320, x: 180, transition: { duration: 0.55, ease: GENIE_EASE } },
+    closed: { y: 520, x: 340, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.06 } },
   };
+  // Card 2: final at top:4%, left:48% → pedestal is ~620px below, ~0px horizontally
   const pos2: Variants = {
-    closed: { y: 360, x: 0, transition: { duration: 0.55, ease: GENIE_EASE } },
+    closed: { y: 580, x: 20, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.22 } },
   };
+  // Card 3: final at top:42%, right:8% → pedestal is ~350px below, ~350px to the left
   const pos3: Variants = {
-    closed: { y: 260, x: -180, transition: { duration: 0.55, ease: GENIE_EASE } },
+    closed: { y: 340, x: -340, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.38 } },
   };
 
