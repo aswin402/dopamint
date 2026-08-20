@@ -1,90 +1,26 @@
-import React, { useRef } from 'react';
-import { motion, useInView, type Variants } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
+import { GenieCardItem } from './GenieCardItem';
 
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.25, once: false });
+  const isInView = useInView(sectionRef, { amount: 0.28, once: false });
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Spring entrance from bottom pedestal
-  const card1Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.2,
-      x: 180,
-      y: 280,
-      rotate: 0,
-      filter: 'blur(6px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: -5,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 90,
-        damping: 14,
-        mass: 0.8,
-        delay: 0.15,
-      },
-    },
-  };
+  // Sync scroll in-view with Genie Open Animation
+  useEffect(() => {
+    if (isInView) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [isInView]);
 
-  const card2Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.2,
-      x: 0,
-      y: 300,
-      rotate: 0,
-      filter: 'blur(6px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 4,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 90,
-        damping: 14,
-        mass: 0.8,
-        delay: 0.3,
-      },
-    },
-  };
-
-  const card3Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.2,
-      x: -180,
-      y: 200,
-      rotate: 0,
-      filter: 'blur(6px)',
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 6,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 90,
-        damping: 14,
-        mass: 0.8,
-        delay: 0.45,
-      },
-    },
+  const handleToggle = () => {
+    setIsOpen((prev) => !prev);
   };
 
   return (
@@ -126,25 +62,20 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            3. PURE CODE CANVAS WITH 3 ORIGINAL CONVERSATION CARDS & STONE PEDESTAL
+            3. PURE CODE CANVAS WITH 3 GENIE-MORPHING CONVERSATION CARDS & STONE PEDESTAL
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
           
           {/* -----------------------------------------------------------------------
-              CARD 1: LEFT CONVERSATION CARD
+              CARD 1: LEFT CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
               ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card1Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: -1.5,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
+          <GenieCardItem
+            isOpen={isOpen}
+            delay={0.12}
+            rotation={-5}
+            hoverRotation={-1.5}
+            hoverScale={1.06}
+            className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
             <div className="flex flex-col gap-3.5 sm:gap-4">
               <IMessageBubble
@@ -156,23 +87,18 @@ export const RenaissanceRealAsks: React.FC = () => {
                 side="right"
               />
             </div>
-          </motion.div>
+          </GenieCardItem>
 
           {/* -----------------------------------------------------------------------
-              CARD 2: TOP-CENTER CONVERSATION CARD
+              CARD 2: TOP-CENTER CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
               ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card2Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.07,
-              rotate: 1.2,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
+          <GenieCardItem
+            isOpen={isOpen}
+            delay={0.28}
+            rotation={4}
+            hoverRotation={1.2}
+            hoverScale={1.07}
+            className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
             <div className="flex flex-col">
               <IMessageBubble
@@ -180,23 +106,18 @@ export const RenaissanceRealAsks: React.FC = () => {
                 side="left"
               />
             </div>
-          </motion.div>
+          </GenieCardItem>
 
           {/* -----------------------------------------------------------------------
-              CARD 3: RIGHT CONVERSATION CARD
+              CARD 3: RIGHT CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
               ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card3Variants}
-            initial="closed"
-            animate={isInView ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: 1.8,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
+          <GenieCardItem
+            isOpen={isOpen}
+            delay={0.44}
+            rotation={6}
+            hoverRotation={1.8}
+            hoverScale={1.06}
+            className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
             <div className="flex flex-col gap-3.5 sm:gap-4">
               <IMessageBubble
@@ -208,14 +129,20 @@ export const RenaissanceRealAsks: React.FC = () => {
                 side="right"
               />
             </div>
-          </motion.div>
+          </GenieCardItem>
 
           {/* -----------------------------------------------------------------------
-              BOTTOM CENTER: PURE CODE CARVED STONE iMESSAGE PEDESTAL
+              BOTTOM CENTER: CARVED STONE iMESSAGE PEDESTAL
+              Click to toggle Genie Open / Close for all cards
               ----------------------------------------------------------------------- */}
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 pointer-events-none z-20 flex flex-col items-center">
+          <div
+            onClick={handleToggle}
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 z-30 flex flex-col items-center cursor-pointer group"
+          >
             <motion.div
-              animate={isInView ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.95 }}
+              animate={isOpen ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="w-full"
             >
