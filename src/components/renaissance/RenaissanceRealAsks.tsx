@@ -129,7 +129,10 @@ export const RenaissanceRealAsks: React.FC = () => {
       const ped = pedestalRef.current;
       if (!ped) return;
 
-      const pedCx = ped.offsetLeft + ped.offsetWidth / 2;
+      // Pedestal has left:50% + translateX(-50%), so its VISUAL center x = offsetLeft
+      // (offsetLeft gives 50% of container; the translateX shifts the element so its
+      // center is AT that point. offsetLeft doesn't include transforms.)
+      const pedCx = ped.offsetLeft;
       const pedTy = ped.offsetTop;
 
       [
