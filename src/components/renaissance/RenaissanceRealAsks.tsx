@@ -44,7 +44,7 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
       // OPEN: step3 → step2 → step0
       timeoutRef.current = setTimeout(() => {
         let start: number | null = null;
-        const duration = 1200;
+        const duration = 900;
 
         const animate = (ts: number) => {
           if (!start) start = ts;
@@ -64,7 +64,7 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
     } else {
       // CLOSE: step0 → step2 → step3
       let start: number | null = null;
-      const duration = 850;
+      const duration = 650;
 
       const animate = (ts: number) => {
         if (!start) start = ts;
@@ -128,15 +128,15 @@ export const RenaissanceRealAsks: React.FC = () => {
   // Position variants — cards translate from pedestal to final spot
   const pos1: Variants = {
     closed: { y: 320, x: 180, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.2, ease: GENIE_EASE, delay: 0.06 } },
+    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.06 } },
   };
   const pos2: Variants = {
     closed: { y: 360, x: 0, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.2, ease: GENIE_EASE, delay: 0.22 } },
+    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.22 } },
   };
   const pos3: Variants = {
     closed: { y: 260, x: -180, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.2, ease: GENIE_EASE, delay: 0.38 } },
+    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.38 } },
   };
 
   return (
