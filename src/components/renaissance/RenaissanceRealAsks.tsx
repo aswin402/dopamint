@@ -1,44 +1,189 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
+import { interpolate as flubberInterpolate } from 'flubber';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
 
 // =========================================================================
-// AUTHENTIC macOS GENIE MAXIMIZE EFFECT — VISIBLE EMERGENCE
+// EXACT CODEPEN macOS GENIE EFFECT — SVG PATH MORPHING
 // =========================================================================
 //
-// 12-vertex clip-path polygon() morphs through 4 stages:
+// Reproduces the exact CodePen animation:
+//   #element morphSVG: step3 → step2 → step0
 //
-//   PINCHED  → small visible rectangle at bottom center (at the pedestal)
-//   FUNNEL   → wide top, sides curving inward, narrow bottom (genie shape)
-//   SETTLE   → slight overshoot wider than full
-//   FULL     → complete rectangle
+// Using flubber to smoothly morph between 3 SVG path shapes applied as
+// clip-path on each card div (clipPathUnits="objectBoundingBox", 0-1 coords).
 //
-// Key fix: cards start at opacity 0.9 (NOT 0) so the emergence from the
-// stone pedestal is clearly VISIBLE. The clip-path does the hiding/reveal,
-// not opacity.
+// Step 3: tiny rectangle at bottom center (the "dock icon" at pedestal)
+// Step 2: hourglass funnel with curved sides (wide top, narrow bottom)
+// Step 0: full rectangle (card fully open)
+//
+// Original CodePen GSAP timeline (open):
+//   .to(element, .3, { delay: .45, y: "10px" })
+//   .to(element, .3, { morphSVG: step2 })
+//   .to(element, .3, { morphSVG: step0 }, "-=.15")
+//   .to(element, .3, { y: "0" }, "-=.3")
 // =========================================================================
 
-// Pinched: 24% wide × 12% tall rectangle at bottom-center — VISIBLE as a
-// small shape emerging from the stone pedestal
-const CLIP_PINCHED =
-  'polygon(38% 88%, 43% 88%, 50% 88%, 57% 88%, 62% 88%, 62% 94%, 62% 100%, 54% 100%, 46% 100%, 38% 100%, 38% 94%, 38% 88%)';
+// SVG path shapes in objectBoundingBox coordinates (0-1)
 
-// Funnel: wide at top, sides curve inward, narrow at bottom (the genie shape)
-const CLIP_FUNNEL =
-  'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 93% 32%, 75% 65%, 60% 100%, 55% 100%, 45% 100%, 40% 100%, 25% 65%, 7% 32%)';
+// Step 3: tiny bar at bottom center (~24% wide, 10% tall)
+const STEP3 = 'M 0.38 0.90 L 0.62 0.90 L 0.62 1.00 L 0.38 1.00 Z';
 
-// Settle: slightly wider than full (overshoot for elastic feel)
-const CLIP_SETTLE =
-  'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 100% 33%, 100% 67%, 100% 100%, 67% 100%, 33% 100%, 0% 100%, 0% 67%, 0% 33%)';
+// Step 2: hourglass funnel — wide at top, curved sides, narrow at bottom
+const STEP2 =
+  'M 0.00 0.00 L 1.00 0.00 C 0.96 0.18 0.88 0.36 0.80 0.52 C 0.74 0.64 0.68 0.78 0.62 1.00 L 0.38 1.00 C 0.32 0.78 0.26 0.64 0.20 0.52 C 0.12 0.36 0.04 0.18 0.00 0.00 Z';
 
-// Full: perfect rectangle
-const CLIP_FULL =
-  'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 100% 33%, 100% 67%, 100% 100%, 67% 100%, 33% 100%, 0% 100%, 0% 67%, 0% 33%)';
+// Step 0: full rectangle
+const STEP0 = 'M 0.00 0.00 L 1.00 0.00 L 1.00 1.00 L 0.00 1.00 Z';
 
+// Pre-compute flubber interpolators (expensive, do once)
+const morph3to2 = flubberInterpolate(STEP3, STEP2, { maxSegmentLength: 0.05 });
+const morph2to0 = flubberInterpolate(STEP2, STEP0, { maxSegmentLength: 0.05 });
+
+// =========================================================================
+// GenieCard — wraps a card div with the exact CodePen SVG morph clip-path
+// =========================================================================
+interface GenieCardProps {
+  isOpen: boolean;
+  delayMs: number;
+  clipId: string;
+  children: React.ReactNode;
+  className?: string;
+}
+
+const GenieCard: React.FC<GenieCardProps> = ({
+  isOpen,
+  delayMs,
+  clipId,
+  children,
+  className,
+}) => {
+  const pathRef = useRef<SVGPathElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Compute path from progress (0 = step3, 0.5 = step2, 1 = step0)
+  const getPath = useCallback((progress: number): string => {
+    if (progress <= 0.5) {
+      return morph3to2(progress * 2);
+    }
+    return morph2to0((progress - 0.5) * 2);
+  }, []);
+
+  useEffect(() => {
+    // Cleanup previous animation
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+
+    if (isOpen) {
+      // ── OPEN: step3 → step2 → step0 (matching CodePen timing) ──
+      timeoutRef.current = setTimeout(() => {
+        let start: number | null = null;
+        const duration = 750; // ms — matches ~0.3+0.3 with overlap
+
+        const animate = (ts: number) => {
+          if (!start) start = ts;
+          const elapsed = ts - start;
+          const rawT = Math.min(elapsed / duration, 1);
+          // Ease out cubic (power2.out equivalent)
+          const t = 1 - Math.pow(1 - rawT, 3);
+
+          // Update clip path
+          if (pathRef.current) {
+            pathRef.current.setAttribute('d', getPath(t));
+          }
+
+          // Fade in content after 55% morph progress
+          if (contentRef.current) {
+            const contentOpacity = t > 0.55 ? Math.min((t - 0.55) / 0.35, 1) : 0;
+            contentRef.current.style.opacity = String(contentOpacity);
+          }
+
+          if (rawT < 1) {
+            rafRef.current = requestAnimationFrame(animate);
+          }
+        };
+
+        rafRef.current = requestAnimationFrame(animate);
+      }, delayMs);
+    } else {
+      // ── CLOSE: step0 → step2 → step3 (reverse of open) ──
+      let start: number | null = null;
+      const duration = 550;
+
+      const animate = (ts: number) => {
+        if (!start) start = ts;
+        const elapsed = ts - start;
+        const rawT = Math.min(elapsed / duration, 1);
+        // Ease in-out for close
+        const eased = rawT < 0.5
+          ? 2 * rawT * rawT
+          : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
+
+        // Reverse: progress goes from 1 → 0
+        const progress = 1 - eased;
+
+        if (pathRef.current) {
+          pathRef.current.setAttribute('d', getPath(progress));
+        }
+
+        if (contentRef.current) {
+          contentRef.current.style.opacity = String(Math.min(progress, 1) > 0.6 ? 1 : 0);
+        }
+
+        if (rawT < 1) {
+          rafRef.current = requestAnimationFrame(animate);
+        }
+      };
+
+      rafRef.current = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [isOpen, delayMs, getPath]);
+
+  return (
+    <>
+      {/* Hidden SVG: defines the morphing clipPath */}
+      <svg
+        width="0"
+        height="0"
+        style={{ position: 'absolute', pointerEvents: 'none' }}
+      >
+        <defs>
+          <clipPath id={clipId} clipPathUnits="objectBoundingBox">
+            <path ref={pathRef} d={STEP3} />
+          </clipPath>
+        </defs>
+      </svg>
+
+      {/* Card div clipped by the morphing path */}
+      <div
+        style={{ clipPath: `url(#${clipId})` }}
+        className={className}
+      >
+        <div ref={contentRef} style={{ opacity: 0 }}>
+          {children}
+        </div>
+      </div>
+    </>
+  );
+};
+
+// =========================================================================
+// Position animation ease (for framer-motion x/y translation)
+// =========================================================================
 const GENIE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// =========================================================================
+// MAIN SECTION COMPONENT
+// =========================================================================
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.25, once: false });
@@ -50,91 +195,18 @@ export const RenaissanceRealAsks: React.FC = () => {
 
   const handleToggle = () => setIsOpen((p) => !p);
 
-  // -----------------------------------------------------------------------
-  // CARD 1: LEFT — curves up-left out of pedestal
-  // -----------------------------------------------------------------------
-  const card1: Variants = {
-    closed: {
-      clipPath: CLIP_PINCHED,
-      y: 320,
-      x: 180,
-      opacity: 0,
-      rotate: 0,
-      transition: { duration: 0.6, ease: GENIE_EASE },
-    },
-    open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
-      y:        [320,          40,          -6,          0],
-      x:        [180,          35,          -4,          0],
-      opacity:  [0.9,          1,           1,           1],
-      rotate:   [0,            -3,          -6,          -5],
-      transition: {
-        duration: 1.1,
-        times: [0, 0.38, 0.78, 1],
-        ease: GENIE_EASE,
-        delay: 0.06,
-      },
-    },
+  // Position variants — cards translate from pedestal to final spot
+  const pos1: Variants = {
+    closed: { y: 320, x: 180, transition: { duration: 0.55, ease: GENIE_EASE } },
+    open: { y: 0, x: 0, transition: { duration: 0.8, ease: GENIE_EASE, delay: 0.06 } },
   };
-
-  // -----------------------------------------------------------------------
-  // CARD 2: TOP-CENTER — shoots straight up out of pedestal
-  // -----------------------------------------------------------------------
-  const card2: Variants = {
-    closed: {
-      clipPath: CLIP_PINCHED,
-      y: 360,
-      x: 0,
-      opacity: 0,
-      rotate: 0,
-      transition: { duration: 0.6, ease: GENIE_EASE },
-    },
-    open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
-      y:        [360,          30,          -5,          0],
-      x:        [0,            0,           0,           0],
-      opacity:  [0.9,          1,           1,           1],
-      rotate:   [0,            3,           5,           4],
-      transition: {
-        duration: 1.1,
-        times: [0, 0.38, 0.78, 1],
-        ease: GENIE_EASE,
-        delay: 0.22,
-      },
-    },
+  const pos2: Variants = {
+    closed: { y: 360, x: 0, transition: { duration: 0.55, ease: GENIE_EASE } },
+    open: { y: 0, x: 0, transition: { duration: 0.8, ease: GENIE_EASE, delay: 0.22 } },
   };
-
-  // -----------------------------------------------------------------------
-  // CARD 3: RIGHT — curves up-right out of pedestal
-  // -----------------------------------------------------------------------
-  const card3: Variants = {
-    closed: {
-      clipPath: CLIP_PINCHED,
-      y: 260,
-      x: -180,
-      opacity: 0,
-      rotate: 0,
-      transition: { duration: 0.6, ease: GENIE_EASE },
-    },
-    open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
-      y:        [260,          30,          -5,          0],
-      x:        [-180,         -35,         4,           0],
-      opacity:  [0.9,          1,           1,           1],
-      rotate:   [0,            4,           7,           6],
-      transition: {
-        duration: 1.1,
-        times: [0, 0.38, 0.78, 1],
-        ease: GENIE_EASE,
-        delay: 0.38,
-      },
-    },
-  };
-
-  // Chat text fades in after the card shape materializes
-  const chatFade: Variants = {
-    closed: { opacity: 0 },
-    open: { opacity: 1, transition: { duration: 0.35, ease: 'easeOut', delay: 0.55 } },
+  const pos3: Variants = {
+    closed: { y: 260, x: -180, transition: { duration: 0.55, ease: GENIE_EASE } },
+    open: { y: 0, x: 0, transition: { duration: 0.8, ease: GENIE_EASE, delay: 0.38 } },
   };
 
   return (
@@ -177,67 +249,68 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            CARDS + PEDESTAL CANVAS
+            CARDS + PEDESTAL — each card emerges from the stone pedestal
+            with exact CodePen SVG morphing genie clip-path
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
 
           {/* ─── CARD 1: LEFT ─── */}
           <motion.div
-            variants={card1}
+            variants={pos1}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.05,
-              rotate: -1.5,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45,30,15,0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer"
+            className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
-            <motion.div variants={chatFade} className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
-              <IMessageBubble text="my ETH is up 34% scale." side="right" />
-            </motion.div>
+            <GenieCard
+              isOpen={isOpen}
+              delayMs={60}
+              clipId="genie-clip-1"
+              className="rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+            >
+              <div className="flex flex-col gap-3.5 sm:gap-4">
+                <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
+                <IMessageBubble text="my ETH is up 34% scale." side="right" />
+              </div>
+            </GenieCard>
           </motion.div>
 
           {/* ─── CARD 2: TOP-CENTER ─── */}
           <motion.div
-            variants={card2}
+            variants={pos2}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.07,
-              rotate: 1.2,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45,30,15,0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block"
+            className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
-            <motion.div variants={chatFade} className="flex flex-col">
-              <IMessageBubble text="laddered. Stop trailing behind it." side="left" />
-            </motion.div>
+            <GenieCard
+              isOpen={isOpen}
+              delayMs={220}
+              clipId="genie-clip-2"
+              className="rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 cursor-pointer"
+            >
+              <div className="flex flex-col">
+                <IMessageBubble text="laddered. Stop trailing behind it." side="left" />
+              </div>
+            </GenieCard>
           </motion.div>
 
           {/* ─── CARD 3: RIGHT ─── */}
           <motion.div
-            variants={card3}
+            variants={pos3}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: 1.8,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45,30,15,0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer"
+            className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
-            <motion.div variants={chatFade} className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble text="what am I paying in gas this week?" side="left" />
-              <IMessageBubble text="pay this invoice in USDC." side="right" />
-            </motion.div>
+            <GenieCard
+              isOpen={isOpen}
+              delayMs={380}
+              clipId="genie-clip-3"
+              className="rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+            >
+              <div className="flex flex-col gap-3.5 sm:gap-4">
+                <IMessageBubble text="what am I paying in gas this week?" side="left" />
+                <IMessageBubble text="pay this invoice in USDC." side="right" />
+              </div>
+            </GenieCard>
           </motion.div>
 
           {/* ─── BOTTOM CENTER: STONE PEDESTAL ─── */}
