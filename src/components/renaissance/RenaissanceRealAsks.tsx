@@ -208,6 +208,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             variants={pos1}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
+            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
             <div
@@ -226,6 +227,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             variants={pos2}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
+            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
             <div
@@ -243,6 +245,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             variants={pos3}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
+            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
             <div
