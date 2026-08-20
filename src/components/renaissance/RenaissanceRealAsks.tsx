@@ -123,17 +123,20 @@ export const RenaissanceRealAsks: React.FC = () => {
   const [off2, setOff2] = useState({ x: 0, y: 0 });
   const [off3, setOff3] = useState({ x: 0, y: 0 });
 
-  // Measure offsets using offsetLeft/offsetTop (unaffected by transforms)
+  // Measure offsets: getBoundingClientRect for pedestal (includes CSS transforms),
+  // offsetLeft/offsetTop for cards (layout position, no transforms)
   useEffect(() => {
     const measure = () => {
       const ped = pedestalRef.current;
-      if (!ped) return;
+      if (!ped || !ped.offsetParent) return;
 
-      // Pedestal has left:50% + translateX(-50%), so its VISUAL center x = offsetLeft
-      // (offsetLeft gives 50% of container; the translateX shifts the element so its
-      // center is AT that point. offsetLeft doesn't include transforms.)
-      const pedCx = ped.offsetLeft;
-      const pedTy = ped.offsetTop;
+      // Get the shared offsetParent's viewport position to convert coordinate spaces
+      const parentRect = (ped.offsetParent as HTMLElement).getBoundingClientRect();
+      const pedRect = ped.getBoundingClientRect();
+
+      // Pedestal VISUAL center relative to offsetParent (includes translateX(-50%))
+      const pedCx = pedRect.left + pedRect.width / 2 - parentRect.left;
+      const pedTy = pedRect.top - parentRect.top;
 
       [
         { ref: card1Ref, set: setOff1 },
@@ -142,6 +145,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       ].forEach(({ ref, set }) => {
         const el = ref.current;
         if (!el) return;
+        // Card CSS layout center (unaffected by framer-motion transforms)
         const cardCx = el.offsetLeft + el.offsetWidth / 2;
         const cardCy = el.offsetTop + el.offsetHeight / 2;
         set({ x: pedCx - cardCx, y: pedTy - cardCy });
