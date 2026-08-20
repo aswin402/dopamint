@@ -112,6 +112,47 @@ export const RenaissanceRealAsks: React.FC = () => {
   const isInView = useInView(sectionRef, { amount: 0.25, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
+  // Refs for dynamic offset calculation
+  const card1Ref = useRef<HTMLDivElement>(null);
+  const card2Ref = useRef<HTMLDivElement>(null);
+  const card3Ref = useRef<HTMLDivElement>(null);
+  const pedestalRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic offsets: each card's CSS position → pedestal center
+  const [off1, setOff1] = useState({ x: 0, y: 0 });
+  const [off2, setOff2] = useState({ x: 0, y: 0 });
+  const [off3, setOff3] = useState({ x: 0, y: 0 });
+
+  // Measure offsets using offsetLeft/offsetTop (unaffected by transforms)
+  useEffect(() => {
+    const measure = () => {
+      const ped = pedestalRef.current;
+      if (!ped) return;
+
+      const pedCx = ped.offsetLeft + ped.offsetWidth / 2;
+      const pedTy = ped.offsetTop;
+
+      [
+        { ref: card1Ref, set: setOff1 },
+        { ref: card2Ref, set: setOff2 },
+        { ref: card3Ref, set: setOff3 },
+      ].forEach(({ ref, set }) => {
+        const el = ref.current;
+        if (!el) return;
+        const cardCx = el.offsetLeft + el.offsetWidth / 2;
+        const cardCy = el.offsetTop + el.offsetHeight / 2;
+        set({ x: pedCx - cardCx, y: pedTy - cardCy });
+      });
+    };
+
+    const raf = requestAnimationFrame(measure);
+    window.addEventListener('resize', measure);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', measure);
+    };
+  }, []);
+
   // Wait 1s after section enters view, then trigger card emergence
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -125,28 +166,22 @@ export const RenaissanceRealAsks: React.FC = () => {
 
   const handleToggle = () => setIsOpen((p) => !p);
 
-  // Genie morph refs — one per card
+  // Genie morph refs
   const path1Ref = useGenieMorph(isOpen, 60);
   const path2Ref = useGenieMorph(isOpen, 220);
   const path3Ref = useGenieMorph(isOpen, 380);
 
-  // Position variants — ALL cards start from the SAME point (bottom-center pedestal)
-  // then fan out to their final CSS positions
-  // Offsets calculated: pedestal is at bottom-center (~50% x, ~95% y of container)
-
-  // Card 1: final at top:12%, left:8% → pedestal is ~580px below, ~350px to the right
+  // Position variants using measured offsets
   const pos1: Variants = {
-    closed: { y: 520, x: 340, transition: { duration: 0.7, ease: GENIE_EASE } },
+    closed: { y: off1.y, x: off1.x, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.06 } },
   };
-  // Card 2: final at top:4%, left:48% → pedestal is ~620px below, ~0px horizontally
   const pos2: Variants = {
-    closed: { y: 580, x: 20, transition: { duration: 0.7, ease: GENIE_EASE } },
+    closed: { y: off2.y, x: off2.x, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.22 } },
   };
-  // Card 3: final at top:42%, right:8% → pedestal is ~350px below, ~350px to the left
   const pos3: Variants = {
-    closed: { y: 340, x: -340, transition: { duration: 0.7, ease: GENIE_EASE } },
+    closed: { y: off3.y, x: off3.x, transition: { duration: 0.7, ease: GENIE_EASE } },
     open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.38 } },
   };
 
@@ -211,6 +246,7 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* ─── CARD 1: LEFT ─── */}
           <motion.div
+            ref={card1Ref}
             variants={pos1}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
@@ -230,6 +266,7 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* ─── CARD 2: TOP-CENTER ─── */}
           <motion.div
+            ref={card2Ref}
             variants={pos2}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
@@ -248,6 +285,7 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* ─── CARD 3: RIGHT ─── */}
           <motion.div
+            ref={card3Ref}
             variants={pos3}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
@@ -267,6 +305,7 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* ─── BOTTOM CENTER: STONE PEDESTAL ─── */}
           <div
+            ref={pedestalRef}
             onClick={handleToggle}
             className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 z-30 flex flex-col items-center cursor-pointer group"
           >
