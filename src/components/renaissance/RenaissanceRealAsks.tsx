@@ -1,16 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, type Variants } from 'framer-motion';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
-import { GenieCardItem } from './GenieCardItem';
 
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { amount: 0.28, once: false });
+  const isInView = useInView(sectionRef, { amount: 0.25, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  // Sync scroll in-view with Genie Open Animation
+  // Trigger genie emergence when scrolling into section
   useEffect(() => {
     if (isInView) {
       setIsOpen(true);
@@ -21,6 +20,133 @@ export const RenaissanceRealAsks: React.FC = () => {
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  // =========================================================================
+  // 3-CARD GENIE EMERGENCE ANIMATIONS FROM THE BOTTOM STONE PEDESTAL
+  // Each card shoots out directly from the bottom-center stone image with:
+  // 1. Point of origin: Stone Pedestal at bottom-center (scaleX: 0.05, scaleY: 0.05, opacity: 0)
+  // 2. Genie Funnel Stretch: Shoots up like a fluid funnel (scaleY: 1.35, scaleX: 0.32, skewX, opacity: 0.95)
+  // 3. Top Fan-Out Blossom: S-curve widening (scaleX: 1.07, scaleY: 0.94)
+  // 4. Settles into full scale 1.0, crisp rendering, and resting tilt (-5°, +4°, +6°)
+  // =========================================================================
+
+  // CARD 1: LEFT CONVERSATION CARD (Curves up & left out of stone pedestal)
+  const card1GenieVariants: Variants = {
+    closed: {
+      opacity: 0,
+      scaleX: 0.05,
+      scaleY: 0.05,
+      x: 220,
+      y: 340,
+      rotate: 0,
+      skewX: 0,
+      filter: 'blur(8px)',
+      pointerEvents: 'none',
+      transition: {
+        duration: 0.4,
+        ease: 'easeInOut',
+      },
+    },
+    open: {
+      opacity: [0, 0.95, 1, 1],
+      scaleX: [0.05, 0.32, 1.06, 1],
+      scaleY: [0.05, 1.35, 0.95, 1],
+      x: [220, 90, -8, 0],
+      y: [340, 60, -8, 0],
+      rotate: [0, 8, -7, -5],
+      skewX: [0, -10, 3, 0],
+      filter: ['blur(8px)', 'blur(2px)', 'blur(0px)', 'blur(0px)'],
+      pointerEvents: 'auto',
+      transition: {
+        duration: 0.85,
+        times: [0, 0.4, 0.8, 1],
+        ease: ['easeInOut', 'easeOut', 'easeOut'],
+        delay: 0.12,
+      },
+    },
+  };
+
+  // CARD 2: TOP-CENTER CONVERSATION CARD (Shoots straight up out of stone pedestal)
+  const card2GenieVariants: Variants = {
+    closed: {
+      opacity: 0,
+      scaleX: 0.05,
+      scaleY: 0.05,
+      x: 0,
+      y: 380,
+      rotate: 0,
+      skewX: 0,
+      filter: 'blur(8px)',
+      pointerEvents: 'none',
+      transition: {
+        duration: 0.4,
+        ease: 'easeInOut',
+      },
+    },
+    open: {
+      opacity: [0, 0.95, 1, 1],
+      scaleX: [0.05, 0.28, 1.08, 1],
+      scaleY: [0.05, 1.4, 0.94, 1],
+      x: [0, 0, 0, 0],
+      y: [380, 50, -10, 0],
+      rotate: [0, -5, 6, 4],
+      skewX: [0, 0, 0, 0],
+      filter: ['blur(8px)', 'blur(2px)', 'blur(0px)', 'blur(0px)'],
+      pointerEvents: 'auto',
+      transition: {
+        duration: 0.85,
+        times: [0, 0.4, 0.8, 1],
+        ease: ['easeInOut', 'easeOut', 'easeOut'],
+        delay: 0.28,
+      },
+    },
+  };
+
+  // CARD 3: RIGHT CONVERSATION CARD (Curves up & right out of stone pedestal)
+  const card3GenieVariants: Variants = {
+    closed: {
+      opacity: 0,
+      scaleX: 0.05,
+      scaleY: 0.05,
+      x: -220,
+      y: 280,
+      rotate: 0,
+      skewX: 0,
+      filter: 'blur(8px)',
+      pointerEvents: 'none',
+      transition: {
+        duration: 0.4,
+        ease: 'easeInOut',
+      },
+    },
+    open: {
+      opacity: [0, 0.95, 1, 1],
+      scaleX: [0.05, 0.32, 1.06, 1],
+      scaleY: [0.05, 1.35, 0.95, 1],
+      x: [-220, -90, 8, 0],
+      y: [280, 50, -8, 0],
+      rotate: [0, -8, 8, 6],
+      skewX: [0, 10, -3, 0],
+      filter: ['blur(8px)', 'blur(2px)', 'blur(0px)', 'blur(0px)'],
+      pointerEvents: 'auto',
+      transition: {
+        duration: 0.85,
+        times: [0, 0.4, 0.8, 1],
+        ease: ['easeInOut', 'easeOut', 'easeOut'],
+        delay: 0.44,
+      },
+    },
+  };
+
+  // Chat bubbles fade-in inside each card
+  const chatFadeVariants: Variants = {
+    closed: { opacity: 0, scale: 0.95 },
+    open: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.3, ease: 'easeOut', delay: 0.35 },
+    },
   };
 
   return (
@@ -62,22 +188,28 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            3. PURE CODE CANVAS WITH 3 GENIE-MORPHING CONVERSATION CARDS & STONE PEDESTAL
+            3. PURE CODE CANVAS: ALL 3 CARDS EMERGE FROM BOTTOM CENTER STONE PEDESTAL
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
           
           {/* -----------------------------------------------------------------------
-              CARD 1: LEFT CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
+              CARD 1: LEFT CONVERSATION CARD
+              Genie Funnel Emergence from Pedestal -> Land at -5° -> Hover Zoom
               ----------------------------------------------------------------------- */}
-          <GenieCardItem
-            isOpen={isOpen}
-            delay={0.12}
-            rotation={-5}
-            hoverRotation={-1.5}
-            hoverScale={1.06}
-            className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
+          <motion.div
+            variants={card1GenieVariants}
+            initial="closed"
+            animate={isOpen ? 'open' : 'closed'}
+            whileHover={{
+              scale: 1.06,
+              rotate: -1.5,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-bottom"
           >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
+            <motion.div variants={chatFadeVariants} className="flex flex-col gap-3.5 sm:gap-4">
               <IMessageBubble
                 text="why is BTC bid this morning, funding or spot?"
                 side="left"
@@ -86,40 +218,52 @@ export const RenaissanceRealAsks: React.FC = () => {
                 text="my ETH is up 34% scale."
                 side="right"
               />
-            </div>
-          </GenieCardItem>
+            </motion.div>
+          </motion.div>
 
           {/* -----------------------------------------------------------------------
-              CARD 2: TOP-CENTER CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
+              CARD 2: TOP-CENTER CONVERSATION CARD
+              Genie Funnel Emergence from Pedestal -> Land at +4° -> Hover Zoom
               ----------------------------------------------------------------------- */}
-          <GenieCardItem
-            isOpen={isOpen}
-            delay={0.28}
-            rotation={4}
-            hoverRotation={1.2}
-            hoverScale={1.07}
-            className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
+          <motion.div
+            variants={card2GenieVariants}
+            initial="closed"
+            animate={isOpen ? 'open' : 'closed'}
+            whileHover={{
+              scale: 1.07,
+              rotate: 1.2,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-bottom"
           >
-            <div className="flex flex-col">
+            <motion.div variants={chatFadeVariants} className="flex flex-col">
               <IMessageBubble
                 text="laddered. Stop trailing behind it."
                 side="left"
               />
-            </div>
-          </GenieCardItem>
+            </motion.div>
+          </motion.div>
 
           {/* -----------------------------------------------------------------------
-              CARD 3: RIGHT CONVERSATION CARD (Exact CodePen Open-Tab Genie Morph)
+              CARD 3: RIGHT CONVERSATION CARD
+              Genie Funnel Emergence from Pedestal -> Land at +6° -> Hover Zoom
               ----------------------------------------------------------------------- */}
-          <GenieCardItem
-            isOpen={isOpen}
-            delay={0.44}
-            rotation={6}
-            hoverRotation={1.8}
-            hoverScale={1.06}
-            className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
+          <motion.div
+            variants={card3GenieVariants}
+            initial="closed"
+            animate={isOpen ? 'open' : 'closed'}
+            whileHover={{
+              scale: 1.06,
+              rotate: 1.8,
+              zIndex: 40,
+              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
+            }}
+            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-bottom"
           >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
+            <motion.div variants={chatFadeVariants} className="flex flex-col gap-3.5 sm:gap-4">
               <IMessageBubble
                 text="what am I paying in gas this week?"
                 side="left"
@@ -128,12 +272,12 @@ export const RenaissanceRealAsks: React.FC = () => {
                 text="pay this invoice in USDC."
                 side="right"
               />
-            </div>
-          </GenieCardItem>
+            </motion.div>
+          </motion.div>
 
           {/* -----------------------------------------------------------------------
-              BOTTOM CENTER: CARVED STONE iMESSAGE PEDESTAL
-              Click to toggle Genie Open / Close for all cards
+              BOTTOM CENTER: CARVED STONE iMESSAGE PEDESTAL IMAGE
+              Click to toggle Genie Emergence for all 3 cards
               ----------------------------------------------------------------------- */}
           <div
             onClick={handleToggle}
