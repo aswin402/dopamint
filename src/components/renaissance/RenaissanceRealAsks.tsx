@@ -1,13 +1,101 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useInView, type Variants } from 'framer-motion';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
 
 export const RenaissanceRealAsks: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { amount: 0.28, once: false });
+
+  // =========================================================================
+  // macOS APP LAUNCH / GENIE EMERGENCE VARIANTS
+  // Cards start scaled down at the bottom-center Stone Pedestal and fly outward
+  // =========================================================================
+  const card1Variants: Variants = {
+    closed: {
+      opacity: 0,
+      scale: 0.06,
+      x: 180,
+      y: 290,
+      rotate: 0,
+      filter: 'blur(10px)',
+    },
+    open: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      rotate: -5,
+      filter: 'blur(0px)',
+      transition: {
+        type: 'spring',
+        stiffness: 95,
+        damping: 14,
+        mass: 0.85,
+        delay: 0.15,
+      },
+    },
+  };
+
+  const card2Variants: Variants = {
+    closed: {
+      opacity: 0,
+      scale: 0.06,
+      x: 0,
+      y: 330,
+      rotate: 0,
+      filter: 'blur(10px)',
+    },
+    open: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      rotate: 4,
+      filter: 'blur(0px)',
+      transition: {
+        type: 'spring',
+        stiffness: 95,
+        damping: 14,
+        mass: 0.85,
+        delay: 0.32,
+      },
+    },
+  };
+
+  const card3Variants: Variants = {
+    closed: {
+      opacity: 0,
+      scale: 0.06,
+      x: -180,
+      y: 170,
+      rotate: 0,
+      filter: 'blur(10px)',
+    },
+    open: {
+      opacity: 1,
+      scale: 1,
+      x: 0,
+      y: 0,
+      rotate: 6,
+      filter: 'blur(0px)',
+      transition: {
+        type: 'spring',
+        stiffness: 95,
+        damping: 14,
+        mass: 0.85,
+        delay: 0.48,
+      },
+    },
+  };
+
   return (
-    <section id="asks" className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-hidden select-none">
-      
+    <section
+      ref={sectionRef}
+      id="asks"
+      className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-hidden select-none"
+    >
       {/* =========================================================================
           1. PURE CODE ANTIQUE CANDLE SCONCES (TOP RIGHT & BOTTOM LEFT)
           ========================================================================= */}
@@ -47,23 +135,18 @@ export const RenaissanceRealAsks: React.FC = () => {
           
           {/* -----------------------------------------------------------------------
               CARD 1: LEFT CONVERSATION CARD
-              Initial: -5deg tilt -> Hover: zoom in (1.06x) & partially straighten to -1.5deg
+              Launches out from stone pedestal -> Lands at -5deg -> Hover: zoom in (1.06x) & ease to -1.5deg
               ----------------------------------------------------------------------- */}
           <motion.div
-            initial={{ opacity: 0, y: 20, rotate: -5 }}
-            whileInView={{ opacity: 1, y: 0, rotate: -5 }}
-            viewport={{ once: true }}
-            animate={{ y: [-5, 5, -5] }}
+            variants={card1Variants}
+            initial="closed"
+            animate={isInView ? 'open' : 'closed'}
             whileHover={{
               scale: 1.06,
               rotate: -1.5,
               zIndex: 40,
               boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-            }}
-            transition={{
-              y: { duration: 4.6, repeat: Infinity, ease: 'easeInOut' },
-              scale: { type: 'spring', stiffness: 280, damping: 20 },
-              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
             }}
             className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
           >
@@ -81,23 +164,18 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* -----------------------------------------------------------------------
               CARD 2: TOP-CENTER CONVERSATION CARD
-              Initial: +4deg tilt -> Hover: zoom in (1.07x) & partially straighten to +1.2deg
+              Launches out from stone pedestal -> Lands at +4deg -> Hover: zoom in (1.07x) & ease to +1.2deg
               ----------------------------------------------------------------------- */}
           <motion.div
-            initial={{ opacity: 0, y: 20, rotate: 4 }}
-            whileInView={{ opacity: 1, y: 0, rotate: 4 }}
-            viewport={{ once: true }}
-            animate={{ y: [4, -4, 4] }}
+            variants={card2Variants}
+            initial="closed"
+            animate={isInView ? 'open' : 'closed'}
             whileHover={{
               scale: 1.07,
               rotate: 1.2,
               zIndex: 40,
               boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-            }}
-            transition={{
-              y: { duration: 5.0, repeat: Infinity, ease: 'easeInOut', delay: 0.3 },
-              scale: { type: 'spring', stiffness: 280, damping: 20 },
-              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
             }}
             className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
           >
@@ -111,23 +189,18 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* -----------------------------------------------------------------------
               CARD 3: RIGHT CONVERSATION CARD
-              Initial: +6deg tilt -> Hover: zoom in (1.06x) & partially straighten to +1.8deg
+              Launches out from stone pedestal -> Lands at +6deg -> Hover: zoom in (1.06x) & ease to +1.8deg
               ----------------------------------------------------------------------- */}
           <motion.div
-            initial={{ opacity: 0, y: 20, rotate: 6 }}
-            whileInView={{ opacity: 1, y: 0, rotate: 6 }}
-            viewport={{ once: true }}
-            animate={{ y: [-4, 4, -4] }}
+            variants={card3Variants}
+            initial="closed"
+            animate={isInView ? 'open' : 'closed'}
             whileHover={{
               scale: 1.06,
               rotate: 1.8,
               zIndex: 40,
               boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-            }}
-            transition={{
-              y: { duration: 5.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 },
-              scale: { type: 'spring', stiffness: 280, damping: 20 },
-              rotate: { type: 'spring', stiffness: 280, damping: 20 },
+              transition: { type: 'spring', stiffness: 280, damping: 20 },
             }}
             className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
           >
@@ -145,9 +218,16 @@ export const RenaissanceRealAsks: React.FC = () => {
 
           {/* -----------------------------------------------------------------------
               BOTTOM CENTER: PURE CODE CARVED STONE iMESSAGE PEDESTAL
+              Subtle tactile scale pop when cards emerge
               ----------------------------------------------------------------------- */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 pointer-events-none z-20 flex flex-col items-center">
-            <CarvedStonePedestal />
+            <motion.div
+              animate={isInView ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
+              transition={{ duration: 0.7, ease: 'easeOut' }}
+              className="w-full"
+            >
+              <CarvedStonePedestal />
+            </motion.div>
           </div>
 
         </div>
