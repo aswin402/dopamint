@@ -5,40 +5,38 @@ import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
 
 // =========================================================================
-// AUTHENTIC macOS GENIE MAXIMIZE EFFECT
+// AUTHENTIC macOS GENIE MAXIMIZE EFFECT — VISIBLE EMERGENCE
 // =========================================================================
 //
-// The real macOS genie effect has CURVED sides — the shape morphs from a
-// tiny point through a funnel with curved edges to a full rectangle.
+// 12-vertex clip-path polygon() morphs through 4 stages:
 //
-// To achieve this we use clip-path: polygon() with 12 matched vertices
-// that morph through 3 stages:
-//
-//   PINCHED  → tiny 6% rectangle at bottom center (hidden in pedestal)
+//   PINCHED  → small visible rectangle at bottom center (at the pedestal)
 //   FUNNEL   → wide top, sides curving inward, narrow bottom (genie shape)
-//   FULL     → complete rectangle (card fully visible)
+//   SETTLE   → slight overshoot wider than full
+//   FULL     → complete rectangle
 //
-// Because all 3 shapes have exactly 12 vertices in the same winding order,
-// framer-motion smoothly interpolates the numeric coordinates, creating
-// the authentic curved genie funnel during the transition.
-//
-// Combined with y-translation (pedestal → final position) and staggered
-// delays, each card literally pours out of the stone pedestal image.
+// Key fix: cards start at opacity 0.9 (NOT 0) so the emergence from the
+// stone pedestal is clearly VISIBLE. The clip-path does the hiding/reveal,
+// not opacity.
 // =========================================================================
 
-// 12-point polygon shapes (clockwise from top-left)
-// Each point has a 1:1 vertex correspondence across all 3 shapes
-
+// Pinched: 24% wide × 12% tall rectangle at bottom-center — VISIBLE as a
+// small shape emerging from the stone pedestal
 const CLIP_PINCHED =
-  'polygon(47% 94%, 48% 94%, 52% 94%, 53% 94%, 53% 96%, 53% 98%, 53% 100%, 51% 100%, 49% 100%, 47% 100%, 47% 98%, 47% 96%)';
+  'polygon(38% 88%, 43% 88%, 50% 88%, 57% 88%, 62% 88%, 62% 94%, 62% 100%, 54% 100%, 46% 100%, 38% 100%, 38% 94%, 38% 88%)';
 
+// Funnel: wide at top, sides curve inward, narrow at bottom (the genie shape)
 const CLIP_FUNNEL =
   'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 93% 32%, 75% 65%, 60% 100%, 55% 100%, 45% 100%, 40% 100%, 25% 65%, 7% 32%)';
 
+// Settle: slightly wider than full (overshoot for elastic feel)
+const CLIP_SETTLE =
+  'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 100% 33%, 100% 67%, 100% 100%, 67% 100%, 33% 100%, 0% 100%, 0% 67%, 0% 33%)';
+
+// Full: perfect rectangle
 const CLIP_FULL =
   'polygon(0% 0%, 33% 0%, 67% 0%, 100% 0%, 100% 33%, 100% 67%, 100% 100%, 67% 100%, 33% 100%, 0% 100%, 0% 67%, 0% 33%)';
 
-// The smooth ease-out curve that matches macOS genie timing
 const GENIE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 export const RenaissanceRealAsks: React.FC = () => {
@@ -58,23 +56,23 @@ export const RenaissanceRealAsks: React.FC = () => {
   const card1: Variants = {
     closed: {
       clipPath: CLIP_PINCHED,
-      y: 360,
-      x: 200,
+      y: 320,
+      x: 180,
       opacity: 0,
       rotate: 0,
       transition: { duration: 0.6, ease: GENIE_EASE },
     },
     open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_FULL],
-      y: [360, 25, 0],
-      x: [200, 40, 0],
-      opacity: [0, 1, 1],
-      rotate: [0, -3, -5],
+      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
+      y:        [320,          40,          -6,          0],
+      x:        [180,          35,          -4,          0],
+      opacity:  [0.9,          1,           1,           1],
+      rotate:   [0,            -3,          -6,          -5],
       transition: {
-        duration: 1,
-        times: [0, 0.42, 1],
+        duration: 1.1,
+        times: [0, 0.38, 0.78, 1],
         ease: GENIE_EASE,
-        delay: 0.08,
+        delay: 0.06,
       },
     },
   };
@@ -85,23 +83,23 @@ export const RenaissanceRealAsks: React.FC = () => {
   const card2: Variants = {
     closed: {
       clipPath: CLIP_PINCHED,
-      y: 400,
+      y: 360,
       x: 0,
       opacity: 0,
       rotate: 0,
       transition: { duration: 0.6, ease: GENIE_EASE },
     },
     open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_FULL],
-      y: [400, 20, 0],
-      x: [0, 0, 0],
-      opacity: [0, 1, 1],
-      rotate: [0, 3, 4],
+      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
+      y:        [360,          30,          -5,          0],
+      x:        [0,            0,           0,           0],
+      opacity:  [0.9,          1,           1,           1],
+      rotate:   [0,            3,           5,           4],
       transition: {
-        duration: 1,
-        times: [0, 0.42, 1],
+        duration: 1.1,
+        times: [0, 0.38, 0.78, 1],
         ease: GENIE_EASE,
-        delay: 0.24,
+        delay: 0.22,
       },
     },
   };
@@ -112,23 +110,23 @@ export const RenaissanceRealAsks: React.FC = () => {
   const card3: Variants = {
     closed: {
       clipPath: CLIP_PINCHED,
-      y: 300,
-      x: -200,
+      y: 260,
+      x: -180,
       opacity: 0,
       rotate: 0,
       transition: { duration: 0.6, ease: GENIE_EASE },
     },
     open: {
-      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_FULL],
-      y: [300, 20, 0],
-      x: [-200, -40, 0],
-      opacity: [0, 1, 1],
-      rotate: [0, 4, 6],
+      clipPath: [CLIP_PINCHED, CLIP_FUNNEL, CLIP_SETTLE, CLIP_FULL],
+      y:        [260,          30,          -5,          0],
+      x:        [-180,         -35,         4,           0],
+      opacity:  [0.9,          1,           1,           1],
+      rotate:   [0,            4,           7,           6],
       transition: {
-        duration: 1,
-        times: [0, 0.42, 1],
+        duration: 1.1,
+        times: [0, 0.38, 0.78, 1],
         ease: GENIE_EASE,
-        delay: 0.4,
+        delay: 0.38,
       },
     },
   };
@@ -136,14 +134,14 @@ export const RenaissanceRealAsks: React.FC = () => {
   // Chat text fades in after the card shape materializes
   const chatFade: Variants = {
     closed: { opacity: 0 },
-    open: { opacity: 1, transition: { duration: 0.35, ease: 'easeOut', delay: 0.5 } },
+    open: { opacity: 1, transition: { duration: 0.35, ease: 'easeOut', delay: 0.55 } },
   };
 
   return (
     <section
       ref={sectionRef}
       id="asks"
-      className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-hidden select-none"
+      className="w-full bg-[#ffffff] pt-16 sm:pt-24 pb-20 sm:pb-32 relative z-20 overflow-x-clip select-none"
     >
       {/* =========================================================================
           ANTIQUE CANDLE SCONCES
@@ -180,8 +178,6 @@ export const RenaissanceRealAsks: React.FC = () => {
 
         {/* =========================================================================
             CARDS + PEDESTAL CANVAS
-            All 3 cards emerge from the bottom-center stone pedestal image
-            with the exact macOS genie maximize polygon morph
             ========================================================================= */}
         <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
 
