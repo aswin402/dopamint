@@ -11,7 +11,7 @@ import { IMessageBubble } from './IMessageBubble';
 // =========================================================================
 
 // SVG morph paths in objectBoundingBox 0-1 coordinates
-const STEP3 = 'M 0.38 0.90 L 0.62 0.90 L 0.62 1.00 L 0.38 1.00 Z';
+const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
 const STEP2 =
   'M 0.00 0.00 L 1.00 0.00 C 0.96 0.18 0.88 0.36 0.80 0.52 C 0.74 0.64 0.68 0.78 0.62 1.00 L 0.38 1.00 C 0.32 0.78 0.26 0.64 0.20 0.52 C 0.12 0.36 0.04 0.18 0.00 0.00 Z';
 const STEP0 = 'M 0.00 0.00 L 1.00 0.00 L 1.00 1.00 L 0.00 1.00 Z';
@@ -30,10 +30,12 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const getPath = useCallback((progress: number): string => {
-    if (progress <= 0.5) {
-      return morph3to2(progress * 2);
+    // Emergence (step3→step2) takes 60% of the time so it's slow and visible
+    // Unfurl (step2→step0) takes the remaining 40%
+    if (progress <= 0.6) {
+      return morph3to2(progress / 0.6);
     }
-    return morph2to0((progress - 0.5) * 2);
+    return morph2to0((progress - 0.6) / 0.4);
   }, []);
 
   useEffect(() => {
@@ -44,12 +46,15 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
       // OPEN: step3 → step2 → step0
       timeoutRef.current = setTimeout(() => {
         let start: number | null = null;
-        const duration = 900;
+        const duration = 1400;
 
         const animate = (ts: number) => {
           if (!start) start = ts;
           const rawT = Math.min((ts - start) / duration, 1);
-          const t = 1 - Math.pow(1 - rawT, 3); // ease-out cubic
+          // ease-in-out: slow start (visible emergence), slow end
+          const t = rawT < 0.5
+            ? 2 * rawT * rawT
+            : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
 
           if (pathRef.current) {
             pathRef.current.setAttribute('d', getPath(t));
@@ -128,15 +133,15 @@ export const RenaissanceRealAsks: React.FC = () => {
   // Position variants — cards translate from pedestal to final spot
   const pos1: Variants = {
     closed: { y: 320, x: 180, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.06 } },
+    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.06 } },
   };
   const pos2: Variants = {
     closed: { y: 360, x: 0, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.22 } },
+    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.22 } },
   };
   const pos3: Variants = {
     closed: { y: 260, x: -180, transition: { duration: 0.55, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 0.9, ease: GENIE_EASE, delay: 0.38 } },
+    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.38 } },
   };
 
   return (
