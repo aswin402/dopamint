@@ -1,15 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useInView, type Variants } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { AntiqueCandleSconce } from './AntiqueCandleSconce';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
-import { IMessageBubble } from './IMessageBubble';
+import { GenieSvgMorph } from './GenieSvgMorph';
 
 export const RenaissanceRealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.28, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  // Sync scroll in-view with open state
+  // Sync scroll in-view with Genie Morph
   useEffect(() => {
     if (isInView) {
       setIsOpen(true);
@@ -20,112 +20,6 @@ export const RenaissanceRealAsks: React.FC = () => {
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
-  };
-
-  // =========================================================================
-  // macOS GENIE / APP LAUNCH VARIANTS
-  // Emerges smoothly from the bottom-center Stone Pedestal
-  // =========================================================================
-  const card1Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.05,
-      x: 180,
-      y: 280,
-      rotate: 0,
-      filter: 'blur(8px)',
-      pointerEvents: 'none',
-      transition: {
-        type: 'spring',
-        stiffness: 140,
-        damping: 18,
-        mass: 0.8,
-      },
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: -5,
-      filter: 'blur(0px)',
-      pointerEvents: 'auto',
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-        mass: 0.85,
-        delay: 0.15,
-      },
-    },
-  };
-
-  const card2Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.05,
-      x: 0,
-      y: 320,
-      rotate: 0,
-      filter: 'blur(8px)',
-      pointerEvents: 'none',
-      transition: {
-        type: 'spring',
-        stiffness: 140,
-        damping: 18,
-        mass: 0.8,
-      },
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 4,
-      filter: 'blur(0px)',
-      pointerEvents: 'auto',
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-        mass: 0.85,
-        delay: 0.3,
-      },
-    },
-  };
-
-  const card3Variants: Variants = {
-    closed: {
-      opacity: 0,
-      scale: 0.05,
-      x: -180,
-      y: 170,
-      rotate: 0,
-      filter: 'blur(8px)',
-      pointerEvents: 'none',
-      transition: {
-        type: 'spring',
-        stiffness: 140,
-        damping: 18,
-        mass: 0.8,
-      },
-    },
-    open: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      y: 0,
-      rotate: 6,
-      filter: 'blur(0px)',
-      pointerEvents: 'auto',
-      transition: {
-        type: 'spring',
-        stiffness: 100,
-        damping: 15,
-        mass: 0.85,
-        delay: 0.45,
-      },
-    },
   };
 
   return (
@@ -160,96 +54,21 @@ export const RenaissanceRealAsks: React.FC = () => {
         {/* =========================================================================
             2. PURE CODE TITLE: "Talk Markets. It Trades"
             ========================================================================= */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center w-full max-w-4xl mx-auto mb-10 sm:mb-14">
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#2d3e32] font-serif font-normal">
             Talk <span className="font-serif italic font-bold text-[#142218]">Markets.</span> It <span className="font-serif italic font-normal text-[#142218]">Trades</span>
           </h2>
         </div>
 
         {/* =========================================================================
-            3. PURE CODE CANVAS WITH SINGLE SET OF GENIE-ANIMATED MESSAGE CARDS
+            3. EXACT SVG GENIE MORPH CANVAS (step-3 -> step-2 -> step-0)
             ========================================================================= */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
+        <div className="relative w-full max-w-4xl mx-auto min-h-[560px] sm:min-h-[620px] flex flex-col items-center justify-between">
           
-          {/* -----------------------------------------------------------------------
-              CARD 1: LEFT CONVERSATION CARD
-              ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card1Variants}
-            initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: -1.5,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[410px] lg:max-w-[440px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
-          >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble
-                text="why is BTC bid this morning, funding or spot?"
-                side="left"
-              />
-              <IMessageBubble
-                text="my ETH is up 34% scale."
-                side="right"
-              />
-            </div>
-          </motion.div>
-
-          {/* -----------------------------------------------------------------------
-              CARD 2: TOP-CENTER CONVERSATION CARD
-              ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card2Variants}
-            initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.07,
-              rotate: 1.2,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[280px] lg:max-w-[300px] rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 z-20 cursor-pointer hidden sm:block origin-center"
-          >
-            <div className="flex flex-col">
-              <IMessageBubble
-                text="laddered. Stop trailing behind it."
-                side="left"
-              />
-            </div>
-          </motion.div>
-
-          {/* -----------------------------------------------------------------------
-              CARD 3: RIGHT CONVERSATION CARD
-              ----------------------------------------------------------------------- */}
-          <motion.div
-            variants={card3Variants}
-            initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
-            whileHover={{
-              scale: 1.06,
-              rotate: 1.8,
-              zIndex: 40,
-              boxShadow: '0 30px 65px -12px rgba(45, 30, 15, 0.14)',
-              transition: { type: 'spring', stiffness: 280, damping: 20 },
-            }}
-            className="imsg-card absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[420px] lg:max-w-[450px] rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 z-20 cursor-pointer origin-center"
-          >
-            <div className="flex flex-col gap-3.5 sm:gap-4">
-              <IMessageBubble
-                text="what am I paying in gas this week?"
-                side="left"
-              />
-              <IMessageBubble
-                text="pay this invoice in USDC."
-                side="right"
-              />
-            </div>
-          </motion.div>
+          {/* Main SVG Morphing Genie Container */}
+          <div className="w-full flex justify-center">
+            <GenieSvgMorph isOpen={isOpen} onToggle={handleToggle} />
+          </div>
 
           {/* -----------------------------------------------------------------------
               BOTTOM CENTER: CARVED STONE iMESSAGE PEDESTAL
