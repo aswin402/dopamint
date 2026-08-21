@@ -41,8 +41,8 @@ export function HomePage() {
               scrollSensitivity={0.015}
               baseAnimationSpeed={0.08}
               edgeSoftness={0.38}
-              bloomIntensity={0.75}
-              bloomRadius={0.35}
+              bloomIntensity={1.25}
+              bloomRadius={0.75}
               parallaxEnabled={true}
               inverted={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
@@ -77,8 +77,8 @@ export function HomePage() {
               scrollSensitivity={0.015}
               baseAnimationSpeed={0.08}
               edgeSoftness={0.38}
-              bloomIntensity={0.75}
-              bloomRadius={0.35}
+              bloomIntensity={1.25}
+              bloomRadius={0.75}
               parallaxEnabled={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
