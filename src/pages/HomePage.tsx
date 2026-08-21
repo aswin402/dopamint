@@ -80,7 +80,6 @@ export function HomePage() {
               bloomIntensity={0.75}
               bloomRadius={0.35}
               parallaxEnabled={true}
-              inverted={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
             />
