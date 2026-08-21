@@ -157,7 +157,7 @@ export const RenaissanceHero: React.FC = () => {
         {/* =========================================================================
             BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]")
             ========================================================================= */}
-        <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4">
+        <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4 flex flex-col items-center">
           <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
               Your Agents can
@@ -177,6 +177,12 @@ export const RenaissanceHero: React.FC = () => {
               </AnimatePresence>
             </div>
           </div>
+
+          {/* Subtitle Under Headline */}
+          <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
+            A House of Sovereign Agents, powered by{' '}
+            <span className="font-serif italic font-bold text-white">AiFi</span>
+          </p>
         </div>
 
       </div>
