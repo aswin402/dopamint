@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
-
 import crownImg from '../../assets/Crown.png';
+import { AgentArchitecturePipeline } from './AgentArchitecturePipeline';
 
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
 
@@ -193,49 +193,57 @@ export const RenaissanceHero: React.FC = () => {
       <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f7f3ef]">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start">
           
-          {/* Left Column: Shifted slightly down for balanced editorial breathing room */}
-          <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-6 sm:pt-10 lg:pt-16 xl:pt-20 pb-10 sm:pb-12 lg:pb-16 z-20">
+          {/* Left Column: Editorial Information & Animated Architecture Pipeline */}
+          <div className="lg:col-span-6 space-y-6 sm:space-y-7 text-left self-start pt-6 sm:pt-8 lg:pt-12 pb-10 sm:pb-12 lg:pb-16 z-20">
             
+            {/* Small Eyebrow */}
+            <div>
+              <span className="font-mono text-xs sm:text-[13px] uppercase tracking-[0.22em] text-[#4a5c4e] font-semibold">
+                what is dopamint?
+              </span>
+            </div>
+
             {/* Editorial Title */}
-            <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.02]">
-              <span className="block font-serif font-normal text-[#4a5b4e]">
-                House of
-              </span>
-              <span className="block font-serif italic font-bold text-[#4a5b4e]">
-                Sovereign
-              </span>
-              <span className="block font-serif italic font-bold text-[#4a5b4e]">
-                Agents
-              </span>
-            </h2>
+            <div>
+              <h2 className="text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.04]">
+                <span className="block font-serif font-normal text-[#2d3e32]">
+                  House of
+                </span>
+                <span className="block font-serif italic font-bold text-[#1e2e22]">
+                  Sovereign Agents
+                </span>
+              </h2>
+              <p className="font-serif italic font-bold text-xl sm:text-2xl text-[#7a382e] mt-2">
+                powered by AiFi
+              </p>
+            </div>
 
-            {/* Subtext Paragraph */}
-            <p className="text-base sm:text-lg text-neutral-800 font-normal leading-relaxed max-w-xl">
-              Dopamint is the home for AI agents that can actually act. Every agent arrives with an AiFi layer the ability to research, reason and execute across markets, wallets, exchanges and onchain systems.
-            </p>
+            {/* Editorial Body Text */}
+            <div className="space-y-4 text-base sm:text-lg text-neutral-800 font-normal leading-relaxed max-w-xl">
+              <p>
+                There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
+              </p>
+              <p className="font-serif italic text-lg sm:text-xl text-[#243628]">
+                Now, you just ask <span className="font-bold text-[#17251a]">Dope</span>.
+              </p>
+              <p className="font-serif italic text-lg sm:text-xl text-[#243628]">
+                It handles the rest.
+              </p>
+              <p className="text-sm sm:text-base text-neutral-700 pt-1">
+                Dopamint is a network of agents running on the <span className="font-semibold text-[#223326]">Agent Harness</span>, with a continuous <span className="font-semibold text-[#223326]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-semibold text-[#223326]">AiFi</span> and <span className="font-semibold text-[#223326]">x402</span> doing the heavy lifting.
+              </p>
+            </div>
 
-            {/* Exact Action Buttons */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <a
-                href="#app"
-                className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#4a5b4e] hover:bg-[#3d4c40] text-white font-serif italic font-medium text-base sm:text-lg tracking-wide shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
-              >
-                Get the app
-              </a>
-
-              <a
-                href="#imessage"
-                className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full border border-[#4a5b4e] text-[#4a5b4e] hover:bg-[#4a5b4e]/10 font-serif font-normal text-base sm:text-lg tracking-wide transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
-              >
-                Try iMessage
-              </a>
+            {/* Animated Architecture Pipeline Divs */}
+            <div className="pt-2">
+              <AgentArchitecturePipeline />
             </div>
 
           </div>
 
-          {/* Right Column: Large Mobile Device Shifted Further Right */}
-          <div className="lg:col-span-7 relative flex items-start justify-center lg:justify-end z-10">
-            <div className="relative w-full sm:w-[115%] lg:w-[135%] xl:w-[150%] lg:-mr-[6vw] xl:-mr-[10vw] 2xl:-mr-[14vw] translate-x-8 sm:translate-x-14 lg:translate-x-20 xl:translate-x-28 2xl:translate-x-36 flex items-start justify-end pb-0">
+          {/* Right Column: Large Mobile Device Shifted Right */}
+          <div className="lg:col-span-6 relative flex items-start justify-center lg:justify-end z-10">
+            <div className="relative w-full sm:w-[115%] lg:w-[130%] xl:w-[145%] lg:-mr-[4vw] xl:-mr-[8vw] translate-x-6 sm:translate-x-12 lg:translate-x-16 xl:translate-x-22 flex items-start justify-end pb-0">
               <img
                 src={handWithMobile}
                 alt="House of AI Agents - Hand with Mobile"
