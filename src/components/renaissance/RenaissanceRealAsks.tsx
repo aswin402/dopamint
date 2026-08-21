@@ -286,15 +286,24 @@ export const RenaissanceRealAsks: React.FC = () => {
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
-            <div
+            <motion.div
               style={{ clipPath: 'url(#genie-clip-1)' }}
-              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+              initial={{ rotate: -3 }}
+              animate={{ rotate: -3 }}
+              whileHover={{
+                scale: 1.05,
+                rotate: -0.5,
+                y: -8,
+                transition: { type: 'spring', stiffness: 320, damping: 22 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-6 sm:p-9 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
                 <IMessageBubble text="my ETH is up 34% scale." side="right" />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ─── CARD 2: TOP-CENTER ─── */}
@@ -306,14 +315,23 @@ export const RenaissanceRealAsks: React.FC = () => {
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
-            <div
+            <motion.div
               style={{ clipPath: 'url(#genie-clip-2)' }}
-              className="imsg-card rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-5 sm:p-6 cursor-pointer"
+              initial={{ rotate: 2.5 }}
+              animate={{ rotate: 2.5 }}
+              whileHover={{
+                scale: 1.06,
+                rotate: 0.5,
+                y: -8,
+                transition: { type: 'spring', stiffness: 320, damping: 22 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              className="imsg-card rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-5 sm:p-6 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col">
                 <IMessageBubble text="laddered. Stop trailing behind it." side="left" />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ─── CARD 3: RIGHT ─── */}
@@ -325,15 +343,24 @@ export const RenaissanceRealAsks: React.FC = () => {
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
-            <div
+            <motion.div
               style={{ clipPath: 'url(#genie-clip-3)' }}
-              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] shadow-[0_20px_50px_rgba(50,35,20,0.06)] p-6 sm:p-9 cursor-pointer"
+              initial={{ rotate: 4 }}
+              animate={{ rotate: 4 }}
+              whileHover={{
+                scale: 1.05,
+                rotate: 1,
+                y: -8,
+                transition: { type: 'spring', stiffness: 320, damping: 22 },
+              }}
+              whileTap={{ scale: 0.98 }}
+              className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-6 sm:p-9 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="what am I paying in gas this week?" side="left" />
                 <IMessageBubble text="pay this invoice in USDC." side="right" />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* ─── BOTTOM CENTER: STONE PEDESTAL ─── */}
