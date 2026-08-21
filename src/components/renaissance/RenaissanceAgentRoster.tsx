@@ -548,7 +548,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
         </div>
 
         {/* Description / One-liner */}
-        <p className="text-xs sm:text-sm text-[#4a5b4e] font-sans leading-relaxed mt-2.5 mb-4">
+        <p className="text-sm sm:text-base md:text-[15.5px] text-[#3e5042] font-sans leading-relaxed mt-2.5 mb-4 font-normal">
           {agent.does}
         </p>
       </div>
