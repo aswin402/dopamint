@@ -4,10 +4,22 @@ import { motion, AnimatePresence } from 'framer-motion';
 import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
 
+import crownImg from '../../assets/Crown.png';
+
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
+
+const SUGGESTION_BADGES = [
+  'Write content',
+  'Brainstorm Ideas',
+  'Write Code',
+  'Research',
+  'Surprise me',
+];
 
 export const RenaissanceHero: React.FC = () => {
   const [actionIndex, setActionIndex] = useState(0);
+  const [promptValue, setPromptValue] = useState('');
+  const [activeBadge, setActiveBadge] = useState<string | null>(null);
 
   // 2.4-second smooth action word cycling loop
   useEffect(() => {
@@ -18,13 +30,28 @@ export const RenaissanceHero: React.FC = () => {
     return () => clearInterval(wordTimer);
   }, []);
 
+  const handleBadgeClick = (badge: string) => {
+    setActiveBadge(badge);
+    setPromptValue(badge);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!promptValue.trim()) return;
+    // Scroll or route to app
+    const appEl = document.getElementById('manifesto') || document.getElementById('asks');
+    if (appEl) {
+      appEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start">
       
       {/* =========================================================================
-          1. HERO VIDEO BACKGROUND (herosectionbgvid.webm)
+          1. HERO VIDEO BACKGROUND (herosectionbgvid.webm) + CENTER GET STARTED WIDGET
           ========================================================================= */}
-      <div className="relative w-full min-h-[70vh] sm:min-h-[85vh] lg:min-h-[92vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl flex items-end justify-center">
+      <div className="relative w-full min-h-[90vh] sm:min-h-[95vh] lg:min-h-screen bg-black overflow-hidden shadow-2xl flex flex-col justify-between items-center pt-24 sm:pt-28 md:pt-32 pb-10 sm:pb-14">
         
         {/* Fullscreen Ambient Hero Video */}
         <video
@@ -36,23 +63,113 @@ export const RenaissanceHero: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
         />
 
-        {/* Subtle Bottom Ambient Vignette to ensure text readability */}
-        <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none z-10" />
+        {/* Ambient Overlay for Cinematic Contrast */}
+        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
 
-        {/* Animated Hero Headline Overlay (Bottom Center) */}
-        <div className="relative z-20 pb-16 sm:pb-20 md:pb-24 text-center w-full px-4">
-          <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-            <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
+        {/* Subtle Bottom Ambient Vignette to ensure text readability */}
+        <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none z-10" />
+
+        {/* =========================================================================
+            CENTER INTERACTIVE SECTION: Crown + Get Started + Input Bar + 5 Badges
+            ========================================================================= */}
+        <div className="relative z-20 my-auto w-full max-w-4xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+          
+          {/* Crown Image */}
+          <motion.div
+            initial={{ opacity: 0, y: -15, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-1.5 sm:mb-2"
+          >
+            <img
+              src={crownImg}
+              alt="Renaissance Crown"
+              className="w-16 sm:w-20 md:w-24 lg:w-28 h-auto object-contain drop-shadow-[0_6px_24px_rgba(255,215,140,0.6)] filter brightness-110 select-none pointer-events-none"
+            />
+          </motion.div>
+
+          {/* "Get Started" Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)] mb-6 sm:mb-8 select-none"
+          >
+            Get Started
+          </motion.h1>
+
+          {/* Frosted Glass Input Bar */}
+          <motion.form
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            onSubmit={handleFormSubmit}
+            className="w-full max-w-xl sm:max-w-2xl md:max-w-3xl"
+          >
+            <div className="relative group w-full rounded-full backdrop-blur-xl bg-white/20 sm:bg-white/25 hover:bg-white/30 focus-within:bg-white/35 border border-white/50 focus-within:border-white/80 shadow-[0_10px_35px_rgba(0,0,0,0.35)] transition-all duration-300 px-5 sm:px-7 py-3 sm:py-4 flex items-center gap-3">
+              <input
+                type="text"
+                value={promptValue}
+                onChange={(e) => setPromptValue(e.target.value)}
+                placeholder="Ask anything"
+                className="w-full bg-transparent border-none outline-none text-[#1a1a1a] sm:text-lg font-sans placeholder:text-[#2d2d2d]/80 placeholder:font-sans font-medium caret-[#1a1a1a]"
+              />
+              {promptValue && (
+                <button
+                  type="button"
+                  onClick={() => setPromptValue('')}
+                  className="text-[#2d2d2d]/70 hover:text-black text-sm px-2 cursor-pointer transition-colors"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+          </motion.form>
+
+          {/* 5 Suggestion Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-3.5 pt-3.5 sm:pt-4 max-w-2xl"
+          >
+            {SUGGESTION_BADGES.map((badge) => {
+              const isSelected = activeBadge === badge && promptValue === badge;
+              return (
+                <button
+                  key={badge}
+                  type="button"
+                  onClick={() => handleBadgeClick(badge)}
+                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-sans text-xs sm:text-sm font-medium tracking-normal transition-all duration-200 cursor-pointer shadow-sm active:scale-95 ${
+                    isSelected
+                      ? 'bg-white/50 text-[#141820] border border-white/90 scale-105 shadow-md'
+                      : 'bg-white/25 hover:bg-white/40 text-[#1a1a1a] hover:text-black border border-white/45 hover:border-white/75 backdrop-blur-md hover:scale-105'
+                  }`}
+                >
+                  {badge}
+                </button>
+              );
+            })}
+          </motion.div>
+
+        </div>
+
+        {/* =========================================================================
+            BOTTOM: Animated Hero Headline Overlay ("Your Agents can [Trade...]")
+            ========================================================================= */}
+        <div className="relative z-20 text-center w-full px-4 pt-6">
+          <div className="inline-flex items-center justify-center flex-wrap text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+            <span className="whitespace-nowrap font-serif font-normal text-white mr-2.5 sm:mr-4">
               Your Agents can
             </span>
-            <div className="inline-flex items-center justify-start min-w-[130px] sm:min-w-[180px] md:min-w-[240px] lg:min-w-[300px] text-left">
+            <div className="inline-flex items-center justify-start min-w-[100px] sm:min-w-[150px] md:min-w-[200px] lg:min-w-[250px] text-left">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={ACTION_WORDS[actionIndex]}
-                  initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+                  initial={{ opacity: 0, y: 18, filter: 'blur(6px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -22, filter: 'blur(6px)' }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  exit={{ opacity: 0, y: -18, filter: 'blur(6px)' }}
+                  transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
                 >
                   {ACTION_WORDS[actionIndex]}
