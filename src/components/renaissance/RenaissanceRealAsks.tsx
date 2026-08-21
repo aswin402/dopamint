@@ -2,7 +2,8 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../assets/Candle_Stand.png';
-import { CarvedStonePedestal } from './CarvedStonePedestal';
+import footerImg from '../../assets/footer.png';
+import iMessagePodiumImg from '../../assets/iMessage_Podium.png';
 import { IMessageBubble } from './IMessageBubble';
 
 // =========================================================================
@@ -238,9 +239,8 @@ export const RenaissanceRealAsks: React.FC = () => {
           </clipPath>
         </defs>
       </svg>
-
       {/* =========================================================================
-          ANTIQUE CANDLE STANDS (src/assets/Candle_Stand.png)
+          ILLUSTRATIONS: CANDLE STAND (RIGHT) & FOOTER SCHOLAR (LEFT)
           ========================================================================= */}
       {/* Top Right Candle Stand */}
       <motion.div
@@ -255,16 +255,16 @@ export const RenaissanceRealAsks: React.FC = () => {
         />
       </motion.div>
 
-      {/* Bottom Left Candle Stand (Mirrored to mount from left edge) */}
+      {/* Bottom Left Renaissance Scholar Character (src/assets/footer.png) */}
       <motion.div
-        animate={{ y: [5, -5, 5], rotate: [0, -0.4, 0] }}
-        transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        className="absolute -bottom-6 sm:bottom-0 md:bottom-4 -left-10 sm:-left-16 md:-left-20 lg:-left-24 xl:-left-28 w-48 sm:w-64 md:w-80 lg:w-[360px] xl:w-[420px] pointer-events-none z-20"
+        animate={{ y: [4, -4, 4] }}
+        transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute -bottom-4 sm:bottom-0 md:bottom-2 left-0 sm:left-4 md:left-8 lg:left-12 w-32 sm:w-44 md:w-56 lg:w-64 xl:w-72 pointer-events-none z-20"
       >
         <img
-          src={candleStandImg}
-          alt="Antique Candle Stand Left"
-          className="w-full h-auto object-contain -scale-x-100 drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none"
+          src={footerImg}
+          alt="Renaissance Character"
+          className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.22)] select-none"
         />
       </motion.div>
 
@@ -273,28 +273,29 @@ export const RenaissanceRealAsks: React.FC = () => {
         {/* =========================================================================
             TITLE: "Talk Markets. It Trades"
             ========================================================================= */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-12 sm:mb-16">
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#2d3e32] font-serif font-normal">
-            Talk{' '}
-            <span className="font-serif italic font-bold text-[#142218]">Markets.</span>{' '}
-            It{' '}
-            <span className="font-serif italic font-normal text-[#142218]">Trades</span>
+        <div className="text-center space-y-3 mb-10 sm:mb-16">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl font-serif text-[#1e2a22] tracking-tight">
+            Talk Markets.{' '}
+            <span className="font-serif italic font-bold text-[#141d17]">It Trades</span>
           </h2>
+          <p className="text-sm sm:text-base text-neutral-600 font-sans tracking-wide">
+            DOPE orchestrates the trade in real time.
+          </p>
         </div>
 
         {/* =========================================================================
-            CARDS + PEDESTAL
+            MAIN INTERACTIVE STAGE: 3 FLOATING iMESSAGE CARDS + STONE PEDESTAL
             ========================================================================= */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
+        <div className="relative w-full min-h-[580px] sm:min-h-[640px] md:min-h-[700px] lg:min-h-[740px] flex items-center justify-center">
 
-          {/* ─── CARD 1: LEFT ─── */}
+          {/* ─── CARD 1: TOP LEFT ─── */}
           <motion.div
             ref={card1Ref}
             variants={pos1}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
+            className="absolute top-0 sm:top-2 left-0 sm:left-[2%] lg:left-[6%] w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[460px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-1)' }}
@@ -302,7 +303,7 @@ export const RenaissanceRealAsks: React.FC = () => {
               animate={{ rotate: -3 }}
               whileHover={{
                 scale: 1.05,
-                rotate: -0.5,
+                rotate: 0,
                 y: -8,
                 transition: { type: 'spring', stiffness: 320, damping: 22 },
               }}
@@ -310,20 +311,20 @@ export const RenaissanceRealAsks: React.FC = () => {
               className="imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-6 sm:p-9 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3.5 sm:gap-4">
-                <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
-                <IMessageBubble text="my ETH is up 34% scale." side="right" />
+                <IMessageBubble text="I think it goes to $4.2k this week." side="left" />
+                <IMessageBubble text="long ETH 5x, take profit at $4,150." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* ─── CARD 2: TOP-CENTER ─── */}
+          {/* ─── CARD 2: MIDDLE LEFT ─── */}
           <motion.div
             ref={card2Ref}
             variants={pos2}
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
+            className="absolute top-[52%] sm:top-[56%] left-0 sm:left-[5%] lg:left-[10%] w-full max-w-[290px] sm:max-w-[340px] lg:max-w-[380px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-2)' }}
@@ -373,20 +374,24 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* ─── BOTTOM CENTER: STONE PEDESTAL ─── */}
+          {/* ─── BOTTOM CENTER: STONE CARVED iMESSAGE PODIUM (src/assets/iMessage_Podium.png) ─── */}
           <div
             ref={pedestalRef}
             onClick={handleToggle}
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-44 sm:w-52 md:w-60 lg:w-64 z-30 flex flex-col items-center cursor-pointer group"
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 sm:w-48 md:w-56 lg:w-64 z-30 flex flex-col items-center cursor-pointer group"
           >
             <motion.div
-              whileHover={{ scale: 1.08 }}
+              whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.95 }}
-              animate={isOpen ? { scale: [1, 1.06, 0.98, 1] } : { scale: 1 }}
+              animate={isOpen ? { scale: [1, 1.04, 0.98, 1] } : { scale: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="w-full"
             >
-              <CarvedStonePedestal />
+              <img
+                src={iMessagePodiumImg}
+                alt="iMessage Stone Carved Podium"
+                className="w-full h-auto object-contain drop-shadow-[0_20px_35px_rgba(40,30,20,0.18)] select-none"
+              />
             </motion.div>
           </div>
 
