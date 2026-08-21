@@ -30,7 +30,7 @@ export function HomePage() {
         <RenaissanceAuthority />
 
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
-        <div className="relative w-full overflow-hidden bg-[#f7f3ef]">
+        <div className="relative w-full overflow-hidden bg-[#141210]">
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
             <BurnTransition
