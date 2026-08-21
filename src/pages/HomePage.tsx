@@ -65,6 +65,25 @@ export function HomePage() {
             {/* Part 2: The Floor & Memory Wallet */}
             <RenaissanceMemoryWallet />
           </div>
+
+          {/* Bottom Burn Transition Effect */}
+          <div className="absolute bottom-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20 opacity-95">
+            <BurnTransition
+              color="#f7f3ef"
+              transitionColor="#FFFFFF"
+              noiseScale={2.5}
+              noiseIntensity={0.52}
+              scrollSensitivity={0.015}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
+              bloomRadius={0.35}
+              parallaxEnabled={true}
+              inverted={true}
+              movement={{ horizontal: 'center', vertical: 0.5 }}
+              className="h-full w-full"
+            />
+          </div>
         </div>
       </main>
     </div>
