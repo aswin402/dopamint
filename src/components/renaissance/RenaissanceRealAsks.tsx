@@ -244,27 +244,27 @@ export const RenaissanceRealAsks: React.FC = () => {
           ========================================================================= */}
       {/* Top Right Candle Stand */}
       <motion.div
-        animate={{ y: [-4, 4, -4], rotate: [0, 0.4, 0] }}
+        animate={{ y: [-5, 5, -5], rotate: [0, 0.4, 0] }}
         transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-2 sm:top-6 -right-2 sm:right-2 md:right-6 lg:right-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+        className="absolute -top-6 sm:-top-2 md:top-2 -right-10 sm:-right-16 md:-right-20 lg:-right-24 xl:-right-28 w-48 sm:w-64 md:w-80 lg:w-[360px] xl:w-[420px] pointer-events-none z-20"
       >
         <img
           src={candleStandImg}
           alt="Antique Candle Stand Right"
-          className="w-full h-auto object-contain drop-shadow-[0_12px_28px_rgba(40,30,20,0.18)] select-none"
+          className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none"
         />
       </motion.div>
 
-      {/* Bottom Left Candle Stand (Mirrored to mount from left) */}
+      {/* Bottom Left Candle Stand (Mirrored to mount from left edge) */}
       <motion.div
-        animate={{ y: [4, -4, 4], rotate: [0, -0.4, 0] }}
+        animate={{ y: [5, -5, 5], rotate: [0, -0.4, 0] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-        className="absolute bottom-4 sm:bottom-8 -left-2 sm:left-2 md:left-6 lg:left-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+        className="absolute -bottom-6 sm:bottom-0 md:bottom-4 -left-10 sm:-left-16 md:-left-20 lg:-left-24 xl:-left-28 w-48 sm:w-64 md:w-80 lg:w-[360px] xl:w-[420px] pointer-events-none z-20"
       >
         <img
           src={candleStandImg}
           alt="Antique Candle Stand Left"
-          className="w-full h-auto object-contain -scale-x-100 drop-shadow-[0_12px_28px_rgba(40,30,20,0.18)] select-none"
+          className="w-full h-auto object-contain -scale-x-100 drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none"
         />
       </motion.div>
 
