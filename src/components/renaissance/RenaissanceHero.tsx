@@ -191,32 +191,35 @@ export const RenaissanceHero: React.FC = () => {
           <div className="lg:col-span-5 space-y-6 sm:space-y-8 text-left self-start pt-6 sm:pt-10 lg:pt-16 xl:pt-20 pb-10 sm:pb-12 lg:pb-16 z-20">
             
             {/* Editorial Title */}
-            <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.04]">
-              <span className="block font-serif font-normal text-[#c5a880]">
+            <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-[1.02]">
+              <span className="block font-serif font-normal text-[#4a5b4e]">
                 House of
               </span>
-              <span className="block font-serif italic font-normal text-[#3f5144]">
-                AI Agents
+              <span className="block font-serif italic font-bold text-[#4a5b4e]">
+                Sovereign
+              </span>
+              <span className="block font-serif italic font-bold text-[#4a5b4e]">
+                Agents
               </span>
             </h2>
 
             {/* Subtext Paragraph */}
             <p className="text-base sm:text-lg text-neutral-800 font-normal leading-relaxed max-w-xl">
-              DopaMint is the home for AI agents where every agent gets a trust layer, a verifiability layer, and a control layer, so it can actually act on your behalf without you having to babysit it
+              Dopamint is the home for AI agents that can actually act. Every agent arrives with an AiFi layer the ability to research, reason and execute across markets, wallets, exchanges and onchain systems.
             </p>
 
             {/* Exact Action Buttons */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
                 href="#app"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-[#475e4e] hover:bg-[#3d5143] text-white font-serif font-medium text-base tracking-wide shadow-sm transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#4a5b4e] hover:bg-[#3d4c40] text-white font-serif italic font-medium text-base sm:text-lg tracking-wide shadow-sm transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
               >
                 Get the app
               </a>
 
               <a
                 href="#imessage"
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-full border border-[#475e4e] text-[#475e4e] hover:bg-[#475e4e]/10 font-serif font-medium text-base tracking-wide transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center justify-center px-7 sm:px-8 py-3 sm:py-3.5 rounded-full border border-[#4a5b4e] text-[#4a5b4e] hover:bg-[#4a5b4e]/10 font-serif font-normal text-base sm:text-lg tracking-wide transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
               >
                 Try iMessage
               </a>
