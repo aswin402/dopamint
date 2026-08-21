@@ -534,7 +534,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
   const suffix = parts[parts.length - 1];
 
   return (
-    <div className="w-[340px] sm:w-[380px] md:w-[410px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border border-[#3e4f42]/45 hover:border-[#3e4f42]/75 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(40,48,40,0.12)] hover:-translate-y-1 select-none cursor-pointer">
+    <div className="w-[340px] sm:w-[380px] md:w-[410px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/85 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 select-none cursor-pointer">
       {/* Top Header */}
       <div>
         <div className="flex items-baseline justify-between gap-2">
@@ -597,20 +597,20 @@ export const RenaissanceAgentRoster: React.FC = () => {
       {/* =========================================================================
           THREE MARQUEE LANES (72 AGENTS)
           ========================================================================= */}
-      <div className="relative w-full space-y-4 sm:space-y-5 overflow-hidden">
+      <div className="relative w-full space-y-2 sm:space-y-3 overflow-hidden">
         
         {/* Soft edge gradient masks */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
 
         {/* --- LANE 1: MOVES LEFT --- */}
-        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]">
+        <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 py-1 hover:[animation-play-state:paused]">
             {LANE_1.map((agent) => (
               <AgentCard key={`lane1-${agent.id}`} agent={agent} />
             ))}
           </div>
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 py-1 hover:[animation-play-state:paused]" aria-hidden="true">
             {LANE_1.map((agent) => (
               <AgentCard key={`lane1-dup-${agent.id}`} agent={agent} />
             ))}
@@ -618,13 +618,13 @@ export const RenaissanceAgentRoster: React.FC = () => {
         </div>
 
         {/* --- LANE 2: MOVES RIGHT --- */}
-        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused]">
+        <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 py-1 hover:[animation-play-state:paused]">
             {LANE_2.map((agent) => (
               <AgentCard key={`lane2-${agent.id}`} agent={agent} />
             ))}
           </div>
-          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 py-1 hover:[animation-play-state:paused]" aria-hidden="true">
             {LANE_2.map((agent) => (
               <AgentCard key={`lane2-dup-${agent.id}`} agent={agent} />
             ))}
@@ -632,13 +632,13 @@ export const RenaissanceAgentRoster: React.FC = () => {
         </div>
 
         {/* --- LANE 3: MOVES LEFT --- */}
-        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]">
+        <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 py-1 hover:[animation-play-state:paused]">
             {LANE_3.map((agent) => (
               <AgentCard key={`lane3-${agent.id}`} agent={agent} />
             ))}
           </div>
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 py-1 hover:[animation-play-state:paused]" aria-hidden="true">
             {LANE_3.map((agent) => (
               <AgentCard key={`lane3-dup-${agent.id}`} agent={agent} />
             ))}
