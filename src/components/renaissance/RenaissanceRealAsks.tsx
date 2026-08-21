@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
-import { AntiqueCandleSconce } from './AntiqueCandleSconce';
+import candleStandImg from '../../assets/Candle_Stand.png';
 import { CarvedStonePedestal } from './CarvedStonePedestal';
 import { IMessageBubble } from './IMessageBubble';
 
@@ -240,22 +240,32 @@ export const RenaissanceRealAsks: React.FC = () => {
       </svg>
 
       {/* =========================================================================
-          ANTIQUE CANDLE SCONCES
+          ANTIQUE CANDLE STANDS (src/assets/Candle_Stand.png)
           ========================================================================= */}
+      {/* Top Right Candle Stand */}
       <motion.div
-        animate={{ y: [-3, 3, -3], rotate: [0, 0.4, 0] }}
-        transition={{ duration: 5.2, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-2 sm:top-6 -right-3 sm:right-2 md:right-6 lg:right-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+        animate={{ y: [-4, 4, -4], rotate: [0, 0.4, 0] }}
+        transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-2 sm:top-6 -right-2 sm:right-2 md:right-6 lg:right-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
       >
-        <AntiqueCandleSconce candlesCount={2} variant="right" />
+        <img
+          src={candleStandImg}
+          alt="Antique Candle Stand Right"
+          className="w-full h-auto object-contain drop-shadow-[0_12px_28px_rgba(40,30,20,0.18)] select-none"
+        />
       </motion.div>
 
+      {/* Bottom Left Candle Stand (Mirrored to mount from left) */}
       <motion.div
-        animate={{ y: [3, -3, 3], rotate: [0, -0.4, 0] }}
-        transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-        className="absolute bottom-4 sm:bottom-8 -left-3 sm:left-2 md:left-6 lg:left-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
+        animate={{ y: [4, -4, 4], rotate: [0, -0.4, 0] }}
+        transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+        className="absolute bottom-4 sm:bottom-8 -left-2 sm:left-2 md:left-6 lg:left-10 w-28 sm:w-36 md:w-44 lg:w-52 pointer-events-none z-20"
       >
-        <AntiqueCandleSconce candlesCount={3} variant="left" />
+        <img
+          src={candleStandImg}
+          alt="Antique Candle Stand Left"
+          className="w-full h-auto object-contain -scale-x-100 drop-shadow-[0_12px_28px_rgba(40,30,20,0.18)] select-none"
+        />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
