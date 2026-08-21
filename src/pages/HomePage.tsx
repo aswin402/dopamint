@@ -45,7 +45,7 @@ export function HomePage() {
               bloomRadius={0.35}
               parallaxEnabled={true}
               inverted={true}
-              movement={{ horizontal: 'center', vertical: 0.5 }}
+              movement={{ horizontal: 'center', vertical: -0.8 }}
               className="h-full w-full"
             />
           </div>
