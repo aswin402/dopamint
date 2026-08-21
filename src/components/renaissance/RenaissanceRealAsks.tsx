@@ -247,11 +247,11 @@ export const RenaissanceRealAsks: React.FC = () => {
         />
       </motion.div>
 
-      {/* Bottom Left Renaissance Scholar Character (Cropped at waist, large scale) */}
+      {/* Bottom Left Renaissance Scholar Character (Cropped at waist, large scale, shifted left) */}
       <motion.div
         animate={{ y: [3, -3, 3] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -bottom-44 sm:-bottom-60 md:-bottom-80 lg:-bottom-[390px] xl:-bottom-[450px] -left-12 sm:-left-16 md:-left-20 lg:-left-24 w-[480px] sm:w-[620px] md:w-[780px] lg:w-[920px] xl:w-[1020px] pointer-events-none z-20"
+        className="absolute -bottom-48 sm:-bottom-64 md:-bottom-84 lg:-bottom-[420px] xl:-bottom-[480px] -left-16 sm:-left-24 md:-left-32 lg:-left-40 xl:-left-48 w-[520px] sm:w-[680px] md:w-[840px] lg:w-[980px] xl:w-[1100px] pointer-events-none z-20"
       >
         <img
           src={footerImg}
