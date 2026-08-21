@@ -105,18 +105,32 @@
 }
 
 /* Keyframes & Animations */
-@keyframes marquee {
-  0% { transform: translateX(0%); }
+@keyframes marquee-left {
+  0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 28s linear infinite;
+@keyframes marquee-right {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
-.animate-marquee:hover {
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 50s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 50s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
   animation-play-state: paused;
 }
 

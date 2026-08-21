@@ -1,247 +1,657 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 
-import suppersBg from '../../assets/Suppers.png';
-
-import profile1 from '../../assets/Profiles/Profile_ (1).png';
-import profile2 from '../../assets/Profiles/Profile_ (2).png';
-import profile3 from '../../assets/Profiles/Profile_ (3).png';
-import profile4 from '../../assets/Profiles/Profile_ (4).png';
-import profile5 from '../../assets/Profiles/Profile_ (5).png';
-import profile6 from '../../assets/Profiles/Profile_ (6).png';
-import profile7 from '../../assets/Profiles/Profile_ (7).png';
-import profile8 from '../../assets/Profiles/Profile_ (8).png';
-import profile9 from '../../assets/Profiles/Profile_ (9).png';
-import profile10 from '../../assets/Profiles/Profile_ (10).png';
-import profile11 from '../../assets/Profiles/Profile_ (11).png';
-import profile12 from '../../assets/Profiles/Profile_ (12).png';
-
-interface SupperAgent {
+export interface AgentCardData {
   id: number;
-  name: string;
   role: string;
-  description: string;
-  avatar: string;
-  xPercent: number; // Exact horizontal percentage of character across the uncropped painting
+  name: string;
+  does: string;
+  skills: string[];
 }
 
-// Exactly 12 agents: First 6 on left (6,5,4,3,2,1), Center silhouette skipped, Second 6 on right (7,8,9,10,11,12)
-const SUPPER_AGENTS: SupperAgent[] = [
-  // --- FIRST 6 CHARACTERS (LEFT OF CROWNED FIGURE: 6, 5, 4, 3, 2, 1) ---
+export const ALL_72_AGENTS: AgentCardData[] = [
+  // --- LANE 1 (AGENTS 1 - 24) ---
   {
     id: 1,
-    name: 'Ada',
-    role: 'BOOKING AGENT',
-    description: 'Secures dinner reservations, flights, and hotels within policy.',
-    avatar: profile6,
-    xPercent: 5.5,
+    role: 'Trading Agent',
+    name: 'Vesper',
+    does: 'Finds and executes opportunities across spot and perpetual markets.',
+    skills: ['Spot', 'Perps', 'Orders', 'Market Data'],
   },
   {
     id: 2,
-    name: 'Kai',
-    role: 'SUBSCRIPTION AGENT',
-    description: 'Spots forgotten recurring charges and bundles 1-tap cancellations.',
-    avatar: profile5,
-    xPercent: 11.5,
+    role: 'Perps Agent',
+    name: 'Kite',
+    does: 'Monitors derivatives markets and manages perpetual positions.',
+    skills: ['Perps', 'Funding', 'Leverage', 'Orders'],
   },
   {
     id: 3,
-    name: 'Maya',
-    role: 'TRAVEL AGENT',
-    description: 'Builds tailored itineraries and manages delays with automatic rerouting.',
-    avatar: profile4,
-    xPercent: 18.5,
+    role: 'DeFi Agent',
+    name: 'Solene',
+    does: 'Researches and executes strategies across decentralized finance.',
+    skills: ['Swaps', 'Yield', 'Lending', 'Liquidity'],
   },
   {
     id: 4,
-    name: 'Leo',
-    role: 'RESEARCH AGENT',
-    description: 'Reads technical papers overnight and delivers concise 3-bullet briefings.',
-    avatar: profile3,
-    xPercent: 25.5,
+    role: 'Yield Agent',
+    name: 'Marlowe',
+    does: 'Deploys idle capital into the best available yield.',
+    skills: ['Vaults', 'APY', 'Deposits', 'Exits'],
   },
   {
     id: 5,
-    name: 'Aria',
-    role: 'CREATIVE AGENT',
-    description: 'Generates UI themes, visual drafts, and brand assets on demand.',
-    avatar: profile2,
-    xPercent: 33.0,
+    role: 'Research Agent',
+    name: 'Idris',
+    does: 'Finds and synthesizes information across markets and protocols.',
+    skills: ['Research', 'Analysis', 'Web', 'Onchain'],
   },
   {
     id: 6,
-    name: 'Sol',
-    role: 'PORTFOLIO AGENT',
-    description: 'Catches dips under your budget cap and rebalances without asking.',
-    avatar: profile1,
-    xPercent: 41.0,
+    role: 'Portfolio Agent',
+    name: 'Nova',
+    does: 'Monitors positions and helps manage allocation.',
+    skills: ['Portfolio', 'Risk', 'Allocation', 'Rebalancing'],
   },
-
-  // --- [CENTER FIGURE (50%) - BLACK SILHOUETTE WITH CROWN - NO CARD] ---
-
-  // --- SECOND 6 CHARACTERS (RIGHT OF CROWNED FIGURE: 7, 8, 9, 10, 11, 12) ---
   {
     id: 7,
-    name: 'Eve',
-    role: 'CALENDAR AGENT',
-    description: 'Keeps your day together and reshuffles when it isn\'t.',
-    avatar: profile7,
-    xPercent: 59.0,
+    role: 'Market Intel Agent',
+    name: 'Corvin',
+    does: 'Reads orderflow and surfaces what is actually moving.',
+    skills: ['Orderflow', 'Depth', 'Flows', 'Alerts'],
   },
   {
     id: 8,
-    name: 'Rex',
-    role: 'SECURITY AGENT',
-    description: 'Enforces MPC cryptographic sandbox bounds and daily spending limits.',
-    avatar: profile8,
-    xPercent: 66.5,
+    role: 'Risk Agent',
+    name: 'Ashe',
+    does: 'Enforces the limits you set before anything executes.',
+    skills: ['Caps', 'Policy', 'Exposure', 'Stops'],
   },
   {
     id: 9,
-    name: 'Nora',
-    role: 'INBOX AGENT',
-    description: 'Triages 150+ daily emails, drafts replies, and filters noise.',
-    avatar: profile9,
-    xPercent: 74.0,
+    role: 'Execution Agent',
+    name: 'Orin',
+    does: 'Routes and settles orders with minimal slippage.',
+    skills: ['Routing', 'Fills', 'Slippage', 'Settlement'],
   },
   {
     id: 10,
-    name: 'Iris',
-    role: 'ONCHAIN AGENT',
-    description: 'Settles per-call x402 endpoints and multi-hop DEX routes autonomously.',
-    avatar: profile10,
-    xPercent: 81.5,
+    role: 'Upbit Agent',
+    name: 'Juno',
+    does: 'Trades and monitors KRW markets on Upbit.',
+    skills: ['Upbit', 'KRW', 'Listings', 'Orders'],
   },
   {
     id: 11,
-    name: 'Vance',
-    role: 'ANALYTICS AGENT',
-    description: 'Monitors real-time telemetry, order book depth, and market volatility.',
-    avatar: profile11,
-    xPercent: 88.5,
+    role: 'Basis Agent',
+    name: 'Rhea',
+    does: 'Harvests spot–futures carry when the spread pays.',
+    skills: ['Basis', 'Carry', 'Hedging', 'Rolls'],
   },
   {
     id: 12,
-    name: 'Cody',
-    role: 'DEVELOPER AGENT',
-    description: 'Runs automated test suites, triggers CI/CD builds, and checks PRs.',
-    avatar: profile12,
-    xPercent: 95.0,
+    role: 'Liquidity Agent',
+    name: 'Tobias',
+    does: 'Finds the deepest venue before you size in.',
+    skills: ['Depth', 'Venues', 'Slippage', 'Books'],
+  },
+  {
+    id: 13,
+    role: 'Hedging Agent',
+    name: 'Wren',
+    does: 'Covers delta when your exposure drifts.',
+    skills: ['Hedging', 'Delta', 'Shorts', 'Options'],
+  },
+  {
+    id: 14,
+    role: 'Options Agent',
+    name: 'Cassian',
+    does: 'Reads the vol surface and structures option trades.',
+    skills: ['Options', 'Vol', 'Greeks', 'Spreads'],
+  },
+  {
+    id: 15,
+    role: 'Stables Agent',
+    name: 'Lyra',
+    does: 'Watches pegs and rotates stable exposure.',
+    skills: ['Stables', 'Pegs', 'Rotation', 'Risk'],
+  },
+  {
+    id: 16,
+    role: 'Bridge Agent',
+    name: 'Bram',
+    does: 'Finds routes and executes cross-chain asset movement.',
+    skills: ['Bridging', 'Routing', 'Gas', 'Settlement'],
+  },
+  {
+    id: 17,
+    role: 'Staking Agent',
+    name: 'Odette',
+    does: 'Finds and manages staking opportunities.',
+    skills: ['Staking', 'Validators', 'Rewards', 'Unstaking'],
+  },
+  {
+    id: 18,
+    role: 'Gas Agent',
+    name: 'Ferris',
+    does: 'Times transactions for the cheapest execution.',
+    skills: ['Gas', 'Fees', 'Timing', 'Nonces'],
+  },
+  {
+    id: 19,
+    role: 'Governance Agent',
+    name: 'Isolde',
+    does: 'Tracks proposals and votes your positions.',
+    skills: ['Proposals', 'Votes', 'Delegation', 'Forums'],
+  },
+  {
+    id: 20,
+    role: 'Treasury Agent',
+    name: 'Halcyon',
+    does: 'Manages runway with laddered, liquid positions.',
+    skills: ['Ladders', 'Runway', 'T-Bills', 'Reporting'],
+  },
+  {
+    id: 21,
+    role: 'Airdrop Agent',
+    name: 'Petra',
+    does: 'Farms eligibility and claims what you earned.',
+    skills: ['Eligibility', 'Farming', 'Claims', 'Wallets'],
+  },
+  {
+    id: 22,
+    role: 'NFT Agent',
+    name: 'Silas',
+    does: 'Watches floors and executes on rarity.',
+    skills: ['Floors', 'Rarity', 'Bids', 'Listings'],
+  },
+  {
+    id: 23,
+    role: 'Sentiment Agent',
+    name: 'Maeve',
+    does: 'Measures social velocity before price catches up.',
+    skills: ['Social', 'Velocity', 'Narratives', 'Alerts'],
+  },
+  {
+    id: 24,
+    role: 'Whale Agent',
+    name: 'Anton',
+    does: 'Tracks large wallets and follows the flow.',
+    skills: ['Wallets', 'Flows', 'Clusters', 'Alerts'],
+  },
+
+  // --- LANE 2 (AGENTS 25 - 48) ---
+  {
+    id: 25,
+    role: 'Arbitrage Agent',
+    name: 'Delphine',
+    does: 'Captures spreads between venues and pairs.',
+    skills: ['Spreads', 'Venues', 'Latency', 'Execution'],
+  },
+  {
+    id: 26,
+    role: 'MEV Guard Agent',
+    name: 'Roque',
+    does: 'Protects your transactions from predatory flow.',
+    skills: ['Private Relays', 'Simulation', 'Slippage', 'Routing'],
+  },
+  {
+    id: 27,
+    role: 'Compliance Agent',
+    name: 'Neve',
+    does: 'Keeps every action inside your mandate.',
+    skills: ['Mandates', 'Screening', 'Limits', 'Records'],
+  },
+  {
+    id: 28,
+    role: 'Custody Agent',
+    name: 'Caspar',
+    does: 'Holds scoped keys with revocable permissions.',
+    skills: ['Keys', 'Scopes', 'Approvals', 'Revocation'],
+  },
+  {
+    id: 29,
+    role: 'Receipts Agent',
+    name: 'Thalia',
+    does: 'Signs and stores a record of every action.',
+    skills: ['Receipts', 'Signatures', 'Audit', 'Exports'],
+  },
+  {
+    id: 30,
+    role: 'Onboarding Agent',
+    name: 'Ozan',
+    does: 'Gets wallets, keys and rails ready to use.',
+    skills: ['Wallets', 'Setup', 'Funding', 'Permissions'],
+  },
+  {
+    id: 31,
+    role: 'Tax Agent',
+    name: 'Beatrix',
+    does: 'Tracks cost basis across chains and venues.',
+    skills: ['Cost Basis', 'Reports', 'Lots', 'Exports'],
+  },
+  {
+    id: 32,
+    role: 'Macro Agent',
+    name: 'Lucien',
+    does: 'Reads rates and liquidity for regime shifts.',
+    skills: ['Rates', 'Liquidity', 'Regimes', 'Calendars'],
+  },
+  {
+    id: 33,
+    role: 'Catalyst Agent',
+    name: 'Ines',
+    does: 'Tracks unlocks, listings and events that move price.',
+    skills: ['Calendar', 'Unlocks', 'Events', 'Alerts'],
+  },
+  {
+    id: 34,
+    role: 'Listings Agent',
+    name: 'Dorian',
+    does: 'Catches new pairs the moment they go live.',
+    skills: ['Listings', 'New Pairs', 'Entries', 'Caps'],
+  },
+  {
+    id: 35,
+    role: 'Rug Screen Agent',
+    name: 'Sable',
+    does: 'Screens contracts before your capital touches them.',
+    skills: ['Contracts', 'Audits', 'Holders', 'Flags'],
+  },
+  {
+    id: 36,
+    role: 'Lending Agent',
+    name: 'Emory',
+    does: 'Finds the cheapest borrow and best supply rate.',
+    skills: ['Borrow', 'Supply', 'Rates', 'Markets'],
+  },
+  {
+    id: 37,
+    role: 'Collateral Agent',
+    name: 'Verity',
+    does: 'Guards your LTV before the market does.',
+    skills: ['LTV', 'Collateral', 'Top-ups', 'Alerts'],
+  },
+  {
+    id: 38,
+    role: 'Liquidation Agent',
+    name: 'Kestrel',
+    does: 'Defends margin when positions come under pressure.',
+    skills: ['Margin', 'Defence', 'Unwinds', 'Alerts'],
+  },
+  {
+    id: 39,
+    role: 'TWAP Agent',
+    name: 'Fenn',
+    does: 'Slices large orders across time and venues.',
+    skills: ['TWAP', 'Schedules', 'Slicing', 'Fills'],
+  },
+  {
+    id: 40,
+    role: 'Rebalance Agent',
+    name: 'Mira',
+    does: 'Holds your portfolio to its target weights.',
+    skills: ['Weights', 'Drift', 'Rebalancing', 'Swaps'],
+  },
+  {
+    id: 41,
+    role: 'Alerts Agent',
+    name: 'Otto',
+    does: 'Watches thresholds and tells you the moment they break.',
+    skills: ['Thresholds', 'Watchlists', 'Alerts', 'Triggers'],
+  },
+  {
+    id: 42,
+    role: 'Correlation Agent',
+    name: 'Sunniva',
+    does: 'Flags when pairs stop moving together.',
+    skills: ['Correlation', 'Drift', 'Pairs', 'Signals'],
+  },
+  {
+    id: 43,
+    role: 'Backtest Agent',
+    name: 'Ravi',
+    does: 'Proves a strategy before it goes live.',
+    skills: ['Backtests', 'Metrics', 'Sims', 'Reports'],
+  },
+  {
+    id: 44,
+    role: 'Journal Agent',
+    name: 'Cleo',
+    does: 'Reviews your trades and tells you what worked.',
+    skills: ['Journal', 'Reviews', 'Stats', 'Notes'],
+  },
+  {
+    id: 45,
+    role: 'Funding Agent',
+    name: 'Gideon',
+    does: 'Harvests funding on delta-neutral positions.',
+    skills: ['Funding', 'Carry', 'Neutral', 'Rolls'],
+  },
+  {
+    id: 46,
+    role: 'RWA Agent',
+    name: 'Noor',
+    does: 'Accesses tokenised real-world yield.',
+    skills: ['RWA', 'Tokenised', 'Yield', 'Custody'],
+  },
+  {
+    id: 47,
+    role: 'Payments Agent',
+    name: 'Emeric',
+    does: 'Sends and receives stable value autonomously.',
+    skills: ['Payments', 'x402', 'Transfers', 'Invoices'],
+  },
+  {
+    id: 48,
+    role: 'Fiat Rails Agent',
+    name: 'Zosia',
+    does: 'Moves value on and off ramp.',
+    skills: ['On-ramp', 'Off-ramp', 'Banks', 'KYC'],
+  },
+
+  // --- LANE 3 (AGENTS 49 - 72) ---
+  {
+    id: 49,
+    role: 'Chain Watch Agent',
+    name: 'Adric',
+    does: 'Monitors mempools and chain state.',
+    skills: ['Mempool', 'Blocks', 'State', 'Alerts'],
+  },
+  {
+    id: 50,
+    role: 'Vault Agent',
+    name: 'Perrin',
+    does: 'Auto-compounds positions while you sleep.',
+    skills: ['Vaults', 'Compounding', 'Harvests', 'Exits'],
+  },
+  {
+    id: 51,
+    role: 'Points Agent',
+    name: 'Selby',
+    does: 'Tracks incentives and points programs.',
+    skills: ['Points', 'Incentives', 'Seasons', 'Claims'],
+  },
+  {
+    id: 52,
+    role: 'Narrative Agent',
+    name: 'Ilona',
+    does: 'Rotates exposure with the sector in play.',
+    skills: ['Sectors', 'Rotation', 'Narratives', 'Baskets'],
+  },
+  {
+    id: 53,
+    role: 'Travel Agent',
+    name: 'Elio',
+    does: 'Plans and books routes, flights and stays.',
+    skills: ['Flights', 'Stays', 'Routes', 'Payments'],
+  },
+  {
+    id: 54,
+    role: 'Concierge Agent',
+    name: 'Bianca',
+    does: 'Secures tables, tickets and reservations.',
+    skills: ['Tables', 'Tickets', 'Bookings', 'Requests'],
+  },
+  {
+    id: 55,
+    role: 'Culture Agent',
+    name: 'Nadia',
+    does: 'Finds shows, openings and what is worth seeing.',
+    skills: ['Events', 'Shows', 'Openings', 'Tickets'],
+  },
+  {
+    id: 56,
+    role: 'Media Agent',
+    name: 'Hugo',
+    does: 'Turns raw footage into clips and edits.',
+    skills: ['Clips', 'Edits', 'Captions', 'Publishing'],
+  },
+  {
+    id: 57,
+    role: 'Inbox Agent',
+    name: 'Iris',
+    does: 'Triages mail and drafts your replies.',
+    skills: ['Triage', 'Drafts', 'Follow-ups', 'Rules'],
+  },
+  {
+    id: 58,
+    role: 'Calendar Agent',
+    name: 'Bode',
+    does: 'Defends your time and schedules the rest.',
+    skills: ['Scheduling', 'Conflicts', 'Invites', 'Reminders'],
+  },
+  {
+    id: 59,
+    role: 'Shopping Agent',
+    name: 'Lena',
+    does: 'Sources what you want at the right price.',
+    skills: ['Sourcing', 'Price', 'Checkout', 'Returns'],
+  },
+  {
+    id: 60,
+    role: 'Fitness Agent',
+    name: 'Rafe',
+    does: 'Manages load, recovery and training.',
+    skills: ['Training', 'Load', 'Recovery', 'Metrics'],
+  },
+  {
+    id: 61,
+    role: 'Kitchen Agent',
+    name: 'Suri',
+    does: 'Plans menus and places the orders.',
+    skills: ['Menus', 'Groceries', 'Orders', 'Recipes'],
+  },
+  {
+    id: 62,
+    role: 'Notes Agent',
+    name: 'Tomas',
+    does: 'Keeps memory and recalls it on request.',
+    skills: ['Notes', 'Memory', 'Search', 'Summaries'],
+  },
+  {
+    id: 63,
+    role: 'Study Agent',
+    name: 'Aya',
+    does: 'Briefs you and drills what you need to know.',
+    skills: ['Briefs', 'Drills', 'Summaries', 'Sources'],
+  },
+  {
+    id: 64,
+    role: 'Home Agent',
+    name: 'Nils',
+    does: 'Runs devices, bills and the household.',
+    skills: ['Devices', 'Bills', 'Automations', 'Vendors'],
+  },
+  {
+    id: 65,
+    role: 'Deals Agent',
+    name: 'Priya',
+    does: 'Catches drops, coupons and price cuts.',
+    skills: ['Deals', 'Coupons', 'Drops', 'Alerts'],
+  },
+  {
+    id: 66,
+    role: 'Docs Agent',
+    name: 'Cyrus',
+    does: 'Reads and prepares contracts and forms.',
+    skills: ['Contracts', 'Forms', 'Redlines', 'Signing'],
+  },
+  {
+    id: 67,
+    role: 'Music Agent',
+    name: 'Mavis',
+    does: 'Builds sets and finds what you\'d like next.',
+    skills: ['Sets', 'Discovery', 'Playlists', 'Tickets'],
+  },
+  {
+    id: 68,
+    role: 'Errands Agent',
+    name: 'Osei',
+    does: 'Handles logistics, deliveries and pickups.',
+    skills: ['Deliveries', 'Pickups', 'Couriers', 'Payments'],
+  },
+  {
+    id: 69,
+    role: 'Scheduling Agent',
+    name: 'Tamsin',
+    does: 'Coordinates desks, people and time zones.',
+    skills: ['Scheduling', 'Desks', 'Zones', 'Invites'],
+  },
+  {
+    id: 70,
+    role: 'Support Agent',
+    name: 'Ruslan',
+    does: 'Triages accounts and resolves issues.',
+    skills: ['Triage', 'Accounts', 'Tickets', 'Escalation'],
+  },
+  {
+    id: 71,
+    role: 'Screener Agent',
+    name: 'Amalia',
+    does: 'Screens markets for volume anomalies.',
+    skills: ['Screening', 'Volume', 'Anomalies', 'Filters'],
+  },
+  {
+    id: 72,
+    role: 'Settlement Agent',
+    name: 'Dov',
+    does: 'Broadcasts, confirms and reconciles.',
+    skills: ['Broadcast', 'Nonces', 'Confirms', 'Reconcile'],
   },
 ];
 
-export const RenaissanceAgentRoster: React.FC = () => {
-  // Default to Eve (id: 7)
-  const [activeAgentId, setActiveAgentId] = useState<number | null>(7);
+const LANE_1 = ALL_72_AGENTS.slice(0, 24);
+const LANE_2 = ALL_72_AGENTS.slice(24, 48);
+const LANE_3 = ALL_72_AGENTS.slice(48, 72);
 
-  const activeAgent = SUPPER_AGENTS.find((a) => a.id === activeAgentId) || SUPPER_AGENTS[6];
+interface AgentCardProps {
+  agent: AgentCardData;
+}
+
+const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
+  const parts = agent.role.split(' ');
+  const mainRole = parts.slice(0, -1).join(' ');
+  const suffix = parts[parts.length - 1];
 
   return (
-    <section id="agents" className="relative w-full overflow-hidden bg-neutral-950">
+    <div className="w-[340px] sm:w-[380px] md:w-[410px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border border-[#3e4f42]/45 hover:border-[#3e4f42]/75 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(40,48,40,0.12)] hover:-translate-y-1 select-none cursor-pointer">
+      {/* Top Header */}
+      <div>
+        <div className="flex items-baseline justify-between gap-2">
+          <h3 className="text-2xl sm:text-[26px] font-serif text-[#25362a] tracking-tight leading-tight">
+            <span className="font-serif italic font-bold">{mainRole}</span>{' '}
+            <span className="font-serif italic font-normal text-[#38493d]">{suffix}</span>
+          </h3>
+          <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.2em] text-[#4a5c4e] font-semibold shrink-0">
+            {agent.name}
+          </span>
+        </div>
+
+        {/* Description / One-liner */}
+        <p className="text-xs sm:text-sm text-[#4a5b4e] font-sans leading-relaxed mt-2.5 mb-4">
+          {agent.does}
+        </p>
+      </div>
+
+      {/* Skills Badges */}
+      <div className="flex flex-wrap gap-1.5 pt-1">
+        {agent.skills.map((skill) => (
+          <span
+            key={skill}
+            className="px-2.5 py-0.5 rounded-full border border-[#445648]/35 bg-[#e0e8dc]/70 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#314234] font-medium"
+          >
+            {skill}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export const RenaissanceAgentRoster: React.FC = () => {
+  return (
+    <section id="agents" className="w-full bg-[#f7f3ef] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
       
+      {/* Top Header Section */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
+          
+          {/* Left Title: DOPE runs the House */}
+          <div>
+            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif leading-[1.05]">
+              <span className="font-serif italic font-bold text-[#1e2e22]">DOPE</span>{' '}
+              <span className="font-serif font-normal text-[#2d3e32]">runs the House</span>
+            </h2>
+          </div>
+
+          {/* Right Editorial Copy */}
+          <div className="max-w-md lg:text-right">
+            <p className="font-serif italic text-xl sm:text-2xl md:text-[26px] text-[#7a382e] leading-snug">
+              The Head of Agents turning your intent into action across a network of specialized agents.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
       {/* =========================================================================
-          1. SUPPERS.PNG PANORAMIC PAINTING CANVAS (Natural Aspect Ratio Locked)
+          THREE MARQUEE LANES (72 AGENTS)
           ========================================================================= */}
-      <div className="relative w-full overflow-hidden">
+      <div className="relative w-full space-y-4 sm:space-y-5 overflow-hidden">
         
-        {/* Background Painting - in normal flow so coordinates never get cropped */}
-        <img
-          src={suppersBg}
-          alt="The Last Supper AI Agents"
-          className="w-full h-auto min-h-[520px] object-cover sm:object-contain object-center select-none block pointer-events-none"
-        />
+        {/* Soft edge gradient masks */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
 
-        {/* Ambient Bottom Shadow Gradient for Readability */}
-        <div className="absolute inset-x-0 bottom-0 h-44 sm:h-56 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
-
-        {/* =========================================================================
-            2. TOP EDITORIAL HEADLINE
-            ========================================================================= */}
-        <div className="absolute top-6 sm:top-10 md:top-14 inset-x-0 z-20 px-4 sm:px-8 text-center max-w-5xl mx-auto space-y-2 sm:space-y-3">
-          <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight text-white font-serif font-normal drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-            One app, a <span className="font-serif italic font-bold text-white">whole crew.</span>
-          </h2>
-          <p className="text-[10px] sm:text-xs md:text-sm font-mono tracking-widest uppercase text-white/90 font-bold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-            JUST ASK, AND WHICHEVER AGENT HANDLES THAT SHOWS UP.
-          </p>
+        {/* --- LANE 1: MOVES LEFT --- */}
+        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]">
+            {LANE_1.map((agent) => (
+              <AgentCard key={`lane1-${agent.id}`} agent={agent} />
+            ))}
+          </div>
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+            {LANE_1.map((agent) => (
+              <AgentCard key={`lane1-dup-${agent.id}`} agent={agent} />
+            ))}
+          </div>
         </div>
 
-        {/* =========================================================================
-            3. 12 INTERACTIVE HOVER HOTSPOTS (Directly Over Character Coordinates)
-            ========================================================================= */}
-        <div className="absolute inset-0 z-30 pointer-events-auto">
-          {SUPPER_AGENTS.map((agent) => (
-            <div
-              key={agent.id}
-              onMouseEnter={() => setActiveAgentId(agent.id)}
-              onClick={() => setActiveAgentId(agent.id)}
-              style={{
-                left: `${agent.xPercent}%`,
-                top: '20%',
-              }}
-              className="absolute -translate-x-1/2 w-[7%] sm:w-[6.5%] h-[48%] sm:h-[50%] cursor-pointer bg-transparent"
-            />
-          ))}
+        {/* --- LANE 2: MOVES RIGHT --- */}
+        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused]">
+            {LANE_2.map((agent) => (
+              <AgentCard key={`lane2-${agent.id}`} agent={agent} />
+            ))}
+          </div>
+          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+            {LANE_2.map((agent) => (
+              <AgentCard key={`lane2-dup-${agent.id}`} agent={agent} />
+            ))}
+          </div>
         </div>
 
-        {/* =========================================================================
-            4. ACTIVE AGENT FLOATING CARD & CONNECTING DASHED LINE (Pure Fixed Center Anchor)
-            ========================================================================= */}
-        <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
-          {activeAgent && (
-            <div
-              style={{
-                position: 'absolute',
-                left: `${activeAgent.xPercent}%`,
-                bottom: '1.5rem',
-                transform: 'translateX(-50%)',
-              }}
-              className="pointer-events-auto flex flex-col items-center"
-            >
-              {/* Dashed Connecting Line (From Table Surface Directly Down to Card) */}
-              <div className="w-px h-8 sm:h-12 border-l border-dashed border-white/80 mb-1.5" />
-
-              {/* Animate Card Content without overriding parent translateX(-50%) */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeAgent.id}
-                  initial={{ opacity: 0, y: 10, scale: 0.96 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 6, scale: 0.96 }}
-                  transition={{ duration: 0.18, ease: 'easeOut' }}
-                  className="w-[215px] sm:w-[250px] md:w-[260px] p-3.5 sm:p-5 rounded-2xl bg-black/65 backdrop-blur-xl border border-white/25 shadow-[0_20px_50px_rgba(0,0,0,0.85)] text-white space-y-2.5 sm:space-y-3"
-                >
-                  {/* Header: Circle Avatar + Name + Role */}
-                  <div className="flex items-center gap-2.5 sm:gap-3">
-                    <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-white/40 shrink-0 shadow-md bg-neutral-800">
-                      <img
-                        src={activeAgent.avatar}
-                        alt={activeAgent.name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-serif text-base sm:text-lg md:text-xl font-bold text-white leading-tight">
-                        {activeAgent.name}
-                      </h4>
-                      <div className="text-[8.5px] sm:text-[9.5px] font-mono text-neutral-300 uppercase tracking-widest">
-                        {activeAgent.role}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Body: Left Gold Accent Bar + Description */}
-                  <div className="border-l-2 border-[#c5a880] pl-2.5 py-0.5">
-                    <p className="text-[11px] sm:text-xs text-neutral-200 font-sans leading-relaxed">
-                      {activeAgent.description}
-                    </p>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          )}
+        {/* --- LANE 3: MOVES LEFT --- */}
+        <div className="flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]">
+            {LANE_3.map((agent) => (
+              <AgentCard key={`lane3-${agent.id}`} agent={agent} />
+            ))}
+          </div>
+          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused]" aria-hidden="true">
+            {LANE_3.map((agent) => (
+              <AgentCard key={`lane3-dup-${agent.id}`} agent={agent} />
+            ))}
+          </div>
         </div>
 
+      </div>
+
+      {/* Bottom Subtitle / Monospace Caption */}
+      <div className="w-full text-center pt-10 sm:pt-14 px-4">
+        <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-[#4a5c4e] font-bold">
+          ONE INTERFACE · 72+ SPECIALIZED AGENTS
+        </p>
       </div>
 
     </section>
