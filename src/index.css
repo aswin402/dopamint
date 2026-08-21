@@ -10,7 +10,7 @@
   --font-display: 'Winslow Book', 'Winslow', serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --color-parchment: #f7f3ef;
+  --color-parchment: #f3f2e6;
   --color-parchment-deep: #eeeae4;
   --color-parchment-card: #f2ece5;
   --color-parchment-subtle: #fcfaf8;
@@ -23,14 +23,14 @@
 @layer base {
   :root {
     color-scheme: light;
-    background-color: #f7f3ef;
+    background-color: #f3f2e6;
     color: #141820;
   }
 
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
-    background-color: #f7f3ef;
+    background-color: #f3f2e6;
     color: #141820;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -38,7 +38,7 @@
   }
 
   body {
-    background-color: #f7f3ef;
+    background-color: #f3f2e6;
     color: #141820;
     min-height: 100vh;
     overflow-x: hidden;
@@ -160,7 +160,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f7f3ef;
+  background: #f3f2e6;
 }
 
 ::-webkit-scrollbar-thumb {

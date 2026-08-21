@@ -570,7 +570,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
 
 export const RenaissanceAgentRoster: React.FC = () => {
   return (
-    <section id="agents" className="w-full bg-[#f7f3ef] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
+    <section id="agents" className="w-full bg-[#f3f2e6] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
       
       {/* Top Header Section */}
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
@@ -600,8 +600,8 @@ export const RenaissanceAgentRoster: React.FC = () => {
       <div className="relative w-full space-y-2 sm:space-y-3 overflow-hidden">
         
         {/* Soft edge gradient masks */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f7f3ef] via-[#f7f3ef]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
 
         {/* --- LANE 1: MOVES LEFT --- */}
         <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">

@@ -13,7 +13,7 @@ export const RenaissanceAuthority: React.FC = () => {
   }, []);
 
   return (
-    <section id="control" className="relative w-full bg-[#f7f3ef] py-20 sm:py-28 px-4 sm:px-8 lg:px-16 overflow-hidden border-t border-neutral-300/70">
+    <section id="control" className="relative w-full bg-[#f3f2e6] py-20 sm:py-28 px-4 sm:px-8 lg:px-16 overflow-hidden border-t border-neutral-300/70">
       
       {/* =========================================================================
           1. TILTED RENAISSANCE CROWNS (LEFT & RIGHT)

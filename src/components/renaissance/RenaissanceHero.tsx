@@ -190,7 +190,7 @@ export const RenaissanceHero: React.FC = () => {
       {/* =========================================================================
           2. SECOND SECTION: House of AI Agents (Compact Bottom & Clean Masked Cut)
           ========================================================================= */}
-      <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f7f3ef]">
+      <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f3f2e6]">
         <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start">
           
           {/* Left Column: Editorial Information & Animated Architecture Pipeline */}

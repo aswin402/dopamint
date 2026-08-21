@@ -11,7 +11,7 @@ import divBurnOutImg from '../assets/Div_Burn_out_image.png';
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#f7f3ef] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#e5ddd4] selection:text-[#141820]">
+    <div className="relative min-h-screen bg-[#f3f2e6] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#e5ddd4] selection:text-[#141820]">
       {/* Top Navigation */}
       <RenaissanceNavbar />
 
@@ -34,7 +34,7 @@ export function HomePage() {
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
             <BurnTransition
-              color="#ddddd1"
+              color="#f3f2e6"
               transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
@@ -70,7 +70,7 @@ export function HomePage() {
           {/* Bottom Burn Transition Effect */}
           <div className="absolute bottom-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20">
             <BurnTransition
-              color="#ddddd1"
+              color="#f3f2e6"
               transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
