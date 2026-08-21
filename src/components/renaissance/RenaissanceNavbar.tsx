@@ -23,13 +23,13 @@ export const RenaissanceNavbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-12 text-xs font-sans transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
         isScrolled
           ? 'bg-[#f7f3ef]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between w-full">
+      <div className="max-w-6xl mx-auto flex items-center justify-between w-full">
         {/* Brand with logo_dope.png (Switches from White to Black on scroll) */}
         <a href="#hero" className="flex items-center group" aria-label="Home">
           <img
