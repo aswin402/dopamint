@@ -6,6 +6,7 @@ import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAge
 import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
 import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
 import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
+import divBurnOutImg from '../assets/Div_Burn_out_image.png';
 
 export function HomePage() {
   return (
@@ -27,11 +28,25 @@ export function HomePage() {
         {/* 4. Authority: Trust Layer Sandbox */}
         <RenaissanceAuthority />
 
-        {/* 5. Evidence: Ada Kiln Booking & Receipt Chain */}
-        <RenaissanceEvidence />
+        {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
+        <div className="relative w-full overflow-hidden bg-[#e0dcd1]">
+          {/* Div_Burn_out_image.png Background */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+            <img
+              src={divBurnOutImg}
+              alt="Burn out background"
+              className="w-full h-full object-cover object-top select-none"
+            />
+          </div>
 
-        {/* 6. The Floor: Watch the house work */}
-        <RenaissanceMemoryWallet />
+          <div className="relative z-10">
+            {/* Part 1: Cryptographic Evidence Log */}
+            <RenaissanceEvidence />
+
+            {/* Part 2: The Floor & Memory Wallet */}
+            <RenaissanceMemoryWallet />
+          </div>
+        </div>
       </main>
     </div>
   );

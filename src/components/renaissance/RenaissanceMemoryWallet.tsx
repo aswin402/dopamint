@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, ShieldCheck, CheckCircle2, ArrowRight, Zap, RefreshCw, Layers, TrendingUp, Search, Lock } from 'lucide-react';
-import { BurnTransition } from '../ui/BurnTransition';
 
 const EXCHANGES_RAILS = [
   'Upbit',
@@ -39,28 +38,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
   };
 
   return (
-    <section id="the-floor" className="w-full bg-[#D9D6CA] text-[#141820] py-24 sm:py-32 relative overflow-hidden">
-      
-      {/* =========================================================================
-          1. TOP BURN TRANSITION (STARTING EDGE)
-          ========================================================================= */}
-      <div className="absolute top-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
-        <BurnTransition
-          color="#D9D6CA"
-          transitionColor="#FFFFFF"
-          noiseScale={2.5}
-          noiseIntensity={0.52}
-          scrollSensitivity={0.015}
-          baseAnimationSpeed={0.08}
-          edgeSoftness={0.38}
-          bloomIntensity={0.75}
-          bloomRadius={0.35}
-          parallaxEnabled={true}
-          movement={{ horizontal: 'center', vertical: 0.5 }}
-          className="h-full w-full"
-        />
-      </div>
-
+    <section id="the-floor" className="w-full bg-transparent text-[#141820] pt-8 sm:pt-12 pb-24 sm:pb-32 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* Chapter Marker */}
@@ -310,27 +288,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
         </div>
 
-      </div>
-
-      {/* =========================================================================
-          4. BOTTOM BURN TRANSITION (ENDING EDGE)
-          ========================================================================= */}
-      <div className="absolute bottom-0 inset-x-0 h-64 sm:h-80 md:h-96 pointer-events-none z-30 opacity-95">
-        <BurnTransition
-          color="#D9D6CA"
-          transitionColor="#FFFFFF"
-          noiseScale={2.5}
-          noiseIntensity={0.52}
-          scrollSensitivity={0.015}
-          baseAnimationSpeed={0.08}
-          edgeSoftness={0.38}
-          bloomIntensity={0.75}
-          bloomRadius={0.35}
-          parallaxEnabled={true}
-          inverted={true}
-          movement={{ horizontal: 'center', vertical: 0.5 }}
-          className="h-full w-full"
-        />
       </div>
 
     </section>
