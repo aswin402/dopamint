@@ -155,20 +155,20 @@ export const RenaissanceHero: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            BOTTOM: Giant Animated Hero Headline ("Your Agents can [Trade...]")
+            BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]")
             ========================================================================= */}
         <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4">
-          <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+          <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
               Your Agents can
             </span>
-            <div className="inline-flex items-center justify-start min-w-[130px] sm:min-w-[180px] md:min-w-[240px] lg:min-w-[300px] xl:min-w-[360px] text-left">
+            <div className="inline-flex items-center justify-start min-w-[120px] sm:min-w-[170px] md:min-w-[220px] lg:min-w-[280px] xl:min-w-[340px] text-left">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={ACTION_WORDS[actionIndex]}
-                  initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
+                  initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -22, filter: 'blur(6px)' }}
+                  exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
                 >
