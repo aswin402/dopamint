@@ -205,7 +205,7 @@ export const RenaissanceRealAsks: React.FC = () => {
     <section
       ref={sectionRef}
       id="asks"
-      className="w-full bg-[#ffffff] pt-16 sm:pt-20 pb-20 sm:pb-28 relative z-20 overflow-x-clip select-none"
+      className="w-full bg-[#ffffff] pt-8 sm:pt-12 pb-0 relative z-20 overflow-hidden select-none"
     >
       {/* ── Hidden SVG defs: 6 morphing clipPaths ── */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
@@ -232,13 +232,13 @@ export const RenaissanceRealAsks: React.FC = () => {
       </svg>
 
       {/* =========================================================================
-          ILLUSTRATIONS: CANDLE STAND (RIGHT) & LARGE SCHOLAR CHARACTER (LEFT)
+          ILLUSTRATIONS: CANDLE STAND (RIGHT) & CROPPED LARGE SCHOLAR (LEFT)
           ========================================================================= */}
       {/* Top Right Candle Stand */}
       <motion.div
         animate={{ y: [-5, 5, -5], rotate: [0, 0.4, 0] }}
         transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-2 sm:top-6 md:top-8 -right-8 sm:-right-12 md:-right-16 lg:-right-20 w-44 sm:w-56 md:w-64 lg:w-72 pointer-events-none z-20"
+        className="absolute top-4 sm:top-8 md:top-12 -right-6 sm:-right-8 md:-right-12 lg:-right-14 w-44 sm:w-56 md:w-68 lg:w-80 pointer-events-none z-20"
       >
         <img
           src={candleStandImg}
@@ -247,25 +247,25 @@ export const RenaissanceRealAsks: React.FC = () => {
         />
       </motion.div>
 
-      {/* Bottom Left Renaissance Scholar Character (src/assets/footer.png) - Large */}
+      {/* Bottom Left Renaissance Scholar Character (Cropped at waist, large scale) */}
       <motion.div
-        animate={{ y: [4, -4, 4] }}
+        animate={{ y: [3, -3, 3] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -bottom-4 sm:bottom-0 -left-6 sm:-left-4 md:-left-2 lg:left-2 w-56 sm:w-72 md:w-84 lg:w-96 xl:w-[420px] pointer-events-none z-20"
+        className="absolute -bottom-24 sm:-bottom-36 md:-bottom-48 lg:-bottom-60 -left-10 sm:-left-14 md:-left-16 lg:-left-20 w-[360px] sm:w-[480px] md:w-[600px] lg:w-[700px] xl:w-[760px] pointer-events-none z-20"
       >
         <img
           src={footerImg}
           alt="Renaissance Character"
-          className="w-full h-auto object-contain drop-shadow-[0_20px_40px_rgba(40,30,20,0.25)] select-none"
+          className="w-full h-auto object-contain drop-shadow-[0_24px_48px_rgba(40,30,20,0.25)] select-none"
         />
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
 
         {/* =========================================================================
-            TITLE: "Talk Markets. It Trades" (Matching Screenshot)
+            TITLE: "Talk Markets. It Trades" (Matching Reference Image 1)
             ========================================================================= */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-10 sm:mb-14">
+        <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-8">
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
             Talk{' '}
             <span className="font-serif italic font-bold text-[#253b2b]">Markets.</span>{' '}
@@ -277,7 +277,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         {/* =========================================================================
             MAIN INTERACTIVE STAGE: 6 FLOATING iMESSAGE CARDS + BOTTOM PODIUM
             ========================================================================= */}
-        <div className="relative w-full min-h-[640px] sm:min-h-[700px] md:min-h-[760px] lg:min-h-[820px] flex items-center justify-center">
+        <div className="relative w-full h-[620px] sm:h-[680px] md:h-[740px] lg:h-[780px] flex items-center justify-center">
 
           {/* ─── CARD 1: TOP LEFT (why is BTC bid...) ─── */}
           <motion.div
@@ -286,7 +286,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[2%] sm:top-[4%] left-[8%] sm:left-[12%] lg:left-[14%] w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] z-20"
+            className="absolute top-[2%] sm:top-[4%] left-[6%] sm:left-[9%] lg:left-[11%] w-full max-w-[310px] sm:max-w-[360px] lg:max-w-[390px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-1)' }}
@@ -299,7 +299,7 @@ export const RenaissanceRealAsks: React.FC = () => {
                 transition: { type: 'spring', stiffness: 320, damping: 22 },
               }}
               whileTap={{ scale: 0.98 }}
-              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-7 cursor-pointer transition-colors duration-300"
+              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-6 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3 sm:gap-3.5">
                 <IMessageBubble text="why is BTC bid this morning, funding or spot?" side="left" />
@@ -315,7 +315,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[58%] sm:top-[60%] left-[16%] sm:left-[20%] lg:left-[22%] w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[54%] sm:top-[56%] left-[13%] sm:left-[16%] lg:left-[18%] w-full max-w-[290px] sm:max-w-[340px] lg:max-w-[370px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-2)' }}
@@ -328,7 +328,7 @@ export const RenaissanceRealAsks: React.FC = () => {
                 transition: { type: 'spring', stiffness: 320, damping: 22 },
               }}
               whileTap={{ scale: 0.98 }}
-              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-7 cursor-pointer transition-colors duration-300"
+              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-6 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3 sm:gap-3.5">
                 <IMessageBubble text="I found three options. Want me to execute?" side="left" />
@@ -344,7 +344,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[0%] sm:top-[2%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[250px] sm:max-w-[290px] lg:max-w-[320px] z-20"
+            className="absolute top-[0%] sm:top-[1%] left-[42%] sm:left-[43%] lg:left-[44%] w-full max-w-[240px] sm:max-w-[280px] lg:max-w-[310px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-3)' }}
@@ -372,7 +372,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[44%] sm:top-[46%] left-[40%] sm:left-[42%] lg:left-[44%] w-full max-w-[210px] sm:max-w-[250px] lg:max-w-[280px] z-20"
+            className="absolute top-[42%] sm:top-[44%] left-[38%] sm:left-[40%] lg:left-[41%] w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[260px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-4)' }}
@@ -400,7 +400,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[22%] sm:top-[24%] right-[16%] sm:right-[18%] lg:right-[20%] w-full max-w-[220px] sm:max-w-[260px] lg:max-w-[290px] z-20"
+            className="absolute top-[18%] sm:top-[20%] right-[14%] sm:right-[16%] lg:right-[18%] w-full max-w-[210px] sm:max-w-[250px] lg:max-w-[270px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-5)' }}
@@ -428,7 +428,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             initial="closed"
             animate={isOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.22))' }}
-            className="absolute top-[48%] sm:top-[50%] right-[2%] sm:right-[4%] lg:right-[6%] w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[450px] z-20"
+            className="absolute top-[48%] sm:top-[50%] right-[2%] sm:right-[4%] lg:right-[6%] w-full max-w-[330px] sm:max-w-[380px] lg:max-w-[420px] z-20"
           >
             <motion.div
               style={{ clipPath: 'url(#genie-clip-6)' }}
@@ -441,7 +441,7 @@ export const RenaissanceRealAsks: React.FC = () => {
                 transition: { type: 'spring', stiffness: 320, damping: 22 },
               }}
               whileTap={{ scale: 0.98 }}
-              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-7 cursor-pointer transition-colors duration-300"
+              className="imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4]/90 hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.06)] hover:shadow-[0_24px_60px_rgba(50,35,20,0.12)] p-5 sm:p-6 cursor-pointer transition-colors duration-300"
             >
               <div className="flex flex-col gap-3 sm:gap-3.5">
                 <IMessageBubble text="what am I paying in gas this week?" side="left" />
@@ -450,11 +450,11 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* ─── BOTTOM CENTER: STONE CARVED iMESSAGE PODIUM (Small & At the Bottom) ─── */}
+          {/* ─── BOTTOM CENTER: STONE CARVED iMESSAGE PODIUM (Cropped at bottom edge) ─── */}
           <div
             ref={pedestalRef}
             onClick={handleToggle}
-            className="absolute -bottom-6 sm:-bottom-4 md:-bottom-2 left-1/2 -translate-x-1/2 w-28 sm:w-32 md:w-36 lg:w-40 z-30 flex flex-col items-center cursor-pointer group"
+            className="absolute -bottom-14 sm:-bottom-16 md:-bottom-20 left-1/2 -translate-x-1/2 w-32 sm:w-36 md:w-40 lg:w-44 z-30 flex flex-col items-center cursor-pointer group"
           >
             <motion.div
               whileHover={{ scale: 1.08 }}
