@@ -66,7 +66,7 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
     } else {
       // CLOSE: step0 → step2 → step3
       let start: number | null = null;
-      const duration = 750;
+      const duration = 850;
 
       const animate = (ts: number) => {
         if (!start) start = ts;
@@ -110,10 +110,10 @@ export const RenaissanceRealAsks: React.FC = () => {
   const card6Ref = useRef<HTMLDivElement>(null);
   const pedestalRef = useRef<HTMLDivElement>(null);
 
-  // Dynamic offsets: each card's CSS position → pedestal center
-  const [off1, setOff1] = useState({ x: 0, y: 0 });
-  const [off2, setOff2] = useState({ x: 0, y: 0 });
-  const [off3, setOff3] = useState({ x: 0, y: 0 });
+  // Dynamic offsets: each card's CSS position → pedestal center & depth
+  const [off1, setOff1] = useState({ x: 0, y: 0, sinkY: 0 });
+  const [off2, setOff2] = useState({ x: 0, y: 0, sinkY: 0 });
+  const [off3, setOff3] = useState({ x: 0, y: 0, sinkY: 0 });
 
   // Measure offsets: getBoundingClientRect for pedestal (includes CSS transforms),
   // offsetLeft/offsetTop for cards (layout position, no transforms)
@@ -126,9 +126,11 @@ export const RenaissanceRealAsks: React.FC = () => {
       const parentRect = (ped.offsetParent as HTMLElement).getBoundingClientRect();
       const pedRect = ped.getBoundingClientRect();
 
-      // Pedestal VISUAL center relative to offsetParent (includes translateX(-50%))
+      // Pedestal VISUAL center relative to offsetParent
       const pedCx = pedRect.left + pedRect.width / 2 - parentRect.left;
       const pedTy = pedRect.top - parentRect.top;
+      // Sink depth: point inside the stone iMessage tablet
+      const pedSinkCenterY = pedTy + pedRect.height * 0.42;
 
       [
         { ref: card1Ref, set: setOff1 },
@@ -140,7 +142,10 @@ export const RenaissanceRealAsks: React.FC = () => {
         // Card CSS layout center (unaffected by framer-motion transforms)
         const cardCx = el.offsetLeft + el.offsetWidth / 2;
         const cardCy = el.offsetTop + el.offsetHeight / 2;
-        set({ x: pedCx - cardCx, y: pedTy - cardCy });
+        const x = pedCx - cardCx;
+        const y = pedTy - cardCy;
+        const sinkY = pedSinkCenterY - cardCy;
+        set({ x, y, sinkY });
       });
     };
 
@@ -171,28 +176,28 @@ export const RenaissanceRealAsks: React.FC = () => {
   const path3Ref = useGenieMorph(isOpen, 200);
 
   // ── Framer Motion position variants: 2-phase synchronized emergence ──────
-  // Phase 1 (0 → 0.45): All cards rise STRAIGHT UP in ONE central column from the pedestal
-  // Phase 2 (0.45 → 1.0): Cards fan out to their distinct target layout positions
-  const makePos = (off: { x: number; y: number }, delay: number): Variants => ({
+  // Phase 1 (0 → 0.42): All cards rise STRAIGHT UP out of the stone tablet mouth
+  // Phase 2 (0.42 → 1.0): Cards fan out to their distinct target layout positions
+  const makePos = (off: { x: number; y: number; sinkY: number }, delay: number): Variants => ({
     closed: {
       x: [0, off.x, off.x],
-      y: [0, off.y - 140, off.y],
-      scale: [1, 0.75, 0],
+      y: [0, off.y - 30, off.sinkY],
+      scale: [1, 0.85, 0.08],
       opacity: [1, 1, 0],
       transition: {
         duration: 0.85,
-        times: [0, 0.5, 1],
+        times: [0, 0.45, 1],
         ease: ['easeInOut', 'easeIn'],
       },
     },
     open: {
       x: [off.x, off.x, 0],
-      y: [off.y, off.y - 140, 0],
-      scale: [0, 0.75, 1],
+      y: [off.sinkY, off.y - 30, 0],
+      scale: [0.08, 0.85, 1],
       opacity: [0, 1, 1],
       transition: {
         duration: 1.25,
-        times: [0, 0.45, 1],
+        times: [0, 0.42, 1],
         ease: ['easeOut', 'easeInOut'],
         delay,
       },
