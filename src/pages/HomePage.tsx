@@ -34,7 +34,7 @@ export function HomePage() {
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
             <BurnTransition
-              color="#f7f3ef"
+              color="#ddddd1"
               transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
@@ -70,7 +70,7 @@ export function HomePage() {
           {/* Bottom Burn Transition Effect */}
           <div className="absolute bottom-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20">
             <BurnTransition
-              color="#f7f3ef"
+              color="#ddddd1"
               transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
