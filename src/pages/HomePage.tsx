@@ -59,11 +59,11 @@ export function HomePage() {
           </div>
 
           <div className="relative z-10">
-            {/* Part 1: Cryptographic Evidence Log */}
-            <RenaissanceEvidence />
-
-            {/* Part 2: The Floor & Memory Wallet */}
+            {/* Part 1: The Floor & Memory Wallet */}
             <RenaissanceMemoryWallet />
+
+            {/* Part 2: Cryptographic Evidence Log */}
+            <RenaissanceEvidence />
           </div>
 
           {/* Bottom Burn Transition Effect */}
