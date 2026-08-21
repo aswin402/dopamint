@@ -6,6 +6,7 @@ import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAge
 import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
 import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
 import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
+import { BurnTransition } from '../components/ui/BurnTransition';
 import divBurnOutImg from '../assets/Div_Burn_out_image.png';
 
 export function HomePage() {
@@ -30,6 +31,24 @@ export function HomePage() {
 
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#e0dcd1]">
+          {/* Top Burn Transition Effect */}
+          <div className="absolute top-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20 opacity-95">
+            <BurnTransition
+              color="#f7f3ef"
+              transitionColor="#FFFFFF"
+              noiseScale={2.5}
+              noiseIntensity={0.52}
+              scrollSensitivity={0.015}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
+              bloomRadius={0.35}
+              parallaxEnabled={true}
+              movement={{ horizontal: 'center', vertical: 0.5 }}
+              className="h-full w-full"
+            />
+          </div>
+
           {/* Div_Burn_out_image.png Background */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
