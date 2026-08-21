@@ -30,12 +30,12 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const getPath = useCallback((progress: number): string => {
-    // Emergence (step3→step2) takes 60% of the time so it's slow and visible
-    // Unfurl (step2→step0) takes the remaining 40%
-    if (progress <= 0.6) {
-      return morph3to2(progress / 0.6);
+    // Phase 1 (0 to 0.42): Emergence straight out of pedestal (STEP3 -> STEP2 funnel)
+    // Phase 2 (0.42 to 1.0): Fan-out to destination and expand (STEP2 -> STEP0 full card)
+    if (progress <= 0.42) {
+      return morph3to2(progress / 0.42);
     }
-    return morph2to0((progress - 0.6) / 0.4);
+    return morph2to0((progress - 0.42) / 0.58);
   }, []);
 
   useEffect(() => {
@@ -46,18 +46,14 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
       // OPEN: step3 → step2 → step0
       timeoutRef.current = setTimeout(() => {
         let start: number | null = null;
-        const duration = 1400;
+        const duration = 1250;
 
         const animate = (ts: number) => {
           if (!start) start = ts;
           const rawT = Math.min((ts - start) / duration, 1);
-          // ease-in-out: slow start (visible emergence), slow end
-          const t = rawT < 0.5
-            ? 2 * rawT * rawT
-            : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
 
           if (pathRef.current) {
-            pathRef.current.setAttribute('d', getPath(t));
+            pathRef.current.setAttribute('d', getPath(rawT));
           }
           if (rawT < 1) {
             rafRef.current = requestAnimationFrame(animate);
@@ -69,15 +65,12 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
     } else {
       // CLOSE: step0 → step2 → step3
       let start: number | null = null;
-      const duration = 650;
+      const duration = 750;
 
       const animate = (ts: number) => {
         if (!start) start = ts;
         const rawT = Math.min((ts - start) / duration, 1);
-        const eased = rawT < 0.5
-          ? 2 * rawT * rawT
-          : 1 - Math.pow(-2 * rawT + 2, 2) / 2;
-        const progress = 1 - eased;
+        const progress = 1 - rawT;
 
         if (pathRef.current) {
           pathRef.current.setAttribute('d', getPath(progress));
@@ -98,11 +91,6 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
 
   return pathRef;
 }
-
-// =========================================================================
-// Position ease
-// =========================================================================
-const GENIE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 // =========================================================================
 // MAIN SECTION
@@ -160,11 +148,11 @@ export const RenaissanceRealAsks: React.FC = () => {
     };
   }, []);
 
-  // Wait 1s after section enters view, then trigger card emergence
+  // Wait 0.8s after section enters view, then trigger card emergence
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (isInView) {
-      timer = setTimeout(() => setIsOpen(true), 1000);
+      timer = setTimeout(() => setIsOpen(true), 800);
     } else {
       setIsOpen(false);
     }
@@ -173,23 +161,61 @@ export const RenaissanceRealAsks: React.FC = () => {
 
   const handleToggle = () => setIsOpen((p) => !p);
 
-  // Genie morph refs
-  const path1Ref = useGenieMorph(isOpen, 60);
-  const path2Ref = useGenieMorph(isOpen, 220);
-  const path3Ref = useGenieMorph(isOpen, 380);
+  // Genie morph refs with staggered delays
+  const path1Ref = useGenieMorph(isOpen, 0);
+  const path2Ref = useGenieMorph(isOpen, 140);
+  const path3Ref = useGenieMorph(isOpen, 280);
 
-  // Position variants using measured offsets
+  // Position variants:
+  // OPEN:
+  //   1) 0 -> 0.42: Emerges straight up at pedestal center (x: off.x, y: off.y -> off.y - 70)
+  //   2) 0.42 -> 1.0: Fans out to final position (x: off.x -> 0, y: off.y - 70 -> 0)
+  // CLOSE:
+  //   1) 0 -> 0.58: Flies back from destination to pedestal center
+  //   2) 0.58 -> 1.0: Sinks straight down into pedestal
   const pos1: Variants = {
-    closed: { y: off1.y, x: off1.x, transition: { duration: 0.7, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.06 } },
+    closed: {
+      x: [0, off1.x, off1.x],
+      y: [0, off1.y - 70, off1.y],
+      opacity: [1, 1, 0],
+      transition: { duration: 0.75, times: [0, 0.58, 1], ease: 'easeInOut' },
+    },
+    open: {
+      x: [off1.x, off1.x, 0],
+      y: [off1.y, off1.y - 70, 0],
+      opacity: [0, 1, 1, 1],
+      transition: { duration: 1.25, times: [0, 0.42, 1], ease: ['easeOut', 'easeInOut'], delay: 0.0 },
+    },
   };
+
   const pos2: Variants = {
-    closed: { y: off2.y, x: off2.x, transition: { duration: 0.7, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.22 } },
+    closed: {
+      x: [0, off2.x, off2.x],
+      y: [0, off2.y - 70, off2.y],
+      opacity: [1, 1, 0],
+      transition: { duration: 0.75, times: [0, 0.58, 1], ease: 'easeInOut' },
+    },
+    open: {
+      x: [off2.x, off2.x, 0],
+      y: [off2.y, off2.y - 70, 0],
+      opacity: [0, 1, 1, 1],
+      transition: { duration: 1.25, times: [0, 0.42, 1], ease: ['easeOut', 'easeInOut'], delay: 0.14 },
+    },
   };
+
   const pos3: Variants = {
-    closed: { y: off3.y, x: off3.x, transition: { duration: 0.7, ease: GENIE_EASE } },
-    open: { y: 0, x: 0, transition: { duration: 1.4, ease: GENIE_EASE, delay: 0.38 } },
+    closed: {
+      x: [0, off3.x, off3.x],
+      y: [0, off3.y - 70, off3.y],
+      opacity: [1, 1, 0],
+      transition: { duration: 0.75, times: [0, 0.58, 1], ease: 'easeInOut' },
+    },
+    open: {
+      x: [off3.x, off3.x, 0],
+      y: [off3.y, off3.y - 70, 0],
+      opacity: [0, 1, 1, 1],
+      transition: { duration: 1.25, times: [0, 0.42, 1], ease: ['easeOut', 'easeInOut'], delay: 0.28 },
+    },
   };
 
   return (
