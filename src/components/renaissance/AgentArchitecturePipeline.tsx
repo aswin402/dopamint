@@ -9,10 +9,10 @@ export const AgentArchitecturePipeline: React.FC = () => {
       <motion.div
         whileHover={{ scale: 1.04, y: -2 }}
         transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-        className="flex flex-col items-center justify-center px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl bg-[#151f18] border border-[#3e5645]/80 shadow-[0_8px_24px_rgba(15,25,18,0.18)] cursor-pointer shrink-0"
+        className="flex flex-col items-center justify-center px-4 sm:px-5 py-3.5 sm:py-4 rounded-2xl bg-[#eef2ea] hover:bg-[#e4ece0] border-[1.5px] border-[#3e4f42]/45 hover:border-[#3e4f42]/75 shadow-[0_8px_22px_rgba(40,48,40,0.06)] hover:shadow-[0_12px_28px_rgba(40,48,40,0.12)] cursor-pointer shrink-0 transition-colors"
       >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#4ee28c] shadow-[0_0_10px_#4ee28c] mb-2.5 animate-pulse" />
-        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d6e5d8] font-bold text-center leading-tight">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2e7d4a] shadow-[0_0_8px_rgba(46,125,74,0.6)] mb-2.5 animate-pulse" />
+        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#25362a] font-bold text-center leading-tight">
           UNIFIED<br />AGENTS
         </span>
       </motion.div>
@@ -20,19 +20,19 @@ export const AgentArchitecturePipeline: React.FC = () => {
       {/* Animated Connector Line 1 */}
       <div className="flex items-center gap-1 sm:gap-1.5 px-0.5 sm:px-1 shrink-0">
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.0 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.25 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.5 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
       </div>
 
@@ -40,10 +40,10 @@ export const AgentArchitecturePipeline: React.FC = () => {
       <motion.div
         whileHover={{ scale: 1.04, y: -2 }}
         transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-        className="flex flex-col items-center justify-center px-4 sm:px-5 py-4 sm:py-4.5 rounded-2xl bg-[#151f18] border border-[#3e5645]/80 shadow-[0_8px_24px_rgba(15,25,18,0.18)] cursor-pointer shrink-0"
+        className="flex flex-col items-center justify-center px-4 sm:px-5 py-4 sm:py-4.5 rounded-2xl bg-[#eef2ea] hover:bg-[#e4ece0] border-[1.5px] border-[#3e4f42]/45 hover:border-[#3e4f42]/75 shadow-[0_8px_22px_rgba(40,48,40,0.06)] hover:shadow-[0_12px_28px_rgba(40,48,40,0.12)] cursor-pointer shrink-0 transition-colors"
       >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#4ee28c] shadow-[0_0_10px_#4ee28c] mb-2.5 animate-pulse" />
-        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d6e5d8] font-bold text-center leading-tight whitespace-nowrap">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2e7d4a] shadow-[0_0_8px_rgba(46,125,74,0.6)] mb-2.5 animate-pulse" />
+        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#25362a] font-bold text-center leading-tight whitespace-nowrap">
           AGENT HARNESS
         </span>
       </motion.div>
@@ -51,19 +51,19 @@ export const AgentArchitecturePipeline: React.FC = () => {
       {/* Animated Connector Line 2 */}
       <div className="flex items-center gap-1 sm:gap-1.5 px-0.5 sm:px-1 shrink-0">
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.2 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.45 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
         <motion.span
-          animate={{ opacity: [0.25, 1, 0.25], scale: [0.85, 1.25, 0.85] }}
+          animate={{ opacity: [0.3, 1, 0.3], scale: [0.85, 1.25, 0.85] }}
           transition={{ duration: 1.4, repeat: Infinity, delay: 0.7 }}
-          className="w-1.5 h-1.5 rounded-full bg-[#4ee28c]"
+          className="w-1.5 h-1.5 rounded-full bg-[#2e7d4a]"
         />
       </div>
 
@@ -71,10 +71,10 @@ export const AgentArchitecturePipeline: React.FC = () => {
       <motion.div
         whileHover={{ scale: 1.04, y: -2 }}
         transition={{ type: 'spring', stiffness: 350, damping: 20 }}
-        className="flex flex-col items-center justify-center px-4 sm:px-5 py-4 sm:py-4.5 rounded-2xl bg-[#151f18] border border-[#3e5645]/80 shadow-[0_8px_24px_rgba(15,25,18,0.18)] cursor-pointer shrink-0"
+        className="flex flex-col items-center justify-center px-4 sm:px-5 py-4 sm:py-4.5 rounded-2xl bg-[#eef2ea] hover:bg-[#e4ece0] border-[1.5px] border-[#3e4f42]/45 hover:border-[#3e4f42]/75 shadow-[0_8px_22px_rgba(40,48,40,0.06)] hover:shadow-[0_12px_28px_rgba(40,48,40,0.12)] cursor-pointer shrink-0 transition-colors"
       >
-        <span className="w-2.5 h-2.5 rounded-full bg-[#4ee28c] shadow-[0_0_10px_#4ee28c] mb-2.5 animate-pulse" />
-        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d6e5d8] font-bold text-center leading-tight whitespace-nowrap">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#2e7d4a] shadow-[0_0_8px_rgba(46,125,74,0.6)] mb-2.5 animate-pulse" />
+        <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#25362a] font-bold text-center leading-tight whitespace-nowrap">
           AGENT LOOP
         </span>
       </motion.div>

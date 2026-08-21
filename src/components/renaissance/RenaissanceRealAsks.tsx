@@ -251,7 +251,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       <motion.div
         animate={{ y: [3, -3, 3] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -bottom-24 sm:-bottom-36 md:-bottom-48 lg:-bottom-60 -left-10 sm:-left-14 md:-left-16 lg:-left-20 w-[360px] sm:w-[480px] md:w-[600px] lg:w-[700px] xl:w-[760px] pointer-events-none z-20"
+        className="absolute -bottom-44 sm:-bottom-60 md:-bottom-80 lg:-bottom-[390px] xl:-bottom-[450px] -left-12 sm:-left-16 md:-left-20 lg:-left-24 w-[480px] sm:w-[620px] md:w-[780px] lg:w-[920px] xl:w-[1020px] pointer-events-none z-20"
       >
         <img
           src={footerImg}
