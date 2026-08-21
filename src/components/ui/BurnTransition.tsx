@@ -147,6 +147,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
     movement?.horizontal === 'left' ? 1 : movement?.horizontal === 'right' ? -1 : 0;
   const movementHorizontalRef = useRef(horizontalMovementValue);
   const movementVerticalRef = useRef(movement?.vertical ?? 0.5);
+  const invertedRef = useRef(inverted);
 
   const scrollOffsetRef = useRef(0);
   const lastScrollYRef = useRef(0);
@@ -182,6 +183,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
   }, [transitionColor, color]);
 
   useEffect(() => {
+    invertedRef.current = inverted;
     noiseScaleRef.current = mapNoiseScale(noiseScale);
     noiseIntensityRef.current = mapNoiseIntensity(noiseIntensity);
     scrollSensitivityRef.current = mapScrollSensitivity(scrollSensitivity);
@@ -194,6 +196,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       movement?.horizontal === 'left' ? 1 : movement?.horizontal === 'right' ? -1 : 0;
     movementVerticalRef.current = movement?.vertical ?? 0.5;
   }, [
+    inverted,
     noiseScale,
     noiseIntensity,
     scrollSensitivity,
@@ -592,7 +595,8 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
         progress = 1 - (viewportHeight - componentTop) / (viewportHeight + componentHeight);
         progress = Math.max(0, Math.min(1, progress));
       }
-      parallaxOffsetRef.current = 1 - progress - 0.5;
+      const rawOffset = 1 - progress - 0.5;
+      parallaxOffsetRef.current = invertedRef.current ? -rawOffset : rawOffset;
     };
 
     const renderScene = (targetFramebuffer: WebGLFramebuffer | null) => {

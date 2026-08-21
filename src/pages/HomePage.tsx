@@ -32,7 +32,7 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#e0dcd1]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20 opacity-95">
+          <div className="absolute top-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20 opacity-95">
             <BurnTransition
               color="#f7f3ef"
               transitionColor="#FFFFFF"
@@ -45,7 +45,7 @@ export function HomePage() {
               bloomRadius={0.35}
               parallaxEnabled={true}
               inverted={true}
-              movement={{ horizontal: 'center', vertical: -0.8 }}
+              movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
             />
           </div>
