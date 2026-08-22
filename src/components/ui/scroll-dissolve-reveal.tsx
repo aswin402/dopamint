@@ -471,16 +471,17 @@ export function ScrollDissolveReveal({
   const isLocked = !isUnlocked;
 
   return (
-    <div
-      className={cn(
-        "w-full h-screen overflow-hidden bg-[#f3f2e6]",
-        isLocked ? "fixed inset-0 z-30" : "relative",
-        containerClassName
-      )}
-    >
-      {/* Fullscreen Viewport */}
-      <div className={cn("relative w-full h-full overflow-hidden bg-[#f3f2e6]", className)}>
-        
+    /* Outer container always stays h-screen in document flow so next sections never shift */
+    <div className={cn("relative w-full h-screen bg-[#f3f2e6]", containerClassName)}>
+      
+      {/* Inner Viewport: Fixed at top: 0 while dissolving, then seamlessly relative when unlocked */}
+      <div
+        className={cn(
+          "w-full h-full overflow-hidden bg-[#f3f2e6]",
+          isLocked ? "fixed inset-0 z-30" : "relative z-10",
+          className
+        )}
+      >
         {/* Layer 1: Inner Section (House of Sovereign Agents) */}
         {backgroundContent && (
           <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden">
