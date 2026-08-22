@@ -309,13 +309,14 @@ export function ScrollDissolveReveal({
   backgroundContent,
   children,
 }: ScrollDissolveRevealProps) {
-  // Target progress (discrete user input) vs Smooth progress (interpolated continuous float)
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
   const [smoothProgress, setSmoothProgress] = useState(0);
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const isUnlockedRef = useRef(false);
   const scrollYProgress = useMemo(() => motionValue(0), []);
 
-  // Frame-rate independent exponential damping loop with cinematic slower glide
+  // Frame-rate independent exponential damping physics loop
   useEffect(() => {
     let animId: number;
     let lastTime = performance.now();
@@ -324,17 +325,27 @@ export function ScrollDissolveReveal({
       const deltaSec = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Exponential decay dampening: lambda = 6.5 for a gentle, cinematic, smooth glide
+      // Exponential decay dampening: lambda = 6.5
       const factor = 1 - Math.exp(-6.5 * deltaSec);
       smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
 
-      if (Math.abs(targetProgressRef.current - smoothProgressRef.current) < 0.0001) {
-        smoothProgressRef.current = targetProgressRef.current;
+      // Clean snap threshold near completion to immediately unlock scroll
+      if (targetProgressRef.current >= 1.0 && smoothProgressRef.current >= 0.95) {
+        smoothProgressRef.current = 1.0;
+      } else if (targetProgressRef.current <= 0.0 && smoothProgressRef.current <= 0.05) {
+        smoothProgressRef.current = 0.0;
       }
 
       const cur = smoothProgressRef.current;
       setSmoothProgress(cur);
       scrollYProgress.set(cur);
+
+      // Unlock scroll as soon as target reaches 1.0 and smoothProgress reaches 1.0
+      const completed = targetProgressRef.current >= 1.0 && cur >= 0.999;
+      if (completed !== isUnlockedRef.current) {
+        isUnlockedRef.current = completed;
+        setIsUnlocked(completed);
+      }
 
       animId = requestAnimationFrame(loop);
     };
@@ -348,10 +359,10 @@ export function ScrollDissolveReveal({
     targetProgressRef.current = clamped;
   }, []);
 
-  // Strict scroll-locking on body and html while smoothProgress < 0.995
-  // When smoothProgress < 0.995, viewport is firmly pinned at top: 0
+  // Lock document scroll while animation is running (!isUnlocked)
+  // When animation finishes (isUnlocked === true), unlock body scroll so user can scroll down naturally!
   useEffect(() => {
-    if (smoothProgress < 0.995) {
+    if (!isUnlocked) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       window.scrollTo(0, 0);
@@ -364,16 +375,15 @@ export function ScrollDissolveReveal({
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
-  }, [smoothProgress]);
+  }, [isUnlocked]);
 
-  // Slower, more controlled Wheel, Touch, and Keyboard listeners
+  // Wheel, Touch, and Keyboard listeners
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      // 1. While animation is in progress (< 1.0), lock all scrolling and gently advance/reverse
-      if (targetProgressRef.current < 1.0) {
+      // 1. While animation is running, lock scrolling and gently advance/reverse
+      if (!isUnlockedRef.current) {
         e.preventDefault();
         e.stopPropagation();
-        // Reduced sensitivity: takes 3x more deliberate wheel rotation to transition smoothly
         const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
         if (e.deltaY > 0) {
           updateTarget(targetProgressRef.current + delta);
@@ -383,14 +393,19 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      // 2. When animation is 100% complete and user scrolls up at the very top, reverse gently
+      // 2. When animation is 100% complete and user scrolls up at the very top, reverse smoothly
       if (window.scrollY <= 5 && e.deltaY < 0) {
         e.preventDefault();
         e.stopPropagation();
+        isUnlockedRef.current = false;
+        setIsUnlocked(false);
         const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
         updateTarget(targetProgressRef.current - delta);
         return;
       }
+
+      // 3. Otherwise, isUnlocked is true and user is scrolling down:
+      // Let browser scroll down naturally into "Talk Markets. It Trades"!
     };
 
     let touchStartY = 0;
@@ -403,7 +418,7 @@ export function ScrollDissolveReveal({
       const deltaY = touchStartY - currentY;
       touchStartY = currentY;
 
-      if (targetProgressRef.current < 1.0) {
+      if (!isUnlockedRef.current) {
         e.preventDefault();
         const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
         if (deltaY > 0) {
@@ -416,6 +431,8 @@ export function ScrollDissolveReveal({
 
       if (window.scrollY <= 5 && deltaY < 0) {
         e.preventDefault();
+        isUnlockedRef.current = false;
+        setIsUnlocked(false);
         const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
         updateTarget(targetProgressRef.current - delta);
         return;
@@ -423,7 +440,7 @@ export function ScrollDissolveReveal({
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (targetProgressRef.current < 1.0) {
+      if (!isUnlockedRef.current) {
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           e.preventDefault();
           updateTarget(targetProgressRef.current + 0.025);
@@ -450,8 +467,8 @@ export function ScrollDissolveReveal({
   const isVideo = Boolean(videoFront || (imageFront && (imageFront.endsWith('.webm') || imageFront.endsWith('.mp4'))));
   const activeVideo = videoFront || (isVideo ? imageFront! : '');
 
-  // Keep hero fixed at top: 0 while smoothProgress is running
-  const isLocked = smoothProgress < 0.995;
+  // Keep hero fixed at top: 0 while animation is running
+  const isLocked = !isUnlocked;
 
   return (
     <div
@@ -472,7 +489,7 @@ export function ScrollDissolveReveal({
         )}
 
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
-        {smoothProgress < 0.995 && (
+        {smoothProgress < 0.999 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
             <Canvas gl={{ antialias: true, alpha: true }}>
               <OrthographicCamera
