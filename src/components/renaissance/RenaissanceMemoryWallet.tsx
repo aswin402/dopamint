@@ -123,7 +123,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       // smoothly scroll up so Msg 6 moves to top and leaves the bottom blank
       timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 250, 1000);
+          const target = Math.min(190, chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, target, 900);
         }
       }, 3800));
 
@@ -132,30 +133,34 @@ export const RenaissanceMemoryWallet: React.FC = () => {
         setMessageStage(7); // Msg 7: We hit target
         setChatTime('10:14');
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+          smoothScrollSlowly(chatScrollRef.current, maxScroll, 700);
         }
       }, 5100));
 
       timers.push(setTimeout(() => {
         setMessageStage(8); // Msg 8: Take Profit Executed Card
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1200);
+          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+          smoothScrollSlowly(chatScrollRef.current, maxScroll, 1000);
         }
       }, 6300));
 
       timers.push(setTimeout(() => {
         setMessageStage(9); // Msg 9: Profit locked in
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+          smoothScrollSlowly(chatScrollRef.current, maxScroll, 700);
         }
-      }, 8000));
+      }, 7800));
 
       timers.push(setTimeout(() => {
         setMessageStage(10); // Msg 10: Perfect let it run
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 700);
+          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+          smoothScrollSlowly(chatScrollRef.current, maxScroll, 600);
         }
-      }, 9000));
+      }, 8800));
 
       // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
@@ -614,7 +619,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         ref={chatScrollRef}
                         onScroll={handleChatScroll}
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-                        className="flex-1 px-3.5 py-3 overflow-y-auto space-y-2.5 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth pb-36"
+                        className="flex-1 px-3 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth pb-3"
                       >
                         
                         {/* =========================================================
@@ -770,47 +775,47 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                             initial={{ opacity: 0, y: 12, scale: 0.96 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                            className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[20px] rounded-tl-xs p-3 text-[#1c1917] shadow-xs space-y-2.5"
+                            className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[18px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-xs space-y-2"
                           >
                             {/* Card Header: $XX + +142.36% */}
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-1.5">
-                                <div className="w-5 h-5 rounded-full bg-[#1c1917] flex items-center justify-center">
-                                  <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
+                                <div className="w-4.5 h-4.5 rounded-full bg-[#1c1917] flex items-center justify-center">
+                                  <div className="w-3 h-3 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
                                     <span className="w-0.5 h-0.5 rounded-full bg-black" />
                                     <span className="w-0.5 h-0.5 rounded-full bg-black" />
                                   </div>
                                 </div>
-                                <span className="font-bold text-sm text-[#1c1917] tracking-tight">$XX</span>
+                                <span className="font-bold text-xs text-[#1c1917] tracking-tight">$XX</span>
                               </div>
 
-                              <span className="text-xs font-bold font-mono text-[#15803d]">
+                              <span className="text-[11px] font-bold font-mono text-[#15803d]">
                                 +142.36%
                               </span>
                             </div>
 
                             {/* Inner Mint/Emerald Profit Box */}
-                            <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[14px] p-2.5 text-center shadow-xs">
-                              <div className="flex items-center justify-center gap-1 text-[10px] font-bold text-[#15803d] uppercase tracking-wider">
-                                <span className="w-3.5 h-3.5 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[9px] font-black">✓</span>
+                            <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[12px] p-2 text-center shadow-xs">
+                              <div className="flex items-center justify-center gap-1 text-[9px] font-bold text-[#15803d] uppercase tracking-wider">
+                                <span className="w-3 h-3 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[8px] font-black">✓</span>
                                 <span>TAKE PROFIT EXECUTED</span>
                               </div>
 
-                              <div className="text-[9px] text-[#166534] font-medium mt-1">
+                              <div className="text-[8px] text-[#166534] font-medium mt-0.5">
                                 Total Profit
                               </div>
 
-                              <div className="text-[23px] font-bold text-[#15803d] font-mono tracking-tight leading-tight my-0.5">
+                              <div className="text-[20px] font-bold text-[#15803d] font-mono tracking-tight leading-tight my-0.5">
                                 $4,286.40
                               </div>
 
-                              <div className="text-[9px] text-[#16a34a] font-semibold">
+                              <div className="text-[8.5px] text-[#16a34a] font-semibold">
                                 +142.36%)
                               </div>
                             </div>
 
                             {/* Detail Metric Rows */}
-                            <div className="space-y-1 text-[10px] text-[#44403c] pt-0.5">
+                            <div className="space-y-0.5 text-[9.5px] text-[#44403c]">
                               <div className="flex justify-between">
                                 <span className="text-[#57534e]">Take Profit Amount</span>
                                 <span className="text-[#1c1917] font-mono font-bold">$3,000.00</span>
