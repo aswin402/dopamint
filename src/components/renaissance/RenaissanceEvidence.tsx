@@ -320,11 +320,13 @@ export const RenaissanceEvidence: React.FC = () => {
 
           {/* Sub-caption: EVERY LOOP MAKES THE COMPANION BETTER */}
           <div className="pt-6 pb-2 text-center">
-            <p className="font-serif italic text-xs sm:text-[14px] tracking-[0.2em] text-[#dfc28d] font-medium flex items-center justify-center gap-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#dfc28d] animate-pulse" />
-              <span>EVERY LOOP MAKES THE COMPANION BETTER</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#dfc28d] animate-pulse" />
-            </p>
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#f3f2e6] border border-[#c4a978]/40 shadow-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#37312c] animate-pulse" />
+              <span className="font-serif italic text-xs sm:text-[14px] tracking-[0.2em] text-[#37312c] font-bold">
+                EVERY LOOP MAKES THE COMPANION BETTER
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#37312c] animate-pulse" />
+            </div>
           </div>
 
         </div>
@@ -332,32 +334,32 @@ export const RenaissanceEvidence: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          3. CAPABILITY PILL BADGES (MATCHING HERO TRANSLUCENT GLASS PILLS)
+          3. CAPABILITY PILL BADGES (DARK COLOR #37312c ON LIGHT BEIGE PILLS)
           ========================================================================= */}
       <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 max-w-4xl mx-auto">
         
-        <div className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 hover:bg-white/15 text-xs sm:text-[13px] font-serif text-[#f7f2ea] shadow-sm transition-all flex items-center gap-2">
-          <span className="font-bold text-[#ffffff]">Agent Loop</span>
-          <span className="text-[#dfc28d]">·</span>
-          <span className="italic text-[#d6c9b6]">keeps the task running</span>
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+          <span className="font-bold text-[#37312c]">Agent Loop</span>
+          <span className="text-[#37312c]/60">·</span>
+          <span className="italic text-[#37312c]/90 font-medium">keeps the task running</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 hover:bg-white/15 text-xs sm:text-[13px] font-serif text-[#f7f2ea] shadow-sm transition-all flex items-center gap-2">
-          <span className="font-bold text-[#ffffff]">Agent Harness</span>
-          <span className="text-[#dfc28d]">·</span>
-          <span className="italic text-[#d6c9b6]">tools &amp; environments</span>
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+          <span className="font-bold text-[#37312c]">Agent Harness</span>
+          <span className="text-[#37312c]/60">·</span>
+          <span className="italic text-[#37312c]/90 font-medium">tools &amp; environments</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 hover:bg-white/15 text-xs sm:text-[13px] font-serif text-[#f7f2ea] shadow-sm transition-all flex items-center gap-2">
-          <span className="font-bold text-[#ffffff]">AiFi</span>
-          <span className="text-[#dfc28d]">·</span>
-          <span className="italic text-[#d6c9b6]">financial execution</span>
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+          <span className="font-bold text-[#37312c]">AiFi</span>
+          <span className="text-[#37312c]/60">·</span>
+          <span className="italic text-[#37312c]/90 font-medium">financial execution</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:border-white/40 hover:bg-white/15 text-xs sm:text-[13px] font-serif text-[#f7f2ea] shadow-sm transition-all flex items-center gap-2">
-          <span className="font-bold text-[#ffffff]">x402</span>
-          <span className="text-[#dfc28d]">·</span>
-          <span className="italic text-[#d6c9b6]">autonomous payments</span>
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+          <span className="font-bold text-[#37312c]">x402</span>
+          <span className="text-[#37312c]/60">·</span>
+          <span className="italic text-[#37312c]/90 font-medium">autonomous payments</span>
         </div>
 
       </div>
