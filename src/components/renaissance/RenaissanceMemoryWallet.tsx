@@ -83,22 +83,22 @@ export const RenaissanceMemoryWallet: React.FC = () => {
             {/* Editorial Title */}
             <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.04]">
               Agent hunts the signal. <br />
-              <span className="font-serif italic font-normal text-[#dfc28d]">
+              <span className="font-serif italic font-bold text-[#ffffff]">
                 Your Always-On Profit Agent.
               </span>
             </h2>
 
-            {/* Sub-headline with bullet tags */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-base sm:text-lg font-serif italic text-[#d4c8b6] pt-1">
-              <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#dfc28d] not-italic font-bold">
+            {/* Sub-headline with bullet tags (White & Bold Italic) */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-base sm:text-lg font-serif italic font-bold text-[#ffffff] pt-1">
+              <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#ffffff] not-italic font-bold">
                 exchange listing alpha agent
               </span>
-              <span className="text-[#c4a978]">·</span>
-              <span className="text-[#f3f2e6]">watches</span>
-              <span className="text-[#c4a978]">·</span>
-              <span className="text-[#f3f2e6]">reasons</span>
-              <span className="text-[#c4a978]">·</span>
-              <span className="text-[#f3f2e6]">acts</span>
+              <span className="text-[#ffffff]">·</span>
+              <span className="text-[#ffffff]">watches</span>
+              <span className="text-[#ffffff]">·</span>
+              <span className="text-[#ffffff]">reasons</span>
+              <span className="text-[#ffffff]">·</span>
+              <span className="text-[#ffffff]">acts</span>
             </div>
 
             {/* Interactive Simulation Button & View Switcher */}
@@ -147,6 +147,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 maxHeight: '84vh',
                 borderRadius: '50px',
                 boxShadow: '0 0 0.1em 0.25em rgba(100, 92, 78, 0.45), 0 0 0 4px #bbb09c, 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
+                fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif',
               }}
               className="relative z-10 bg-black box-border"
             >
@@ -221,6 +222,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 style={{
                   borderRadius: '50px',
                   border: '9px solid black',
+                  fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif',
                 }}
                 className="absolute inset-0 overflow-hidden bg-[#0f0e0c]"
               >
@@ -236,6 +238,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between overflow-hidden z-20 bg-[#0f0e0c]"
                     >
                       {/* #887d6c THEME WALLPAPER */}
@@ -313,7 +316,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                       {/* 1. Status Bar */}
                       <div className="relative z-30 pt-2.5 px-5 flex items-center justify-between text-white text-[11px] font-semibold select-none">
-                        <span className="w-10 text-left pl-0.5 font-sans">9:41</span>
+                        <span className="w-10 text-left pl-0.5 font-bold">9:41</span>
 
                         {/* Dynamic Island */}
                         <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
@@ -343,7 +346,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           Monday, 12 May
                         </div>
 
-                        <h1 className="text-[54px] sm:text-[60px] font-bold text-[#f9f7f4] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-0.5 font-sans">
+                        <h1 className="text-[54px] sm:text-[60px] font-bold text-[#f9f7f4] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-0.5">
                           9:41
                         </h1>
                       </div>
@@ -405,7 +408,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   )}
 
                   {/* ==========================================
-                      VIEW B: 100% FULL-SCREEN IMESSAGE LIGHT THEME
+                      VIEW B: 100% FULL-SCREEN IMESSAGE LIGHT BEIGE THEME
                       ========================================== */}
                   {screenMode === 'chat' && (
                     <motion.div
@@ -414,15 +417,16 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
                       transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                      className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#ffffff] text-black z-30 overflow-hidden"
+                      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                      className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
                     >
                       
-                      {/* TOP STATUS BAR + HEADER CONTAINER (FLUSH TO TOP EDGE) */}
-                      <div className="bg-[#f6f6f6]/95 backdrop-blur-xl border-b border-[#e5e5ea] pt-2.5 px-3 pb-2 z-40 shrink-0 shadow-2xs">
+                      {/* TOP STATUS BAR + HEADER CONTAINER (FLUSH TO TOP EDGE IN LIGHT BEIGE) */}
+                      <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-b border-[#dfd6c6] pt-2.5 px-3 pb-2 z-40 shrink-0 shadow-2xs">
                         
                         {/* Status bar */}
-                        <div className="flex items-center justify-between text-black text-[11px] font-semibold select-none mb-1.5 px-2">
-                          <span className="w-10 text-left font-sans font-bold">9:41</span>
+                        <div className="flex items-center justify-between text-[#1c1917] text-[11px] font-semibold select-none mb-1.5 px-2">
+                          <span className="w-10 text-left font-bold">9:41</span>
 
                           {/* Dynamic Island */}
                           <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
@@ -433,14 +437,14 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
 
                           {/* Indicators */}
-                          <div className="w-10 flex items-center justify-end gap-1 text-black pr-0.5">
+                          <div className="w-10 flex items-center justify-end gap-1 text-[#1c1917] pr-0.5">
                             <div className="flex items-end gap-[1px] h-2">
-                              <span className="w-[2px] h-1 bg-black rounded-xs" />
-                              <span className="w-[2px] h-1.5 bg-black rounded-xs" />
-                              <span className="w-[2px] h-2 bg-black rounded-xs" />
+                              <span className="w-[2px] h-1 bg-[#1c1917] rounded-xs" />
+                              <span className="w-[2px] h-1.5 bg-[#1c1917] rounded-xs" />
+                              <span className="w-[2px] h-2 bg-[#1c1917] rounded-xs" />
                             </div>
-                            <Wifi className="w-2.5 h-2.5 text-black" />
-                            <Battery className="w-3 h-3 text-black" />
+                            <Wifi className="w-2.5 h-2.5 text-[#1c1917]" />
+                            <Battery className="w-3 h-3 text-[#1c1917]" />
                           </div>
                         </div>
 
@@ -469,11 +473,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                             {/* Title & Online badge */}
                             <div>
-                              <div className="text-[12px] font-bold text-[#000000] leading-tight flex items-center gap-1">
+                              <div className="text-[12px] font-bold text-[#1c1917] leading-tight flex items-center gap-1">
                                 <span>Upbit Agent</span>
                               </div>
-                              <div className="text-[9px] text-[#8e8e93] flex items-center gap-1 font-sans">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
+                              <div className="text-[9px] text-[#78716c] flex items-center gap-1 font-medium">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" />
                                 <span>Online</span>
                               </div>
                             </div>
@@ -485,23 +489,23 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         </div>
                       </div>
 
-                      {/* IMESSAGE CHAT STREAM (100% FILL WITH NO VISIBLE SCROLLBAR) */}
+                      {/* IMESSAGE CHAT STREAM (LIGHT BEIGE WITH NO VISIBLE SCROLLBAR) */}
                       <div 
-                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                        className="flex-1 px-3.5 py-2.5 overflow-y-auto space-y-2 text-[11px] font-sans bg-[#ffffff] [&::-webkit-scrollbar]:hidden"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                        className="flex-1 px-3.5 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden"
                       >
                         
-                        {/* 1. Agent: Bought coin (iMessage Light Grey Bubble) */}
+                        {/* 1. Agent: Bought coin (Light Beige Bubble) */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.04 }}
-                          className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
+                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
                         >
                           <p className="leading-snug font-normal">
                             yo, i just bought that $XX coin the moment it got launched 🚀
                           </p>
-                          <div className="text-[8px] text-[#8e8e93] text-right font-mono">
+                          <div className="text-[8px] text-[#78716c] text-right font-mono">
                             9:41 AM
                           </div>
                         </motion.div>
@@ -522,33 +526,33 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 3. Agent: $XX Trade Card (iMessage Light Card) */}
+                        {/* 3. Agent: $XX Trade Card (Light Beige Card) */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 }}
-                          className="max-w-[78%] bg-[#e9e9eb] border border-black/5 rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-2"
+                          className="max-w-[78%] bg-[#eae3d5] border border-[#d8cfbe]/60 rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-2"
                         >
                           <div className="flex items-center gap-1.5">
                             <div className="w-4 h-4 rounded-full bg-[#007aff] flex items-center justify-center gap-[1px]">
                               <span className="w-0.5 h-0.5 rounded-full bg-white" />
                               <span className="w-0.5 h-0.5 rounded-full bg-white" />
                             </div>
-                            <span className="font-bold text-xs text-black">$XX</span>
+                            <span className="font-bold text-xs text-[#1c1917]">$XX</span>
                           </div>
 
-                          <div className="space-y-0.5 text-[10px] text-[#3c3c43]">
+                          <div className="space-y-0.5 text-[10px] text-[#44403c]">
                             <div className="flex justify-between">
                               <span>Entry Price</span>
-                              <span className="text-black font-mono font-bold">$0.0214</span>
+                              <span className="text-[#1c1917] font-mono font-bold">$0.0214</span>
                             </div>
                             <div className="flex justify-between">
                               <span>Amount</span>
-                              <span className="text-black font-mono font-bold">4,000 XX</span>
+                              <span className="text-[#1c1917] font-mono font-bold">4,000 XX</span>
                             </div>
                           </div>
 
-                          <div className="text-[8px] text-[#8e8e93] text-right font-mono pt-0.5">
+                          <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5">
                             9:41 AM
                           </div>
                         </motion.div>
@@ -569,17 +573,17 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 5. Agent: momentum 2x (iMessage Light Grey Bubble) */}
+                        {/* 5. Agent: momentum 2x (Light Beige Bubble) */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.36 }}
-                          className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
+                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
                         >
                           <p className="leading-snug font-normal">
                             riding the momentum. will take profit at 2x first 🎯
                           </p>
-                          <div className="text-[8px] text-[#8e8e93] text-right font-mono">
+                          <div className="text-[8px] text-[#78716c] text-right font-mono">
                             9:41 AM
                           </div>
                         </motion.div>
@@ -600,31 +604,31 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 7. Agent: will update when hit target (iMessage Light Grey Bubble) */}
+                        {/* 7. Agent: will update when hit target (Light Beige Bubble) */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.52 }}
-                          className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
+                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
                         >
                           <p className="leading-snug font-normal">
                             yep. i got you. will update when we hit target. 🤝
                           </p>
-                          <div className="text-[8px] text-[#8e8e93] text-right font-mono">
+                          <div className="text-[8px] text-[#78716c] text-right font-mono">
                             9:42 AM
                           </div>
                         </motion.div>
 
                       </div>
 
-                      {/* IMESSAGE LIGHT BOTTOM INPUT BAR (FLUSH TO BOTTOM EDGE) */}
-                      <div className="bg-[#f6f6f6]/95 backdrop-blur-xl border-t border-[#e5e5ea] px-3 pt-2 pb-3.5 relative z-40 shrink-0">
+                      {/* IMESSAGE LIGHT BEIGE BOTTOM INPUT BAR */}
+                      <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-t border-[#dfd6c6] px-3 pt-2 pb-3.5 relative z-40 shrink-0">
                         <div className="flex items-center gap-2 mb-2">
-                          <button className="w-7 h-7 rounded-full bg-[#e5e5ea] hover:bg-[#dcdcde] flex items-center justify-center text-[#8e8e93] shrink-0 cursor-pointer transition-colors">
-                            <Plus className="w-4 h-4 text-[#8e8e93]" />
+                          <button className="w-7 h-7 rounded-full bg-[#ded6c7] hover:bg-[#d5cbb9] flex items-center justify-center text-[#78716c] shrink-0 cursor-pointer transition-colors">
+                            <Plus className="w-4 h-4 text-[#78716c]" />
                           </button>
                           
-                          <div className="flex-1 bg-[#ffffff] rounded-full px-3.5 py-1.5 text-[10px] text-[#8e8e93] border border-[#d1d1d6] shadow-2xs">
+                          <div className="flex-1 bg-[#ffffff] rounded-full px-3.5 py-1.5 text-[10px] text-[#78716c] border border-[#d8cfbe] shadow-2xs">
                             iMessage
                           </div>
 
