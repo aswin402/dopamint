@@ -303,10 +303,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                 </div>
 
-                {/* 1. PERSISTENT TOP STATUS BAR */}
-                <div className="relative z-40 pt-2.5 px-5 flex items-center justify-between text-white text-[11px] font-semibold select-none">
+                {/* 1. PERSISTENT TOP STATUS BAR (DYNAMIC COLOR FOR LOCK vs IMESSAGE) */}
+                <div className={`relative z-40 pt-2.5 px-5 flex items-center justify-between text-[11px] font-semibold select-none transition-colors duration-300 ${screenMode === 'chat' ? 'text-black' : 'text-white'}`}>
                   {/* Time */}
-                  <span className="w-10 text-left pl-0.5 font-sans">9:41</span>
+                  <span className="w-10 text-left pl-0.5 font-sans font-bold">9:41</span>
 
                   {/* Dynamic Island */}
                   <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
@@ -317,11 +317,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   </div>
 
                   {/* Indicators */}
-                  <div className="w-10 flex items-center justify-end gap-1 text-white pr-0.5">
+                  <div className="w-10 flex items-center justify-end gap-1 pr-0.5">
                     <div className="flex items-end gap-[1px] h-2">
-                      <span className="w-[2px] h-1 bg-white rounded-xs" />
-                      <span className="w-[2px] h-1.5 bg-white rounded-xs" />
-                      <span className="w-[2px] h-2 bg-white rounded-xs" />
+                      <span className={`w-[2px] h-1 rounded-xs ${screenMode === 'chat' ? 'bg-black' : 'bg-white'}`} />
+                      <span className={`w-[2px] h-1.5 rounded-xs ${screenMode === 'chat' ? 'bg-black' : 'bg-white'}`} />
+                      <span className={`w-[2px] h-2 rounded-xs ${screenMode === 'chat' ? 'bg-black' : 'bg-white'}`} />
                     </div>
                     <Wifi className="w-2.5 h-2.5" />
                     <Battery className="w-3 h-3" />
@@ -414,24 +414,24 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                     )}
 
                     {/* ==========================================
-                        VIEW B: LIVE AGENT CHAT OVERLAY (FROM IMAGE)
+                        VIEW B: FULL-SCREEN IMESSAGE LIGHT THEME
                         ========================================== */}
                     {screenMode === 'chat' && (
                       <motion.div
                         key="chat-screen"
-                        initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                        initial={{ opacity: 0, y: 20, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 16, scale: 0.96 }}
                         transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-0 flex flex-col justify-between bg-[#0b0e14]/92 backdrop-blur-2xl text-white pt-1"
+                        className="absolute inset-0 flex flex-col justify-between bg-[#f2f2f7] text-black pt-1 z-30"
                       >
                         
-                        {/* CHAT HEADER */}
-                        <div className="pt-2 px-3 pb-2 border-b border-white/10 flex items-center justify-between bg-[#12151f]/95 backdrop-blur-md z-30">
-                          <div className="flex items-center gap-2">
+                        {/* IMESSAGE LIGHT HEADER */}
+                        <div className="pt-2 px-3 pb-2 border-b border-[#d1d1d6]/80 flex items-center justify-between bg-[#f9f9fb]/95 backdrop-blur-xl z-30 shadow-xs">
+                          <div className="flex items-center gap-1.5">
                             <button
                               onClick={() => setScreenMode('lock')}
-                              className="p-1 -ml-1 text-white/80 hover:text-white cursor-pointer transition-colors"
+                              className="p-1 -ml-1 text-[#007aff] hover:opacity-75 cursor-pointer transition-opacity flex items-center gap-0.5"
                               title="Back to Lock Screen"
                             >
                               <ChevronLeft className="w-4 h-4" />
@@ -439,8 +439,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                             {/* Agent Avatar */}
                             <div className="relative">
-                              <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#3b82f6] via-[#8b5cf6] to-[#ec4899] p-[1px] shadow-[0_0_10px_rgba(139,92,246,0.5)]">
-                                <div className="w-full h-full rounded-full bg-[#0d071a] flex items-center justify-center">
+                              <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#3b82f6] via-[#8b5cf6] to-[#ec4899] p-[1px] shadow-sm">
+                                <div className="w-full h-full rounded-full bg-[#1e1b4b] flex items-center justify-center">
                                   <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
                                     <span className="w-0.5 h-0.5 rounded-full bg-black" />
                                     <span className="w-0.5 h-0.5 rounded-full bg-black" />
@@ -451,161 +451,161 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                             {/* Agent Title & Status */}
                             <div>
-                              <div className="text-[12px] font-bold text-white leading-tight">
-                                Upbit Agent
+                              <div className="text-[12px] font-bold text-[#000000] leading-tight flex items-center gap-1">
+                                <span>Upbit Agent</span>
                               </div>
-                              <div className="text-[9px] text-[#94a3b8] flex items-center gap-1 font-sans">
-                                <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e]" />
+                              <div className="text-[9px] text-[#8e8e93] flex items-center gap-1 font-sans">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#34c759]" />
                                 <span>Online</span>
                               </div>
                             </div>
                           </div>
 
-                          <button className="text-white/60 hover:text-white p-1 cursor-pointer">
+                          <button className="text-[#007aff] hover:opacity-75 p-1 cursor-pointer font-medium text-xs">
                             <MoreHorizontal className="w-4 h-4" />
                           </button>
                         </div>
 
-                        {/* CHAT STREAM (SCROLLABLE) */}
-                        <div className="flex-1 px-3 py-2 overflow-y-auto no-scrollbar space-y-2 text-[11px] font-sans">
+                        {/* IMESSAGE CHAT STREAM (SCROLLABLE LIGHT THEME) */}
+                        <div className="flex-1 px-3 py-2 overflow-y-auto no-scrollbar space-y-2 text-[11px] font-sans bg-[#ffffff]">
                           
-                          {/* 1. Agent: Bought coin */}
+                          {/* 1. Agent: Bought coin (iMessage Light Grey Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.04 }}
-                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
                           >
                             <p className="leading-snug">
                               yo, i just bought that $XX coin the moment it got launched 🚀
                             </p>
-                            <div className="text-[8px] text-[#94a3b8] text-right font-mono">
+                            <div className="text-[8px] text-[#8e8e93] text-right font-mono">
                               9:41 AM
                             </div>
                           </motion.div>
 
-                          {/* 2. User: what's the entry? */}
+                          {/* 2. User: what's the entry? (iMessage Blue Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.12 }}
-                            className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
                               haha nice! what's the entry?
                             </p>
-                            <div className="text-[8px] text-white/80 text-right flex items-center justify-end gap-1 font-mono">
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
                               <span>9:41 AM</span>
-                              <CheckCheck className="w-3 h-3 text-[#e9d5ff]" />
+                              <CheckCheck className="w-3 h-3 text-white" />
                             </div>
                           </motion.div>
 
-                          {/* 3. Agent: $XX Trade Card */}
+                          {/* 3. Agent: $XX Trade Card (iMessage Light Card) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 }}
-                            className="max-w-[78%] bg-[#171b26]/95 border border-white/10 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-2"
+                            className="max-w-[78%] bg-[#e9e9eb] border border-black/5 rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-2"
                           >
                             <div className="flex items-center gap-1.5">
-                              <div className="w-4 h-4 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
-                                <span className="w-0.5 h-0.5 rounded-full bg-black" />
-                                <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                              <div className="w-4 h-4 rounded-full bg-[#007aff] flex items-center justify-center gap-[1px]">
+                                <span className="w-0.5 h-0.5 rounded-full bg-white" />
+                                <span className="w-0.5 h-0.5 rounded-full bg-white" />
                               </div>
-                              <span className="font-bold text-xs text-white">$XX</span>
+                              <span className="font-bold text-xs text-black">$XX</span>
                             </div>
 
-                            <div className="space-y-0.5 text-[10px] text-[#94a3b8]">
+                            <div className="space-y-0.5 text-[10px] text-[#3c3c43]">
                               <div className="flex justify-between">
                                 <span>Entry Price</span>
-                                <span className="text-white font-mono font-semibold">$0.0214</span>
+                                <span className="text-black font-mono font-bold">$0.0214</span>
                               </div>
                               <div className="flex justify-between">
                                 <span>Amount</span>
-                                <span className="text-white font-mono font-semibold">4,000 XX</span>
+                                <span className="text-black font-mono font-bold">4,000 XX</span>
                               </div>
                             </div>
 
-                            <div className="text-[8px] text-[#94a3b8] text-right font-mono pt-0.5">
+                            <div className="text-[8px] text-[#8e8e93] text-right font-mono pt-0.5">
                               9:41 AM
                             </div>
                           </motion.div>
 
-                          {/* 4. User: what's the plan? */}
+                          {/* 4. User: what's the plan? (iMessage Blue Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.28 }}
-                            className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
                               looks good. what's the plan?
                             </p>
-                            <div className="text-[8px] text-white/80 text-right flex items-center justify-end gap-1 font-mono">
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
                               <span>9:41 AM</span>
-                              <CheckCheck className="w-3 h-3 text-[#e9d5ff]" />
+                              <CheckCheck className="w-3 h-3 text-white" />
                             </div>
                           </motion.div>
 
-                          {/* 5. Agent: momentum 2x */}
+                          {/* 5. Agent: momentum 2x (iMessage Light Grey Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.36 }}
-                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
                           >
                             <p className="leading-snug">
                               riding the momentum. will take profit at 2x first 🎯
                             </p>
-                            <div className="text-[8px] text-[#94a3b8] text-right font-mono">
+                            <div className="text-[8px] text-[#8e8e93] text-right font-mono">
                               9:41 AM
                             </div>
                           </motion.div>
 
-                          {/* 6. User: keep me posted */}
+                          {/* 6. User: keep me posted (iMessage Blue Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.44 }}
-                            className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
                               sounds good. keep me posted.
                             </p>
-                            <div className="text-[8px] text-white/80 text-right flex items-center justify-end gap-1 font-mono">
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
                               <span>9:42 AM</span>
-                              <CheckCheck className="w-3 h-3 text-[#e9d5ff]" />
+                              <CheckCheck className="w-3 h-3 text-white" />
                             </div>
                           </motion.div>
 
-                          {/* 7. Agent: will update when hit target */}
+                          {/* 7. Agent: will update when hit target (iMessage Light Grey Bubble) */}
                           <motion.div
                             initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.52 }}
-                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            className="max-w-[82%] bg-[#e9e9eb] rounded-[16px] rounded-tl-xs p-2.5 text-[#000000] shadow-2xs space-y-1"
                           >
                             <p className="leading-snug">
                               yep. i got you. will update when we hit target. 🤝
                             </p>
-                            <div className="text-[8px] text-[#94a3b8] text-right font-mono">
+                            <div className="text-[8px] text-[#8e8e93] text-right font-mono">
                               9:42 AM
                             </div>
                           </motion.div>
 
                         </div>
 
-                        {/* BOTTOM INPUT BAR */}
-                        <div className="p-2 pt-1 border-t border-white/10 flex items-center gap-2 bg-[#0d1017]/95 backdrop-blur-md">
-                          <button className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center text-white/80 shrink-0 cursor-pointer">
-                            <Plus className="w-3.5 h-3.5" />
+                        {/* IMESSAGE LIGHT BOTTOM INPUT BAR */}
+                        <div className="p-2 pt-1.5 border-t border-[#d1d1d6]/80 flex items-center gap-2 bg-[#f9f9fb]/95 backdrop-blur-xl">
+                          <button className="w-7 h-7 rounded-full bg-[#e5e5ea] hover:bg-[#dcdcde] flex items-center justify-center text-[#8e8e93] shrink-0 cursor-pointer transition-colors">
+                            <Plus className="w-4 h-4 text-[#8e8e93]" />
                           </button>
                           
-                          <div className="flex-1 bg-[#171b26] rounded-full px-3 py-1.5 text-[10px] text-[#94a3b8] border border-white/5">
-                            Message Upbit Agent...
+                          <div className="flex-1 bg-[#ffffff] rounded-full px-3 py-1.5 text-[10px] text-[#8e8e93] border border-[#d1d1d6]">
+                            iMessage
                           </div>
 
-                          <button className="w-7 h-7 rounded-full bg-[#7c3aed] flex items-center justify-center text-white shadow-[0_0_10px_rgba(124,58,237,0.5)] shrink-0 cursor-pointer">
+                          <button className="w-7 h-7 rounded-full bg-[#007aff] flex items-center justify-center text-white shadow-[0_2px_8px_rgba(0,122,255,0.4)] shrink-0 cursor-pointer hover:bg-[#0066d6] transition-colors">
                             <Send className="w-3.5 h-3.5 -ml-0.5" />
                           </button>
                         </div>
@@ -616,9 +616,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   </AnimatePresence>
                 </div>
 
-                {/* 3. PERSISTENT BOTTOM HOME INDICATOR BAR */}
+                {/* 3. PERSISTENT BOTTOM HOME INDICATOR BAR (DYNAMIC FOR LIGHT/DARK) */}
                 <div className="relative z-40 pb-2 flex justify-center bg-transparent pointer-events-none">
-                  <div className="w-28 h-1 bg-white/80 rounded-full shadow-sm" />
+                  <div className={`w-28 h-1 rounded-full shadow-xs transition-colors duration-300 ${screenMode === 'chat' ? 'bg-black/60' : 'bg-white/80'}`} />
                 </div>
 
               </div>
