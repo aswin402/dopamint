@@ -196,11 +196,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
           </div>
 
-          {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (ALIGNED TO RIGHT END OF CONTAINER) */}
-          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end relative select-none">
+          {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (ALIGNED RIGHT WITH BALANCED INSET) */}
+          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end lg:pr-8 xl:pr-14 relative select-none">
             
             {/* Ambient Background Aura */}
-            <div className="absolute inset-0 lg:left-auto lg:right-0 max-w-[360px] h-[660px] mx-auto lg:mx-0 bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
+            <div className="absolute inset-0 lg:left-auto lg:right-8 xl:lg:right-14 max-w-[360px] h-[660px] mx-auto lg:mx-0 bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
 
             {/* 
               THE PHONE (Matches CodePen .phone with #bbb09c outer frame,
