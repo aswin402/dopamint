@@ -101,33 +101,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               <span className="text-[#ffffff]">acts</span>
             </div>
 
-            {/* Interactive Simulation Button & View Switcher */}
-            <div className="pt-4 flex flex-wrap items-center gap-3 max-w-md">
-              <button
-                onClick={handleReplay}
-                disabled={isSimulating}
-                className="py-3 px-6 rounded-2xl bg-white/10 hover:bg-white/15 border border-[#c4a978]/50 text-[#f7f2ea] font-serif text-sm font-bold flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg group shrink-0"
-              >
-                <RefreshCw className={`w-4 h-4 text-[#dfc28d] ${isSimulating ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
-                <span>{isSimulating ? 'Triggering Listing Snipe...' : 'Simulate Alpha Hunt'}</span>
-              </button>
-
-              <div className="inline-flex rounded-xl bg-black/40 border border-[#c4a978]/30 p-1 backdrop-blur-md">
-                <button
-                  onClick={() => setScreenMode('lock')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer ${screenMode === 'lock' ? 'bg-[#dfc28d] text-black font-bold' : 'text-[#d4c8b6] hover:text-white'}`}
-                >
-                  Lock Screen
-                </button>
-                <button
-                  onClick={() => setScreenMode('chat')}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors cursor-pointer ${screenMode === 'chat' ? 'bg-[#dfc28d] text-black font-bold' : 'text-[#d4c8b6] hover:text-white'}`}
-                >
-                  Live Chat
-                </button>
-              </div>
-            </div>
-
           </div>
 
           {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (WITH LOCK/CHAT TRANSITION ANIMATION) */}
