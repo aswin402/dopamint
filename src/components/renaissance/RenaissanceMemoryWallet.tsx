@@ -119,42 +119,50 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.push(setTimeout(() => setMessageStage(5), 2600)); // Msg 5: Momentum 2x
       timers.push(setTimeout(() => setMessageStage(6), 3200)); // Msg 6: Keep me posted
 
-      // Part 2: 10:14 AM Messages continue seamlessly below Part 1
+      // When last message of Part 1 arrives ("sounds good. keep me posted"),
+      // smoothly scroll up so Msg 6 moves to top and leaves the bottom blank
+      timers.push(setTimeout(() => {
+        if (chatScrollRef.current) {
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 250, 1000);
+        }
+      }, 3800));
+
+      // Part 2: 10:14 AM Messages appear one by one directly in that open space below Msg 6
       timers.push(setTimeout(() => {
         setMessageStage(7); // Msg 7: We hit target
         setChatTime('10:14');
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1000);
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
         }
-      }, 4800));
+      }, 5100));
 
       timers.push(setTimeout(() => {
         setMessageStage(8); // Msg 8: Take Profit Executed Card
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1400);
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1200);
         }
-      }, 5900));
+      }, 6300));
 
       timers.push(setTimeout(() => {
         setMessageStage(9); // Msg 9: Profit locked in
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1000);
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
         }
-      }, 7600));
+      }, 8000));
 
       timers.push(setTimeout(() => {
         setMessageStage(10); // Msg 10: Perfect let it run
         if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 700);
         }
-      }, 8700));
+      }, 9000));
 
       // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 15500));
+      }, 15800));
     }
 
     return () => {
@@ -606,7 +614,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         ref={chatScrollRef}
                         onScroll={handleChatScroll}
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-                        className="flex-1 px-3.5 py-3 overflow-y-auto space-y-2.5 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth"
+                        className="flex-1 px-3.5 py-3 overflow-y-auto space-y-2.5 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth pb-36"
                       >
                         
                         {/* =========================================================
