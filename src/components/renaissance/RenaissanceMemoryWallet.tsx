@@ -40,6 +40,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
   const [screenMode, setScreenMode] = useState<'lock' | 'chat'>('lock');
   const [chatTime, setChatTime] = useState('9:41');
   const [isTappingNotification, setIsTappingNotification] = useState(false);
+  const [messageStage, setMessageStage] = useState(0);
   const [notificationKey, setNotificationKey] = useState(0);
   const chatScrollRef = React.useRef<HTMLDivElement>(null);
 
@@ -47,7 +48,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
   const smoothScrollSlowly = React.useCallback((
     element: HTMLElement,
     target: number,
-    duration = 3400
+    duration = 2600
   ) => {
     const start = element.scrollTop;
     const change = target - start;
@@ -67,12 +68,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
       element.scrollTop = start + change * eased;
 
-      if (eased > 0.42) {
-        setChatTime('10:14');
-      } else {
-        setChatTime('9:41');
-      }
-
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(animateScroll);
       }
@@ -88,52 +83,91 @@ export const RenaissanceMemoryWallet: React.FC = () => {
     // Tap press feedback for 350ms, then launch app
     setTimeout(() => {
       setScreenMode('chat');
+      setMessageStage(0);
       setIsTappingNotification(false);
     }, 380);
   }, []);
 
-  // Continuous Lifecycle Flow
+  // Continuous Lifecycle Flow with Staggered Message Reveals
   useEffect(() => {
     let cancelScroll: (() => void) | undefined;
-    let tapTimer: ReturnType<typeof setTimeout>;
-    let scrollStartTimer: ReturnType<typeof setTimeout>;
-    let resetTimer: ReturnType<typeof setTimeout>;
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
     if (screenMode === 'lock') {
       setChatTime('9:41');
+      setMessageStage(0);
       setIsTappingNotification(false);
 
       // After 2.4s of lock screen, simulate tapping the notification to open app
-      tapTimer = setTimeout(() => {
+      const tapTimer = setTimeout(() => {
         triggerAppLaunch();
       }, 2600);
+      timers.push(tapTimer);
     } else if (screenMode === 'chat') {
-      // 1. Initial position: top of chat
+      // 1. Initial position: top of chat, reset stage to 0
       if (chatScrollRef.current) {
         chatScrollRef.current.scrollTop = 0;
       }
       setChatTime('9:41');
+      setMessageStage(0);
 
-      // 2. Pause for 1.8s, then smoothly & slowly scroll down to reveal Take Profit
-      scrollStartTimer = setTimeout(() => {
+      // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE SLOWLY
+      timers.push(setTimeout(() => setMessageStage(1), 350));  // Msg 1: Bought coin
+      timers.push(setTimeout(() => setMessageStage(2), 1250)); // Msg 2: Entry?
+      timers.push(setTimeout(() => setMessageStage(3), 2150)); // Msg 3: $XX Trade card
+      timers.push(setTimeout(() => setMessageStage(4), 3050)); // Msg 4: Plan?
+      timers.push(setTimeout(() => setMessageStage(5), 3950)); // Msg 5: Momentum 2x
+      timers.push(setTimeout(() => setMessageStage(6), 4850)); // Msg 6: Keep me posted
+
+      // Pause to let user read Part 1 (4850ms to 6800ms)
+      // Then slowly scroll down into blank space
+      timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, maxScroll, 3400);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 320, 2400);
         }
-      }, 1800);
+        setChatTime('10:14');
+      }, 6800));
 
-      // 3. After full demonstration (~10s), cycle back to Lock Screen
-      resetTimer = setTimeout(() => {
+      // After scrolling into blank space (at ~9500ms), Part 2 messages appear ONE BY ONE SLOWLY
+      timers.push(setTimeout(() => {
+        setMessageStage(7); // Msg 7: We hit target
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+        }
+      }, 9500));
+
+      timers.push(setTimeout(() => {
+        setMessageStage(8); // Msg 8: Take Profit Executed Card
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+        }
+      }, 10600));
+
+      timers.push(setTimeout(() => {
+        setMessageStage(9); // Msg 9: Profit locked in
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+        }
+      }, 11700));
+
+      timers.push(setTimeout(() => {
+        setMessageStage(10); // Msg 10: Perfect let it run
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+        }
+      }, 12700));
+
+      // Pause 5.5s to view full results, then loop back to Lock Screen
+      timers.push(setTimeout(() => {
         setScreenMode('lock');
+        setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 10200);
+      }, 18200));
     }
 
     return () => {
       if (cancelScroll) cancelScroll();
-      clearTimeout(tapTimer);
-      clearTimeout(scrollStartTimer);
-      clearTimeout(resetTimer);
+      timers.forEach(t => clearTimeout(t));
     };
   }, [screenMode, notificationKey, triggerAppLaunch, smoothScrollSlowly]);
 
@@ -584,128 +618,149 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       >
                         
                         {/* =========================================================
-                            PART 1: 9:41 AM — LISTING SNIPE & TRADE ENTRY
+                            PART 1: 9:41 AM — LISTING SNIPE & TRADE ENTRY (APPEARS ONE BY ONE)
                             ========================================================= */}
                         
                         {/* 1. Agent: Bought coin */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.04 }}
-                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
-                        >
-                          <p className="leading-snug font-normal">
-                            yo, i just bought that $XX coin the moment it got launched 🚀
-                          </p>
-                          <div className="text-[8px] text-[#78716c] text-right font-mono">
-                            9:41 AM
-                          </div>
-                        </motion.div>
+                        {messageStage >= 1 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
+                          >
+                            <p className="leading-snug font-normal">
+                              yo, i just bought that $XX coin the moment it got launched 🚀
+                            </p>
+                            <div className="text-[8px] text-[#78716c] text-right font-mono">
+                              9:41 AM
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 2. User: what's the entry? */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.12 }}
-                          className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
-                        >
-                          <p className="leading-snug font-medium">
-                            haha nice! what's the entry?
-                          </p>
-                          <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
-                            <span>9:41 AM</span>
-                            <CheckCheck className="w-3 h-3 text-white" />
-                          </div>
-                        </motion.div>
+                        {messageStage >= 2 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
+                          >
+                            <p className="leading-snug font-medium">
+                              haha nice! what's the entry?
+                            </p>
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
+                              <span>9:41 AM</span>
+                              <CheckCheck className="w-3 h-3 text-white" />
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 3. Agent: $XX Trade Card */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.2 }}
-                          className="max-w-[78%] bg-[#eae3d5] border border-[#d8cfbe]/60 rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-2"
-                        >
-                          <div className="flex items-center gap-1.5">
-                            <div className="w-4 h-4 rounded-full bg-[#007aff] flex items-center justify-center gap-[1px]">
-                              <span className="w-0.5 h-0.5 rounded-full bg-white" />
-                              <span className="w-0.5 h-0.5 rounded-full bg-white" />
+                        {messageStage >= 3 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[78%] bg-[#eae3d5] border border-[#d8cfbe]/60 rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-2"
+                          >
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-4 h-4 rounded-full bg-[#007aff] flex items-center justify-center gap-[1px]">
+                                <span className="w-0.5 h-0.5 rounded-full bg-white" />
+                                <span className="w-0.5 h-0.5 rounded-full bg-white" />
+                              </div>
+                              <span className="font-bold text-xs text-[#1c1917]">$XX</span>
                             </div>
-                            <span className="font-bold text-xs text-[#1c1917]">$XX</span>
-                          </div>
 
-                          <div className="space-y-0.5 text-[10px] text-[#44403c]">
-                            <div className="flex justify-between">
-                              <span>Entry Price</span>
-                              <span className="text-[#1c1917] font-mono font-bold">$0.0214</span>
+                            <div className="space-y-0.5 text-[10px] text-[#44403c]">
+                              <div className="flex justify-between">
+                                <span>Entry Price</span>
+                                <span className="text-[#1c1917] font-mono font-bold">$0.0214</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span>Amount</span>
+                                <span className="text-[#1c1917] font-mono font-bold">4,000 XX</span>
+                              </div>
                             </div>
-                            <div className="flex justify-between">
-                              <span>Amount</span>
-                              <span className="text-[#1c1917] font-mono font-bold">4,000 XX</span>
-                            </div>
-                          </div>
 
-                          <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5">
-                            9:41 AM
-                          </div>
-                        </motion.div>
+                            <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5">
+                              9:41 AM
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 4. User: what's the plan? */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.28 }}
-                          className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
-                        >
-                          <p className="leading-snug font-medium">
-                            looks good. what's the plan?
-                          </p>
-                          <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
-                            <span>9:41 AM</span>
-                            <CheckCheck className="w-3 h-3 text-white" />
-                          </div>
-                        </motion.div>
+                        {messageStage >= 4 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
+                          >
+                            <p className="leading-snug font-medium">
+                              looks good. what's the plan?
+                            </p>
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
+                              <span>9:41 AM</span>
+                              <CheckCheck className="w-3 h-3 text-white" />
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 5. Agent: momentum 2x */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.36 }}
-                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
-                        >
-                          <p className="leading-snug font-normal">
-                            riding the momentum. will take profit at 2x first 🎯
-                          </p>
-                          <div className="text-[8px] text-[#78716c] text-right font-mono">
-                            9:41 AM
-                          </div>
-                        </motion.div>
+                        {messageStage >= 5 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
+                          >
+                            <p className="leading-snug font-normal">
+                              riding the momentum. will take profit at 2x first 🎯
+                            </p>
+                            <div className="text-[8px] text-[#78716c] text-right font-mono">
+                              9:41 AM
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 6. User: keep me posted */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.44 }}
-                          className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
-                        >
-                          <p className="leading-snug font-medium">
-                            sounds good. keep me posted.
-                          </p>
-                          <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
-                            <span>9:41 AM</span>
-                            <CheckCheck className="w-3 h-3 text-white" />
-                          </div>
-                        </motion.div>
+                        {messageStage >= 6 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
+                          >
+                            <p className="leading-snug font-medium">
+                              sounds good. keep me posted.
+                            </p>
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
+                              <span>9:41 AM</span>
+                              <CheckCheck className="w-3 h-3 text-white" />
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* =========================================================
-                            PART 2: 10:14 AM — TAKE PROFIT TARGET HIT & EXECUTED
+                            BLANK CONTINUATION SPACE & TIME DIVIDER
+                            ========================================================= */}
+                        <div className="h-[200px] flex items-center justify-center py-4">
+                          <span className="px-3 py-1 rounded-full bg-[#ede7dc] border border-[#dfd6c6] text-[9px] text-[#78716c] font-medium tracking-wide">
+                            Today 10:14 AM
+                          </span>
+                        </div>
+
+                        {/* =========================================================
+                            PART 2: 10:14 AM — TAKE PROFIT TARGET HIT & EXECUTED (APPEARS ONE BY ONE)
                             ========================================================= */}
 
                         {/* 7. Agent: We hit target */}
-                        <div className="pt-2">
+                        {messageStage >= 7 && (
                           <motion.div
-                            initial={{ opacity: 0, y: 6 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.52 }}
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                             className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
                           >
                             <p className="leading-snug font-normal">
@@ -716,104 +771,110 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                               10:14 AM
                             </div>
                           </motion.div>
-                        </div>
+                        )}
 
                         {/* 8. THE TAKE PROFIT EXECUTED CARD */}
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.96, y: 8 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          transition={{ delay: 0.6 }}
-                          className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[20px] rounded-tl-xs p-3 text-[#1c1917] shadow-xs space-y-2.5"
-                        >
-                          {/* Card Header: $XX + +142.36% */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-1.5">
-                              <div className="w-5 h-5 rounded-full bg-[#1c1917] flex items-center justify-center">
-                                <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
-                                  <span className="w-0.5 h-0.5 rounded-full bg-black" />
-                                  <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                        {messageStage >= 8 && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.94, y: 14 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                            className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[20px] rounded-tl-xs p-3 text-[#1c1917] shadow-xs space-y-2.5"
+                          >
+                            {/* Card Header: $XX + +142.36% */}
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-5 h-5 rounded-full bg-[#1c1917] flex items-center justify-center">
+                                  <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
+                                    <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                    <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                  </div>
                                 </div>
+                                <span className="font-bold text-sm text-[#1c1917] tracking-tight">$XX</span>
                               </div>
-                              <span className="font-bold text-sm text-[#1c1917] tracking-tight">$XX</span>
+
+                              <span className="text-xs font-bold font-mono text-[#15803d]">
+                                +142.36%
+                              </span>
                             </div>
 
-                            <span className="text-xs font-bold font-mono text-[#15803d]">
-                              +142.36%
-                            </span>
-                          </div>
+                            {/* Inner Mint/Emerald Profit Box */}
+                            <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[14px] p-2.5 text-center shadow-xs">
+                              <div className="flex items-center justify-center gap-1 text-[10px] font-bold text-[#15803d] uppercase tracking-wider">
+                                <span className="w-3.5 h-3.5 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[9px] font-black">✓</span>
+                                <span>TAKE PROFIT EXECUTED</span>
+                              </div>
 
-                          {/* Inner Mint/Emerald Profit Box */}
-                          <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[14px] p-2.5 text-center shadow-xs">
-                            <div className="flex items-center justify-center gap-1 text-[10px] font-bold text-[#15803d] uppercase tracking-wider">
-                              <span className="w-3.5 h-3.5 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[9px] font-black">✓</span>
-                              <span>TAKE PROFIT EXECUTED</span>
+                              <div className="text-[9px] text-[#166534] font-medium mt-1">
+                                Total Profit
+                              </div>
+
+                              <div className="text-[23px] font-bold text-[#15803d] font-mono tracking-tight leading-tight my-0.5">
+                                $4,286.40
+                              </div>
+
+                              <div className="text-[9px] text-[#16a34a] font-semibold">
+                                +142.36%)
+                              </div>
                             </div>
 
-                            <div className="text-[9px] text-[#166534] font-medium mt-1">
-                              Total Profit
+                            {/* Detail Metric Rows */}
+                            <div className="space-y-1 text-[10px] text-[#44403c] pt-0.5">
+                              <div className="flex justify-between">
+                                <span className="text-[#57534e]">Take Profit Amount</span>
+                                <span className="text-[#1c1917] font-mono font-bold">$3,000.00</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-[#57534e]">Remaining Position</span>
+                                <span className="text-[#1c1917] font-mono font-bold">$1,286.40</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-[#57534e]">Avg. Sell Price</span>
+                                <span className="text-[#1c1917] font-mono font-bold">$0.0528</span>
+                              </div>
                             </div>
 
-                            <div className="text-[23px] font-bold text-[#15803d] font-mono tracking-tight leading-tight my-0.5">
-                              $4,286.40
+                            <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5 border-t border-[#d8cfbe]/40">
+                              10:14 AM
                             </div>
-
-                            <div className="text-[9px] text-[#16a34a] font-semibold">
-                              +142.36%)
-                            </div>
-                          </div>
-
-                          {/* Detail Metric Rows */}
-                          <div className="space-y-1 text-[10px] text-[#44403c] pt-0.5">
-                            <div className="flex justify-between">
-                              <span className="text-[#57534e]">Take Profit Amount</span>
-                              <span className="text-[#1c1917] font-mono font-bold">$3,000.00</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-[#57534e]">Remaining Position</span>
-                              <span className="text-[#1c1917] font-mono font-bold">$1,286.40</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-[#57534e]">Avg. Sell Price</span>
-                              <span className="text-[#1c1917] font-mono font-bold">$0.0528</span>
-                            </div>
-                          </div>
-
-                          <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5 border-t border-[#d8cfbe]/40">
-                            10:14 AM
-                          </div>
-                        </motion.div>
+                          </motion.div>
+                        )}
 
                         {/* 9. Agent: Profit locked in */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.68 }}
-                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
-                        >
-                          <p className="leading-snug font-normal">
-                            profit locked in! 💰 <br />
-                            let it run with the remaining bag?
-                          </p>
-                          <div className="text-[8px] text-[#78716c] text-right font-mono">
-                            10:14 AM
-                          </div>
-                        </motion.div>
+                        {messageStage >= 9 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
+                          >
+                            <p className="leading-snug font-normal">
+                              profit locked in! 💰 <br />
+                              let it run with the remaining bag?
+                            </p>
+                            <div className="text-[8px] text-[#78716c] text-right font-mono">
+                              10:14 AM
+                            </div>
+                          </motion.div>
+                        )}
 
                         {/* 10. User: perfect. let it run. */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.76 }}
-                          className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1 pb-1"
-                        >
-                          <p className="leading-snug font-medium">
-                            perfect. let it run. 🙌
-                          </p>
-                          <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
-                            <span>10:15 AM</span>
-                            <CheckCheck className="w-3 h-3 text-white" />
-                          </div>
-                        </motion.div>
+                        {messageStage >= 10 && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                            className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1 pb-1"
+                          >
+                            <p className="leading-snug font-medium">
+                              perfect. let it run. 🙌
+                            </p>
+                            <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
+                              <span>10:15 AM</span>
+                              <CheckCheck className="w-3 h-3 text-white" />
+                            </div>
+                          </motion.div>
+                        )}
 
                       </div>
 
