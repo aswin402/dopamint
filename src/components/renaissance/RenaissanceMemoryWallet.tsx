@@ -119,37 +119,42 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.push(setTimeout(() => setMessageStage(5), 2600)); // Msg 5: Momentum 2x
       timers.push(setTimeout(() => setMessageStage(6), 3200)); // Msg 6: Keep me posted
 
-      // Pause for 1.0s to let user read Part 1 (3200ms to 4200ms)
-      // Then smoothly scroll down to show the clean BLANK PAGE
+      // Part 2: 10:14 AM Messages continue seamlessly below Part 1
       timers.push(setTimeout(() => {
-        if (chatScrollRef.current) {
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 450, 1600);
-        }
+        setMessageStage(7); // Msg 7: We hit target
         setChatTime('10:14');
-      }, 4200));
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1000);
+        }
+      }, 4800));
 
-      // Part 2: 10:14 AM Take Profit Messages appear ONE BY ONE (Identical Cadence & Smooth Animation)
-      timers.push(setTimeout(() => setMessageStage(7), 6000));  // Msg 7: We hit target
-      timers.push(setTimeout(() => setMessageStage(8), 6650));  // Msg 8: Take Profit Executed Card
+      timers.push(setTimeout(() => {
+        setMessageStage(8); // Msg 8: Take Profit Executed Card
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1400);
+        }
+      }, 5900));
+
       timers.push(setTimeout(() => {
         setMessageStage(9); // Msg 9: Profit locked in
         if (chatScrollRef.current) {
           smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1000);
         }
-      }, 7350));
+      }, 7600));
+
       timers.push(setTimeout(() => {
         setMessageStage(10); // Msg 10: Perfect let it run
         if (chatScrollRef.current) {
           smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
         }
-      }, 8000));
+      }, 8700));
 
       // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 14500));
+      }, 15500));
     }
 
     return () => {
@@ -728,11 +733,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                             </div>
                           </motion.div>
                         )}
-
-                        {/* =========================================================
-                            BLANK CONTINUATION SPACE
-                            ========================================================= */}
-                        <div className="min-h-[260px] w-full pointer-events-none" />
 
                         {/* =========================================================
                             PART 2: 10:14 AM — TAKE PROFIT TARGET HIT & EXECUTED (APPEARS ONE BY ONE)
