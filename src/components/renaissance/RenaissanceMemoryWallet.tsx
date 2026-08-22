@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import confetti from 'canvas-confetti';
 import { 
   RefreshCw, 
   Lock,
@@ -42,7 +43,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
   const [isTappingNotification, setIsTappingNotification] = useState(false);
   const [messageStage, setMessageStage] = useState(0);
   const [notificationKey, setNotificationKey] = useState(0);
-  const chatScrollRef = React.useRef<HTMLDivElement>(null);
+  const chatScrollRef = useRef<HTMLDivElement>(null);
+  const confettiCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Smooth slow scroller function using iOS easeInOut cubic curve
   const smoothScrollSlowly = React.useCallback((
@@ -177,6 +179,58 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
     return () => clearTimeout(timer);
   }, [messageStage, screenMode, smoothScrollSlowly]);
+
+  // Celebratory smooth confetti pops when Take Profit Executed Card appears (stage 8)
+  useEffect(() => {
+    if (screenMode !== 'chat' || messageStage !== 8) return;
+
+    if (confettiCanvasRef.current) {
+      const myConfetti = confetti.create(confettiCanvasRef.current, {
+        resize: true,
+        useWorker: true,
+      });
+
+      // Initial energetic burst right above the profit card
+      myConfetti({
+        particleCount: 45,
+        spread: 70,
+        origin: { x: 0.5, y: 0.44 },
+        colors: ['#10b981', '#34d399', '#fbbf24', '#f59e0b', '#38bdf8', '#a855f7', '#ec4899'],
+        startVelocity: 22,
+        gravity: 0.9,
+        scalar: 0.8,
+        ticks: 160,
+      });
+
+      // Subtle twin sparkle bursts from left and right
+      const sparkleTimer = setTimeout(() => {
+        myConfetti({
+          particleCount: 22,
+          angle: 60,
+          spread: 45,
+          origin: { x: 0.28, y: 0.46 },
+          colors: ['#34d399', '#fbbf24', '#38bdf8'],
+          startVelocity: 17,
+          gravity: 0.85,
+          scalar: 0.7,
+          ticks: 140,
+        });
+        myConfetti({
+          particleCount: 22,
+          angle: 120,
+          spread: 45,
+          origin: { x: 0.72, y: 0.46 },
+          colors: ['#10b981', '#f59e0b', '#a855f7'],
+          startVelocity: 17,
+          gravity: 0.85,
+          scalar: 0.7,
+          ticks: 140,
+        });
+      }, 160);
+
+      return () => clearTimeout(sparkleTimer);
+    }
+  }, [messageStage, screenMode]);
 
   // Handle user manual scroll to update clock dynamically
   const handleChatScroll = () => {
@@ -543,6 +597,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
                     >
+                      {/* CELEBRATORY CONFETTI CANVAS OVERLAY */}
+                      <canvas 
+                        ref={confettiCanvasRef} 
+                        className="absolute inset-0 pointer-events-none z-50 w-full h-full"
+                      />
                       
                       {/* TOP STATUS BAR + HEADER CONTAINER */}
                       <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-b border-[#dfd6c6] pt-2.5 px-3 pb-2 z-40 shrink-0 shadow-2xs">
@@ -774,10 +833,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         {/* 8. THE TAKE PROFIT EXECUTED CARD */}
                         {messageStage >= 8 && (
                           <motion.div
-                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                            className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[18px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-xs space-y-2"
+                            initial={{ opacity: 0, y: 14, scale: 0.94 }}
+                            animate={{ opacity: 1, y: 0, scale: [0.94, 1.02, 1] }}
+                            transition={{ duration: 0.42, times: [0, 0.65, 1], ease: 'easeOut' }}
+                            className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[18px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-[0_4px_20px_rgba(22,163,74,0.12)] space-y-2 relative overflow-hidden"
                           >
                             {/* Card Header: $XX + +142.36% */}
                             <div className="flex items-center justify-between">
@@ -797,7 +856,12 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                             </div>
 
                             {/* Inner Mint/Emerald Profit Box */}
-                            <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[12px] p-2 text-center shadow-xs">
+                            <motion.div 
+                              initial={{ scale: 0.96 }}
+                              animate={{ scale: [0.96, 1.02, 1] }}
+                              transition={{ duration: 0.45, delay: 0.1, ease: 'easeOut' }}
+                              className="bg-[#e4f6eb] border border-[#86efac] rounded-[12px] p-2 text-center shadow-[0_0_15px_rgba(22,163,74,0.16)]"
+                            >
                               <div className="flex items-center justify-center gap-1 text-[9px] font-bold text-[#15803d] uppercase tracking-wider">
                                 <span className="w-3 h-3 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[8px] font-black">✓</span>
                                 <span>TAKE PROFIT EXECUTED</span>
@@ -814,7 +878,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                               <div className="text-[8.5px] text-[#16a34a] font-semibold">
                                 +142.36%)
                               </div>
-                            </div>
+                            </motion.div>
 
                             {/* Detail Metric Rows */}
                             <div className="space-y-0.5 text-[9.5px] text-[#44403c]">
