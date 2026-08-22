@@ -206,12 +206,11 @@ function VideoShaderScene({
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
-      // Map progress (0.0 to 0.70) to uDissolve (0.0 to 1.0)
-      // Progress is already ultra-smoothly interpolated by the physics damping loop
-      const dissolveProgress = Math.min(1.0, progress / 0.70);
+      // Slower, more gradual dissolve progression mapped across 80% of travel
+      const dissolveProgress = Math.min(1.0, progress / 0.80);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       
-      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.25);
+      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
       material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
       material1Ref.current.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
       material1Ref.current.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
@@ -270,9 +269,9 @@ function ImageShaderScene({
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
-      const dissolveProgress = Math.min(1.0, progress / 0.70);
+      const dissolveProgress = Math.min(1.0, progress / 0.80);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
-      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.25);
+      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
       material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
       material1Ref.current.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
       material1Ref.current.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
@@ -316,7 +315,7 @@ export function ScrollDissolveReveal({
   const [smoothProgress, setSmoothProgress] = useState(0);
   const scrollYProgress = useMemo(() => motionValue(0), []);
 
-  // Frame-rate independent exponential damping loop for liquid-smooth 60/120/240Hz animation
+  // Frame-rate independent exponential damping loop with cinematic slower glide
   useEffect(() => {
     let animId: number;
     let lastTime = performance.now();
@@ -325,8 +324,8 @@ export function ScrollDissolveReveal({
       const deltaSec = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Exponential decay dampening: lambda = 11 for silky, responsive momentum
-      const factor = 1 - Math.exp(-11 * deltaSec);
+      // Exponential decay dampening: lambda = 6.5 for a gentle, cinematic, smooth glide
+      const factor = 1 - Math.exp(-6.5 * deltaSec);
       smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
 
       if (Math.abs(targetProgressRef.current - smoothProgressRef.current) < 0.0001) {
@@ -367,14 +366,15 @@ export function ScrollDissolveReveal({
     };
   }, [smoothProgress]);
 
-  // Wheel, Touch, and Keyboard listeners
+  // Slower, more controlled Wheel, Touch, and Keyboard listeners
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      // 1. While animation is in progress (< 1.0), lock all scrolling and smoothly advance/reverse
+      // 1. While animation is in progress (< 1.0), lock all scrolling and gently advance/reverse
       if (targetProgressRef.current < 1.0) {
         e.preventDefault();
         e.stopPropagation();
-        const delta = Math.min(Math.abs(e.deltaY) * 0.00045, 0.025);
+        // Reduced sensitivity: takes 3x more deliberate wheel rotation to transition smoothly
+        const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
         if (e.deltaY > 0) {
           updateTarget(targetProgressRef.current + delta);
         } else if (e.deltaY < 0) {
@@ -383,11 +383,11 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      // 2. When animation is 100% complete and user scrolls up at the very top, reverse smoothly
+      // 2. When animation is 100% complete and user scrolls up at the very top, reverse gently
       if (window.scrollY <= 5 && e.deltaY < 0) {
         e.preventDefault();
         e.stopPropagation();
-        const delta = Math.min(Math.abs(e.deltaY) * 0.00045, 0.025);
+        const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
         updateTarget(targetProgressRef.current - delta);
         return;
       }
@@ -405,7 +405,7 @@ export function ScrollDissolveReveal({
 
       if (targetProgressRef.current < 1.0) {
         e.preventDefault();
-        const delta = Math.min(Math.abs(deltaY) * 0.0018, 0.035);
+        const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
         if (deltaY > 0) {
           updateTarget(targetProgressRef.current + delta);
         } else if (deltaY < 0) {
@@ -416,7 +416,7 @@ export function ScrollDissolveReveal({
 
       if (window.scrollY <= 5 && deltaY < 0) {
         e.preventDefault();
-        const delta = Math.min(Math.abs(deltaY) * 0.0018, 0.035);
+        const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
         updateTarget(targetProgressRef.current - delta);
         return;
       }
@@ -426,10 +426,10 @@ export function ScrollDissolveReveal({
       if (targetProgressRef.current < 1.0) {
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current + 0.05);
+          updateTarget(targetProgressRef.current + 0.025);
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current - 0.05);
+          updateTarget(targetProgressRef.current - 0.025);
         }
       }
     };
