@@ -222,10 +222,88 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   borderRadius: '50px',
                   border: '9px solid black',
                 }}
-                className="absolute inset-0 overflow-hidden flex flex-col justify-between bg-[#080a0f]"
+                className="absolute inset-0 overflow-hidden flex flex-col justify-between bg-[#0f0e0c]"
               >
-                
-                {/* 1. PERSISTENT TOP STATUS BAR (OVERLAY) */}
+                {/* 
+                  EXACT FULL-SCREEN #887d6c THEME WALLPAPER (PERSISTENT ON ENTIRE DISPLAY)
+                  Top & Bottom Scrim Gradients with #887d6c Warm Antique Bronze/Gold Lighting
+                */}
+                <div className="absolute inset-0 bg-[#0f0e0c] overflow-hidden pointer-events-none z-0">
+                  
+                  {/* Top #887d6c Curved Ribbon Section */}
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      height: '58%',
+                      borderBottomLeftRadius: '170px',
+                      borderBottomRightRadius: '170px',
+                      overflow: 'hidden',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #9d917f 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #b8ac9a 100%)',
+                      backgroundColor: '#36312a',
+                    }}
+                  >
+                    {/* Glowing highlight border line */}
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        border: '3px solid rgba(255, 255, 255, 0.7)',
+                        borderRadius: 'inherit',
+                        filter: 'blur(1px)',
+                        maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
+                        WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
+                      }}
+                    />
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        mixBlendMode: 'overlay',
+                        background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
+                      }}
+                    />
+                  </div>
+
+                  {/* Bottom #887d6c Inverted Ribbon Section */}
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      inset: 'auto 0 0 0',
+                      height: '56%',
+                      borderTopLeftRadius: '170px',
+                      borderTopRightRadius: '170px',
+                      overflow: 'hidden',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #6e6456 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #a69a88 100%)',
+                      backgroundColor: '#23201b',
+                    }}
+                  >
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        border: '3px solid rgba(255, 255, 255, 0.6)',
+                        borderRadius: 'inherit',
+                        filter: 'blur(1px)',
+                        maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
+                        WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
+                      }}
+                    />
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        mixBlendMode: 'overlay',
+                        background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
+                      }}
+                    />
+                  </div>
+
+                </div>
+
+                {/* 1. PERSISTENT TOP STATUS BAR */}
                 <div className="relative z-40 pt-2.5 px-5 flex items-center justify-between text-white text-[11px] font-semibold select-none">
                   {/* Time */}
                   <span className="w-10 text-left pl-0.5 font-sans">9:41</span>
@@ -250,97 +328,24 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   </div>
                 </div>
 
-                {/* 2. DYNAMIC SCREEN CONTENT: LOCK SCREEN vs CHAT APP */}
-                <div className="relative flex-1 w-full h-full overflow-hidden flex flex-col">
+                {/* 2. DYNAMIC SCREEN CONTENT WITH REAL PHONE ANIMATION */}
+                <div className="relative flex-1 w-full h-full overflow-hidden flex flex-col z-20">
                   <AnimatePresence mode="wait">
                     
                     {/* ==========================================
-                        VIEW A: LOCK SCREEN WITH NOTIFICATION
+                        VIEW A: EXACT FULL-SCREEN LOCK SCREEN
                         ========================================== */}
                     {screenMode === 'lock' && (
                       <motion.div
                         key="lock-screen"
                         initial={{ opacity: 0, scale: 0.96 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.05, filter: 'blur(4px)' }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
+                        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                         className="absolute inset-0 flex flex-col justify-between overflow-hidden"
                       >
-                        {/* #887d6c THEME WALLPAPER */}
-                        <div className="absolute inset-0 bg-[#0f0e0c] overflow-hidden pointer-events-none">
-                          {/* Top curved ribbon */}
-                          <div 
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              height: '58%',
-                              borderBottomLeftRadius: '170px',
-                              borderBottomRightRadius: '170px',
-                              overflow: 'hidden',
-                              background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #9d917f 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #b8ac9a 100%)',
-                              backgroundColor: '#36312a',
-                            }}
-                          >
-                            <div 
-                              style={{
-                                position: 'absolute',
-                                inset: 0,
-                                border: '3px solid rgba(255, 255, 255, 0.7)',
-                                borderRadius: 'inherit',
-                                filter: 'blur(1px)',
-                                maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
-                                WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
-                              }}
-                            />
-                            <div 
-                              style={{
-                                position: 'absolute',
-                                inset: 0,
-                                borderRadius: 'inherit',
-                                mixBlendMode: 'overlay',
-                                background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
-                              }}
-                            />
-                          </div>
-
-                          {/* Bottom inverted ribbon */}
-                          <div 
-                            style={{
-                              position: 'absolute',
-                              inset: 'auto 0 0 0',
-                              height: '56%',
-                              borderTopLeftRadius: '170px',
-                              borderTopRightRadius: '170px',
-                              overflow: 'hidden',
-                              background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #6e6456 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #a69a88 100%)',
-                              backgroundColor: '#23201b',
-                            }}
-                          >
-                            <div 
-                              style={{
-                                position: 'absolute',
-                                inset: 0,
-                                border: '3px solid rgba(255, 255, 255, 0.6)',
-                                borderRadius: 'inherit',
-                                filter: 'blur(1px)',
-                                maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
-                                WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
-                              }}
-                            />
-                            <div 
-                              style={{
-                                position: 'absolute',
-                                inset: 0,
-                                borderRadius: 'inherit',
-                                mixBlendMode: 'overlay',
-                                background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
-                              }}
-                            />
-                          </div>
-                        </div>
-
                         {/* Lock Screen Clock & Date */}
-                        <div className="relative z-20 pt-4 flex flex-col items-center justify-center text-center">
+                        <div className="pt-3 flex flex-col items-center justify-center text-center">
                           <Lock className="w-3 h-3 text-[#f9f7f4]/90 mb-1.5" />
                           
                           <div className="text-[12px] font-medium text-[#ede8e1] tracking-tight">
@@ -352,17 +357,18 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </h1>
                         </div>
 
-                        {/* Notification Banner */}
-                        <div className="relative z-30 px-3 my-auto">
+                        {/* Notification Banner (Click/Tap to Open Real App) */}
+                        <div className="px-3 my-auto">
                           <motion.div
                             key={notificationKey}
-                            initial={{ scale: 0.9, opacity: 0, y: 15 }}
+                            initial={{ scale: 0.92, opacity: 0, y: 15 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
+                            whileTap={{ scale: 0.97 }}
                             onClick={() => setScreenMode('chat')}
-                            className="p-3 rounded-[20px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-2.5 cursor-pointer transition-shadow hover:border-[#dfc28d]/60"
+                            className="p-3 rounded-[20px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-2.5 cursor-pointer hover:border-[#dfc28d]/60 transition-all group"
                           >
+                            {/* Avatar with warm bronze ring */}
                             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_10px_rgba(136,125,108,0.6)]">
                               <div className="w-full h-full rounded-full bg-[#12100d] flex items-center justify-center">
                                 <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1.5px]">
@@ -372,10 +378,12 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                               </div>
                             </div>
 
+                            {/* Content */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between">
-                                <h4 className="text-[12px] font-bold text-white tracking-tight">
-                                  Upbit Agent
+                                <h4 className="text-[12px] font-bold text-white tracking-tight flex items-center gap-1.5">
+                                  <span>Upbit Agent</span>
+                                  <span className="text-[9px] text-[#dfc28d] opacity-0 group-hover:opacity-100 transition-opacity">tap to open →</span>
                                 </h4>
                                 <span className="text-[9px] text-[#c7bdae] font-medium">
                                   now
@@ -390,12 +398,13 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         </div>
 
                         {/* Bottom Shortcuts */}
-                        <div className="relative z-30 pb-2 px-5">
+                        <div className="pb-2.5 px-5">
                           <div className="flex items-center justify-between mb-2">
-                            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg">
+                            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
                               <Flashlight className="w-3.5 h-3.5" />
                             </div>
-                            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg">
+
+                            <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
                               <Camera className="w-3.5 h-3.5" />
                             </div>
                           </div>
@@ -405,24 +414,25 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                     )}
 
                     {/* ==========================================
-                        VIEW B: LIVE AGENT CHAT (MATCHING UPLOADED IMAGE)
+                        VIEW B: LIVE AGENT CHAT OVERLAY (FROM IMAGE)
                         ========================================== */}
                     {screenMode === 'chat' && (
                       <motion.div
                         key="chat-screen"
-                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        initial={{ opacity: 0, y: 24, scale: 0.96 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                        className="absolute inset-0 flex flex-col justify-between bg-[#0b0e14] text-white pt-1"
+                        exit={{ opacity: 0, y: 16, scale: 0.96 }}
+                        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                        className="absolute inset-0 flex flex-col justify-between bg-[#0b0e14]/92 backdrop-blur-2xl text-white pt-1"
                       >
                         
                         {/* CHAT HEADER */}
-                        <div className="pt-2 px-3 pb-2 border-b border-white/5 flex items-center justify-between bg-[#0e121b]/95 backdrop-blur-md z-30">
+                        <div className="pt-2 px-3 pb-2 border-b border-white/10 flex items-center justify-between bg-[#12151f]/95 backdrop-blur-md z-30">
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => setScreenMode('lock')}
-                              className="p-1 -ml-1 text-white/80 hover:text-white cursor-pointer"
+                              className="p-1 -ml-1 text-white/80 hover:text-white cursor-pointer transition-colors"
+                              title="Back to Lock Screen"
                             >
                               <ChevronLeft className="w-4 h-4" />
                             </button>
@@ -457,14 +467,14 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         </div>
 
                         {/* CHAT STREAM (SCROLLABLE) */}
-                        <div className="flex-1 px-3 py-2 overflow-y-auto no-scrollbar space-y-2.5 text-[11px] font-sans">
+                        <div className="flex-1 px-3 py-2 overflow-y-auto no-scrollbar space-y-2 text-[11px] font-sans">
                           
                           {/* 1. Agent: Bought coin */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.05 }}
-                            className="max-w-[82%] bg-[#171b26] rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            transition={{ delay: 0.04 }}
+                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
                           >
                             <p className="leading-snug">
                               yo, i just bought that $XX coin the moment it got launched 🚀
@@ -476,9 +486,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 2. User: what's the entry? */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.15 }}
+                            transition={{ delay: 0.12 }}
                             className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
@@ -492,10 +502,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 3. Agent: $XX Trade Card */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.25 }}
-                            className="max-w-[78%] bg-[#171b26] border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-2"
+                            transition={{ delay: 0.2 }}
+                            className="max-w-[78%] bg-[#171b26]/95 border border-white/10 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-2"
                           >
                             <div className="flex items-center gap-1.5">
                               <div className="w-4 h-4 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
@@ -523,9 +533,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 4. User: what's the plan? */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.35 }}
+                            transition={{ delay: 0.28 }}
                             className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
@@ -539,10 +549,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 5. Agent: momentum 2x */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.45 }}
-                            className="max-w-[82%] bg-[#171b26] rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            transition={{ delay: 0.36 }}
+                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
                           >
                             <p className="leading-snug">
                               riding the momentum. will take profit at 2x first 🎯
@@ -554,9 +564,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 6. User: keep me posted */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.55 }}
+                            transition={{ delay: 0.44 }}
                             className="max-w-[78%] ml-auto bg-[#7c3aed] rounded-2xl rounded-tr-xs p-2.5 text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] space-y-1"
                           >
                             <p className="leading-snug font-medium">
@@ -570,10 +580,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                           {/* 7. Agent: will update when hit target */}
                           <motion.div
-                            initial={{ opacity: 0, y: 8 }}
+                            initial={{ opacity: 0, y: 6 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.65 }}
-                            className="max-w-[82%] bg-[#171b26] rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
+                            transition={{ delay: 0.52 }}
+                            className="max-w-[82%] bg-[#171b26]/95 border border-white/5 rounded-2xl rounded-tl-xs p-2.5 text-[#f1f5f9] shadow-sm space-y-1"
                           >
                             <p className="leading-snug">
                               yep. i got you. will update when we hit target. 🤝
@@ -586,9 +596,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         </div>
 
                         {/* BOTTOM INPUT BAR */}
-                        <div className="p-2.5 pt-1.5 border-t border-white/5 flex items-center gap-2 bg-[#0b0e14]">
+                        <div className="p-2 pt-1 border-t border-white/10 flex items-center gap-2 bg-[#0d1017]/95 backdrop-blur-md">
                           <button className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center text-white/80 shrink-0 cursor-pointer">
-                            <Plus className="w-4 h-4" />
+                            <Plus className="w-3.5 h-3.5" />
                           </button>
                           
                           <div className="flex-1 bg-[#171b26] rounded-full px-3 py-1.5 text-[10px] text-[#94a3b8] border border-white/5">
@@ -607,8 +617,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 </div>
 
                 {/* 3. PERSISTENT BOTTOM HOME INDICATOR BAR */}
-                <div className="relative z-40 pb-1.5 flex justify-center bg-transparent pointer-events-none">
-                  <div className="w-28 h-1 bg-white/70 rounded-full shadow-sm" />
+                <div className="relative z-40 pb-2 flex justify-center bg-transparent pointer-events-none">
+                  <div className="w-28 h-1 bg-white/80 rounded-full shadow-sm" />
                 </div>
 
               </div>
