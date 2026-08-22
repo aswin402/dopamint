@@ -112,57 +112,34 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       setMessageStage(0);
 
       // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE SLOWLY
-      timers.push(setTimeout(() => setMessageStage(1), 350));  // Msg 1: Bought coin
-      timers.push(setTimeout(() => setMessageStage(2), 1250)); // Msg 2: Entry?
-      timers.push(setTimeout(() => setMessageStage(3), 2150)); // Msg 3: $XX Trade card
-      timers.push(setTimeout(() => setMessageStage(4), 3050)); // Msg 4: Plan?
-      timers.push(setTimeout(() => setMessageStage(5), 3950)); // Msg 5: Momentum 2x
-      timers.push(setTimeout(() => setMessageStage(6), 4850)); // Msg 6: Keep me posted
+      timers.push(setTimeout(() => setMessageStage(1), 400));  // Msg 1: Bought coin
+      timers.push(setTimeout(() => setMessageStage(2), 1300)); // Msg 2: Entry?
+      timers.push(setTimeout(() => setMessageStage(3), 2200)); // Msg 3: $XX Trade card
+      timers.push(setTimeout(() => setMessageStage(4), 3100)); // Msg 4: Plan?
+      timers.push(setTimeout(() => setMessageStage(5), 4000)); // Msg 5: Momentum 2x
+      timers.push(setTimeout(() => setMessageStage(6), 4900)); // Msg 6: Keep me posted
 
-      // Pause to let user read Part 1 (4850ms to 6800ms)
-      // Then slowly scroll down into blank space
+      // Pause to let user read Part 1 (4900ms to 7000ms)
+      // Then slowly scroll down into blank space with Today 10:14 AM
       timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 320, 2400);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 380, 2400);
         }
         setChatTime('10:14');
-      }, 6800));
+      }, 7000));
 
-      // After scrolling into blank space (at ~9500ms), Part 2 messages appear ONE BY ONE SLOWLY
-      timers.push(setTimeout(() => {
-        setMessageStage(7); // Msg 7: We hit target
-        if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
-        }
-      }, 9500));
+      // After scrolling into blank space (at ~9800ms), Part 2 messages appear ONE BY ONE SLOWLY
+      timers.push(setTimeout(() => setMessageStage(7), 9800));   // Msg 7: We hit target
+      timers.push(setTimeout(() => setMessageStage(8), 11200));  // Msg 8: Take Profit Executed Card
+      timers.push(setTimeout(() => setMessageStage(9), 12800));  // Msg 9: Profit locked in
+      timers.push(setTimeout(() => setMessageStage(10), 14100)); // Msg 10: Perfect let it run
 
-      timers.push(setTimeout(() => {
-        setMessageStage(8); // Msg 8: Take Profit Executed Card
-        if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
-        }
-      }, 10600));
-
-      timers.push(setTimeout(() => {
-        setMessageStage(9); // Msg 9: Profit locked in
-        if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
-        }
-      }, 11700));
-
-      timers.push(setTimeout(() => {
-        setMessageStage(10); // Msg 10: Perfect let it run
-        if (chatScrollRef.current) {
-          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
-        }
-      }, 12700));
-
-      // Pause 5.5s to view full results, then loop back to Lock Screen
+      // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 18200));
+      }, 20500));
     }
 
     return () => {
@@ -170,6 +147,22 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.forEach(t => clearTimeout(t));
     };
   }, [screenMode, notificationKey, triggerAppLaunch, smoothScrollSlowly]);
+
+  // Smooth scroll down automatically whenever a new message appears in Part 2
+  useEffect(() => {
+    if (screenMode !== 'chat' || messageStage < 7) return;
+
+    // Wait for DOM to render the new message, then smoothly scroll down
+    const timer = setTimeout(() => {
+      if (chatScrollRef.current) {
+        const target = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+        const duration = messageStage === 8 ? 1400 : 1000;
+        smoothScrollSlowly(chatScrollRef.current, target, duration);
+      }
+    }, 50);
+
+    return () => clearTimeout(timer);
+  }, [messageStage, screenMode, smoothScrollSlowly]);
 
   // Handle user manual scroll to update clock dynamically
   const handleChatScroll = () => {
