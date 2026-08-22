@@ -736,13 +736,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         )}
 
                         {/* =========================================================
-                            BLANK CONTINUATION SPACE & TIME DIVIDER
+                            BLANK CONTINUATION SPACE
                             ========================================================= */}
-                        <div className="min-h-[260px] flex items-center justify-center py-6">
-                          <span className="px-3 py-1 rounded-full bg-[#ede7dc] border border-[#dfd6c6] text-[9px] text-[#78716c] font-medium tracking-wide shadow-2xs">
-                            Today 10:14 AM
-                          </span>
-                        </div>
+                        <div className="min-h-[260px] w-full pointer-events-none" />
 
                         {/* =========================================================
                             PART 2: 10:14 AM — TAKE PROFIT TARGET HIT & EXECUTED (APPEARS ONE BY ONE)
