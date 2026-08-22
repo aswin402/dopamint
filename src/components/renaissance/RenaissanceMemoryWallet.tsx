@@ -200,7 +200,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
           <div className="lg:col-span-6 flex items-center justify-center relative select-none">
             
             {/* Ambient Background Aura */}
-            <div className="absolute inset-0 max-w-[360px] h-[660px] mx-auto bg-gradient-to-b from-[#676268]/30 via-[#676268]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
+            <div className="absolute inset-0 max-w-[360px] h-[660px] mx-auto bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
 
             {/* 
               THE PHONE (Matches CodePen .phone with silver theme hsl(254, 30%, 85%) outer frame,
@@ -291,11 +291,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 className="absolute inset-0 overflow-hidden flex flex-col justify-between"
               >
                 {/* 
-                  #676268 THEME WALLPAPER (CodePen Top & Bottom Scrim Gradients with #676268 Smoked Silver Lighting)
+                  #887d6c THEME WALLPAPER (CodePen Top & Bottom Scrim Gradients with #887d6c Warm Antique Bronze/Gold Lighting)
                 */}
-                <div className="absolute inset-0 bg-[#0d0c0e] overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 bg-[#0f0e0c] overflow-hidden pointer-events-none">
                   
-                  {/* Top #676268 Curved Ribbon Section */}
+                  {/* Top #887d6c Curved Ribbon Section */}
                   <div 
                     style={{
                       position: 'absolute',
@@ -304,8 +304,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       borderBottomLeftRadius: '190px',
                       borderBottomRightRadius: '190px',
                       overflow: 'hidden',
-                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0d0c0e 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #676268 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #7a747b 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #9b949c 100%)',
-                      backgroundColor: '#2d2b2e',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #9d917f 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #b8ac9a 100%)',
+                      backgroundColor: '#36312a',
                     }}
                   >
                     {/* Glowing highlight border line */}
@@ -326,12 +326,12 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         inset: 0,
                         borderRadius: 'inherit',
                         mixBlendMode: 'overlay',
-                        background: 'radial-gradient(80% 150% at 50% 100%, #676268, transparent 70%)'
+                        background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
                       }}
                     />
                   </div>
 
-                  {/* Bottom #676268 Inverted Ribbon Section */}
+                  {/* Bottom #887d6c Inverted Ribbon Section */}
                   <div 
                     style={{
                       position: 'absolute',
@@ -340,8 +340,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       borderTopLeftRadius: '190px',
                       borderTopRightRadius: '190px',
                       overflow: 'hidden',
-                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0d0c0e 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #524e53 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #676268 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #88818a 100%)',
-                      backgroundColor: '#1b1a1c',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #6e6456 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #a69a88 100%)',
+                      backgroundColor: '#23201b',
                     }}
                   >
                     <div 
@@ -361,7 +361,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         inset: 0,
                         borderRadius: 'inherit',
                         mixBlendMode: 'overlay',
-                        background: 'radial-gradient(80% 150% at 50% 100%, #676268, transparent 70%)'
+                        background: 'radial-gradient(80% 150% at 50% 100%, #887d6c, transparent 70%)'
                       }}
                     />
                   </div>
@@ -400,13 +400,13 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
                 {/* 2. LOCK SCREEN CLOCK & DATE */}
                 <div className="relative z-20 pt-4 flex flex-col items-center justify-center text-center">
-                  <Lock className="w-3.5 h-3.5 text-[#f5f4f6]/90 mb-2" />
+                  <Lock className="w-3.5 h-3.5 text-[#f9f7f4]/90 mb-2" />
                   
-                  <div className="text-[13px] sm:text-[14px] font-medium text-[#e4e2e6] tracking-tight">
+                  <div className="text-[13px] sm:text-[14px] font-medium text-[#ede8e1] tracking-tight">
                     Monday, 12 May
                   </div>
 
-                  <h1 className="text-[64px] sm:text-[72px] font-bold text-[#f5f4f6] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-1 font-sans">
+                  <h1 className="text-[64px] sm:text-[72px] font-bold text-[#f9f7f4] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-1 font-sans">
                     9:41
                   </h1>
                 </div>
@@ -419,11 +419,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       initial={{ scale: 0.92, opacity: 0, y: 15 }}
                       animate={{ scale: 1, opacity: 1, y: 0 }}
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                      className="p-3.5 sm:p-4 rounded-[24px] bg-[#1c1a1d]/80 backdrop-blur-2xl border border-white/15 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-3"
+                      className="p-3.5 sm:p-4 rounded-[24px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-3"
                     >
-                      {/* Avatar with neon purple/blue ring */}
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#676268] via-[#a39ba5] to-[#e4e0e6] p-[1.5px] shrink-0 shadow-[0_0_12px_rgba(103,98,104,0.6)]">
-                        <div className="w-full h-full rounded-full bg-[#0e0d0f] flex items-center justify-center">
+                      {/* Avatar with warm bronze ring */}
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_12px_rgba(136,125,108,0.6)]">
+                        <div className="w-full h-full rounded-full bg-[#12100d] flex items-center justify-center">
                           {/* Cute robot face icon */}
                           <div className="w-4 h-4 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[2px]">
                             <span className="w-1 h-1 rounded-full bg-black" />
@@ -438,12 +438,12 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           <h4 className="text-[13px] font-bold text-white tracking-tight">
                             Dopamint Agent
                           </h4>
-                          <span className="text-[10px] text-[#b8b3bc] font-medium">
+                          <span className="text-[10px] text-[#c7bdae] font-medium">
                             now
                           </span>
                         </div>
 
-                        <p className="text-[12px] text-[#f1eff2] font-normal leading-snug mt-1">
+                        <p className="text-[12px] text-[#f7f4ed] font-normal leading-snug mt-1">
                           yo, i just bought that $XX coin the moment it got launched 🚀
                         </p>
                       </div>
