@@ -257,16 +257,17 @@ export const RenaissanceMemoryWallet: React.FC = () => {
           <div className="lg:col-span-6 space-y-6 text-left">
             
             {/* Eyebrow badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[11px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 text-[11px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-xs">
               <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
-              <span>OUR SPECIALISED AGENT</span>
+              <span className="text-[#37312c]">OUR SPECIALISED AGENT</span>
             </div>
 
-            {/* Editorial Title */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.04]">
+            {/* Editorial Title - 3-Line Alignment */}
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.06]">
               Agent hunts the signal. <br />
               <span className="font-serif italic font-bold text-[#ffffff]">
-                Your Always-On Profit Agent.
+                Your Always-On <br />
+                Profit Agent.
               </span>
             </h2>
 
