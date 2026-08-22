@@ -200,7 +200,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
           <div className="lg:col-span-6 flex items-center justify-center lg:justify-end lg:pr-3 xl:pr-6 relative select-none">
             
             {/* Ambient Background Aura */}
-            <div className="absolute inset-0 lg:left-auto lg:right-3 xl:lg:right-6 max-w-[360px] h-[660px] mx-auto lg:mx-0 bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
+            <div className="absolute inset-0 lg:left-auto lg:right-3 xl:lg:right-6 max-w-[320px] h-[590px] mx-auto lg:mx-0 bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
 
             {/* 
               THE PHONE (Matches CodePen .phone with #bbb09c outer frame,
@@ -209,10 +209,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
             <div 
               style={{
                 aspectRatio: '37 / 76',
-                height: '640px',
-                maxHeight: '88vh',
-                borderRadius: '56px',
-                boxShadow: '0 0 0.1em 0.25em rgba(100, 92, 78, 0.45), 0 0 0 4.5px #bbb09c, 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
+                height: '575px',
+                maxHeight: '84vh',
+                borderRadius: '50px',
+                boxShadow: '0 0 0.1em 0.25em rgba(100, 92, 78, 0.45), 0 0 0 4px #bbb09c, 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
               }}
               className="relative z-10 bg-black box-border"
             >
@@ -220,11 +220,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               <div 
                 style={{
                   position: 'absolute',
-                  top: '56px',
-                  right: '-4.5px',
-                  bottom: '56px',
-                  left: '-4.5px',
-                  border: '4.5px solid #8f8472',
+                  top: '50px',
+                  right: '-4px',
+                  bottom: '50px',
+                  left: '-4px',
+                  border: '4px solid #8f8472',
                   borderLeftWidth: 0,
                   borderRightWidth: 0,
                   pointerEvents: 'none',
@@ -232,24 +232,24 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               />
 
               {/* Hardware Buttons */}
-              <div className="absolute -inset-[4.5px] pointer-events-none">
+              <div className="absolute -inset-[4px] pointer-events-none">
                 {/* Left side: Action Button + Volume Up + Volume Down */}
-                <div className="absolute right-full top-[105px] w-[3.5px] flex flex-col gap-[14px]">
+                <div className="absolute right-full top-[92px] w-[3px] flex flex-col gap-[12px]">
                   {/* Action button */}
                   <div 
                     style={{
-                      height: '26px',
+                      height: '23px',
                       background: '#f2efe9',
                       boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #bbb09c, inset 0 2px 1px #ded7cb, inset 0 -2px 1px #ded7cb, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
                       borderBottomLeftRadius: '3px',
-                      marginBottom: '6px'
+                      marginBottom: '5px'
                     }}
                   />
                   {/* Vol Up */}
                   <div 
                     style={{
-                      height: '52px',
+                      height: '46px',
                       background: '#f2efe9',
                       boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #bbb09c, inset 0 2px 1px #ded7cb, inset 0 -2px 1px #ded7cb, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
@@ -259,7 +259,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   {/* Vol Down */}
                   <div 
                     style={{
-                      height: '52px',
+                      height: '46px',
                       background: '#f2efe9',
                       boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #bbb09c, inset 0 2px 1px #ded7cb, inset 0 -2px 1px #ded7cb, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
@@ -269,10 +269,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 </div>
 
                 {/* Right side: Power Button */}
-                <div className="absolute left-full top-[165px] w-[3.5px] scale-x-[-1]">
+                <div className="absolute left-full top-[148px] w-[3px] scale-x-[-1]">
                   <div 
                     style={{
-                      height: '78px',
+                      height: '70px',
                       background: '#f2efe9',
                       boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #bbb09c, inset 0 2px 1px #ded7cb, inset 0 -2px 1px #ded7cb, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
@@ -285,8 +285,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               {/* Screen Container */}
               <div 
                 style={{
-                  borderRadius: '56px',
-                  border: '10px solid black',
+                  borderRadius: '50px',
+                  border: '9px solid black',
                 }}
                 className="absolute inset-0 overflow-hidden flex flex-col justify-between"
               >
@@ -301,8 +301,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       position: 'absolute',
                       inset: 0,
                       height: '58%',
-                      borderBottomLeftRadius: '190px',
-                      borderBottomRightRadius: '190px',
+                      borderBottomLeftRadius: '170px',
+                      borderBottomRightRadius: '170px',
                       overflow: 'hidden',
                       background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #9d917f 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #b8ac9a 100%)',
                       backgroundColor: '#36312a',
@@ -337,8 +337,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       position: 'absolute',
                       inset: 'auto 0 0 0',
                       height: '56%',
-                      borderTopLeftRadius: '190px',
-                      borderTopRightRadius: '190px',
+                      borderTopLeftRadius: '170px',
+                      borderTopRightRadius: '170px',
                       overflow: 'hidden',
                       background: 'radial-gradient(120% 110% at 50% 92.5%, #0f0e0c 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #6e6456 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #887d6c 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #a69a88 100%)',
                       backgroundColor: '#23201b',
@@ -373,61 +373,60 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                     ========================================================================= */}
                 
                 {/* 1. TOP STATUS BAR */}
-                <div className="relative z-30 pt-3 px-6 flex items-center justify-between text-white text-[12px] font-semibold">
+                <div className="relative z-30 pt-2.5 px-5 flex items-center justify-between text-white text-[11px] font-semibold">
                   {/* Time */}
-                  <span className="w-12 text-left pl-1 font-sans">9:41</span>
+                  <span className="w-10 text-left pl-0.5 font-sans">9:41</span>
 
                   {/* Dynamic Island */}
-                  <div className="w-[105px] h-[27px] rounded-full bg-black flex items-center justify-between px-3 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#111] border border-white/20 flex items-center justify-center">
+                  <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
+                    <div className="w-2 h-2 rounded-full bg-[#111] border border-white/20 flex items-center justify-center">
                       <div className="w-1 h-1 rounded-full bg-[#1e293b]" />
                     </div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#0a0f1d] border border-blue-900/40" />
+                    <div className="w-2 h-2 rounded-full bg-[#0a0f1d] border border-blue-900/40" />
                   </div>
 
                   {/* Indicators */}
-                  <div className="w-12 flex items-center justify-end gap-1.5 text-white pr-1">
-                    <div className="flex items-end gap-[1.5px] h-2.5">
-                      <span className="w-[2.5px] h-1 bg-white rounded-xs" />
-                      <span className="w-[2.5px] h-1.5 bg-white rounded-xs" />
-                      <span className="w-[2.5px] h-2 bg-white rounded-xs" />
-                      <span className="w-[2.5px] h-2.5 bg-white rounded-xs" />
+                  <div className="w-10 flex items-center justify-end gap-1 text-white pr-0.5">
+                    <div className="flex items-end gap-[1px] h-2">
+                      <span className="w-[2px] h-1 bg-white rounded-xs" />
+                      <span className="w-[2px] h-1.5 bg-white rounded-xs" />
+                      <span className="w-[2px] h-2 bg-white rounded-xs" />
                     </div>
-                    <Wifi className="w-3 h-3" />
-                    <Battery className="w-3.5 h-3.5" />
+                    <Wifi className="w-2.5 h-2.5" />
+                    <Battery className="w-3 h-3" />
                   </div>
                 </div>
 
                 {/* 2. LOCK SCREEN CLOCK & DATE */}
-                <div className="relative z-20 pt-4 flex flex-col items-center justify-center text-center">
-                  <Lock className="w-3.5 h-3.5 text-[#f9f7f4]/90 mb-2" />
+                <div className="relative z-20 pt-3 flex flex-col items-center justify-center text-center">
+                  <Lock className="w-3 h-3 text-[#f9f7f4]/90 mb-1.5" />
                   
-                  <div className="text-[13px] sm:text-[14px] font-medium text-[#ede8e1] tracking-tight">
+                  <div className="text-[12px] font-medium text-[#ede8e1] tracking-tight">
                     Monday, 12 May
                   </div>
 
-                  <h1 className="text-[64px] sm:text-[72px] font-bold text-[#f9f7f4] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-1 font-sans">
+                  <h1 className="text-[54px] sm:text-[60px] font-bold text-[#f9f7f4] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-0.5 font-sans">
                     9:41
                   </h1>
                 </div>
 
                 {/* 3. NOTIFICATION BANNER (MATCHES IMAGE EXACTLY) */}
-                <div className="relative z-30 px-3.5 my-auto">
+                <div className="relative z-30 px-3 my-auto">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={notificationKey}
                       initial={{ scale: 0.92, opacity: 0, y: 15 }}
                       animate={{ scale: 1, opacity: 1, y: 0 }}
                       transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                      className="p-3.5 sm:p-4 rounded-[24px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-3"
+                      className="p-3 rounded-[20px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-2.5"
                     >
                       {/* Avatar with warm bronze ring */}
-                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_12px_rgba(136,125,108,0.6)]">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_10px_rgba(136,125,108,0.6)]">
                         <div className="w-full h-full rounded-full bg-[#12100d] flex items-center justify-center">
                           {/* Cute robot face icon */}
-                          <div className="w-4 h-4 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[2px]">
-                            <span className="w-1 h-1 rounded-full bg-black" />
-                            <span className="w-1 h-1 rounded-full bg-black" />
+                          <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1.5px]">
+                            <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                            <span className="w-0.5 h-0.5 rounded-full bg-black" />
                           </div>
                         </div>
                       </div>
@@ -435,15 +434,15 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <h4 className="text-[13px] font-bold text-white tracking-tight">
+                          <h4 className="text-[12px] font-bold text-white tracking-tight">
                             Dopamint Agent
                           </h4>
-                          <span className="text-[10px] text-[#c7bdae] font-medium">
+                          <span className="text-[9px] text-[#c7bdae] font-medium">
                             now
                           </span>
                         </div>
 
-                        <p className="text-[12px] text-[#f7f4ed] font-normal leading-snug mt-1">
+                        <p className="text-[11px] text-[#f7f4ed] font-normal leading-snug mt-0.5">
                           yo, i just bought that $XX coin the moment it got launched 🚀
                         </p>
                       </div>
@@ -452,21 +451,21 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 </div>
 
                 {/* 4. BOTTOM SHORTCUTS & HOME INDICATOR */}
-                <div className="relative z-30 pb-3 px-6">
-                  <div className="flex items-center justify-between mb-4">
+                <div className="relative z-30 pb-2.5 px-5">
+                  <div className="flex items-center justify-between mb-3">
                     {/* Flashlight button */}
-                    <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
-                      <Flashlight className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
+                      <Flashlight className="w-3.5 h-3.5" />
                     </div>
 
                     {/* Camera button */}
-                    <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
-                      <Camera className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
+                      <Camera className="w-3.5 h-3.5" />
                     </div>
                   </div>
 
                   {/* Home bar */}
-                  <div className="w-32 h-1 bg-white/80 rounded-full mx-auto shadow-sm" />
+                  <div className="w-28 h-1 bg-white/80 rounded-full mx-auto shadow-sm" />
                 </div>
 
               </div>
