@@ -118,11 +118,11 @@ const coverFragmentShader = `
     
     float angle = atan(centeredUv.y, centeredUv.x);
     
-    float noiseScale = 6.0;
+    float noiseScale = 5.5;
     vec2 pixelatedUv = floor(vUv * uResolution / noiseScale) * noiseScale / uResolution;
-    float blockNoise = fbm(pixelatedUv * 100.0) * 0.15;
+    float blockNoise = fbm(pixelatedUv * 80.0) * 0.14;
     
-    float angularNoise = fbm(vec2(angle * 5.0, 0.0)) * 0.15;
+    float angularNoise = fbm(vec2(angle * 4.5, 0.0)) * 0.14;
     
     float totalNoise = blockNoise + angularNoise;
     float noisyDist = dist + totalNoise;
@@ -130,8 +130,8 @@ const coverFragmentShader = `
     float maxDist = length(vec2(aspect * 0.5, 0.5));
     float normalizedDist = noisyDist / maxDist;
     
-    // Multiplier of 4.0 guarantees all 4 screen corners are cleared 100% on any screen aspect ratio
-    float dissolveThreshold = uDissolve * 4.0; 
+    // Multiplier of 4.2 guarantees all 4 corners are cleared 100% on any screen
+    float dissolveThreshold = uDissolve * 4.2; 
     
     vec2 texelSize = 1.0 / uResolution;
     float edge = sobel(uTexture, uv, texelSize);
@@ -139,7 +139,8 @@ const coverFragmentShader = `
     edge = pow(edge, 0.7) * 2.0;
     edge = clamp(edge, 0.0, 1.0);
     
-    float dissolveMask = smoothstep(dissolveThreshold - 0.03, dissolveThreshold, normalizedDist);
+    // Smooth feathered dissolve transition
+    float dissolveMask = smoothstep(dissolveThreshold - 0.05, dissolveThreshold + 0.01, normalizedDist);
     
     vec3 edgeColor = vec3(1.0, 0.88, 0.7);
     
@@ -150,7 +151,7 @@ const coverFragmentShader = `
     float edgeGlow = edge * edgeGlowIntensity * (1.0 + uGrayscale * 3.0);
     finalColor += edgeColor * edgeGlow * uEdgeBrightness;
     
-    float edgeZoneWidth = 0.15 * (1.0 - uDissolve) + 0.02;
+    float edgeZoneWidth = 0.14 * (1.0 - uDissolve) + 0.02;
     float edgeZone = smoothstep(dissolveThreshold - edgeZoneWidth, dissolveThreshold - edgeZoneWidth + 0.04, normalizedDist) * 
                      smoothstep(dissolveThreshold + 0.02, dissolveThreshold - 0.02, normalizedDist);
     float sparkle = hash(floor(vUv * uResolution / 4.0)) * edgeZone;
@@ -205,8 +206,8 @@ function VideoShaderScene({
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
-      // Directly map progress (0.0 to 0.70) to uDissolve (0.0 to 1.0) with no laggy lerp
-      // This guarantees the GPU shader reaches 100% transparency by progress = 0.70
+      // Map progress (0.0 to 0.70) to uDissolve (0.0 to 1.0)
+      // Progress is already ultra-smoothly interpolated by the physics damping loop
       const dissolveProgress = Math.min(1.0, progress / 0.70);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       
@@ -309,21 +310,49 @@ export function ScrollDissolveReveal({
   backgroundContent,
   children,
 }: ScrollDissolveRevealProps) {
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef(0);
+  // Target progress (discrete user input) vs Smooth progress (interpolated continuous float)
+  const targetProgressRef = useRef(0);
+  const smoothProgressRef = useRef(0);
+  const [smoothProgress, setSmoothProgress] = useState(0);
   const scrollYProgress = useMemo(() => motionValue(0), []);
 
-  const updateProgress = useCallback((val: number) => {
-    const clamped = Math.max(0.0, Math.min(1.0, val));
-    progressRef.current = clamped;
-    setProgress(clamped);
-    scrollYProgress.set(clamped);
+  // Frame-rate independent exponential damping loop for liquid-smooth 60/120/240Hz animation
+  useEffect(() => {
+    let animId: number;
+    let lastTime = performance.now();
+
+    const loop = (time: number) => {
+      const deltaSec = Math.min((time - lastTime) / 1000, 0.05);
+      lastTime = time;
+
+      // Exponential decay dampening: lambda = 11 for silky, responsive momentum
+      const factor = 1 - Math.exp(-11 * deltaSec);
+      smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
+
+      if (Math.abs(targetProgressRef.current - smoothProgressRef.current) < 0.0001) {
+        smoothProgressRef.current = targetProgressRef.current;
+      }
+
+      const cur = smoothProgressRef.current;
+      setSmoothProgress(cur);
+      scrollYProgress.set(cur);
+
+      animId = requestAnimationFrame(loop);
+    };
+
+    animId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animId);
   }, [scrollYProgress]);
 
-  // Strict scroll-locking on body and html while progress < 1.0
-  // When progress < 1.0, viewport is 100% locked and window.scrollY is clamped at 0.
+  const updateTarget = useCallback((val: number) => {
+    const clamped = Math.max(0.0, Math.min(1.0, val));
+    targetProgressRef.current = clamped;
+  }, []);
+
+  // Strict scroll-locking on body and html while smoothProgress < 0.995
+  // When smoothProgress < 0.995, viewport is firmly pinned at top: 0
   useEffect(() => {
-    if (progress < 1.0) {
+    if (smoothProgress < 0.995) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
       window.scrollTo(0, 0);
@@ -336,30 +365,30 @@ export function ScrollDissolveReveal({
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
-  }, [progress]);
+  }, [smoothProgress]);
 
-  // Handle Wheel, Touch, and Keyboard navigation
+  // Wheel, Touch, and Keyboard listeners
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      // 1. While animation is in progress (< 1.0), lock all scrolling and advance/reverse animation
-      if (progressRef.current < 1.0) {
+      // 1. While animation is in progress (< 1.0), lock all scrolling and smoothly advance/reverse
+      if (targetProgressRef.current < 1.0) {
         e.preventDefault();
         e.stopPropagation();
-        const delta = Math.min(Math.abs(e.deltaY) * 0.0007, 0.05);
+        const delta = Math.min(Math.abs(e.deltaY) * 0.00045, 0.025);
         if (e.deltaY > 0) {
-          updateProgress(progressRef.current + delta);
+          updateTarget(targetProgressRef.current + delta);
         } else if (e.deltaY < 0) {
-          updateProgress(progressRef.current - delta);
+          updateTarget(targetProgressRef.current - delta);
         }
         return;
       }
 
-      // 2. When animation is 100% complete and user scrolls up at the very top of the page, reverse animation
+      // 2. When animation is 100% complete and user scrolls up at the very top, reverse smoothly
       if (window.scrollY <= 5 && e.deltaY < 0) {
         e.preventDefault();
         e.stopPropagation();
-        const delta = Math.min(Math.abs(e.deltaY) * 0.0007, 0.05);
-        updateProgress(progressRef.current - delta);
+        const delta = Math.min(Math.abs(e.deltaY) * 0.00045, 0.025);
+        updateTarget(targetProgressRef.current - delta);
         return;
       }
     };
@@ -374,33 +403,33 @@ export function ScrollDissolveReveal({
       const deltaY = touchStartY - currentY;
       touchStartY = currentY;
 
-      if (progressRef.current < 1.0) {
+      if (targetProgressRef.current < 1.0) {
         e.preventDefault();
-        const delta = Math.min(Math.abs(deltaY) * 0.0025, 0.05);
+        const delta = Math.min(Math.abs(deltaY) * 0.0018, 0.035);
         if (deltaY > 0) {
-          updateProgress(progressRef.current + delta);
+          updateTarget(targetProgressRef.current + delta);
         } else if (deltaY < 0) {
-          updateProgress(progressRef.current - delta);
+          updateTarget(targetProgressRef.current - delta);
         }
         return;
       }
 
       if (window.scrollY <= 5 && deltaY < 0) {
         e.preventDefault();
-        const delta = Math.min(Math.abs(deltaY) * 0.0025, 0.05);
-        updateProgress(progressRef.current - delta);
+        const delta = Math.min(Math.abs(deltaY) * 0.0018, 0.035);
+        updateTarget(targetProgressRef.current - delta);
         return;
       }
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (progressRef.current < 1.0) {
+      if (targetProgressRef.current < 1.0) {
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           e.preventDefault();
-          updateProgress(progressRef.current + 0.06);
+          updateTarget(targetProgressRef.current + 0.05);
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
           e.preventDefault();
-          updateProgress(progressRef.current - 0.06);
+          updateTarget(targetProgressRef.current - 0.05);
         }
       }
     };
@@ -416,13 +445,13 @@ export function ScrollDissolveReveal({
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", onKeyDown);
     };
-  }, [updateProgress]);
+  }, [updateTarget]);
 
   const isVideo = Boolean(videoFront || (imageFront && (imageFront.endsWith('.webm') || imageFront.endsWith('.mp4'))));
   const activeVideo = videoFront || (isVideo ? imageFront! : '');
 
-  // When progress < 1.0, keep the hero section fixed at top: 0 to guarantee it cannot physically move
-  const isLocked = progress < 1.0;
+  // Keep hero fixed at top: 0 while smoothProgress is running
+  const isLocked = smoothProgress < 0.995;
 
   return (
     <div
@@ -443,7 +472,7 @@ export function ScrollDissolveReveal({
         )}
 
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
-        {progress < 0.999 && (
+        {smoothProgress < 0.995 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
             <Canvas gl={{ antialias: true, alpha: true }}>
               <OrthographicCamera
@@ -461,12 +490,12 @@ export function ScrollDissolveReveal({
                 {isVideo ? (
                   <VideoShaderScene
                     videoFront={activeVideo}
-                    progress={progress}
+                    progress={smoothProgress}
                   />
                 ) : imageFront ? (
                   <ImageShaderScene
                     imageFront={imageFront}
-                    progress={progress}
+                    progress={smoothProgress}
                   />
                 ) : null}
               </React.Suspense>
