@@ -39,54 +39,103 @@ const WALLET_RAILS = [
 export const RenaissanceMemoryWallet: React.FC = () => {
   const [screenMode, setScreenMode] = useState<'lock' | 'chat'>('lock');
   const [chatTime, setChatTime] = useState('9:41');
+  const [isTappingNotification, setIsTappingNotification] = useState(false);
   const [notificationKey, setNotificationKey] = useState(0);
   const chatScrollRef = React.useRef<HTMLDivElement>(null);
 
-  // Auto transition cycle: Lock Screen -> Chat Screen (Top 9:41 AM) -> Smooth Scroll Down to Take Profit (10:14 AM) -> Repeat
+  // Smooth slow scroller function using iOS easeInOut cubic curve
+  const smoothScrollSlowly = React.useCallback((
+    element: HTMLElement,
+    target: number,
+    duration = 3400
+  ) => {
+    const start = element.scrollTop;
+    const change = target - start;
+    if (Math.abs(change) < 2) return () => {};
+    const startTime = performance.now();
+
+    const easeInOutCubic = (t: number) => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    let animationFrameId: number;
+
+    const animateScroll = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeInOutCubic(progress);
+
+      element.scrollTop = start + change * eased;
+
+      if (eased > 0.42) {
+        setChatTime('10:14');
+      } else {
+        setChatTime('9:41');
+      }
+
+      if (progress < 1) {
+        animationFrameId = requestAnimationFrame(animateScroll);
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(animateScroll);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
+
+  // Manual or automatic notification click & app launch
+  const triggerAppLaunch = React.useCallback(() => {
+    setIsTappingNotification(true);
+    // Tap press feedback for 350ms, then launch app
+    setTimeout(() => {
+      setScreenMode('chat');
+      setIsTappingNotification(false);
+    }, 380);
+  }, []);
+
+  // Continuous Lifecycle Flow
   useEffect(() => {
-    let scrollTimer: ReturnType<typeof setTimeout>;
+    let cancelScroll: (() => void) | undefined;
+    let tapTimer: ReturnType<typeof setTimeout>;
+    let scrollStartTimer: ReturnType<typeof setTimeout>;
     let resetTimer: ReturnType<typeof setTimeout>;
-    let lockTimer: ReturnType<typeof setTimeout>;
 
     if (screenMode === 'lock') {
       setChatTime('9:41');
-      lockTimer = setTimeout(() => {
-        setScreenMode('chat');
-      }, 3200);
+      setIsTappingNotification(false);
+
+      // After 2.4s of lock screen, simulate tapping the notification to open app
+      tapTimer = setTimeout(() => {
+        triggerAppLaunch();
+      }, 2600);
     } else if (screenMode === 'chat') {
-      // 1. Initial position: scroll to top
+      // 1. Initial position: top of chat
       if (chatScrollRef.current) {
         chatScrollRef.current.scrollTop = 0;
       }
       setChatTime('9:41');
 
-      // 2. After 2.4s, smoothly scroll down to reveal the Take Profit execution card
-      scrollTimer = setTimeout(() => {
+      // 2. Pause for 1.8s, then smoothly & slowly scroll down to reveal Take Profit
+      scrollStartTimer = setTimeout(() => {
         if (chatScrollRef.current) {
-          chatScrollRef.current.scrollTo({
-            top: chatScrollRef.current.scrollHeight,
-            behavior: 'smooth',
-          });
+          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, maxScroll, 3400);
         }
-        // Update status bar clock to 10:14 AM
-        setTimeout(() => {
-          setChatTime('10:14');
-        }, 600);
-      }, 2400);
+      }, 1800);
 
-      // 3. After 8.5s of total viewing, cycle back to Lock Screen
+      // 3. After full demonstration (~10s), cycle back to Lock Screen
       resetTimer = setTimeout(() => {
         setScreenMode('lock');
         setNotificationKey(prev => prev + 1);
-      }, 8800);
+      }, 10200);
     }
 
     return () => {
-      clearTimeout(lockTimer);
-      clearTimeout(scrollTimer);
+      if (cancelScroll) cancelScroll();
+      clearTimeout(tapTimer);
+      clearTimeout(scrollStartTimer);
       clearTimeout(resetTimer);
     };
-  }, [screenMode, notificationKey]);
+  }, [screenMode, notificationKey, triggerAppLaunch, smoothScrollSlowly]);
 
   // Handle user manual scroll to update clock dynamically
   const handleChatScroll = () => {
@@ -247,8 +296,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       key="lock-screen"
                       initial={{ opacity: 0, scale: 0.96 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      exit={{ opacity: 0, scale: 1.14, filter: 'blur(10px)' }}
+                      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
                       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between overflow-hidden z-20 bg-[#0f0e0c]"
                     >
@@ -362,16 +411,25 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         </h1>
                       </div>
 
-                      {/* 3. Notification Banner */}
+                      {/* 3. Notification Banner (With Animated Tap Highlight) */}
                       <div className="relative z-30 px-3 my-auto">
                         <motion.div
                           key={notificationKey}
-                          initial={{ scale: 0.92, opacity: 0, y: 15 }}
-                          animate={{ scale: 1, opacity: 1, y: 0 }}
+                          initial={{ scale: 0.88, opacity: 0, y: -20 }}
+                          animate={{ 
+                            scale: isTappingNotification ? 0.94 : 1, 
+                            opacity: 1, 
+                            y: 0,
+                            boxShadow: isTappingNotification ? '0 0 24px rgba(0, 122, 255, 0.45)' : '0 16px 36px rgba(0,0,0,0.6)'
+                          }}
                           whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.97 }}
-                          onClick={() => setScreenMode('chat')}
-                          className="p-3 rounded-[20px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-2.5 cursor-pointer hover:border-[#dfc28d]/60 transition-all group"
+                          whileTap={{ scale: 0.94 }}
+                          onClick={triggerAppLaunch}
+                          className={`p-3 rounded-[20px] backdrop-blur-2xl border transition-all duration-200 flex items-start gap-2.5 cursor-pointer group relative ${
+                            isTappingNotification 
+                              ? 'bg-[#2f2b23] border-[#007aff]/80 shadow-[0_0_20px_rgba(0,122,255,0.4)]' 
+                              : 'bg-[#24211b]/85 border-[#887d6c]/35 hover:border-[#dfc28d]/60'
+                          }`}
                         >
                           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_10px_rgba(136,125,108,0.6)]">
                             <div className="w-full h-full rounded-full bg-[#12100d] flex items-center justify-center">
@@ -419,15 +477,15 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   )}
 
                   {/* ==========================================
-                      VIEW B: CONTINUOUS LIVE CHAT (WITH AUTO-SCROLL ANIMATION)
+                      VIEW B: CONTINUOUS LIVE CHAT (EXPANDING APP LAUNCH ANIMATION)
                       ========================================== */}
                   {screenMode === 'chat' && (
                     <motion.div
                       key="chat-screen"
-                      initial={{ opacity: 0, scale: 0.96 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      initial={{ opacity: 0, scale: 0.88, y: 15 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
+                      transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
                     >
