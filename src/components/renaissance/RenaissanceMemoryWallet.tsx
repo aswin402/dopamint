@@ -203,7 +203,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
             <div className="absolute inset-0 max-w-[360px] h-[660px] mx-auto bg-gradient-to-b from-[#887d6c]/30 via-[#887d6c]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
 
             {/* 
-              THE PHONE (Matches CodePen .phone with silver theme hsl(254, 30%, 85%) outer frame,
+              THE PHONE (Matches CodePen .phone with #8a8172 outer frame,
               antenna bands, and CNC side buttons)
             */}
             <div 
@@ -212,7 +212,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 height: '640px',
                 maxHeight: '88vh',
                 borderRadius: '56px',
-                boxShadow: '0 0 0.1em 0.25em hsl(254, 20%, 25%), 0 0 0 4.5px hsl(254, 30%, 85%), 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
+                boxShadow: '0 0 0.1em 0.25em rgba(70, 64, 55, 0.5), 0 0 0 4.5px #8a8172, 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
               }}
               className="relative z-10 bg-black box-border"
             >
@@ -224,7 +224,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   right: '-4.5px',
                   bottom: '56px',
                   left: '-4.5px',
-                  border: '4.5px solid hsl(254, 20%, 30%)',
+                  border: '4.5px solid #615a4e',
                   borderLeftWidth: 0,
                   borderRightWidth: 0,
                   pointerEvents: 'none',
@@ -239,8 +239,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   <div 
                     style={{
                       height: '26px',
-                      background: 'hsl(254, 20%, 95%)',
-                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      background: '#edeae4',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #8a8172, inset 0 2px 1px #c9c3b8, inset 0 -2px 1px #c9c3b8, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
                       borderBottomLeftRadius: '3px',
                       marginBottom: '6px'
@@ -250,8 +250,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   <div 
                     style={{
                       height: '52px',
-                      background: 'hsl(254, 20%, 95%)',
-                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      background: '#edeae4',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #8a8172, inset 0 2px 1px #c9c3b8, inset 0 -2px 1px #c9c3b8, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
                       borderBottomLeftRadius: '3px'
                     }}
@@ -260,8 +260,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   <div 
                     style={{
                       height: '52px',
-                      background: 'hsl(254, 20%, 95%)',
-                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      background: '#edeae4',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #8a8172, inset 0 2px 1px #c9c3b8, inset 0 -2px 1px #c9c3b8, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
                       borderBottomLeftRadius: '3px'
                     }}
@@ -273,8 +273,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   <div 
                     style={{
                       height: '78px',
-                      background: 'hsl(254, 20%, 95%)',
-                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      background: '#edeae4',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px #8a8172, inset 0 2px 1px #c9c3b8, inset 0 -2px 1px #c9c3b8, inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
                       borderTopLeftRadius: '3px',
                       borderBottomLeftRadius: '3px'
                     }}
