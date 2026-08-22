@@ -60,134 +60,106 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* =========================================================================
-            1. SECTION HEADER: SPECIALISED AGENTS
+            MAIN SHOWCASE: LEFT CONTENT + RIGHT IPHONE
             ========================================================================= */}
-        <div className="max-w-4xl mb-14 sm:mb-20 text-left space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-20">
           
-          {/* Eyebrow badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[11px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
-            <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
-            <span>SPECIALISED AGENTS</span>
-          </div>
-
-          {/* Editorial Title */}
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.02]">
-            Agent hunts the signal. <br />
-            <span className="font-serif italic font-normal text-[#dfc28d]">
-              Your Always-On Profit Agent.
-            </span>
-          </h2>
-
-          {/* Sub-headline with bullet tags */}
-          <div className="pt-1 flex flex-wrap items-center gap-2 sm:gap-3 text-sm sm:text-base font-serif italic text-[#d4c8b6]">
-            <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#dfc28d] not-italic font-bold">
-              exchange listing alpha agent
-            </span>
-            <span className="text-[#c4a978]">·</span>
-            <span className="text-[#f3f2e6]">watches</span>
-            <span className="text-[#c4a978]">·</span>
-            <span className="text-[#f3f2e6]">reasons</span>
-            <span className="text-[#c4a978]">·</span>
-            <span className="text-[#f3f2e6]">acts</span>
-          </div>
-        </div>
-
-        {/* =========================================================================
-            2. MAIN SHOWCASE: 3-STEP ALPHA BREAKDOWN + THE EXACT SILVER IPHONE
-            ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-20">
-          
-          {/* LEFT COLUMN: 3-STEP ALPHA PIPELINE BREAKDOWN */}
-          <div className="lg:col-span-6 space-y-5">
+          {/* LEFT COLUMN: SPECIALISED AGENT CONTENT */}
+          <div className="lg:col-span-6 space-y-6 text-left">
             
-            {/* Step 1: Watches */}
-            <motion.div 
-              whileHover={{ x: 4 }}
-              className={`p-5 sm:p-6 rounded-3xl transition-all duration-300 ${
-                stepActive === 1 
-                  ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_30px_rgba(223,194,141,0.2)]' 
-                  : 'bg-[#171411]/85 border-[#c4a978]/30 hover:border-[#dfc28d]/50'
-              } backdrop-blur-xl border space-y-3`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[10px] font-bold uppercase tracking-wider">
-                    01 WATCHES
-                  </span>
-                  <h3 className="font-serif font-bold text-sm sm:text-base text-white">
-                    Signal Detection &amp; Ingest
-                  </h3>
-                </div>
-                <span className="text-xs font-mono text-[#dfc28d] flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#dfc28d] animate-ping" />
-                  <span>14ms Latency</span>
-                </span>
-              </div>
-              <p className="font-serif italic text-xs sm:text-sm text-[#c7baa4] leading-relaxed">
-                Connects directly to raw WebSocket feeds across 8 major exchanges (Upbit, Binance, Coinbase). Detects listing announcement blocks instantly before the crowd reacts.
-              </p>
-            </motion.div>
+            {/* Eyebrow badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[11px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
+              <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
+              <span>OUR SPECIALISED AGENT</span>
+            </div>
 
-            {/* Step 2: Reasons */}
-            <motion.div 
-              whileHover={{ x: 4 }}
-              className={`p-5 sm:p-6 rounded-3xl transition-all duration-300 ${
-                stepActive === 2 
-                  ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_30px_rgba(223,194,141,0.2)]' 
-                  : 'bg-[#171411]/85 border-[#c4a978]/30 hover:border-[#dfc28d]/50'
-              } backdrop-blur-xl border space-y-3`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[10px] font-bold uppercase tracking-wider">
-                    02 REASONS
-                  </span>
-                  <h3 className="font-serif font-bold text-sm sm:text-base text-white">
-                    Multi-Factor Alpha Synthesis
-                  </h3>
-                </div>
-                <span className="text-xs font-mono text-[#4ade80] font-bold">
-                  Zero MEV Risk ✓
-                </span>
-              </div>
-              <p className="font-serif italic text-xs sm:text-sm text-[#c7baa4] leading-relaxed">
-                Computes optimal DEX depth, routes through Aerodrome/Uniswap v3, bundles transactions through private Flashbots RPCs, and enforces safety bounds within your custom risk envelope.
-              </p>
-            </motion.div>
+            {/* Editorial Title */}
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.04]">
+              Agent hunts the signal. <br />
+              <span className="font-serif italic font-normal text-[#dfc28d]">
+                Your Always-On Profit Agent.
+              </span>
+            </h2>
 
-            {/* Step 3: Acts */}
-            <motion.div 
-              whileHover={{ x: 4 }}
-              className={`p-5 sm:p-6 rounded-3xl transition-all duration-300 ${
-                stepActive === 3 
-                  ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_30px_rgba(223,194,141,0.2)]' 
-                  : 'bg-[#171411]/85 border-[#c4a978]/30 hover:border-[#dfc28d]/50'
-              } backdrop-blur-xl border space-y-3`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-full bg-[#dfc28d] text-black font-mono text-[10px] font-bold uppercase tracking-wider">
-                    03 ACTS
-                  </span>
-                  <h3 className="font-serif font-bold text-sm sm:text-base text-white">
-                    Autonomous Execution &amp; Settle
-                  </h3>
-                </div>
-                <span className="text-xs font-mono text-[#4ade80] font-bold">
-                  Instant Fill 🚀
-                </span>
-              </div>
-              <p className="font-serif italic text-xs sm:text-sm text-[#c7baa4] leading-relaxed">
-                Executes pre-listing sniper orders, monitors momentum in milliseconds, captures maximum profit, and alerts you the second execution completes.
-              </p>
-            </motion.div>
+            {/* Sub-headline with bullet tags */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-sm sm:text-base font-serif italic text-[#d4c8b6] pt-1">
+              <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#dfc28d] not-italic font-bold">
+                exchange listing alpha agent
+              </span>
+              <span className="text-[#c4a978]">·</span>
+              <span className="text-[#f3f2e6]">watches</span>
+              <span className="text-[#c4a978]">·</span>
+              <span className="text-[#f3f2e6]">reasons</span>
+              <span className="text-[#c4a978]">·</span>
+              <span className="text-[#f3f2e6]">acts</span>
+            </div>
 
-            {/* Interactive Simulation Action */}
-            <div className="pt-2">
+            {/* 3-Step Summary Pipeline */}
+            <div className="space-y-3 pt-2">
+              {/* Step 1: Watches */}
+              <div 
+                className={`p-4 rounded-2xl transition-all duration-300 ${
+                  stepActive === 1 
+                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
+                    : 'bg-[#171411]/80 border-[#c4a978]/25'
+                } backdrop-blur-xl border flex items-start gap-3.5`}
+              >
+                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
+                  01 WATCHES
+                </span>
+                <div>
+                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Signal Detection &amp; Ingest</h4>
+                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
+                    Connects directly to raw WebSocket feeds across 8 major exchanges with 14ms latency.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2: Reasons */}
+              <div 
+                className={`p-4 rounded-2xl transition-all duration-300 ${
+                  stepActive === 2 
+                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
+                    : 'bg-[#171411]/80 border-[#c4a978]/25'
+                } backdrop-blur-xl border flex items-start gap-3.5`}
+              >
+                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
+                  02 REASONS
+                </span>
+                <div>
+                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Multi-Factor Alpha Synthesis</h4>
+                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
+                    Computes optimal DEX depth, routes through private Flashbots RPCs with zero MEV risk.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3: Acts */}
+              <div 
+                className={`p-4 rounded-2xl transition-all duration-300 ${
+                  stepActive === 3 
+                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
+                    : 'bg-[#171411]/80 border-[#c4a978]/25'
+                } backdrop-blur-xl border flex items-start gap-3.5`}
+              >
+                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d] text-black font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
+                  03 ACTS
+                </span>
+                <div>
+                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Autonomous Execution &amp; Alert</h4>
+                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
+                    Executes sniper orders the exact millisecond of listing and notifies you immediately.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Interactive Simulation Button */}
+            <div className="pt-1">
               <button
                 onClick={handleReplay}
                 disabled={isSimulating}
-                className="w-full py-4 px-6 rounded-2xl bg-white/10 hover:bg-white/15 border border-[#c4a978]/50 text-[#f7f2ea] font-serif text-sm font-bold flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg group"
+                className="w-full py-3.5 px-6 rounded-2xl bg-white/10 hover:bg-white/15 border border-[#c4a978]/50 text-[#f7f2ea] font-serif text-sm font-bold flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg group"
               >
                 <RefreshCw className={`w-4 h-4 text-[#dfc28d] ${isSimulating ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
                 <span>{isSimulating ? 'Triggering Live Listing Alert...' : 'Simulate Live Listing Alert'}</span>
