@@ -82,7 +82,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
             </h2>
 
             {/* Sub-headline with bullet tags */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-sm sm:text-base font-serif italic text-[#d4c8b6] pt-1">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-base sm:text-lg font-serif italic text-[#d4c8b6] pt-1">
               <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#dfc28d] not-italic font-bold">
                 exchange listing alpha agent
               </span>
@@ -94,68 +94,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               <span className="text-[#f3f2e6]">acts</span>
             </div>
 
-            {/* 3-Step Summary Pipeline */}
-            <div className="space-y-3 pt-2">
-              {/* Step 1: Watches */}
-              <div 
-                className={`p-4 rounded-2xl transition-all duration-300 ${
-                  stepActive === 1 
-                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
-                    : 'bg-[#171411]/80 border-[#c4a978]/25'
-                } backdrop-blur-xl border flex items-start gap-3.5`}
-              >
-                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
-                  01 WATCHES
-                </span>
-                <div>
-                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Signal Detection &amp; Ingest</h4>
-                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
-                    Connects directly to raw WebSocket feeds across 8 major exchanges with 14ms latency.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 2: Reasons */}
-              <div 
-                className={`p-4 rounded-2xl transition-all duration-300 ${
-                  stepActive === 2 
-                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
-                    : 'bg-[#171411]/80 border-[#c4a978]/25'
-                } backdrop-blur-xl border flex items-start gap-3.5`}
-              >
-                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d]/20 border border-[#dfc28d]/40 text-[#dfc28d] font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
-                  02 REASONS
-                </span>
-                <div>
-                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Multi-Factor Alpha Synthesis</h4>
-                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
-                    Computes optimal DEX depth, routes through private Flashbots RPCs with zero MEV risk.
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 3: Acts */}
-              <div 
-                className={`p-4 rounded-2xl transition-all duration-300 ${
-                  stepActive === 3 
-                    ? 'bg-[#221c16]/95 border-[#dfc28d] shadow-[0_0_24px_rgba(223,194,141,0.18)]' 
-                    : 'bg-[#171411]/80 border-[#c4a978]/25'
-                } backdrop-blur-xl border flex items-start gap-3.5`}
-              >
-                <span className="px-2 py-0.5 rounded-full bg-[#dfc28d] text-black font-mono text-[9px] font-bold uppercase tracking-wider shrink-0 mt-0.5">
-                  03 ACTS
-                </span>
-                <div>
-                  <h4 className="font-serif font-bold text-xs sm:text-sm text-white">Autonomous Execution &amp; Alert</h4>
-                  <p className="font-serif italic text-xs text-[#c7baa4] leading-relaxed mt-0.5">
-                    Executes sniper orders the exact millisecond of listing and notifies you immediately.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* Interactive Simulation Button */}
-            <div className="pt-1">
+            <div className="pt-4 max-w-sm">
               <button
                 onClick={handleReplay}
                 disabled={isSimulating}
