@@ -123,8 +123,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       // smoothly scroll up so Msg 6 moves to top and leaves the bottom blank
       timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          const target = Math.min(190, chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight);
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, target, 900);
+          const target = Math.min(180, chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, target, 800);
         }
       }, 3800));
 
@@ -132,42 +132,26 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.push(setTimeout(() => {
         setMessageStage(7); // Msg 7: We hit target
         setChatTime('10:14');
-        if (chatScrollRef.current) {
-          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-          smoothScrollSlowly(chatScrollRef.current, maxScroll, 700);
-        }
-      }, 5100));
+      }, 4900));
 
       timers.push(setTimeout(() => {
         setMessageStage(8); // Msg 8: Take Profit Executed Card
-        if (chatScrollRef.current) {
-          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-          smoothScrollSlowly(chatScrollRef.current, maxScroll, 1000);
-        }
-      }, 6300));
+      }, 6000));
 
       timers.push(setTimeout(() => {
         setMessageStage(9); // Msg 9: Profit locked in
-        if (chatScrollRef.current) {
-          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-          smoothScrollSlowly(chatScrollRef.current, maxScroll, 700);
-        }
-      }, 7800));
+      }, 7400));
 
       timers.push(setTimeout(() => {
         setMessageStage(10); // Msg 10: Perfect let it run
-        if (chatScrollRef.current) {
-          const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-          smoothScrollSlowly(chatScrollRef.current, maxScroll, 600);
-        }
-      }, 8800));
+      }, 8400));
 
       // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 15800));
+      }, 15000));
     }
 
     return () => {
@@ -175,6 +159,24 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.forEach(t => clearTimeout(t));
     };
   }, [screenMode, notificationKey, triggerAppLaunch, smoothScrollSlowly]);
+
+  // Synchronize smooth auto-scrolling on DOM updates as Part 2 messages render
+  useEffect(() => {
+    if (screenMode !== 'chat' || messageStage < 7) return;
+
+    // Small delay ensures newly rendered message is in the DOM before calculating scrollHeight
+    const timer = setTimeout(() => {
+      if (chatScrollRef.current) {
+        const maxScroll = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
+        if (maxScroll > 0) {
+          const duration = messageStage === 8 ? 800 : 500;
+          smoothScrollSlowly(chatScrollRef.current, maxScroll, duration);
+        }
+      }
+    }, 40);
+
+    return () => clearTimeout(timer);
+  }, [messageStage, screenMode, smoothScrollSlowly]);
 
   // Handle user manual scroll to update clock dynamically
   const handleChatScroll = () => {
@@ -619,7 +621,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         ref={chatScrollRef}
                         onScroll={handleChatScroll}
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-                        className="flex-1 px-3 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth pb-3"
+                        className="flex-1 px-3 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden scroll-smooth pb-5"
                       >
                         
                         {/* =========================================================
