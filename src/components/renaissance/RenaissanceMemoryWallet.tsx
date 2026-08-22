@@ -111,35 +111,35 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       setChatTime('9:41');
       setMessageStage(0);
 
-      // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE SLOWLY
-      timers.push(setTimeout(() => setMessageStage(1), 400));  // Msg 1: Bought coin
-      timers.push(setTimeout(() => setMessageStage(2), 1300)); // Msg 2: Entry?
-      timers.push(setTimeout(() => setMessageStage(3), 2200)); // Msg 3: $XX Trade card
-      timers.push(setTimeout(() => setMessageStage(4), 3100)); // Msg 4: Plan?
-      timers.push(setTimeout(() => setMessageStage(5), 4000)); // Msg 5: Momentum 2x
-      timers.push(setTimeout(() => setMessageStage(6), 4900)); // Msg 6: Keep me posted
+      // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE (Slightly Faster Cadence)
+      timers.push(setTimeout(() => setMessageStage(1), 200));  // Msg 1: Bought coin
+      timers.push(setTimeout(() => setMessageStage(2), 700));  // Msg 2: Entry?
+      timers.push(setTimeout(() => setMessageStage(3), 1250)); // Msg 3: $XX Trade card
+      timers.push(setTimeout(() => setMessageStage(4), 1800)); // Msg 4: Plan?
+      timers.push(setTimeout(() => setMessageStage(5), 2350)); // Msg 5: Momentum 2x
+      timers.push(setTimeout(() => setMessageStage(6), 2900)); // Msg 6: Keep me posted
 
-      // Pause to let user read Part 1 (4900ms to 7000ms)
-      // Then slowly scroll down into blank space with Today 10:14 AM
+      // Pause for 1.1s to let user read Part 1 (2900ms to 4000ms)
+      // Then smoothly scroll down to show the BLANK PAGE with Today 10:14 AM
       timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 380, 2400);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 450, 1800);
         }
         setChatTime('10:14');
-      }, 7000));
+      }, 4000));
 
-      // After scrolling into blank space (at ~9800ms), Part 2 messages appear ONE BY ONE SLOWLY
-      timers.push(setTimeout(() => setMessageStage(7), 9800));   // Msg 7: We hit target
-      timers.push(setTimeout(() => setMessageStage(8), 11200));  // Msg 8: Take Profit Executed Card
-      timers.push(setTimeout(() => setMessageStage(9), 12800));  // Msg 9: Profit locked in
-      timers.push(setTimeout(() => setMessageStage(10), 14100)); // Msg 10: Perfect let it run
+      // After scrolling into blank page (at ~6600ms), Part 2 messages appear ONE BY ONE
+      timers.push(setTimeout(() => setMessageStage(7), 6600));   // Msg 7: We hit target
+      timers.push(setTimeout(() => setMessageStage(8), 7800));   // Msg 8: Take Profit Executed Card
+      timers.push(setTimeout(() => setMessageStage(9), 9200));   // Msg 9: Profit locked in
+      timers.push(setTimeout(() => setMessageStage(10), 10300)); // Msg 10: Perfect let it run
 
-      // Pause 6.0s to view full results, then loop back to Lock Screen
+      // Pause 5.5s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 20500));
+      }, 16000));
     }
 
     return () => {
@@ -156,10 +156,10 @@ export const RenaissanceMemoryWallet: React.FC = () => {
     const timer = setTimeout(() => {
       if (chatScrollRef.current) {
         const target = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-        const duration = messageStage === 8 ? 1400 : 1000;
+        const duration = messageStage === 8 ? 1200 : 800;
         smoothScrollSlowly(chatScrollRef.current, target, duration);
       }
-    }, 50);
+    }, 40);
 
     return () => clearTimeout(timer);
   }, [messageStage, screenMode, smoothScrollSlowly]);
@@ -738,8 +738,8 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         {/* =========================================================
                             BLANK CONTINUATION SPACE & TIME DIVIDER
                             ========================================================= */}
-                        <div className="h-[200px] flex items-center justify-center py-4">
-                          <span className="px-3 py-1 rounded-full bg-[#ede7dc] border border-[#dfd6c6] text-[9px] text-[#78716c] font-medium tracking-wide">
+                        <div className="min-h-[260px] flex items-center justify-center py-6">
+                          <span className="px-3 py-1 rounded-full bg-[#ede7dc] border border-[#dfd6c6] text-[9px] text-[#78716c] font-medium tracking-wide shadow-2xs">
                             Today 10:14 AM
                           </span>
                         </div>
