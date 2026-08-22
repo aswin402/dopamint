@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useTransform } from 'framer-motion';
 
 import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
 import crownImg from '../../assets/Crown.png';
+import { ScrollDissolveReveal } from '../ui/scroll-dissolve-reveal';
 import { AgentArchitecturePipeline } from './AgentArchitecturePipeline';
 
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
@@ -15,6 +16,154 @@ const SUGGESTION_BADGES = [
   'Research',
   'Surprise me',
 ];
+
+interface HeroOverlayProps {
+  actionIndex: number;
+  promptValue: string;
+  setPromptValue: (val: string) => void;
+  activeBadge: string | null;
+  handleBadgeClick: (badge: string) => void;
+  handleFormSubmit: (e: React.FormEvent) => void;
+  scrollYProgress: any;
+}
+
+function HeroOverlay({
+  actionIndex,
+  promptValue,
+  setPromptValue,
+  activeBadge,
+  handleBadgeClick,
+  handleFormSubmit,
+  scrollYProgress,
+}: HeroOverlayProps) {
+  const opacity = useTransform(scrollYProgress || 0, [0, 0.35], [1, 0]);
+  const y = useTransform(scrollYProgress || 0, [0, 0.35], [0, -40]);
+
+  return (
+    <motion.div 
+      style={{ opacity, y }}
+      className="absolute inset-0 w-full h-full flex flex-col justify-between items-center pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 md:pb-16 pointer-events-auto"
+    >
+      {/* Ambient Overlay for Cinematic Contrast */}
+      <div className="absolute inset-0 bg-black/15 pointer-events-none -z-10" />
+
+      {/* Subtle Bottom Ambient Vignette to ensure text readability */}
+      <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none -z-10" />
+
+      {/* CENTER INTERACTIVE SECTION: Crown + Get Started + Input Bar + 5 Badges */}
+      <div className="relative z-20 my-auto w-full max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+        
+        {/* Small Regal Crown */}
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-1 sm:mb-1.5"
+        >
+          <img
+            src={crownImg}
+            alt="Renaissance Crown"
+            className="w-10 sm:w-12 md:w-14 h-auto object-contain drop-shadow-[0_2px_14px_rgba(255,255,255,0.7)] filter brightness-0 invert opacity-95 select-none pointer-events-none"
+          />
+        </motion.div>
+
+        {/* Compact "Get Started" Headline */}
+        <motion.h2
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-3.5 sm:mb-4 select-none"
+        >
+          Get Started
+        </motion.h2>
+
+        {/* Sleek Frosted Glass Input Bar */}
+        <motion.form
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          onSubmit={handleFormSubmit}
+          className="w-full max-w-md sm:max-w-lg md:max-w-xl"
+        >
+          <div className="relative group w-full rounded-full backdrop-blur-md bg-white/20 sm:bg-white/25 hover:bg-white/30 focus-within:bg-white/35 border border-white/50 focus-within:border-white/80 shadow-[0_6px_25px_rgba(0,0,0,0.3)] transition-all duration-300 px-4 sm:px-5 py-2 sm:py-2.5 flex items-center gap-2.5">
+            <input
+              type="text"
+              value={promptValue}
+              onChange={(e) => setPromptValue(e.target.value)}
+              placeholder="Ask anything"
+              className="w-full bg-transparent border-none outline-none text-[#1a1a1a] text-xs sm:text-sm font-sans placeholder:text-[#2d2d2d]/80 placeholder:font-sans font-medium caret-[#1a1a1a]"
+            />
+            {promptValue && (
+              <button
+                type="button"
+                onClick={() => setPromptValue('')}
+                className="text-[#2d2d2d]/70 hover:text-black text-xs px-1.5 cursor-pointer transition-colors"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </motion.form>
+
+        {/* 5 Sleek Suggestion Badges */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+          className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 pt-2.5 sm:pt-3 max-w-xl"
+        >
+          {SUGGESTION_BADGES.map((badge) => {
+            const isSelected = activeBadge === badge && promptValue === badge;
+            return (
+              <button
+                key={badge}
+                type="button"
+                onClick={() => handleBadgeClick(badge)}
+                className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[11px] sm:text-xs font-normal tracking-normal transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
+                  isSelected
+                    ? 'bg-white/50 text-[#141820] border border-white/90 scale-105 shadow-sm font-medium'
+                    : 'bg-white/25 hover:bg-white/40 text-[#1a1a1a] hover:text-black border border-white/40 hover:border-white/70 backdrop-blur-md hover:scale-105'
+                }`}
+              >
+                {badge}
+              </button>
+            );
+          })}
+        </motion.div>
+
+      </div>
+
+      {/* BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]") */}
+      <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4 flex flex-col items-center">
+        <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+          <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
+            Your Agents can
+          </span>
+          <div className="inline-flex items-center justify-start min-w-[120px] sm:min-w-[170px] md:min-w-[220px] lg:min-w-[280px] xl:min-w-[340px] text-left">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={ACTION_WORDS[actionIndex]}
+                initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
+              >
+                {ACTION_WORDS[actionIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Subtitle Under Headline */}
+        <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
+          A House of Sovereign Agents, powered by{' '}
+          <span className="font-serif italic font-bold text-white">AiFi</span>
+        </p>
+      </div>
+    </motion.div>
+  );
+}
 
 export const RenaissanceHero: React.FC = () => {
   const [actionIndex, setActionIndex] = useState(0);
@@ -38,7 +187,6 @@ export const RenaissanceHero: React.FC = () => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!promptValue.trim()) return;
-    // Scroll or route to app
     const appEl = document.getElementById('manifesto') || document.getElementById('asks');
     if (appEl) {
       appEl.scrollIntoView({ behavior: 'smooth' });
@@ -46,146 +194,28 @@ export const RenaissanceHero: React.FC = () => {
   };
 
   return (
-    <section id="hero" className="relative w-full flex flex-col justify-start">
+    <section id="hero" className="relative w-full flex flex-col justify-start bg-black">
       
       {/* =========================================================================
-          1. HERO VIDEO BACKGROUND (herosectionbgvid.webm) + CENTER GET STARTED WIDGET
+          HERO WITH SCROLL DISSOLVE REVEAL (Hero Video -> Second Section Reveal)
           ========================================================================= */}
-      <div className="relative w-full min-h-[92vh] xl:min-h-screen bg-black overflow-hidden shadow-2xl flex flex-col justify-between items-center pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 md:pb-16">
-        
-        {/* Fullscreen Ambient Hero Video */}
-        <video
-          src={heroBgVid}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-        />
-
-        {/* Ambient Overlay for Cinematic Contrast */}
-        <div className="absolute inset-0 bg-black/15 pointer-events-none z-10" />
-
-        {/* Subtle Bottom Ambient Vignette to ensure text readability */}
-        <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none z-10" />
-
-        {/* =========================================================================
-            CENTER INTERACTIVE SECTION: Crown + Get Started + Input Bar + 5 Badges
-            ========================================================================= */}
-        <div className="relative z-20 my-auto w-full max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
-          
-          {/* Small Regal Crown */}
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-1 sm:mb-1.5"
-          >
-            <img
-              src={crownImg}
-              alt="Renaissance Crown"
-              className="w-10 sm:w-12 md:w-14 h-auto object-contain drop-shadow-[0_2px_14px_rgba(255,255,255,0.7)] filter brightness-0 invert opacity-95 select-none pointer-events-none"
-            />
-          </motion.div>
-
-          {/* Compact "Get Started" Headline */}
-          <motion.h2
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-3.5 sm:mb-4 select-none"
-          >
-            Get Started
-          </motion.h2>
-
-          {/* Sleek Frosted Glass Input Bar */}
-          <motion.form
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            onSubmit={handleFormSubmit}
-            className="w-full max-w-md sm:max-w-lg md:max-w-xl"
-          >
-            <div className="relative group w-full rounded-full backdrop-blur-md bg-white/20 sm:bg-white/25 hover:bg-white/30 focus-within:bg-white/35 border border-white/50 focus-within:border-white/80 shadow-[0_6px_25px_rgba(0,0,0,0.3)] transition-all duration-300 px-4 sm:px-5 py-2 sm:py-2.5 flex items-center gap-2.5">
-              <input
-                type="text"
-                value={promptValue}
-                onChange={(e) => setPromptValue(e.target.value)}
-                placeholder="Ask anything"
-                className="w-full bg-transparent border-none outline-none text-[#1a1a1a] text-xs sm:text-sm font-sans placeholder:text-[#2d2d2d]/80 placeholder:font-sans font-medium caret-[#1a1a1a]"
-              />
-              {promptValue && (
-                <button
-                  type="button"
-                  onClick={() => setPromptValue('')}
-                  className="text-[#2d2d2d]/70 hover:text-black text-xs px-1.5 cursor-pointer transition-colors"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-          </motion.form>
-
-          {/* 5 Sleek Suggestion Badges */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 pt-2.5 sm:pt-3 max-w-xl"
-          >
-            {SUGGESTION_BADGES.map((badge) => {
-              const isSelected = activeBadge === badge && promptValue === badge;
-              return (
-                <button
-                  key={badge}
-                  type="button"
-                  onClick={() => handleBadgeClick(badge)}
-                  className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[11px] sm:text-xs font-normal tracking-normal transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
-                    isSelected
-                      ? 'bg-white/50 text-[#141820] border border-white/90 scale-105 shadow-sm font-medium'
-                      : 'bg-white/25 hover:bg-white/40 text-[#1a1a1a] hover:text-black border border-white/40 hover:border-white/70 backdrop-blur-md hover:scale-105'
-                  }`}
-                >
-                  {badge}
-                </button>
-              );
-            })}
-          </motion.div>
-
-        </div>
-
-        {/* =========================================================================
-            BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]")
-            ========================================================================= */}
-        <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4 flex flex-col items-center">
-          <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-            <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
-              Your Agents can
-            </span>
-            <div className="inline-flex items-center justify-start min-w-[120px] sm:min-w-[170px] md:min-w-[220px] lg:min-w-[280px] xl:min-w-[340px] text-left">
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={ACTION_WORDS[actionIndex]}
-                  initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
-                >
-                  {ACTION_WORDS[actionIndex]}
-                </motion.span>
-              </AnimatePresence>
-            </div>
-          </div>
-
-          {/* Subtitle Under Headline */}
-          <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
-            A House of Sovereign Agents, powered by{' '}
-            <span className="font-serif italic font-bold text-white">AiFi</span>
-          </p>
-        </div>
-
-      </div>
+      <ScrollDissolveReveal
+        videoFront={heroBgVid}
+        imageBack={handWithMobile}
+        containerClassName="h-[210vh]"
+      >
+        {(scrollYProgress: any) => (
+          <HeroOverlay
+            actionIndex={actionIndex}
+            promptValue={promptValue}
+            setPromptValue={setPromptValue}
+            activeBadge={activeBadge}
+            handleBadgeClick={handleBadgeClick}
+            handleFormSubmit={handleFormSubmit}
+            scrollYProgress={scrollYProgress}
+          />
+        )}
+      </ScrollDissolveReveal>
 
       {/* =========================================================================
           2. SECOND SECTION: House of AI Agents (Compact Bottom & Clean Masked Cut)
