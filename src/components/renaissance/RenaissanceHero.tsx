@@ -36,13 +36,15 @@ function HeroOverlay({
   handleFormSubmit,
   scrollYProgress,
 }: HeroOverlayProps) {
-  const opacity = useTransform(scrollYProgress || 0, [0, 0.35], [1, 0]);
-  const y = useTransform(scrollYProgress || 0, [0, 0.35], [0, -40]);
+  // Fade out hero UI cleanly within the first 12% of animation progress
+  const opacity = useTransform(scrollYProgress || 0, [0, 0.12], [1, 0]);
+  const y = useTransform(scrollYProgress || 0, [0, 0.12], [0, -25]);
+  const pointerEvents = useTransform(scrollYProgress || 0, (p: number) => (p < 0.05 ? 'auto' : 'none'));
 
   return (
     <motion.div 
-      style={{ opacity, y }}
-      className="absolute inset-0 w-full h-full flex flex-col justify-between items-center pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 md:pb-16 pointer-events-auto"
+      style={{ opacity, y, pointerEvents }}
+      className="absolute inset-0 w-full h-full flex flex-col justify-between items-center pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 md:pb-16"
     >
       {/* Ambient Overlay for Cinematic Contrast */}
       <div className="absolute inset-0 bg-black/15 pointer-events-none -z-10" />
@@ -165,6 +167,78 @@ function HeroOverlay({
   );
 }
 
+{/* =========================================================================
+    2. SECOND SECTION COMPONENT: House of AI Agents ("what is dopamint? House of Sovereign Agents")
+    ========================================================================= */}
+function HouseOfAgentsSection() {
+  return (
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-4 overflow-y-auto lg:overflow-hidden select-none">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+        
+        {/* Left Column: Editorial Information & Animated Architecture Pipeline */}
+        <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center z-20">
+          
+          {/* Small Eyebrow */}
+          <div>
+            <span className="font-mono text-xs sm:text-[13px] uppercase tracking-[0.22em] text-[#4a5c4e] font-semibold">
+              what is dopamint?
+            </span>
+          </div>
+
+          {/* Editorial Title */}
+          <div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.04]">
+              <span className="block font-serif font-normal text-[#2d3e32]">
+                House of
+              </span>
+              <span className="block font-serif italic font-bold text-[#1e2e22]">
+                Sovereign Agents
+              </span>
+            </h2>
+            <p className="font-serif italic font-bold text-lg sm:text-xl text-[#7a382e] mt-1">
+              powered by AiFi
+            </p>
+          </div>
+
+          {/* Editorial Body Text */}
+          <div className="space-y-2.5 text-sm sm:text-base text-neutral-800 font-normal leading-relaxed max-w-xl">
+            <p>
+              There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
+            </p>
+            <p className="font-serif italic text-base sm:text-lg text-[#243628]">
+              Now, you just ask <span className="font-bold text-[#17251a]">Dope</span>. It handles the rest.
+            </p>
+            <p className="text-xs sm:text-sm text-neutral-700 pt-0.5">
+              Dopamint is a network of agents running on the <span className="font-semibold text-[#223326]">Agent Harness</span>, with a continuous <span className="font-semibold text-[#223326]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-semibold text-[#223326]">AiFi</span> and <span className="font-semibold text-[#223326]">x402</span> doing the heavy lifting.
+            </p>
+          </div>
+
+          {/* Animated Architecture Pipeline Divs */}
+          <div className="pt-1">
+            <AgentArchitecturePipeline />
+          </div>
+
+        </div>
+
+        {/* Right Column: Large Mobile Device Shifted Right */}
+        <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end z-10">
+          <div className="relative w-full sm:w-[110%] lg:w-[125%] xl:w-[135%] lg:-mr-[3vw] xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-12 flex items-center justify-end">
+            <img
+              src={handWithMobile}
+              alt="House of AI Agents - Hand with Mobile"
+              className="w-full max-h-[75vh] object-contain object-right transition-transform duration-500 hover:scale-[1.01] block"
+            />
+          </div>
+        </div>
+
+      </div>
+
+      {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners */}
+      <div className="absolute inset-x-0 bottom-0 h-6 sm:h-8 lg:h-10 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
+    </div>
+  );
+}
+
 export const RenaissanceHero: React.FC = () => {
   const [actionIndex, setActionIndex] = useState(0);
   const [promptValue, setPromptValue] = useState('');
@@ -194,15 +268,17 @@ export const RenaissanceHero: React.FC = () => {
   };
 
   return (
-    <section id="hero" className="relative w-full flex flex-col justify-start bg-black">
+    <section id="hero" className="relative w-full flex flex-col justify-start bg-[#f3f2e6]">
       
       {/* =========================================================================
-          HERO WITH SCROLL DISSOLVE REVEAL (Hero Video -> Second Section Reveal)
+          FIXED HERO SCROLL DISSOLVE REVEAL (Hero Video -> Reveals Second Section Inside)
+          - Scrolling down at top plays the dissolve animation in place.
+          - Once fully revealed, normal scrolling takes over seamlessly.
+          - Scrolling back UP to the top cleanly reverses the animation.
           ========================================================================= */}
       <ScrollDissolveReveal
         videoFront={heroBgVid}
-        imageBack={handWithMobile}
-        containerClassName="h-[210vh]"
+        backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress: any) => (
           <HeroOverlay
@@ -216,77 +292,6 @@ export const RenaissanceHero: React.FC = () => {
           />
         )}
       </ScrollDissolveReveal>
-
-      {/* =========================================================================
-          2. SECOND SECTION: House of AI Agents (Compact Bottom & Clean Masked Cut)
-          ========================================================================= */}
-      <div id="manifesto" className="w-full relative pt-12 sm:pt-16 lg:pt-20 pb-0 overflow-hidden bg-[#f3f2e6]">
-        <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-start">
-          
-          {/* Left Column: Editorial Information & Animated Architecture Pipeline */}
-          <div className="lg:col-span-6 space-y-6 sm:space-y-7 text-left self-start pt-6 sm:pt-8 lg:pt-12 pb-10 sm:pb-12 lg:pb-16 z-20">
-            
-            {/* Small Eyebrow */}
-            <div>
-              <span className="font-mono text-xs sm:text-[13px] uppercase tracking-[0.22em] text-[#4a5c4e] font-semibold">
-                what is dopamint?
-              </span>
-            </div>
-
-            {/* Editorial Title */}
-            <div>
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.04]">
-                <span className="block font-serif font-normal text-[#2d3e32]">
-                  House of
-                </span>
-                <span className="block font-serif italic font-bold text-[#1e2e22]">
-                  Sovereign Agents
-                </span>
-              </h2>
-              <p className="font-serif italic font-bold text-xl sm:text-2xl text-[#7a382e] mt-2">
-                powered by AiFi
-              </p>
-            </div>
-
-            {/* Editorial Body Text */}
-            <div className="space-y-4 text-base sm:text-lg text-neutral-800 font-normal leading-relaxed max-w-xl">
-              <p>
-                There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
-              </p>
-              <p className="font-serif italic text-lg sm:text-xl text-[#243628]">
-                Now, you just ask <span className="font-bold text-[#17251a]">Dope</span>.
-              </p>
-              <p className="font-serif italic text-lg sm:text-xl text-[#243628]">
-                It handles the rest.
-              </p>
-              <p className="text-sm sm:text-base text-neutral-700 pt-1">
-                Dopamint is a network of agents running on the <span className="font-semibold text-[#223326]">Agent Harness</span>, with a continuous <span className="font-semibold text-[#223326]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-semibold text-[#223326]">AiFi</span> and <span className="font-semibold text-[#223326]">x402</span> doing the heavy lifting.
-              </p>
-            </div>
-
-            {/* Animated Architecture Pipeline Divs */}
-            <div className="pt-2">
-              <AgentArchitecturePipeline />
-            </div>
-
-          </div>
-
-          {/* Right Column: Large Mobile Device Shifted Right */}
-          <div className="lg:col-span-6 relative flex items-start justify-center lg:justify-end z-10">
-            <div className="relative w-full sm:w-[115%] lg:w-[130%] xl:w-[145%] lg:-mr-[4vw] xl:-mr-[8vw] translate-x-6 sm:translate-x-12 lg:translate-x-16 xl:translate-x-22 flex items-start justify-end pb-0">
-              <img
-                src={handWithMobile}
-                alt="House of AI Agents - Hand with Mobile"
-                className="w-full h-auto object-contain object-top-right transition-transform duration-500 hover:scale-[1.01] block"
-              />
-            </div>
-          </div>
-
-        </div>
-
-        {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners */}
-        <div className="absolute inset-x-0 bottom-0 h-8 sm:h-10 lg:h-12 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
-      </div>
 
     </section>
   );

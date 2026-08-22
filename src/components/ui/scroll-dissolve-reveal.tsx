@@ -1,8 +1,8 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useTexture, useVideoTexture, OrthographicCamera } from "@react-three/drei";
 import * as THREE from "three";
-import { useScroll, MotionValue } from "framer-motion";
+import { MotionValue, motionValue } from "framer-motion";
 import { cn } from "../../lib/utils";
 
 const coverVertexShader = `
@@ -89,6 +89,12 @@ const coverFragmentShader = `
   }
 
   void main() {
+    // When dissolve is complete, fully clear the fragment
+    if (uDissolve >= 0.95) {
+      gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
+      return;
+    }
+
     vec2 ratio = vec2(
       min((uResolution.x / uResolution.y) / (uImageResolution.x / uImageResolution.y), 1.0),
       min((uResolution.y / uResolution.x) / (uImageResolution.y / uImageResolution.x), 1.0)
@@ -124,7 +130,8 @@ const coverFragmentShader = `
     float maxDist = length(vec2(aspect * 0.5, 0.5));
     float normalizedDist = noisyDist / maxDist;
     
-    float dissolveThreshold = uDissolve * 1.5; 
+    // Multiplier of 4.0 guarantees all 4 screen corners are cleared 100% on any screen aspect ratio
+    float dissolveThreshold = uDissolve * 4.0; 
     
     vec2 texelSize = 1.0 / uResolution;
     float edge = sobel(uTexture, uv, texelSize);
@@ -134,12 +141,12 @@ const coverFragmentShader = `
     
     float dissolveMask = smoothstep(dissolveThreshold - 0.03, dissolveThreshold, normalizedDist);
     
-    vec3 edgeColor = vec3(1.0, 1.0, 1.0);
+    vec3 edgeColor = vec3(1.0, 0.88, 0.7);
     
     vec3 baseColor = mix(texColor.rgb, vec3(0.0), uGrayscale);
     vec3 finalColor = baseColor;
     
-    float edgeGlowIntensity = uEdgeIntensity * 2.0;
+    float edgeGlowIntensity = uEdgeIntensity * 2.5;
     float edgeGlow = edge * edgeGlowIntensity * (1.0 + uGrayscale * 3.0);
     finalColor += edgeColor * edgeGlow * uEdgeBrightness;
     
@@ -157,97 +164,21 @@ const coverFragmentShader = `
   }
 `;
 
-const coverFragmentShaderReverse = `
-  uniform sampler2D uTexture;
-  uniform vec2 uResolution;
-  uniform vec2 uImageResolution;
-  uniform float uDissolve;
-  uniform vec2 uCenter;
-  uniform float uTime;
-  uniform float uBrightness;
-  uniform float uEdgeIntensity;
-  uniform float uDarkness;
-  uniform float uGrayscale;
-  varying vec2 vUv;
-
-  mat3 sobelX = mat3(
-    -1.0, 0.0, 1.0,
-    -2.0, 0.0, 2.0,
-    -1.0, 0.0, 1.0
-  );
-
-  mat3 sobelY = mat3(
-    -1.0, -2.0, -1.0,
-     0.0,  0.0,  0.0,
-     1.0,  2.0,  1.0
-  );
-
-  float getLuminance(vec3 color) {
-    return dot(color, vec3(0.299, 0.587, 0.114));
-  }
-
-  float sobel(sampler2D tex, vec2 uv, vec2 texelSize) {
-    float gx = 0.0;
-    float gy = 0.0;
-
-    for (int i = -1; i <= 1; i++) {
-      for (int j = -1; j <= 1; j++) {
-        vec2 offset = vec2(float(i), float(j)) * texelSize;
-        float lum = getLuminance(texture2D(tex, uv + offset).rgb);
-        gx += lum * sobelX[i + 1][j + 1];
-        gy += lum * sobelY[i + 1][j + 1];
-      }
-    }
-
-    return sqrt(gx * gx + gy * gy);
-  }
-
-  void main() {
-    vec2 ratio = vec2(
-      min((uResolution.x / uResolution.y) / (uImageResolution.x / uImageResolution.y), 1.0),
-      min((uResolution.y / uResolution.x) / (uImageResolution.y / uImageResolution.x), 1.0)
-    );
-
-    vec2 uv = vec2(
-      vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
-      vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
-    );
-
-    vec4 texColor = texture2D(uTexture, uv);
-    
-    float gray = getLuminance(texColor.rgb);
-    vec3 grayscaleColor = vec3(gray);
-    texColor.rgb = mix(texColor.rgb, grayscaleColor, uGrayscale);
-    
-    vec2 texelSize = 1.0 / uResolution;
-    float edge = sobel(uTexture, uv, texelSize);
-    
-    edge = pow(edge, 0.7) * 2.0;
-    edge = clamp(edge, 0.0, 1.0);
-    
-    vec3 edgeColor = vec3(1.0, 1.0, 1.0);
-    
-    vec3 darkBase = vec3(0.0);
-    vec3 baseColor = mix(texColor.rgb, darkBase, uDarkness);
-    
-    float edgeGlow = edge * uEdgeIntensity * 2.0;
-    baseColor += edgeColor * edgeGlow;
-    
-    vec3 finalColor = clamp(baseColor, 0.0, 1.0);
-
-    gl_FragColor = vec4(finalColor, texColor.a);
-  }
-`;
-
-interface SceneRendererProps {
-  texture1: THREE.Texture;
-  texture2: THREE.Texture;
-  scrollYProgress: MotionValue<number>;
-}
-
-function SceneRenderer({ texture1, texture2, scrollYProgress }: SceneRendererProps) {
+function VideoShaderScene({
+  videoFront,
+  progress,
+}: {
+  videoFront: string;
+  progress: number;
+}) {
+  const texture1 = useVideoTexture(videoFront, {
+    start: true,
+    loop: true,
+    muted: true,
+    playsInline: true,
+    crossOrigin: "anonymous",
+  });
   const material1Ref = useRef<THREE.ShaderMaterial>(null);
-  const material2Ref = useRef<THREE.ShaderMaterial>(null);
   const { size } = useThree();
 
   const uniforms1 = useMemo(
@@ -267,174 +198,285 @@ function SceneRenderer({ texture1, texture2, scrollYProgress }: SceneRendererPro
     [texture1, size]
   );
 
-  const uniforms2 = useMemo(
-    () => ({
-      uTexture: { value: texture2 },
-      uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uImageResolution: {
-        value: new THREE.Vector2(1920, 1080),
-      },
-      uDissolve: { value: 0.0 },
-      uCenter: { value: new THREE.Vector2(0.5, 0.5) },
-      uTime: { value: 0.0 },
-      uBrightness: { value: 0.0 },
-      uEdgeIntensity: { value: 0.6 },
-      uDarkness: { value: 1.0 },
-      uGrayscale: { value: 1.0 },
-    }),
-    [texture2, size]
-  );
-
   useFrame((state) => {
     const timeInSeconds = state.clock.getElapsedTime();
-    const progress = scrollYProgress.get();
 
     if (material1Ref.current) {
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
-      material1Ref.current.uniforms.uDissolve.value = progress;
-      const grayscaleProgress = Math.min(1.0, progress / 0.4);
+      
+      // Directly map progress (0.0 to 0.70) to uDissolve (0.0 to 1.0) with no laggy lerp
+      // This guarantees the GPU shader reaches 100% transparency by progress = 0.70
+      const dissolveProgress = Math.min(1.0, progress / 0.70);
+      material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
+      
+      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.25);
       material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
-      material1Ref.current.uniforms.uEdgeIntensity.value = progress * 0.5;
-      material1Ref.current.uniforms.uEdgeBrightness.value = 1.0 - progress;
-    }
-
-    if (material2Ref.current) {
-      material2Ref.current.uniforms.uTime.value = timeInSeconds;
-      material2Ref.current.uniforms.uResolution.value.set(size.width, size.height);
-      const acceleratedProgress = Math.min(1.0, progress * 1.1);
-      material2Ref.current.uniforms.uEdgeIntensity.value = 0.6 * (1.0 - acceleratedProgress);
-      material2Ref.current.uniforms.uDarkness.value = 1.0 - acceleratedProgress;
-      material2Ref.current.uniforms.uGrayscale.value = 1.0 - acceleratedProgress;
+      material1Ref.current.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
+      material1Ref.current.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
     }
   });
 
   return (
-    <>
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[2, 2]} />
-        <shaderMaterial
-          ref={material2Ref}
-          vertexShader={coverVertexShader}
-          fragmentShader={coverFragmentShaderReverse}
-          uniforms={uniforms2}
-          transparent={true}
-        />
-      </mesh>
-      <mesh position={[0, 0, 0]}>
-        <planeGeometry args={[2, 2]} />
-        <shaderMaterial
-          ref={material1Ref}
-          vertexShader={coverVertexShader}
-          fragmentShader={coverFragmentShader}
-          uniforms={uniforms1}
-          transparent={true}
-        />
-      </mesh>
-    </>
+    <mesh position={[0, 0, 0]}>
+      <planeGeometry args={[2, 2]} />
+      <shaderMaterial
+        ref={material1Ref}
+        vertexShader={coverVertexShader}
+        fragmentShader={coverFragmentShader}
+        uniforms={uniforms1}
+        transparent={true}
+      />
+    </mesh>
   );
-}
-
-function VideoShaderScene({
-  videoFront,
-  imageBack,
-  scrollYProgress,
-}: {
-  videoFront: string;
-  imageBack: string;
-  scrollYProgress: MotionValue<number>;
-}) {
-  const texture1 = useVideoTexture(videoFront, {
-    start: true,
-    loop: true,
-    muted: true,
-    playsInline: true,
-    crossOrigin: "anonymous",
-  });
-  const texture2 = useTexture(imageBack);
-
-  return <SceneRenderer texture1={texture1} texture2={texture2} scrollYProgress={scrollYProgress} />;
 }
 
 function ImageShaderScene({
   imageFront,
-  imageBack,
-  scrollYProgress,
+  progress,
 }: {
   imageFront: string;
-  imageBack: string;
-  scrollYProgress: MotionValue<number>;
+  progress: number;
 }) {
-  const [texture1, texture2] = useTexture([imageFront, imageBack]);
+  const texture1 = useTexture(imageFront);
+  const material1Ref = useRef<THREE.ShaderMaterial>(null);
+  const { size } = useThree();
 
-  return <SceneRenderer texture1={texture1} texture2={texture2} scrollYProgress={scrollYProgress} />;
+  const uniforms1 = useMemo(
+    () => ({
+      uTexture: { value: texture1 },
+      uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uImageResolution: {
+        value: new THREE.Vector2(
+          (texture1?.image as HTMLImageElement)?.naturalWidth || (texture1?.image as HTMLImageElement)?.width || 1920,
+          (texture1?.image as HTMLImageElement)?.naturalHeight || (texture1?.image as HTMLImageElement)?.height || 1080
+        ),
+      },
+      uDissolve: { value: 0.0 },
+      uCenter: { value: new THREE.Vector2(0.5, 0.5) },
+      uTime: { value: 0.0 },
+      uGrayscale: { value: 0.0 },
+      uEdgeIntensity: { value: 0.0 },
+      uEdgeBrightness: { value: 1.0 },
+    }),
+    [texture1, size]
+  );
+
+  useFrame((state) => {
+    const timeInSeconds = state.clock.getElapsedTime();
+
+    if (material1Ref.current) {
+      material1Ref.current.uniforms.uTime.value = timeInSeconds;
+      material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
+      
+      const dissolveProgress = Math.min(1.0, progress / 0.70);
+      material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
+      const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.25);
+      material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
+      material1Ref.current.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
+      material1Ref.current.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
+    }
+  });
+
+  return (
+    <mesh position={[0, 0, 0]}>
+      <planeGeometry args={[2, 2]} />
+      <shaderMaterial
+        ref={material1Ref}
+        vertexShader={coverVertexShader}
+        fragmentShader={coverFragmentShader}
+        uniforms={uniforms1}
+        transparent={true}
+      />
+    </mesh>
+  );
 }
 
 export interface ScrollDissolveRevealProps {
   imageFront?: string;
   videoFront?: string;
-  imageBack: string;
   className?: string;
   containerClassName?: string;
+  backgroundContent?: React.ReactNode;
   children?: React.ReactNode | ((scrollYProgress: MotionValue<number>) => React.ReactNode);
-  scrollContainerRef?: React.RefObject<HTMLElement | null>;
 }
 
 export function ScrollDissolveReveal({
   imageFront,
   videoFront,
-  imageBack,
   className,
   containerClassName,
+  backgroundContent,
   children,
-  scrollContainerRef,
 }: ScrollDissolveRevealProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-    ...(scrollContainerRef && { container: scrollContainerRef })
-  });
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef(0);
+  const scrollYProgress = useMemo(() => motionValue(0), []);
+
+  const updateProgress = useCallback((val: number) => {
+    const clamped = Math.max(0.0, Math.min(1.0, val));
+    progressRef.current = clamped;
+    setProgress(clamped);
+    scrollYProgress.set(clamped);
+  }, [scrollYProgress]);
+
+  // Strict scroll-locking on body and html while progress < 1.0
+  // When progress < 1.0, viewport is 100% locked and window.scrollY is clamped at 0.
+  useEffect(() => {
+    if (progress < 1.0) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [progress]);
+
+  // Handle Wheel, Touch, and Keyboard navigation
+  useEffect(() => {
+    const onWheel = (e: WheelEvent) => {
+      // 1. While animation is in progress (< 1.0), lock all scrolling and advance/reverse animation
+      if (progressRef.current < 1.0) {
+        e.preventDefault();
+        e.stopPropagation();
+        const delta = Math.min(Math.abs(e.deltaY) * 0.0007, 0.05);
+        if (e.deltaY > 0) {
+          updateProgress(progressRef.current + delta);
+        } else if (e.deltaY < 0) {
+          updateProgress(progressRef.current - delta);
+        }
+        return;
+      }
+
+      // 2. When animation is 100% complete and user scrolls up at the very top of the page, reverse animation
+      if (window.scrollY <= 5 && e.deltaY < 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        const delta = Math.min(Math.abs(e.deltaY) * 0.0007, 0.05);
+        updateProgress(progressRef.current - delta);
+        return;
+      }
+    };
+
+    let touchStartY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const deltaY = touchStartY - currentY;
+      touchStartY = currentY;
+
+      if (progressRef.current < 1.0) {
+        e.preventDefault();
+        const delta = Math.min(Math.abs(deltaY) * 0.0025, 0.05);
+        if (deltaY > 0) {
+          updateProgress(progressRef.current + delta);
+        } else if (deltaY < 0) {
+          updateProgress(progressRef.current - delta);
+        }
+        return;
+      }
+
+      if (window.scrollY <= 5 && deltaY < 0) {
+        e.preventDefault();
+        const delta = Math.min(Math.abs(deltaY) * 0.0025, 0.05);
+        updateProgress(progressRef.current - delta);
+        return;
+      }
+    };
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (progressRef.current < 1.0) {
+        if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+          e.preventDefault();
+          updateProgress(progressRef.current + 0.06);
+        } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+          e.preventDefault();
+          updateProgress(progressRef.current - 0.06);
+        }
+      }
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("keydown", onKeyDown, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [updateProgress]);
 
   const isVideo = Boolean(videoFront || (imageFront && (imageFront.endsWith('.webm') || imageFront.endsWith('.mp4'))));
   const activeVideo = videoFront || (isVideo ? imageFront! : '');
 
+  // When progress < 1.0, keep the hero section fixed at top: 0 to guarantee it cannot physically move
+  const isLocked = progress < 1.0;
+
   return (
     <div
-      ref={containerRef}
-      className={cn("relative h-[220vh] w-full", containerClassName)}
+      className={cn(
+        "w-full h-screen overflow-hidden bg-[#f3f2e6]",
+        isLocked ? "fixed inset-0 z-30" : "relative",
+        containerClassName
+      )}
     >
-      <div className={cn("sticky top-0 h-screen w-full overflow-hidden", className)}>
-        <Canvas gl={{ antialias: true, alpha: true }}>
-          <OrthographicCamera
-            makeDefault
-            manual
-            left={-1}
-            right={1}
-            top={1}
-            bottom={-1}
-            near={0.1}
-            far={10}
-            position={[0, 0, 1]}
-          />
-          <React.Suspense fallback={null}>
-            {isVideo ? (
-              <VideoShaderScene
-                videoFront={activeVideo}
-                imageBack={imageBack}
-                scrollYProgress={scrollYProgress}
+      {/* Fullscreen Viewport */}
+      <div className={cn("relative w-full h-full overflow-hidden bg-[#f3f2e6]", className)}>
+        
+        {/* Layer 1: Inner Section (House of Sovereign Agents) */}
+        {backgroundContent && (
+          <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden">
+            {backgroundContent}
+          </div>
+        )}
+
+        {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
+        {progress < 0.999 && (
+          <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
+            <Canvas gl={{ antialias: true, alpha: true }}>
+              <OrthographicCamera
+                makeDefault
+                manual
+                left={-1}
+                right={1}
+                top={1}
+                bottom={-1}
+                near={0.1}
+                far={10}
+                position={[0, 0, 1]}
               />
-            ) : (
-              <ImageShaderScene
-                imageFront={imageFront!}
-                imageBack={imageBack}
-                scrollYProgress={scrollYProgress}
-              />
-            )}
-          </React.Suspense>
-        </Canvas>
+              <React.Suspense fallback={null}>
+                {isVideo ? (
+                  <VideoShaderScene
+                    videoFront={activeVideo}
+                    progress={progress}
+                  />
+                ) : imageFront ? (
+                  <ImageShaderScene
+                    imageFront={imageFront}
+                    progress={progress}
+                  />
+                ) : null}
+              </React.Suspense>
+            </Canvas>
+          </div>
+        )}
+
+        {/* Layer 3: Interactive Hero Overlay */}
         {children && (
-          <div className="absolute inset-0 z-20 pointer-events-auto">
+          <div className="absolute inset-0 z-20 pointer-events-none">
             {typeof children === 'function' ? (children as any)(scrollYProgress) : children}
           </div>
         )}
