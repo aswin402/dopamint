@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, 
   ShieldCheck, 
@@ -13,11 +13,8 @@ import {
   Radio,
   Wifi, 
   Battery,
-  SlidersHorizontal,
-  ArrowUpRight,
-  Eye,
-  Activity,
-  Layers
+  Flashlight,
+  Camera
 } from 'lucide-react';
 import crownImg from '../../assets/Crown.png';
 
@@ -45,8 +42,7 @@ const WALLET_RAILS = [
 export const RenaissanceMemoryWallet: React.FC = () => {
   const [isSimulating, setIsSimulating] = useState(false);
   const [stepActive, setStepActive] = useState<1 | 2 | 3>(3);
-  const [simulatedProfit, setSimulatedProfit] = useState<string>('+32.4%');
-  const [islandExpanded, setIslandExpanded] = useState(false);
+  const [notificationKey, setNotificationKey] = useState(0);
 
   const handleReplay = () => {
     setIsSimulating(true);
@@ -54,7 +50,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
     setTimeout(() => setStepActive(2), 700);
     setTimeout(() => {
       setStepActive(3);
-      setSimulatedProfit(`+${(28 + Math.random() * 8).toFixed(1)}%`);
+      setNotificationKey(prev => prev + 1);
       setIsSimulating(false);
     }, 1800);
   };
@@ -97,9 +93,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
         </div>
 
         {/* =========================================================================
-            2. MAIN SHOWCASE: 3-STEP INTELLIGENCE + THE SILVER IPHONE
+            2. MAIN SHOWCASE: 3-STEP ALPHA BREAKDOWN + THE EXACT SILVER IPHONE
             ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center mb-20">
           
           {/* LEFT COLUMN: 3-STEP ALPHA PIPELINE BREAKDOWN */}
           <div className="lg:col-span-6 space-y-5">
@@ -178,11 +174,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   </h3>
                 </div>
                 <span className="text-xs font-mono text-[#4ade80] font-bold">
-                  {simulatedProfit} Net
+                  Instant Fill 🚀
                 </span>
               </div>
               <p className="font-serif italic text-xs sm:text-sm text-[#c7baa4] leading-relaxed">
-                Executes pre-listing sniper orders, monitors momentum in milliseconds, captures maximum profit, and settles directly to your self-custody wallet on Base.
+                Executes pre-listing sniper orders, monitors momentum in milliseconds, captures maximum profit, and alerts you the second execution completes.
               </p>
             </motion.div>
 
@@ -194,212 +190,283 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 className="w-full py-4 px-6 rounded-2xl bg-white/10 hover:bg-white/15 border border-[#c4a978]/50 text-[#f7f2ea] font-serif text-sm font-bold flex items-center justify-center gap-3 transition-all cursor-pointer shadow-lg group"
               >
                 <RefreshCw className={`w-4 h-4 text-[#dfc28d] ${isSimulating ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
-                <span>{isSimulating ? 'Simulating Alpha Hunt Pipeline...' : 'Replay Alpha Hunt Flow'}</span>
+                <span>{isSimulating ? 'Triggering Live Listing Alert...' : 'Simulate Live Listing Alert'}</span>
               </button>
             </div>
 
           </div>
 
-          {/* RIGHT COLUMN: THE SILVER IPHONE */}
-          <div className="lg:col-span-6 flex items-center justify-center relative">
+          {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (FROM CODEPEN SPECS) */}
+          <div className="lg:col-span-6 flex items-center justify-center relative select-none">
             
             {/* Ambient Background Aura */}
-            <div className="absolute inset-0 max-w-[360px] h-[640px] mx-auto bg-gradient-to-b from-[#e2e8f0]/15 via-[#94a3b8]/10 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
+            <div className="absolute inset-0 max-w-[360px] h-[660px] mx-auto bg-gradient-to-b from-[#8b5cf6]/20 via-[#6366f1]/15 to-transparent blur-3xl rounded-[4rem] pointer-events-none" />
 
             {/* 
-              PHONE CHASSIS (SILVER THEME)
-              Aspect ratio 37/76, with metallic silver bevels and CNC-cut side buttons
+              THE PHONE (Matches CodePen .phone with silver theme hsl(254, 30%, 85%) outer frame,
+              antenna bands, and CNC side buttons)
             */}
-            <div className="relative z-10 w-[310px] sm:w-[350px] md:w-[370px] h-[620px] sm:h-[690px] md:h-[720px] bg-black rounded-[52px] sm:rounded-[56px] p-[10px] sm:p-[12px] shadow-[0_0_0_1px_rgba(255,255,255,0.4),0_0_0_4px_#cbd5e1,0_0_0_5.5px_#64748b,0_30px_70px_-15px_rgba(0,0,0,0.95)] flex flex-col justify-between overflow-hidden select-none">
-              
-              {/* --- HARDWARE BUTTONS (LEFT & RIGHT SILVER EDGES) --- */}
-              {/* Left: Action Button + Volume Up + Volume Down */}
-              <div className="absolute -left-[5px] top-[110px] w-[5px] h-[26px] bg-gradient-to-r from-[#94a3b8] to-[#e2e8f0] rounded-l-[3px] shadow-[inset_1px_0_1px_rgba(255,255,255,0.7)]" />
-              <div className="absolute -left-[5px] top-[150px] w-[5px] h-[48px] bg-gradient-to-r from-[#94a3b8] to-[#e2e8f0] rounded-l-[3px] shadow-[inset_1px_0_1px_rgba(255,255,255,0.7)]" />
-              <div className="absolute -left-[5px] top-[210px] w-[5px] h-[48px] bg-gradient-to-r from-[#94a3b8] to-[#e2e8f0] rounded-l-[3px] shadow-[inset_1px_0_1px_rgba(255,255,255,0.7)]" />
-              
-              {/* Right: Power / Siri Button */}
-              <div className="absolute -right-[5px] top-[160px] w-[5px] h-[75px] bg-gradient-to-l from-[#94a3b8] to-[#e2e8f0] rounded-r-[3px] shadow-[inset_-1px_0_1px_rgba(255,255,255,0.7)]" />
+            <div 
+              style={{
+                aspectRatio: '37 / 76',
+                height: '640px',
+                maxHeight: '88vh',
+                borderRadius: '56px',
+                boxShadow: '0 0 0.1em 0.25em hsl(254, 20%, 25%), 0 0 0 4.5px hsl(254, 30%, 85%), 0 30px 70px -15px rgba(0, 0, 0, 0.95)',
+              }}
+              className="relative z-10 bg-black box-border"
+            >
+              {/* Antenna bands (top & bottom border cuts) */}
+              <div 
+                style={{
+                  position: 'absolute',
+                  top: '56px',
+                  right: '-4.5px',
+                  bottom: '56px',
+                  left: '-4.5px',
+                  border: '4.5px solid hsl(254, 20%, 30%)',
+                  borderLeftWidth: 0,
+                  borderRightWidth: 0,
+                  pointerEvents: 'none',
+                }}
+              />
 
-              {/* --- SCREEN CONTAINER --- */}
-              <div className="relative w-full h-full bg-[#08090d] rounded-[44px] sm:rounded-[48px] overflow-hidden flex flex-col justify-between border border-white/10 shadow-inner">
-                
-                {/* SILVER THEME GLOWING WALLPAPER (Top and bottom smooth radial scrims) */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                  {/* Top Silver Glow */}
-                  <div className="absolute -top-12 -left-12 -right-12 h-[340px] bg-[radial-gradient(circle_at_50%_0%,_rgba(226,232,240,0.32)_0%,_rgba(148,163,184,0.16)_40%,_transparent_75%)]" />
-                  
-                  {/* Middle atmospheric mesh */}
-                  <div className="absolute top-1/3 -left-20 -right-20 h-[300px] bg-[radial-gradient(ellipse_at_center,_rgba(203,213,225,0.1)_0%,_transparent_70%)]" />
-
-                  {/* Bottom Silver/Moonlight Glow */}
-                  <div className="absolute -bottom-16 -left-12 -right-12 h-[300px] bg-[radial-gradient(circle_at_50%_100%,_rgba(241,245,249,0.25)_0%,_rgba(148,163,184,0.1)_45%,_transparent_80%)]" />
+              {/* Hardware Buttons */}
+              <div className="absolute -inset-[4.5px] pointer-events-none">
+                {/* Left side: Action Button + Volume Up + Volume Down */}
+                <div className="absolute right-full top-[105px] w-[3.5px] flex flex-col gap-[14px]">
+                  {/* Action button */}
+                  <div 
+                    style={{
+                      height: '26px',
+                      background: 'hsl(254, 20%, 95%)',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      borderTopLeftRadius: '3px',
+                      borderBottomLeftRadius: '3px',
+                      marginBottom: '6px'
+                    }}
+                  />
+                  {/* Vol Up */}
+                  <div 
+                    style={{
+                      height: '52px',
+                      background: 'hsl(254, 20%, 95%)',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      borderTopLeftRadius: '3px',
+                      borderBottomLeftRadius: '3px'
+                    }}
+                  />
+                  {/* Vol Down */}
+                  <div 
+                    style={{
+                      height: '52px',
+                      background: 'hsl(254, 20%, 95%)',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      borderTopLeftRadius: '3px',
+                      borderBottomLeftRadius: '3px'
+                    }}
+                  />
                 </div>
 
-                {/* --- STATUS BAR & DYNAMIC ISLAND --- */}
-                <div className="relative z-30 pt-3 px-6 flex items-center justify-between text-white text-[11px] font-semibold tracking-tight">
-                  {/* Left: Clock */}
-                  <span className="w-12 text-left pl-1 font-mono">9:41</span>
-
-                  {/* Center: Dynamic Island */}
-                  <motion.div
-                    onClick={() => setIslandExpanded(!islandExpanded)}
-                    animate={{
-                      width: islandExpanded ? '92%' : '110px',
-                      height: islandExpanded ? '64px' : '28px',
-                      borderRadius: islandExpanded ? '20px' : '14px',
+                {/* Right side: Power Button */}
+                <div className="absolute left-full top-[165px] w-[3.5px] scale-x-[-1]">
+                  <div 
+                    style={{
+                      height: '78px',
+                      background: 'hsl(254, 20%, 95%)',
+                      boxShadow: 'inset -2px 0 1px black, inset 0 0 1px hsl(254, 30%, 90%), inset 0 2px 1px hsl(254, 30%, 90%), inset 0 -2px 1px hsl(254, 30%, 90%), inset -1px 3px 1px rgba(0,0,0,0.5), inset -1px -3px 1px rgba(0,0,0,0.5)',
+                      borderTopLeftRadius: '3px',
+                      borderBottomLeftRadius: '3px'
                     }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-                    className="bg-black border border-white/15 px-3 py-1 cursor-pointer flex items-center justify-between overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.8)] z-40"
-                  >
-                    {!islandExpanded ? (
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-[#38bdf8] animate-pulse" />
-                          <span className="text-[10px] font-mono text-white/90 uppercase font-bold tracking-wider">
-                            ALPHA
-                          </span>
-                        </div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#1e293b] border border-white/20 flex items-center justify-center">
-                          <div className="w-1 h-1 rounded-full bg-[#0284c7]" />
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-full flex items-center justify-between gap-2 px-1">
-                        <div className="flex items-center gap-2">
-                          <div className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-                            <Radio className="w-3.5 h-3.5 text-[#38bdf8] animate-pulse" />
-                          </div>
-                          <div>
-                            <div className="text-[11px] font-bold text-white leading-tight">Upbit $SOLV Alpha</div>
-                            <div className="text-[9px] text-[#94a3b8] font-mono">Sniper armed · Sub-second fill</div>
-                          </div>
-                        </div>
-                        <span className="text-[10px] font-mono font-bold text-[#4ade80] bg-[#14532d]/60 px-2 py-0.5 rounded-md border border-[#22c55e]/40">
-                          LIVE
-                        </span>
-                      </div>
-                    )}
-                  </motion.div>
+                  />
+                </div>
+              </div>
 
-                  {/* Right: Signal, Wifi, Battery */}
-                  <div className="w-12 flex items-center justify-end gap-1.5 text-white/90 pr-1">
-                    <span className="text-[10px] font-mono">5G</span>
+              {/* Screen Container */}
+              <div 
+                style={{
+                  borderRadius: '56px',
+                  border: '10px solid black',
+                }}
+                className="absolute inset-0 overflow-hidden flex flex-col justify-between"
+              >
+                {/* 
+                  EXACT SILVER THEME WALLPAPER (CodePen Top & Bottom Scrim Gradients with Purple/Silver Lighting)
+                */}
+                <div className="absolute inset-0 bg-[#06040d] overflow-hidden pointer-events-none">
+                  
+                  {/* Top Silver/Violet Curved Ribbon Section */}
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      height: '58%',
+                      borderBottomLeftRadius: '190px',
+                      borderBottomRightRadius: '190px',
+                      overflow: 'hidden',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, black 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #6d28d9 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #7c3aed 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #a855f7 100%)',
+                      backgroundColor: '#1e1035',
+                    }}
+                  >
+                    {/* Glowing highlight border line */}
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        border: '3px solid rgba(255, 255, 255, 0.7)',
+                        borderRadius: 'inherit',
+                        filter: 'blur(1px)',
+                        maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
+                        WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
+                      }}
+                    />
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        mixBlendMode: 'overlay',
+                        background: 'radial-gradient(80% 150% at 50% 100%, #a855f7, transparent 70%)'
+                      }}
+                    />
+                  </div>
+
+                  {/* Bottom Silver/Violet Inverted Ribbon Section */}
+                  <div 
+                    style={{
+                      position: 'absolute',
+                      inset: 'auto 0 0 0',
+                      height: '56%',
+                      borderTopLeftRadius: '190px',
+                      borderTopRightRadius: '190px',
+                      overflow: 'hidden',
+                      background: 'radial-gradient(120% 110% at 50% 92.5%, black 33.3%, transparent 100%), radial-gradient(100% 66.6% at 110% 85%, #4c1d95 33.3%, transparent 100%), radial-gradient(100% 66.6% at -10% 85%, #5b21b6 33.3%, transparent 100%), radial-gradient(150% 100% at 50% 80%, transparent 35%, #9333ea 100%)',
+                      backgroundColor: '#120724',
+                    }}
+                  >
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        border: '3px solid rgba(255, 255, 255, 0.6)',
+                        borderRadius: 'inherit',
+                        filter: 'blur(1px)',
+                        maskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)',
+                        WebkitMaskImage: 'radial-gradient(100% 100% at 50% 70%, black 30%, transparent 50%)'
+                      }}
+                    />
+                    <div 
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'inherit',
+                        mixBlendMode: 'overlay',
+                        background: 'radial-gradient(80% 150% at 50% 100%, #9333ea, transparent 70%)'
+                      }}
+                    />
+                  </div>
+
+                </div>
+
+                {/* =========================================================================
+                    LOCK SCREEN UI (EXACT MATCH TO UPLOADED IMAGE)
+                    ========================================================================= */}
+                
+                {/* 1. TOP STATUS BAR */}
+                <div className="relative z-30 pt-3 px-6 flex items-center justify-between text-white text-[12px] font-semibold">
+                  {/* Time */}
+                  <span className="w-12 text-left pl-1 font-sans">9:41</span>
+
+                  {/* Dynamic Island */}
+                  <div className="w-[105px] h-[27px] rounded-full bg-black flex items-center justify-between px-3 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#111] border border-white/20 flex items-center justify-center">
+                      <div className="w-1 h-1 rounded-full bg-[#1e293b]" />
+                    </div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#0a0f1d] border border-blue-900/40" />
+                  </div>
+
+                  {/* Indicators */}
+                  <div className="w-12 flex items-center justify-end gap-1.5 text-white pr-1">
+                    <div className="flex items-end gap-[1.5px] h-2.5">
+                      <span className="w-[2.5px] h-1 bg-white rounded-xs" />
+                      <span className="w-[2.5px] h-1.5 bg-white rounded-xs" />
+                      <span className="w-[2.5px] h-2 bg-white rounded-xs" />
+                      <span className="w-[2.5px] h-2.5 bg-white rounded-xs" />
+                    </div>
                     <Wifi className="w-3 h-3" />
                     <Battery className="w-3.5 h-3.5" />
                   </div>
                 </div>
 
-                {/* --- SCREEN APP CONTENT: ALWAYS-ON PROFIT AGENT --- */}
-                <div className="relative z-20 flex-1 px-4 py-3 sm:px-5 sm:py-4 flex flex-col justify-between overflow-y-auto no-scrollbar space-y-3">
+                {/* 2. LOCK SCREEN CLOCK & DATE */}
+                <div className="relative z-20 pt-4 flex flex-col items-center justify-center text-center">
+                  <Lock className="w-3.5 h-3.5 text-[#f3e8ff]/90 mb-2" />
                   
-                  {/* Header: Agent Identity */}
-                  <div className="flex items-center justify-between pt-1">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-sm">
-                        <img src={crownImg} alt="Crown" className="w-4 h-4 object-contain" />
-                      </div>
-                      <div>
-                        <h3 className="font-serif font-bold text-xs sm:text-sm text-white tracking-wide">
-                          Dope Alpha Hunter
-                        </h3>
-                        <p className="text-[10px] font-mono text-[#94a3b8]">
-                          Exchange Listing Sentinel
-                        </p>
-                      </div>
-                    </div>
-
-                    <span className="px-2 py-0.5 rounded-full bg-[#166534]/50 border border-[#22c55e]/40 text-[#4ade80] text-[9px] font-mono font-bold flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#22c55e] animate-pulse" />
-                      <span>ACTIVE</span>
-                    </span>
+                  <div className="text-[13px] sm:text-[14px] font-medium text-[#f3e8ff] tracking-tight">
+                    Monday, 12 May
                   </div>
 
-                  {/* Card 1: Signal Radar Alert */}
-                  <div className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg space-y-2">
-                    <div className="flex items-center justify-between text-[10px] font-mono text-[#cbd5e1]">
-                      <span className="flex items-center gap-1 text-[#38bdf8] font-bold">
-                        <Radio className="w-3 h-3 animate-ping" />
-                        <span>WATCHING 8 VENUES</span>
-                      </span>
-                      <span>14ms Latency</span>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-xs sm:text-[13px] font-serif font-bold text-white">
-                          Upbit KRW Listing Signal
-                        </div>
-                        <div className="text-[10px] text-[#94a3b8] font-mono">
-                          Ticker: <span className="text-[#38bdf8] font-bold">$SOLV</span> · Block Confirmed
-                        </div>
-                      </div>
-                      <div className="w-7 h-7 rounded-xl bg-[#0369a1]/40 border border-[#38bdf8]/40 flex items-center justify-center text-[#38bdf8]">
-                        <TrendingUp className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Card 2: 3-Factor Real-time Consensus Grid */}
-                  <div className="grid grid-cols-3 gap-2">
-                    <div className="p-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-center space-y-0.5">
-                      <div className="text-[8px] font-mono uppercase text-[#94a3b8] font-semibold">Route</div>
-                      <div className="text-[10px] font-mono font-bold text-white">Aerodrome</div>
-                      <div className="text-[8px] text-[#4ade80] font-mono">0.02% Slip</div>
-                    </div>
-
-                    <div className="p-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-center space-y-0.5">
-                      <div className="text-[8px] font-mono uppercase text-[#94a3b8] font-semibold">MEV Guard</div>
-                      <div className="text-[10px] font-mono font-bold text-white">Private RPC</div>
-                      <div className="text-[8px] text-[#38bdf8] font-mono">0 Sandwich</div>
-                    </div>
-
-                    <div className="p-2 rounded-xl bg-black/40 backdrop-blur-md border border-white/10 text-center space-y-0.5">
-                      <div className="text-[8px] font-mono uppercase text-[#94a3b8] font-semibold">Risk Cap</div>
-                      <div className="text-[10px] font-mono font-bold text-white">15% Max</div>
-                      <div className="text-[8px] text-[#4ade80] font-mono">Guarded ✓</div>
-                    </div>
-                  </div>
-
-                  {/* Card 3: Live Execution & Profit Settle */}
-                  <div className="p-3.5 rounded-2xl bg-gradient-to-br from-[#1e293b]/90 to-[#0f172a]/95 border border-[#38bdf8]/40 shadow-xl space-y-2.5">
-                    <div className="flex items-center justify-between text-[10px] font-mono">
-                      <span className="text-[#94a3b8]">Autonomous Fill &amp; Exit</span>
-                      <span className="text-[#38bdf8] font-bold">Base Mainnet</span>
-                    </div>
-
-                    <div className="flex items-baseline justify-between">
-                      <div>
-                        <div className="text-xl sm:text-2xl font-mono font-black text-[#4ade80] tracking-tight">
-                          {simulatedProfit}
-                        </div>
-                        <div className="text-[10px] font-serif italic text-[#cbd5e1]">
-                          Net Realized Alpha
-                        </div>
-                      </div>
-
-                      <div className="text-right font-mono text-[9px] text-[#94a3b8] space-y-0.5">
-                        <div>TX: <span className="text-white">0x7f1a…c98b</span></div>
-                        <div>Settled: <span className="text-[#4ade80]">3.2s</span></div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* In-App Action Button */}
-                  <button
-                    onClick={handleReplay}
-                    disabled={isSimulating}
-                    className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#e2e8f0] via-white to-[#cbd5e1] hover:from-white hover:to-[#e2e8f0] text-black font-serif text-xs font-bold flex items-center justify-center gap-2 shadow-[0_4px_16px_rgba(255,255,255,0.2)] transition-all cursor-pointer group"
-                  >
-                    <RefreshCw className={`w-3.5 h-3.5 text-black ${isSimulating ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
-                    <span>{isSimulating ? 'Hunting Alpha...' : 'Simulate Alpha Hunt'}</span>
-                  </button>
-
+                  <h1 className="text-[64px] sm:text-[72px] font-bold text-[#f3e8ff] leading-[1] tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] my-1 font-sans">
+                    9:41
+                  </h1>
                 </div>
 
-                {/* --- HOME INDICATOR BAR --- */}
-                <div className="relative z-30 pb-2 flex justify-center">
-                  <div className="w-28 h-1 bg-white/70 rounded-full shadow-xs" />
+                {/* 3. NOTIFICATION BANNER (MATCHES IMAGE EXACTLY) */}
+                <div className="relative z-30 px-3.5 my-auto">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={notificationKey}
+                      initial={{ scale: 0.92, opacity: 0, y: 15 }}
+                      animate={{ scale: 1, opacity: 1, y: 0 }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                      className="p-3.5 sm:p-4 rounded-[24px] bg-[#1a102e]/75 backdrop-blur-2xl border border-white/15 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-3"
+                    >
+                      {/* Avatar with purple/cyan neon ring */}
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#3b82f6] via-[#8b5cf6] to-[#ec4899] p-[1.5px] shrink-0 shadow-[0_0_12px_rgba(139,92,246,0.6)]">
+                        <div className="w-full h-full rounded-full bg-[#0d071a] flex items-center justify-center">
+                          {/* Cute robot face icon */}
+                          <div className="w-4 h-4 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[2px]">
+                            <span className="w-1 h-1 rounded-full bg-black" />
+                            <span className="w-1 h-1 rounded-full bg-black" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-[13px] font-bold text-white tracking-tight">
+                            Dopamint Agent
+                          </h4>
+                          <span className="text-[10px] text-[#a89ec4] font-medium">
+                            now
+                          </span>
+                        </div>
+
+                        <p className="text-[12px] text-[#ede9fe] font-normal leading-snug mt-1">
+                          yo, i just bought that $XX coin the moment it got launched 🚀
+                        </p>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+
+                {/* 4. BOTTOM SHORTCUTS & HOME INDICATOR */}
+                <div className="relative z-30 pb-3 px-6">
+                  <div className="flex items-center justify-between mb-4">
+                    {/* Flashlight button */}
+                    <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
+                      <Flashlight className="w-4 h-4" />
+                    </div>
+
+                    {/* Camera button */}
+                    <div className="w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg cursor-pointer hover:bg-white/25 transition-colors">
+                      <Camera className="w-4 h-4" />
+                    </div>
+                  </div>
+
+                  {/* Home bar */}
+                  <div className="w-32 h-1 bg-white/80 rounded-full mx-auto shadow-sm" />
                 </div>
 
               </div>
