@@ -111,35 +111,45 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       setChatTime('9:41');
       setMessageStage(0);
 
-      // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE (Slightly Faster Cadence)
-      timers.push(setTimeout(() => setMessageStage(1), 200));  // Msg 1: Bought coin
-      timers.push(setTimeout(() => setMessageStage(2), 700));  // Msg 2: Entry?
-      timers.push(setTimeout(() => setMessageStage(3), 1250)); // Msg 3: $XX Trade card
-      timers.push(setTimeout(() => setMessageStage(4), 1800)); // Msg 4: Plan?
-      timers.push(setTimeout(() => setMessageStage(5), 2350)); // Msg 5: Momentum 2x
-      timers.push(setTimeout(() => setMessageStage(6), 2900)); // Msg 6: Keep me posted
+      // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE
+      timers.push(setTimeout(() => setMessageStage(1), 250));  // Msg 1: Bought coin
+      timers.push(setTimeout(() => setMessageStage(2), 800));  // Msg 2: Entry?
+      timers.push(setTimeout(() => setMessageStage(3), 1400)); // Msg 3: $XX Trade card
+      timers.push(setTimeout(() => setMessageStage(4), 2000)); // Msg 4: Plan?
+      timers.push(setTimeout(() => setMessageStage(5), 2600)); // Msg 5: Momentum 2x
+      timers.push(setTimeout(() => setMessageStage(6), 3200)); // Msg 6: Keep me posted
 
-      // Pause for 1.1s to let user read Part 1 (2900ms to 4000ms)
-      // Then smoothly scroll down to show the BLANK PAGE with Today 10:14 AM
+      // Pause for 1.0s to let user read Part 1 (3200ms to 4200ms)
+      // Then smoothly scroll down to show the clean BLANK PAGE
       timers.push(setTimeout(() => {
         if (chatScrollRef.current) {
-          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 450, 1800);
+          cancelScroll = smoothScrollSlowly(chatScrollRef.current, 450, 1600);
         }
         setChatTime('10:14');
-      }, 4000));
+      }, 4200));
 
-      // After scrolling into blank page (at ~6600ms), Part 2 messages appear ONE BY ONE
-      timers.push(setTimeout(() => setMessageStage(7), 6600));   // Msg 7: We hit target
-      timers.push(setTimeout(() => setMessageStage(8), 7800));   // Msg 8: Take Profit Executed Card
-      timers.push(setTimeout(() => setMessageStage(9), 9200));   // Msg 9: Profit locked in
-      timers.push(setTimeout(() => setMessageStage(10), 10300)); // Msg 10: Perfect let it run
+      // Part 2: 10:14 AM Take Profit Messages appear ONE BY ONE (Identical Cadence & Smooth Animation)
+      timers.push(setTimeout(() => setMessageStage(7), 6000));  // Msg 7: We hit target
+      timers.push(setTimeout(() => setMessageStage(8), 6650));  // Msg 8: Take Profit Executed Card
+      timers.push(setTimeout(() => {
+        setMessageStage(9); // Msg 9: Profit locked in
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 1000);
+        }
+      }, 7350));
+      timers.push(setTimeout(() => {
+        setMessageStage(10); // Msg 10: Perfect let it run
+        if (chatScrollRef.current) {
+          smoothScrollSlowly(chatScrollRef.current, chatScrollRef.current.scrollHeight, 800);
+        }
+      }, 8000));
 
-      // Pause 5.5s to view full results, then loop back to Lock Screen
+      // Pause 6.0s to view full results, then loop back to Lock Screen
       timers.push(setTimeout(() => {
         setScreenMode('lock');
         setMessageStage(0);
         setNotificationKey(prev => prev + 1);
-      }, 16000));
+      }, 14500));
     }
 
     return () => {
@@ -147,22 +157,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       timers.forEach(t => clearTimeout(t));
     };
   }, [screenMode, notificationKey, triggerAppLaunch, smoothScrollSlowly]);
-
-  // Smooth scroll down automatically whenever a new message appears in Part 2
-  useEffect(() => {
-    if (screenMode !== 'chat' || messageStage < 7) return;
-
-    // Wait for DOM to render the new message, then smoothly scroll down
-    const timer = setTimeout(() => {
-      if (chatScrollRef.current) {
-        const target = chatScrollRef.current.scrollHeight - chatScrollRef.current.clientHeight;
-        const duration = messageStage === 8 ? 1200 : 800;
-        smoothScrollSlowly(chatScrollRef.current, target, duration);
-      }
-    }, 40);
-
-    return () => clearTimeout(timer);
-  }, [messageStage, screenMode, smoothScrollSlowly]);
 
   // Handle user manual scroll to update clock dynamically
   const handleChatScroll = () => {
@@ -765,9 +759,9 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                         {/* 8. THE TAKE PROFIT EXECUTED CARD */}
                         {messageStage >= 8 && (
                           <motion.div
-                            initial={{ opacity: 0, scale: 0.94, y: 14 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                             className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[20px] rounded-tl-xs p-3 text-[#1c1917] shadow-xs space-y-2.5"
                           >
                             {/* Card Header: $XX + +142.36% */}
