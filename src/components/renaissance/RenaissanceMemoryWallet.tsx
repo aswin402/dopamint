@@ -37,30 +37,30 @@ const WALLET_RAILS = [
 ];
 
 export const RenaissanceMemoryWallet: React.FC = () => {
-  const [isSimulating, setIsSimulating] = useState(false);
-  const [screenMode, setScreenMode] = useState<'lock' | 'chat'>('lock');
+  const [screenMode, setScreenMode] = useState<'lock' | 'entry' | 'profit'>('lock');
   const [notificationKey, setNotificationKey] = useState(0);
 
-  // Auto transition demo or replay
-  const handleReplay = () => {
-    setIsSimulating(true);
-    setScreenMode('lock');
-    setNotificationKey(prev => prev + 1);
-
-    // After 1.4s of lockscreen notification, open the chat app smoothly
-    setTimeout(() => {
-      setScreenMode('chat');
-      setIsSimulating(false);
-    }, 1600);
-  };
-
-  // Initial animation on mount: start with lock screen then animate into chat
+  // Auto transition cycle: Lock Screen -> Entry Snipe Chat -> Take Profit Execution Chat -> Repeat
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setScreenMode('chat');
-    }, 2800);
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (screenMode === 'lock') {
+      timer = setTimeout(() => {
+        setScreenMode('entry');
+      }, 3200);
+    } else if (screenMode === 'entry') {
+      timer = setTimeout(() => {
+        setScreenMode('profit');
+      }, 4800);
+    } else if (screenMode === 'profit') {
+      timer = setTimeout(() => {
+        setScreenMode('lock');
+        setNotificationKey(prev => prev + 1);
+      }, 6500);
+    }
+
     return () => clearTimeout(timer);
-  }, []);
+  }, [screenMode]);
 
   return (
     <section id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-12 sm:pt-16 pb-24 sm:pb-32 relative overflow-hidden">
@@ -103,7 +103,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
 
           </div>
 
-          {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (WITH LOCK/CHAT TRANSITION ANIMATION) */}
+          {/* RIGHT COLUMN: THE EXACT SILVER IPHONE (WITH LOCK / ENTRY / TAKE-PROFIT SCREENS) */}
           <div className="lg:col-span-6 flex items-center justify-center lg:justify-end lg:pr-10 xl:pr-16 relative select-none">
             
             {/* Ambient Background Aura */}
@@ -202,7 +202,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 <AnimatePresence mode="wait">
                   
                   {/* ==========================================
-                      VIEW A: EXACT FULL-SCREEN LOCK SCREEN
+                      VIEW A: EXACT FULL-SCREEN LOCK SCREEN (1/3)
                       ========================================== */}
                   {screenMode === 'lock' && (
                     <motion.div
@@ -332,7 +332,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           animate={{ scale: 1, opacity: 1, y: 0 }}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.97 }}
-                          onClick={() => setScreenMode('chat')}
+                          onClick={() => setScreenMode('entry')}
                           className="p-3 rounded-[20px] bg-[#24211b]/85 backdrop-blur-2xl border border-[#887d6c]/35 shadow-[0_16px_36px_rgba(0,0,0,0.6)] flex items-start gap-2.5 cursor-pointer hover:border-[#dfc28d]/60 transition-all group"
                         >
                           <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_10px_rgba(136,125,108,0.6)]">
@@ -381,11 +381,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   )}
 
                   {/* ==========================================
-                      VIEW B: 100% FULL-SCREEN IMESSAGE LIGHT BEIGE THEME
+                      VIEW B: INITIAL TRADE ENTRY CHAT SCREEN (2/3)
                       ========================================== */}
-                  {screenMode === 'chat' && (
+                  {screenMode === 'entry' && (
                     <motion.div
-                      key="chat-screen"
+                      key="entry-screen"
                       initial={{ opacity: 0, scale: 0.96 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
@@ -394,7 +394,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                       className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
                     >
                       
-                      {/* TOP STATUS BAR + HEADER CONTAINER (FLUSH TO TOP EDGE IN LIGHT BEIGE) */}
+                      {/* TOP STATUS BAR + HEADER CONTAINER */}
                       <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-b border-[#dfd6c6] pt-2.5 px-3 pb-2 z-40 shrink-0 shadow-2xs">
                         
                         {/* Status bar */}
@@ -456,19 +456,24 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                             </div>
                           </div>
 
-                          <button className="text-[#007aff] hover:opacity-75 p-1 cursor-pointer font-medium text-xs">
+                          <button 
+                            onClick={() => setScreenMode('profit')}
+                            className="text-[#007aff] hover:opacity-75 p-1 cursor-pointer font-medium text-xs flex items-center gap-1"
+                            title="Go to Take Profit"
+                          >
                             <MoreHorizontal className="w-4 h-4" />
                           </button>
                         </div>
                       </div>
 
-                      {/* IMESSAGE CHAT STREAM (LIGHT BEIGE WITH NO VISIBLE SCROLLBAR) */}
+                      {/* IMESSAGE CHAT STREAM */}
                       <div 
+                        onClick={() => setScreenMode('profit')}
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-                        className="flex-1 px-3.5 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden"
+                        className="flex-1 px-3.5 py-2.5 overflow-y-auto space-y-2 text-[11px] bg-[#fbf9f5] cursor-pointer [&::-webkit-scrollbar]:hidden"
                       >
                         
-                        {/* 1. Agent: Bought coin (Light Beige Bubble) */}
+                        {/* 1. Agent: Bought coin */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -483,7 +488,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 2. User: what's the entry? (iMessage Blue Bubble) */}
+                        {/* 2. User: what's the entry? */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -499,7 +504,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 3. Agent: $XX Trade Card (Light Beige Card) */}
+                        {/* 3. Agent: $XX Trade Card */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -530,7 +535,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 4. User: what's the plan? (iMessage Blue Bubble) */}
+                        {/* 4. User: what's the plan? */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -546,7 +551,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 5. Agent: momentum 2x (Light Beige Bubble) */}
+                        {/* 5. Agent: momentum 2x */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -561,7 +566,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 6. User: keep me posted (iMessage Blue Bubble) */}
+                        {/* 6. User: keep me posted */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -577,7 +582,7 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </div>
                         </motion.div>
 
-                        {/* 7. Agent: will update when hit target (Light Beige Bubble) */}
+                        {/* 7. Agent: will update when hit target */}
                         <motion.div
                           initial={{ opacity: 0, y: 6 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -602,10 +607,246 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                           </button>
                           
                           <div className="flex-1 bg-[#ffffff] rounded-full px-3.5 py-1.5 text-[10px] text-[#78716c] border border-[#d8cfbe] shadow-2xs">
-                            iMessage
+                            Message Upbit Agent...
                           </div>
 
-                          <button className="w-7 h-7 rounded-full bg-[#007aff] flex items-center justify-center text-white shadow-[0_2px_8px_rgba(0,122,255,0.4)] shrink-0 cursor-pointer hover:bg-[#0066d6] transition-colors">
+                          <button 
+                            onClick={() => setScreenMode('profit')}
+                            className="w-7 h-7 rounded-full bg-[#007aff] flex items-center justify-center text-white shadow-[0_2px_8px_rgba(0,122,255,0.4)] shrink-0 cursor-pointer hover:bg-[#0066d6] transition-colors"
+                          >
+                            <Send className="w-3.5 h-3.5 -ml-0.5" />
+                          </button>
+                        </div>
+
+                        {/* Bottom Home indicator */}
+                        <div className="w-28 h-1 bg-black/60 rounded-full mx-auto" />
+                      </div>
+
+                    </motion.div>
+                  )}
+
+                  {/* ==========================================
+                      VIEW C: TAKE PROFIT EXECUTED SCREEN (3/3)
+                      ========================================== */}
+                  {screenMode === 'profit' && (
+                    <motion.div
+                      key="profit-screen"
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.04, filter: 'blur(3px)' }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                      className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
+                    >
+                      
+                      {/* TOP STATUS BAR + HEADER CONTAINER */}
+                      <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-b border-[#dfd6c6] pt-2.5 px-3 pb-2 z-40 shrink-0 shadow-2xs">
+                        
+                        {/* Status bar */}
+                        <div className="flex items-center justify-between text-[#1c1917] text-[11px] font-semibold select-none mb-1.5 px-2">
+                          <span className="w-10 text-left font-bold">10:14</span>
+
+                          {/* Dynamic Island */}
+                          <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
+                            <div className="w-2 h-2 rounded-full bg-[#111] border border-white/20 flex items-center justify-center">
+                              <div className="w-1 h-1 rounded-full bg-[#1e293b]" />
+                            </div>
+                            <div className="w-2 h-2 rounded-full bg-[#0a0f1d] border border-blue-900/40" />
+                          </div>
+
+                          {/* Indicators */}
+                          <div className="w-10 flex items-center justify-end gap-1 text-[#1c1917] pr-0.5">
+                            <div className="flex items-end gap-[1px] h-2">
+                              <span className="w-[2px] h-1 bg-[#1c1917] rounded-xs" />
+                              <span className="w-[2px] h-1.5 bg-[#1c1917] rounded-xs" />
+                              <span className="w-[2px] h-2 bg-[#1c1917] rounded-xs" />
+                            </div>
+                            <Wifi className="w-2.5 h-2.5 text-[#1c1917]" />
+                            <Battery className="w-3 h-3 text-[#1c1917]" />
+                          </div>
+                        </div>
+
+                        {/* iMessage Header Bar */}
+                        <div className="flex items-center justify-between pt-0.5 px-1">
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              onClick={() => setScreenMode('entry')}
+                              className="p-1 -ml-1 text-[#007aff] hover:opacity-75 cursor-pointer transition-opacity flex items-center gap-0.5"
+                              title="Back to Entry Screen"
+                            >
+                              <ChevronLeft className="w-4 h-4" />
+                            </button>
+
+                            {/* Agent Avatar */}
+                            <div className="relative">
+                              <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#3b82f6] via-[#8b5cf6] to-[#ec4899] p-[1px] shadow-sm">
+                                <div className="w-full h-full rounded-full bg-[#1e1b4b] flex items-center justify-center">
+                                  <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
+                                    <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                    <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Title & Online badge */}
+                            <div>
+                              <div className="text-[12px] font-bold text-[#1c1917] leading-tight flex items-center gap-1">
+                                <span>Upbit Agent</span>
+                              </div>
+                              <div className="text-[9px] text-[#78716c] flex items-center gap-1 font-medium">
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" />
+                                <span>Online</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <button 
+                            onClick={() => setScreenMode('lock')}
+                            className="text-[#007aff] hover:opacity-75 p-1 cursor-pointer font-medium text-xs"
+                            title="Back to Lock Screen"
+                          >
+                            <MoreHorizontal className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* TAKE PROFIT CHAT STREAM */}
+                      <div 
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                        className="flex-1 px-3.5 py-2.5 overflow-y-auto space-y-2.5 text-[11px] bg-[#fbf9f5] [&::-webkit-scrollbar]:hidden"
+                      >
+                        
+                        {/* 1. Agent: We hit target */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.04 }}
+                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
+                        >
+                          <p className="leading-snug font-normal">
+                            we hit the target! 🎯 <br />
+                            taking profit now...
+                          </p>
+                          <div className="text-[8px] text-[#78716c] text-right font-mono">
+                            10:14 AM
+                          </div>
+                        </motion.div>
+
+                        {/* 2. THE TAKE PROFIT EXECUTED CARD */}
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ delay: 0.12 }}
+                          className="w-full bg-[#eae3d5] border border-[#d8cfbe] rounded-[20px] rounded-tl-xs p-3 text-[#1c1917] shadow-xs space-y-2.5"
+                        >
+                          {/* Card Header: $XX + +142.36% */}
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-5 h-5 rounded-full bg-[#1c1917] flex items-center justify-center">
+                                <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
+                                  <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                  <span className="w-0.5 h-0.5 rounded-full bg-black" />
+                                </div>
+                              </div>
+                              <span className="font-bold text-sm text-[#1c1917] tracking-tight">$XX</span>
+                            </div>
+
+                            <span className="text-xs font-bold font-mono text-[#15803d]">
+                              +142.36%
+                            </span>
+                          </div>
+
+                          {/* Inner Mint/Emerald Profit Box */}
+                          <div className="bg-[#e4f6eb] border border-[#86efac] rounded-[14px] p-2.5 text-center shadow-xs">
+                            <div className="flex items-center justify-center gap-1 text-[10px] font-bold text-[#15803d] uppercase tracking-wider">
+                              <span className="w-3.5 h-3.5 rounded-full bg-[#16a34a] text-white flex items-center justify-center text-[9px] font-black">✓</span>
+                              <span>TAKE PROFIT EXECUTED</span>
+                            </div>
+
+                            <div className="text-[9px] text-[#166534] font-medium mt-1">
+                              Total Profit
+                            </div>
+
+                            <div className="text-[23px] font-bold text-[#15803d] font-mono tracking-tight leading-tight my-0.5">
+                              $4,286.40
+                            </div>
+
+                            <div className="text-[9px] text-[#16a34a] font-semibold">
+                              +142.36%)
+                            </div>
+                          </div>
+
+                          {/* Detail Metric Rows */}
+                          <div className="space-y-1 text-[10px] text-[#44403c] pt-0.5">
+                            <div className="flex justify-between">
+                              <span className="text-[#57534e]">Take Profit Amount</span>
+                              <span className="text-[#1c1917] font-mono font-bold">$3,000.00</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-[#57534e]">Remaining Position</span>
+                              <span className="text-[#1c1917] font-mono font-bold">$1,286.40</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-[#57534e]">Avg. Sell Price</span>
+                              <span className="text-[#1c1917] font-mono font-bold">$0.0528</span>
+                            </div>
+                          </div>
+
+                          <div className="text-[8px] text-[#78716c] text-right font-mono pt-0.5 border-t border-[#d8cfbe]/40">
+                            10:14 AM
+                          </div>
+                        </motion.div>
+
+                        {/* 3. Agent: Profit locked in */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.22 }}
+                          className="max-w-[82%] bg-[#eae3d5] rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-1"
+                        >
+                          <p className="leading-snug font-normal">
+                            profit locked in! 💰 <br />
+                            let it run with the remaining bag?
+                          </p>
+                          <div className="text-[8px] text-[#78716c] text-right font-mono">
+                            10:14 AM
+                          </div>
+                        </motion.div>
+
+                        {/* 4. User: perfect. let it run. */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.3 }}
+                          className="max-w-[78%] ml-auto bg-[#007aff] rounded-[16px] rounded-tr-xs p-2.5 text-white shadow-[0_2px_8px_rgba(0,122,255,0.28)] space-y-1"
+                        >
+                          <p className="leading-snug font-medium">
+                            perfect. let it run. 🙌
+                          </p>
+                          <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
+                            <span>10:15 AM</span>
+                            <CheckCheck className="w-3 h-3 text-white" />
+                          </div>
+                        </motion.div>
+
+                      </div>
+
+                      {/* IMESSAGE LIGHT BEIGE BOTTOM INPUT BAR */}
+                      <div className="bg-[#ede7dc]/95 backdrop-blur-xl border-t border-[#dfd6c6] px-3 pt-2 pb-3.5 relative z-40 shrink-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <button className="w-7 h-7 rounded-full bg-[#ded6c7] hover:bg-[#d5cbb9] flex items-center justify-center text-[#78716c] shrink-0 cursor-pointer transition-colors">
+                            <Plus className="w-4 h-4 text-[#78716c]" />
+                          </button>
+                          
+                          <div className="flex-1 bg-[#ffffff] rounded-full px-3.5 py-1.5 text-[10px] text-[#78716c] border border-[#d8cfbe] shadow-2xs">
+                            Message Upbit Agent...
+                          </div>
+
+                          <button 
+                            onClick={() => setScreenMode('lock')}
+                            className="w-7 h-7 rounded-full bg-[#007aff] flex items-center justify-center text-white shadow-[0_2px_8px_rgba(0,122,255,0.4)] shrink-0 cursor-pointer hover:bg-[#0066d6] transition-colors"
+                          >
                             <Send className="w-3.5 h-3.5 -ml-0.5" />
                           </button>
                         </div>
