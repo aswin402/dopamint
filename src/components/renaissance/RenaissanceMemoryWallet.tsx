@@ -277,12 +277,19 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                 </div>
               </div>
 
-              {/* Screen Container */}
+              {/* Screen Container (Guaranteed Hardware-Level Corner Clipping) */}
               <div 
                 style={{
                   borderRadius: '50px',
                   border: '9px solid black',
                   fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif',
+                  WebkitMaskImage: '-webkit-radial-gradient(white, black)',
+                  maskImage: 'radial-gradient(white, black)',
+                  WebkitClipPath: 'inset(0 round 41px)',
+                  clipPath: 'inset(0 round 41px)',
+                  isolation: 'isolate',
+                  contain: 'paint',
+                  transform: 'translateZ(0)',
                 }}
                 className="absolute inset-0 overflow-hidden bg-[#0f0e0c]"
               >
@@ -294,11 +301,14 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   {screenMode === 'lock' && (
                     <motion.div
                       key="lock-screen"
-                      initial={{ opacity: 0, scale: 0.96 }}
+                      initial={{ opacity: 0, scale: 0.97 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 1.14, filter: 'blur(10px)' }}
-                      transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-                      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                      exit={{ opacity: 0, scale: 1.02 }}
+                      transition={{ duration: 0.38, ease: [0.32, 0.72, 0, 1] }}
+                      style={{ 
+                        fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif',
+                        borderRadius: '41px',
+                      }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between overflow-hidden z-20 bg-[#0f0e0c]"
                     >
                       {/* #887d6c THEME WALLPAPER */}
@@ -482,11 +492,14 @@ export const RenaissanceMemoryWallet: React.FC = () => {
                   {screenMode === 'chat' && (
                     <motion.div
                       key="chat-screen"
-                      initial={{ opacity: 0, scale: 0.88, y: 15 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.94, filter: 'blur(8px)' }}
-                      transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+                      initial={{ opacity: 0, scale: 0.94 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.96 }}
+                      transition={{ duration: 0.42, ease: [0.32, 0.72, 0, 1] }}
+                      style={{ 
+                        fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif',
+                        borderRadius: '41px',
+                      }}
                       className="absolute inset-0 w-full h-full flex flex-col justify-between bg-[#fbf9f5] text-[#1c1917] z-30 overflow-hidden"
                     >
                       
