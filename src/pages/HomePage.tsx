@@ -34,16 +34,16 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-24 sm:h-32 md:h-40 lg:h-48 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-48 lg:h-56 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
-              noiseScale={2.5}
-              noiseIntensity={0.52}
+              noiseScale={3.5}
+              noiseIntensity={0.65}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.08}
-              edgeSoftness={0.38}
-              bloomIntensity={0.75}
+              baseAnimationSpeed={0.06}
+              edgeSoftness={0.35}
+              bloomIntensity={1.1}
               bloomRadius={0.35}
               parallaxEnabled={true}
               inverted={true}
@@ -52,15 +52,13 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.png Background — Darkened & Dulled */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+          {/* Div_Burn_out_image.png Background */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               src={divBurnOutImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none brightness-[0.68] contrast-[0.95] saturate-[0.75]"
+              className="w-full h-full object-cover object-top select-none"
             />
-            {/* Subtle dark tint overlay */}
-            <div className="absolute inset-0 bg-[#0a0d0a]/30 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
@@ -72,16 +70,16 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-32 sm:h-44 md:h-56 lg:h-68 pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-36 sm:h-48 md:h-60 lg:h-72 pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
-              noiseScale={2.5}
-              noiseIntensity={0.52}
+              noiseScale={3.5}
+              noiseIntensity={0.65}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.08}
-              edgeSoftness={0.38}
-              bloomIntensity={0.75}
+              baseAnimationSpeed={0.06}
+              edgeSoftness={0.35}
+              bloomIntensity={1.1}
               bloomRadius={0.35}
               parallaxEnabled={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
