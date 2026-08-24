@@ -170,8 +170,8 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-4 overflow-y-auto lg:overflow-hidden select-none">
-      <div className="w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-4 overflow-y-auto lg:overflow-hidden select-none px-6 sm:px-10 lg:px-16">
+      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
         
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
         <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center z-20">
