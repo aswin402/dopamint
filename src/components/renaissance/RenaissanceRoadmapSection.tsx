@@ -17,7 +17,7 @@ export const RenaissanceRoadmapSection: React.FC = () => {
       {/* =========================================================================
           PART 1: DOPAMINT ROADMAP (VIDEO -> STATIC SCROLL IMAGE TRANSITION)
           ========================================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16">
+      <div className="max-w-[1720px] mx-auto px-3 sm:px-6 lg:px-10 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16">
         
         {/* Title: Dopamint Roadmap. */}
         <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-8">
@@ -27,7 +27,7 @@ export const RenaissanceRoadmapSection: React.FC = () => {
         </div>
 
         {/* Scroll Media Container (Video & Static Image placed in the exact same spot) */}
-        <div className="relative w-full max-w-6xl mx-auto aspect-[16/9] min-h-[380px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[660px] rounded-2xl sm:rounded-3xl overflow-hidden flex items-center justify-center">
+        <div className="relative w-full max-w-[1720px] mx-auto aspect-[16/9] min-h-[460px] sm:min-h-[620px] md:min-h-[760px] lg:min-h-[880px] xl:min-h-[980px] rounded-2xl sm:rounded-3xl overflow-hidden flex items-center justify-center">
           
           {/* Static Image (Revealed when video ends, or sitting seamlessly as base layer) */}
           <img
