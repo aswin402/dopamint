@@ -156,9 +156,9 @@ export const RenaissanceRoadmapSection: React.FC = () => {
                     ))}
                   </div>
 
-                  {/* 3. BOTTOM PEDESTAL: Summary Tagline Box (Moved up centered inside pedestal and enlarged) */}
-                  <div className="absolute top-[79.5%] h-[9.0%] inset-x-0 flex items-center justify-center text-center px-2 sm:px-3.5">
-                    <p className="font-serif italic text-[9px] sm:text-[11px] md:text-[13px] lg:text-[15px] xl:text-[16.5px] font-medium text-[#1c261e] leading-snug">
+                  {/* 3. BOTTOM PEDESTAL: Summary Tagline Box (Positioned inside pedestal with increased font weight) */}
+                  <div className="absolute top-[77.2%] h-[8.5%] inset-x-0 flex items-center justify-center text-center px-2 sm:px-3.5">
+                    <p className="font-serif italic text-[9.5px] sm:text-[11.5px] md:text-[13.5px] lg:text-[15.5px] xl:text-[17px] font-semibold text-[#141f16] leading-snug tracking-tight">
                       {phase.tagline}
                     </p>
                   </div>
