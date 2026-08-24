@@ -570,10 +570,10 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
 
 export const RenaissanceAgentRoster: React.FC = () => {
   return (
-    <section id="agents" className="w-full bg-[#f3f2e6] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
+    <section id="agents" className="w-full bg-[#f3f2e6] pt-10 sm:pt-14 lg:pt-16 pb-10 sm:pb-14 lg:pb-16 overflow-hidden relative z-20">
       
       {/* Top Header Section */}
-      <div className="px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
+      <div className="px-6 sm:px-10 lg:px-16 mb-8 sm:mb-10 lg:mb-12">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
           
           {/* Left Title: DOPE runs the House */}
@@ -587,7 +587,7 @@ export const RenaissanceAgentRoster: React.FC = () => {
           {/* Right Editorial Copy */}
           <div className="max-w-md lg:text-right">
             <p className="font-serif italic text-xl sm:text-2xl md:text-[26px] text-[#7a382e] leading-snug">
-              The Head of Agents turning your intent into action across a network of specialized agents.
+              The Head of Agents turning your intent into action across a network of specialized agents running in tee environment
             </p>
           </div>
 
