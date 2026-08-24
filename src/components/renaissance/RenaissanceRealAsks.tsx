@@ -64,12 +64,13 @@ export const RenaissanceRealAsks: React.FC = () => {
   const isInView = useInView(sectionRef, { amount: 0.2, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  // 5 card refs
+  // 6 card refs
   const card1Ref = useRef<HTMLDivElement>(null); // top-left    QA: BTC
   const card2Ref = useRef<HTMLDivElement>(null); // top-center  A: birthday
   const card3Ref = useRef<HTMLDivElement>(null); // top-right   A: electricity
   const card4Ref = useRef<HTMLDivElement>(null); // bot-left    QA: yield
   const card5Ref = useRef<HTMLDivElement>(null); // bot-right   QA: schedule
+  const card6Ref = useRef<HTMLDivElement>(null); // center      A: portfolio down
   const pedestalRef = useRef<HTMLDivElement>(null);
 
   const [off1, setOff1] = useState({ x: 0, y: 0, sinkY: 0 });
@@ -77,6 +78,7 @@ export const RenaissanceRealAsks: React.FC = () => {
   const [off3, setOff3] = useState({ x: 0, y: 0, sinkY: 0 });
   const [off4, setOff4] = useState({ x: 0, y: 0, sinkY: 0 });
   const [off5, setOff5] = useState({ x: 0, y: 0, sinkY: 0 });
+  const [off6, setOff6] = useState({ x: 0, y: 0, sinkY: 0 });
 
   useEffect(() => {
     const measure = () => {
@@ -93,6 +95,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         { ref: card3Ref, set: setOff3 },
         { ref: card4Ref, set: setOff4 },
         { ref: card5Ref, set: setOff5 },
+        { ref: card6Ref, set: setOff6 },
       ].forEach(({ ref, set }) => {
         const el = ref.current;
         if (!el) return;
@@ -120,6 +123,7 @@ export const RenaissanceRealAsks: React.FC = () => {
   const path3Ref = useGenieMorph(sectionOpen, 200);
   const path4Ref = useGenieMorph(sectionOpen, 50);
   const path5Ref = useGenieMorph(sectionOpen, 150);
+  const path6Ref = useGenieMorph(sectionOpen, 120);
 
   const makePos = (off: { x: number; y: number; sinkY: number }, delay: number): Variants => ({
     closed: {
@@ -139,6 +143,7 @@ export const RenaissanceRealAsks: React.FC = () => {
   const pos3 = makePos(off3, 0.30);
   const pos4 = makePos(off4, 0.14);
   const pos5 = makePos(off5, 0.20);
+  const pos6 = makePos(off6, 0.25);
 
   const cardBase = 'imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-6 sm:p-9 cursor-pointer transition-colors duration-300';
   const cardSm   = 'imsg-card rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-5 sm:p-6 cursor-pointer transition-colors duration-300';
@@ -150,7 +155,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       id="asks"
       className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20 overflow-hidden select-none"
     >
-      {/* SVG clip defs — 5 genie morph paths */}
+      {/* SVG clip defs — 6 genie morph paths */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
         <defs>
           <clipPath id="genie-clip-1" clipPathUnits="objectBoundingBox"><path ref={path1Ref} d={STEP3} /></clipPath>
@@ -158,6 +163,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <clipPath id="genie-clip-3" clipPathUnits="objectBoundingBox"><path ref={path3Ref} d={STEP3} /></clipPath>
           <clipPath id="genie-clip-4" clipPathUnits="objectBoundingBox"><path ref={path4Ref} d={STEP3} /></clipPath>
           <clipPath id="genie-clip-5" clipPathUnits="objectBoundingBox"><path ref={path5Ref} d={STEP3} /></clipPath>
+          <clipPath id="genie-clip-6" clipPathUnits="objectBoundingBox"><path ref={path6Ref} d={STEP3} /></clipPath>
         </defs>
       </svg>
 
@@ -262,7 +268,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[46%] sm:top-[48%] right-0 sm:right-[1%] w-full max-w-[300px] sm:max-w-[370px] lg:max-w-[410px] z-20"
+            className="absolute top-[48%] sm:top-[50%] right-0 sm:right-[1%] w-full max-w-[300px] sm:max-w-[370px] lg:max-w-[410px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: 3.5 }} animate={{ rotate: 3.5 }}
               whileHover={{ scale: 1.05, rotate: 1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -270,6 +276,21 @@ export const RenaissanceRealAsks: React.FC = () => {
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="what's on my schedule tomorrow?" side="right" />
                 <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="left" />
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* CARD 6 — center | A: portfolio's down 4% today */}
+          <motion.div
+            ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
+            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
+            className="absolute top-[32%] sm:top-[34%] lg:top-[36%] left-[34%] sm:left-[38%] lg:left-[40%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20 hidden sm:block"
+          >
+            <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -1.5 }} animate={{ rotate: -1.5 }}
+              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardSm}>
+              <div className="flex flex-col">
+                <IMessageBubble text="portfolio's down 4% today" side="left" />
               </div>
             </motion.div>
           </motion.div>
