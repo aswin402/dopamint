@@ -17,10 +17,10 @@ export const RenaissanceRoadmapSection: React.FC = () => {
       {/* =========================================================================
           PART 1: DOPAMINT ROADMAP (VIDEO -> STATIC SCROLL IMAGE TRANSITION)
           ========================================================================= */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 sm:pt-28 pb-16 sm:pb-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16">
         
         {/* Title: Dopamint Roadmap. */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-12 sm:mb-16">
+        <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-8">
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
             Dopamint <span className="font-serif italic font-bold text-[#253b2b]">Roadmap.</span>
           </h2>
