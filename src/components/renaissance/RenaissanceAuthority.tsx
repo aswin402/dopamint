@@ -51,12 +51,30 @@ export const RenaissanceAuthority: React.FC = () => {
             of <span className="italic font-bold">Agents</span>
           </h2>
 
-          {/* Subtitle */}
-          <p className="font-serif italic text-xl sm:text-2xl lg:text-[26px] text-[#4b5546] leading-snug max-w-lg">
-            From agents that execute tasks
-            <br />
-            to agents that become companions.
-          </p>
+          {/* Subtitle & Key Points */}
+          <div className="space-y-3.5 max-w-lg">
+            <p className="font-serif italic text-xl sm:text-2xl lg:text-[26px] text-[#4b5546] leading-snug">
+              From agents that execute tasks
+              <br />
+              to agents that become companions.
+            </p>
+
+            {/* Feature Points */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-wider text-[#3d4a3a]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#55604e]" />
+                Privacy
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-wider text-[#3d4a3a]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#55604e]" />
+                Memory Portability
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-wider text-[#3d4a3a]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#55604e]" />
+                Creator Economy
+              </span>
+            </div>
+          </div>
 
           {/* Bottom Bar: Metadata + CTA */}
           <div className="flex flex-wrap items-center gap-5 pt-3 sm:pt-6 w-full">
