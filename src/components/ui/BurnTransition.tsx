@@ -95,7 +95,7 @@ function mapEdgeSoftness(ui: number) {
   return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.015, 0.08);
 }
 function mapBloomRadius(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.02, 0.18);
+  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.05, 0.45);
 }
 
 export const BurnTransition: React.FC<BurnTransitionProps> = ({
@@ -434,9 +434,9 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
         vec4 pixel = texture2D(u_texture, v_uv);
         float distToTransition = length(pixel.rgb - u_transition_color);
         float distToBase = length(pixel.rgb - u_base_color);
-        float isTransition = 1.0 - smoothstep(0.0, 0.5, distToTransition);
-        float notBase = smoothstep(0.0, 0.3, distToBase);
-        float mask = pow(isTransition * notBase * pixel.a, 0.8);
+        float isTransition = 1.0 - smoothstep(0.0, 0.45, distToTransition);
+        float notBase = smoothstep(0.0, 0.12, distToBase);
+        float mask = isTransition * notBase * pixel.a;
         gl_FragColor = vec4(1.0, 1.0, 1.0, mask);
       }
     `;
@@ -449,12 +449,12 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       uniform vec2 u_resolution;
       uniform float u_radius;
       void main() {
-        float blur_size = u_radius * 12.0;
+        float blur_size = u_radius * 32.0;
         float alpha = 0.0;
         float totalWeight = 0.0;
-        for (int i = -6; i <= 6; i++) {
+        for (int i = -8; i <= 8; i++) {
           float offset = float(i);
-          float weight = exp(-0.5 * (offset * offset) / 4.0);
+          float weight = exp(-0.5 * (offset * offset) / 8.0);
           vec2 sampleOffset = u_direction * (offset * blur_size) / u_resolution;
           float sampleAlpha = texture2D(u_texture, v_uv + sampleOffset).a;
           alpha += sampleAlpha * weight;
@@ -476,14 +476,14 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
         vec4 scene = texture2D(u_scene, v_uv);
         vec4 bloom = texture2D(u_bloom, v_uv);
         float bloomStrength = bloom.a * u_bloom_intensity;
-        vec3 bloomColor = u_transition_color * bloomStrength * 2.0;
+        vec3 bloomColor = u_transition_color * bloomStrength * 2.2;
 
         if (scene.a < 0.001) {
-          float glowAlpha = bloomStrength * 1.5;
+          float glowAlpha = min(bloomStrength * 1.8, 1.0);
           gl_FragColor = vec4(u_transition_color, glowAlpha);
         } else {
           vec3 result = min(scene.rgb + bloomColor, vec3(1.0));
-          gl_FragColor = vec4(result, scene.a);
+          gl_FragColor = vec4(result, max(scene.a, bloomStrength * 0.85));
         }
       }
     `;

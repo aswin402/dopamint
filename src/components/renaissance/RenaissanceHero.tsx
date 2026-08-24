@@ -137,19 +137,19 @@ function HeroOverlay({
 
       {/* BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]") */}
       <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4 flex flex-col items-center">
-        <div className="inline-flex items-center justify-center flex-wrap text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
-          <span className="whitespace-nowrap font-serif font-normal text-white mr-3 sm:mr-4 md:mr-5">
+        <div className="flex items-center justify-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] max-w-full">
+          <span className="whitespace-nowrap font-serif font-normal text-white mr-2 sm:mr-3 md:mr-4 shrink-0">
             Your Agents can
           </span>
-          <div className="inline-flex items-center justify-start min-w-[120px] sm:min-w-[170px] md:min-w-[220px] lg:min-w-[280px] xl:min-w-[340px] text-left">
+          <div className="w-[110px] sm:w-[170px] md:w-[220px] lg:w-[280px] xl:w-[350px] text-left shrink-0 relative h-[1.15em] flex items-center overflow-visible">
             <AnimatePresence mode="wait">
               <motion.span
                 key={ACTION_WORDS[actionIndex]}
-                initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+                initial={{ opacity: 0, y: 16, filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -20, filter: 'blur(6px)' }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] pl-1"
+                exit={{ opacity: 0, y: -16, filter: 'blur(4px)' }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute left-0 top-0 bottom-0 flex items-center font-serif italic font-bold text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] whitespace-nowrap"
               >
                 {ACTION_WORDS[actionIndex]}
               </motion.span>
@@ -159,8 +159,7 @@ function HeroOverlay({
 
         {/* Subtitle Under Headline */}
         <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
-          A House of Sovereign Agents, powered by{' '}
-          <span className="font-serif italic font-bold text-white">AiFi</span>
+          Powered by <span className="font-serif italic font-bold text-white">DOPE</span>
         </p>
       </div>
     </motion.div>
