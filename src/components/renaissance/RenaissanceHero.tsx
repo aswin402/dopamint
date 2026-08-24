@@ -170,11 +170,11 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-0 overflow-y-auto lg:overflow-hidden select-none px-6 sm:px-10 lg:px-16">
-      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center lg:items-end">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-14 sm:pt-18 lg:pt-22 pb-0 overflow-y-auto lg:overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
+      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center lg:items-end">
         
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
-        <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center pb-6 lg:pb-12 z-20">
+        <div className="lg:col-span-6 space-y-3.5 sm:space-y-4 md:space-y-5 text-left self-center pb-4 sm:pb-6 lg:pb-12 z-20">
           
           {/* Small Eyebrow */}
           <div>
@@ -183,9 +183,9 @@ function HouseOfAgentsSection() {
             </span>
           </div>
 
-          {/* Editorial Title (2-line layout: House of / Intent-Based Agents) */}
+          {/* Editorial Title (Responsive 2-line layout: House of / Intent-Based Agents) */}
           <div>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] tracking-tight leading-[1.02] text-[#55604e]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.02] text-[#55604e]">
               <span className="block font-serif font-normal text-[#55604e]">
                 House of
               </span>
@@ -193,17 +193,17 @@ function HouseOfAgentsSection() {
                 Intent-Based Agents
               </span>
             </h2>
-            <p className="font-serif italic font-bold text-base sm:text-lg text-[#7a382e] mt-1.5">
+            <p className="font-serif italic font-bold text-sm sm:text-base md:text-lg text-[#7a382e] mt-1 sm:mt-1.5">
               powered by AiFi
             </p>
           </div>
 
           {/* Editorial Body Text */}
-          <div className="space-y-3 sm:space-y-3.5 text-sm sm:text-base md:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
+          <div className="space-y-2.5 sm:space-y-3 md:space-y-3.5 text-xs sm:text-sm md:text-base lg:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
             <p>
               There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
             </p>
-            <p className="font-serif italic text-base sm:text-lg md:text-[19px] text-[#3d4837] leading-snug">
+            <p className="font-serif italic text-sm sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
               Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. <br className="hidden sm:inline" />
               It handles the rest.
             </p>
@@ -213,16 +213,16 @@ function HouseOfAgentsSection() {
           </div>
 
           {/* 2 CTA Buttons */}
-          <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-3 sm:pt-4">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 md:gap-4 pt-2 sm:pt-3 md:pt-4">
             <a
               href="#agents"
-              className="inline-flex items-center justify-center rounded-full bg-[#55604e] text-white px-8 sm:px-9 py-3 sm:py-3.5 font-serif font-bold text-sm sm:text-base hover:bg-[#465040] hover:scale-105 transition-all duration-200 shadow-sm cursor-pointer"
+              className="inline-flex items-center justify-center rounded-full bg-[#55604e] text-white px-6 sm:px-8 lg:px-9 py-2.5 sm:py-3 lg:py-3.5 font-serif font-bold text-xs sm:text-sm md:text-base hover:bg-[#465040] hover:scale-105 transition-all duration-200 shadow-sm cursor-pointer"
             >
               Get the app
             </a>
             <a
               href="#asks"
-              className="inline-flex items-center justify-center rounded-full bg-transparent border border-[#55604e] text-[#55604e] px-8 sm:px-9 py-3 sm:py-3.5 font-serif font-bold text-sm sm:text-base hover:bg-[#55604e]/10 hover:scale-105 transition-all duration-200 shadow-xs cursor-pointer"
+              className="inline-flex items-center justify-center rounded-full bg-transparent border border-[#55604e] text-[#55604e] px-6 sm:px-8 lg:px-9 py-2.5 sm:py-3 lg:py-3.5 font-serif font-bold text-xs sm:text-sm md:text-base hover:bg-[#55604e]/10 hover:scale-105 transition-all duration-200 shadow-xs cursor-pointer"
             >
               Try iMessage
             </a>
@@ -230,9 +230,9 @@ function HouseOfAgentsSection() {
 
         </div>
 
-        {/* Right Column: Chat Screen Video Touching Bottom & Shifted Right */}
-        <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end">
-          <div className="relative w-full sm:w-[110%] lg:w-[125%] xl:w-[135%] lg:-mr-[3vw] xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-12 flex items-end justify-end">
+        {/* Right Column: Chat Screen Video Fully Responsive & Bottom Aligned */}
+        <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end w-full">
+          <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-0 lg:translate-x-6 xl:translate-x-10 flex items-end justify-center lg:justify-end">
             <video
               src={chatScreenVid}
               autoPlay
@@ -240,7 +240,7 @@ function HouseOfAgentsSection() {
               loop
               playsInline
               preload="metadata"
-              className="w-full max-h-[80vh] sm:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block"
+              className="w-full max-h-[50vh] sm:max-h-[60vh] md:max-h-[68vh] lg:max-h-[85vh] xl:max-h-[92vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block"
             />
           </div>
         </div>
@@ -248,7 +248,7 @@ function HouseOfAgentsSection() {
       </div>
 
       {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners */}
-      <div className="absolute inset-x-0 bottom-0 h-6 sm:h-8 lg:h-10 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
+      <div className="absolute inset-x-0 bottom-0 h-4 sm:h-6 md:h-8 lg:h-10 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
     </div>
   );
 }
