@@ -183,17 +183,14 @@ function HouseOfAgentsSection() {
             </span>
           </div>
 
-          {/* Editorial Title (3-line stacked layout with #55604e sage olive color) */}
+          {/* Editorial Title (2-line layout: House of / Intent-Based Agents) */}
           <div>
-            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[84px] tracking-tight leading-[0.96] text-[#55604e]">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[76px] tracking-tight leading-[1.02] text-[#55604e]">
               <span className="block font-serif font-normal text-[#55604e]">
                 House of
               </span>
               <span className="block font-serif italic font-bold text-[#55604e]">
-                Sovereign
-              </span>
-              <span className="block font-serif italic font-bold text-[#55604e]">
-                Agents
+                Intent-Based Agents
               </span>
             </h2>
             <p className="font-serif italic font-bold text-base sm:text-lg text-[#7a382e] mt-1.5">
