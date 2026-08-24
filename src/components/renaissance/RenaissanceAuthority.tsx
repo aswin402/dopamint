@@ -78,12 +78,12 @@ export const RenaissanceAuthority: React.FC = () => {
 
           {/* Bottom Bar: Metadata + CTA */}
           <div className="flex flex-wrap items-center gap-5 pt-3 sm:pt-6 w-full">
-            <span className="text-sm sm:text-base font-sans font-medium text-[#4b5546]">
+            <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] font-semibold text-[#55604e]">
               Virtual Agents · In the Frame
             </span>
             <a
               href="#contact"
-              className="inline-flex items-center rounded-full bg-[#3d4a3a] px-7 py-3 text-sm sm:text-base font-serif font-bold text-[#f7f5f0] transition-all duration-200 hover:bg-[#2e3a2c] hover:scale-105 shadow-sm hover:shadow-md ml-auto sm:ml-0 cursor-pointer"
+              className="inline-flex items-center rounded-full bg-[#55604e] px-7 py-3 text-xs sm:text-[13px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md ml-auto sm:ml-0 cursor-pointer"
             >
               Get API
             </a>
