@@ -4,7 +4,7 @@ import companionVideo from '../../assets/Companion_Video_1.webm';
 
 export const RenaissanceAuthority: React.FC = () => {
   return (
-    <section id="control" className="relative w-full bg-[#ffffff] py-16 sm:py-24 lg:py-28 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
+    <section id="control" className="relative w-full bg-[#ffffff] py-8 sm:py-12 lg:py-14 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
       
       {/* =========================================================================
           1. PLANET — POSITIONED SLIGHTLY UP ALONG THE RIGHT EDGE
