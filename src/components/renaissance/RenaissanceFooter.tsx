@@ -5,7 +5,7 @@ import { FaTwitter, FaDiscord, FaInstagram, FaTelegramPlane } from 'react-icons/
 
 export const RenaissanceFooter: React.FC = () => {
   return (
-    <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden select-none">
+    <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden select-none px-6 sm:px-10 lg:px-16">
       
       {/* =========================================================================
           BACKGROUND ARTWORK (FOOTER.PNG - RENAISSANCE PAINTING)
@@ -47,7 +47,7 @@ export const RenaissanceFooter: React.FC = () => {
       {/* =========================================================================
           BOTTOM NAVIGATION, SOCIALS & COPYRIGHT BAR
           ========================================================================= */}
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 pb-6 sm:pb-8 pt-24 sm:pt-36">
+      <div className="relative z-10 w-full max-w-[1400px] mx-auto pb-6 sm:pb-8 pt-24 sm:pt-36">
         
         {/* Main Bottom Nav Row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pb-6 border-b border-white/25 text-xs sm:text-sm">
