@@ -105,9 +105,6 @@ export const RenaissanceRealAsks: React.FC = () => {
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
-  const card4Ref = useRef<HTMLDivElement>(null);
-  const card5Ref = useRef<HTMLDivElement>(null);
-  const card6Ref = useRef<HTMLDivElement>(null);
   const pedestalRef = useRef<HTMLDivElement>(null);
 
   // Dynamic offsets: each card's CSS position → pedestal center & depth
@@ -157,23 +154,23 @@ export const RenaissanceRealAsks: React.FC = () => {
     };
   }, []);
 
-  // Wait 0.8s after section enters view, then trigger card emergence
+  // Wait 0.8s after section enters view, then trigger card emergence.
+  // "Open" is derived: leaving the viewport closes the section without a
+  // synchronous setState in the effect body.
   useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (isInView) {
-      timer = setTimeout(() => setIsOpen(true), 800);
-    } else {
-      setIsOpen(false);
-    }
+    if (!isInView) return;
+    const timer = setTimeout(() => setIsOpen(true), 800);
     return () => clearTimeout(timer);
   }, [isInView]);
+
+  const sectionOpen = isInView && isOpen;
 
   const handleToggle = () => setIsOpen((p) => !p);
 
   // Genie morph refs (staggered flubber transitions)
-  const path1Ref = useGenieMorph(isOpen, 0);
-  const path2Ref = useGenieMorph(isOpen, 100);
-  const path3Ref = useGenieMorph(isOpen, 200);
+  const path1Ref = useGenieMorph(sectionOpen, 0);
+  const path2Ref = useGenieMorph(sectionOpen, 100);
+  const path3Ref = useGenieMorph(sectionOpen, 200);
 
   // ── Framer Motion position variants: 2-phase synchronized emergence ──────
   // Phase 1 (0 → 0.42): All cards rise STRAIGHT UP out of the stone tablet mouth
@@ -282,7 +279,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             ref={card1Ref}
             variants={pos1}
             initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
+            animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[8%] sm:top-[12%] left-0 sm:left-[4%] lg:left-[8%] w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[460px] z-20"
           >
@@ -311,7 +308,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             ref={card2Ref}
             variants={pos2}
             initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
+            animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[2%] sm:top-[4%] left-[44%] sm:left-[46%] lg:left-[48%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[310px] z-20 hidden sm:block"
           >
@@ -339,7 +336,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             ref={card3Ref}
             variants={pos3}
             initial="closed"
-            animate={isOpen ? 'open' : 'closed'}
+            animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[38%] sm:top-[42%] right-0 sm:right-[4%] lg:right-[8%] w-full max-w-[360px] sm:max-w-[430px] lg:max-w-[480px] z-20"
           >
@@ -372,7 +369,7 @@ export const RenaissanceRealAsks: React.FC = () => {
             <motion.div
               whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
-              animate={isOpen ? { scale: [1, 1.05, 0.98, 1] } : { scale: 1 }}
+              animate={sectionOpen ? { scale: [1, 1.05, 0.98, 1] } : { scale: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
               className="w-full"
             >

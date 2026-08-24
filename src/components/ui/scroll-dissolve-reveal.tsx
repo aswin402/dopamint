@@ -4,6 +4,7 @@ import { useTexture, useVideoTexture, OrthographicCamera } from "@react-three/dr
 import * as THREE from "three";
 import { MotionValue, motionValue } from "framer-motion";
 import { cn } from "../../lib/utils";
+import { getLenisInstance } from "../../lib/lenis";
 
 const coverVertexShader = `
   varying vec2 vUv;
@@ -106,7 +107,14 @@ const coverFragmentShader = `
     );
 
     vec4 texColor = texture2D(uTexture, uv);
-    
+
+    // Resting state: dissolve hasn't started, all edge/noise terms are inert.
+    // Early-out skips sobel + fbm per-pixel cost while the hero idles.
+    if (uDissolve <= 0.001) {
+      gl_FragColor = vec4(texColor.rgb, texColor.a);
+      return;
+    }
+
     float gray = getLuminance(texColor.rgb);
     vec3 grayscaleColor = vec3(gray);
     texColor.rgb = mix(texColor.rgb, grayscaleColor, uGrayscale);
@@ -207,7 +215,7 @@ function VideoShaderScene({
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
       // Slower, more gradual dissolve progression mapped across 80% of travel
-      const dissolveProgress = Math.min(1.0, progress / 0.80);
+      const dissolveProgress = Math.min(1.0, progress / 0.95);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       
       const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
@@ -269,7 +277,7 @@ function ImageShaderScene({
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
-      const dissolveProgress = Math.min(1.0, progress / 0.80);
+      const dissolveProgress = Math.min(1.0, progress / 0.95);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
       material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
@@ -301,6 +309,23 @@ export interface ScrollDissolveRevealProps {
   children?: React.ReactNode | ((scrollYProgress: MotionValue<number>) => React.ReactNode);
 }
 
+// Scroll-jack must also pause Lenis (RootLayout), otherwise its virtual-scroll
+// engine keeps consuming wheel events and scrolls the document underneath the
+// fixed overlay — leaving it at/past the scroll limit once unlocked.
+function lockPageScroll() {
+  document.body.style.overflow = 'hidden';
+  document.documentElement.style.overflow = 'hidden';
+  document.documentElement.dataset.scrollLocked = 'true';
+  getLenisInstance()?.stop();
+}
+
+function unlockPageScroll() {
+  document.body.style.overflow = '';
+  document.documentElement.style.overflow = '';
+  delete document.documentElement.dataset.scrollLocked;
+  getLenisInstance()?.start();
+}
+
 export function ScrollDissolveReveal({
   imageFront,
   videoFront,
@@ -311,12 +336,20 @@ export function ScrollDissolveReveal({
 }: ScrollDissolveRevealProps) {
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
+  const renderedProgressRef = useRef(0);
   const [smoothProgress, setSmoothProgress] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const isUnlockedRef = useRef(false);
+  // Deliberate-reverse gate: near the top, small negative wheel/touch deltas
+  // (trackpad & wheel inertia tails) must NOT re-lock the scroll-jack. Only
+  // sustained upward input (cumulative ≤ -140px, reset by any downward delta,
+  // decayed after 600ms of inactivity) may reverse the animation.
+  const upAccumRef = useRef(0);
+  const lastUpTimeRef = useRef(0);
   const scrollYProgress = useMemo(() => motionValue(0), []);
 
   // Frame-rate independent exponential damping physics loop
+  // Overflow is toggled SYNCHRONOUSLY via DOM inside rAF — no React state lag
   useEffect(() => {
     let animId: number;
     let lastTime = performance.now();
@@ -325,11 +358,9 @@ export function ScrollDissolveReveal({
       const deltaSec = Math.min((time - lastTime) / 1000, 0.05);
       lastTime = time;
 
-      // Exponential decay dampening: lambda = 6.5
       const factor = 1 - Math.exp(-6.5 * deltaSec);
       smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
 
-      // Clean snap threshold near completion to immediately unlock scroll
       if (targetProgressRef.current >= 1.0 && smoothProgressRef.current >= 0.95) {
         smoothProgressRef.current = 1.0;
       } else if (targetProgressRef.current <= 0.0 && smoothProgressRef.current <= 0.05) {
@@ -337,21 +368,40 @@ export function ScrollDissolveReveal({
       }
 
       const cur = smoothProgressRef.current;
-      setSmoothProgress(cur);
       scrollYProgress.set(cur);
 
-      // Unlock scroll as soon as target reaches 1.0 and smoothProgress reaches 1.0
+      // Gate React re-renders by epsilon — motion values above already drive
+      // per-frame visuals; state is only needed for structural switches
+      // (canvas mount/unmount). Prevents 60fps re-renders of the hero subtree.
+      if (Math.abs(cur - renderedProgressRef.current) > 0.0004) {
+        renderedProgressRef.current = cur;
+        setSmoothProgress(cur);
+      }
+
       const completed = targetProgressRef.current >= 1.0 && cur >= 0.999;
       if (completed !== isUnlockedRef.current) {
         isUnlockedRef.current = completed;
         setIsUnlocked(completed);
+
+        // Toggle overflow immediately in this same rAF tick — no React re-render delay
+        if (completed) {
+          unlockPageScroll();
+        } else {
+          lockPageScroll();
+          window.scrollTo(0, 0);
+        }
       }
 
       animId = requestAnimationFrame(loop);
     };
 
+    lockPageScroll();
+
     animId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      unlockPageScroll();
+    };
   }, [scrollYProgress]);
 
   const updateTarget = useCallback((val: number) => {
@@ -359,32 +409,16 @@ export function ScrollDissolveReveal({
     targetProgressRef.current = clamped;
   }, []);
 
-  // Lock document scroll while animation is running (!isUnlocked)
-  // When animation finishes (isUnlocked === true), unlock body scroll so user can scroll down naturally!
-  useEffect(() => {
-    if (!isUnlocked) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
-      window.scrollTo(0, 0);
-    } else {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    };
-  }, [isUnlocked]);
-
   // Wheel, Touch, and Keyboard listeners
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0) upAccumRef.current = 0;
+
       // 1. While animation is running, lock scrolling and gently advance/reverse
       if (!isUnlockedRef.current) {
         e.preventDefault();
-        e.stopPropagation();
-        const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
+        e.stopImmediatePropagation();
+        const delta = Math.min(Math.abs(e.deltaY) * 0.0005, 0.033);
         if (e.deltaY > 0) {
           updateTarget(targetProgressRef.current + delta);
         } else if (e.deltaY < 0) {
@@ -393,19 +427,31 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      // 2. When animation is 100% complete and user scrolls up at the very top, reverse smoothly
-      if (window.scrollY <= 5 && e.deltaY < 0) {
+      // 2. Unlocked at the very top: only a DELIBERATE upward scroll reverses.
+      //    Small negative deltas (inertia tails) are swallowed harmlessly so a
+      //    jittery wheel/trackpad can't re-lock the scroll-jack and throw the
+      //    user back into the pinned hero.
+      if (window.scrollY <= 6 && e.deltaY < 0) {
         e.preventDefault();
-        e.stopPropagation();
-        isUnlockedRef.current = false;
-        setIsUnlocked(false);
-        const delta = Math.min(Math.abs(e.deltaY) * 0.00016, 0.012);
-        updateTarget(targetProgressRef.current - delta);
+        e.stopImmediatePropagation();
+        const now = performance.now();
+        if (now - lastUpTimeRef.current > 600) upAccumRef.current = 0;
+        lastUpTimeRef.current = now;
+        upAccumRef.current += e.deltaY;
+        if (upAccumRef.current <= -140) {
+          upAccumRef.current = 0;
+          // Re-lock immediately via DOM (no React state lag)
+          isUnlockedRef.current = false;
+          setIsUnlocked(false);
+          lockPageScroll();
+          window.scrollTo(0, 0);
+          const delta = Math.min(Math.abs(e.deltaY) * 0.0005, 0.033);
+          updateTarget(targetProgressRef.current - delta);
+        }
         return;
       }
 
-      // 3. Otherwise, isUnlocked is true and user is scrolling down:
-      // Let browser scroll down naturally into "Talk Markets. It Trades"!
+      // 3. Unlocked + scrolling DOWN → do nothing, let browser handle naturally ✓
     };
 
     let touchStartY = 0;
@@ -418,9 +464,12 @@ export function ScrollDissolveReveal({
       const deltaY = touchStartY - currentY;
       touchStartY = currentY;
 
+      if (deltaY > 0) upAccumRef.current = 0;
+
       if (!isUnlockedRef.current) {
         e.preventDefault();
-        const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
+        e.stopImmediatePropagation();
+        const delta = Math.min(Math.abs(deltaY) * 0.0022, 0.045);
         if (deltaY > 0) {
           updateTarget(targetProgressRef.current + delta);
         } else if (deltaY < 0) {
@@ -429,12 +478,24 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      if (window.scrollY <= 5 && deltaY < 0) {
+      // Same deliberate-reverse gate as wheel: an upward touch tail near the
+      // top must not re-lock the scroll-jack.
+      if (window.scrollY <= 6 && deltaY < 0) {
         e.preventDefault();
-        isUnlockedRef.current = false;
-        setIsUnlocked(false);
-        const delta = Math.min(Math.abs(deltaY) * 0.0008, 0.016);
-        updateTarget(targetProgressRef.current - delta);
+        e.stopImmediatePropagation();
+        const now = performance.now();
+        if (now - lastUpTimeRef.current > 600) upAccumRef.current = 0;
+        lastUpTimeRef.current = now;
+        upAccumRef.current += deltaY;
+        if (upAccumRef.current <= -140) {
+          upAccumRef.current = 0;
+          isUnlockedRef.current = false;
+          setIsUnlocked(false);
+          lockPageScroll();
+          window.scrollTo(0, 0);
+          const delta = Math.min(Math.abs(deltaY) * 0.0022, 0.045);
+          updateTarget(targetProgressRef.current - delta);
+        }
         return;
       }
     };
@@ -443,10 +504,10 @@ export function ScrollDissolveReveal({
       if (!isUnlockedRef.current) {
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current + 0.025);
+          updateTarget(targetProgressRef.current + 0.07);
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current - 0.025);
+          updateTarget(targetProgressRef.current - 0.07);
         }
       }
     };
@@ -492,7 +553,7 @@ export function ScrollDissolveReveal({
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
         {smoothProgress < 0.999 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
-            <Canvas gl={{ antialias: true, alpha: true }}>
+            <Canvas gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}>
               <OrthographicCamera
                 makeDefault
                 manual
@@ -524,7 +585,7 @@ export function ScrollDissolveReveal({
         {/* Layer 3: Interactive Hero Overlay */}
         {children && (
           <div className="absolute inset-0 z-20 pointer-events-none">
-            {typeof children === 'function' ? (children as any)(scrollYProgress) : children}
+            {typeof children === 'function' ? children(scrollYProgress) : children}
           </div>
         )}
       </div>

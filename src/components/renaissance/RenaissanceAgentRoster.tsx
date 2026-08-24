@@ -8,7 +8,7 @@ export interface AgentCardData {
   skills: string[];
 }
 
-export const ALL_72_AGENTS: AgentCardData[] = [
+const ALL_72_AGENTS: AgentCardData[] = [
   // --- LANE 1 (AGENTS 1 - 24) ---
   {
     id: 1,

@@ -586,7 +586,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       const componentTop = rect.top;
       const componentHeight = rect.height;
 
-      let progress = 0;
+      let progress: number;
       if (componentTop >= viewportHeight) {
         progress = 1;
       } else if (rect.bottom <= 0) {

@@ -1,5 +1,3 @@
-@import url('https://fonts.cdnfonts.com/css/winslow-book');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -28,7 +26,6 @@
   }
 
   html {
-    scroll-behavior: smooth;
     font-family: var(--font-sans);
     background-color: #f3f2e6;
     color: #141820;
@@ -153,23 +150,18 @@
   animation: scanLine 3.5s ease-in-out infinite;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Hide page scrollbar (scroll stays functional; Lenis drives it).
+   Scoped to html/body so inner scrollables like .mac-code-editor keep their bars. */
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-::-webkit-scrollbar-track {
-  background: #f3f2e6;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #d8d0c5;
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #c5bcae;
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 /* Custom Type 1 Expanding Button */

@@ -26,15 +26,15 @@ export function HomePage() {
         {/* 3. the Dope App: 8 Agent Crew */}
         <RenaissanceAgentRoster />
 
-        {/* 4. Authority: Trust Layer Sandbox */}
+        {/* 4. The Future of Agents */}
         <RenaissanceAuthority />
 
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-36 sm:h-48 md:h-64 lg:h-80 pointer-events-none z-20">
             <BurnTransition
-              color="#f3f2e6"
+              color="#ffffff"
               transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
@@ -68,7 +68,7 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-48 sm:h-64 md:h-80 pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"

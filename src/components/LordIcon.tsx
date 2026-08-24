@@ -46,28 +46,31 @@ export function LordIcon({
 }: LordIconProps) {
   const playerRef = useRef<Player>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [iconData, setIconData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // Loading is derived from the fetched snapshot: skeleton shows until the
+  // animation data for the *current* src has arrived (also covers src swaps).
+  const [iconState, setIconState] = useState<{ src: string; data: object } | null>(null);
+  const isLoading = iconState === null || iconState.src !== src;
   const [resolvedColors, setResolvedColors] = useState<string | undefined>(undefined);
   
   // Hook into theme store to trigger re-renders on theme toggle
   const { theme } = useThemeStore();
 
   useEffect(() => {
-    setIsLoading(true);
+    let cancelled = false;
     fetch(src)
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        setIconData(data);
-        setIsLoading(false);
+        if (!cancelled) setIconState({ src, data });
       })
       .catch((err) => {
         console.error('Failed to load lordicon from url:', src, err);
-        setIsLoading(false);
       });
+    return () => {
+      cancelled = true;
+    };
   }, [src]);
 
   // Resolve CSS color variables and currentColors dynamically to HEX
@@ -97,13 +100,13 @@ export function LordIcon({
   }, [colors, isLoading, theme]);
 
   useEffect(() => {
-    if (!isLoading && iconData && trigger === 'loop') {
+    if (!isLoading && iconState && trigger === 'loop') {
       const timer = setTimeout(() => {
         playerRef.current?.play();
       }, delay);
       return () => clearTimeout(timer);
     }
-  }, [isLoading, iconData, trigger, delay]);
+  }, [isLoading, iconState, trigger, delay]);
 
   const handleMouseEnter = () => {
     if (trigger === 'hover' && !isLoading && playerRef.current) {
@@ -117,7 +120,7 @@ export function LordIcon({
     }
   };
 
-  if (isLoading || !iconData) {
+  if (isLoading || !iconState) {
     return (
       <div 
         style={{ width: size, height: size }} 
@@ -136,7 +139,7 @@ export function LordIcon({
     >
       <Player
         ref={playerRef}
-        icon={iconData}
+        icon={iconState.data}
         size={size}
         colors={resolvedColors}
         onComplete={() => {

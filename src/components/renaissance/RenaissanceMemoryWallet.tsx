@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { 
-  RefreshCw, 
   Lock,
   Wifi, 
   Battery,
@@ -15,27 +14,6 @@ import {
   CheckCheck
 } from 'lucide-react';
 import crownImg from '../../assets/Crown.png';
-
-const EXCHANGES_RAILS = [
-  'Upbit',
-  'Coinbase',
-  'Binance',
-  'OKX',
-  'Bybit',
-  'Kraken',
-  'Bithumb',
-  'Gate',
-];
-
-const WALLET_RAILS = [
-  'MetaMask',
-  'Phantom',
-  'Base',
-  'Coinbase Wallet',
-  'Rabby',
-  'Ledger',
-  'Backpack',
-];
 
 export const RenaissanceMemoryWallet: React.FC = () => {
   const [screenMode, setScreenMode] = useState<'lock' | 'chat'>('lock');
@@ -96,9 +74,12 @@ export const RenaissanceMemoryWallet: React.FC = () => {
     const timers: ReturnType<typeof setTimeout>[] = [];
 
     if (screenMode === 'lock') {
-      setChatTime('9:41');
-      setMessageStage(0);
-      setIsTappingNotification(false);
+      // Reset lock-screen state on the next tick — no synchronous setState in effects
+      timers.push(setTimeout(() => {
+        setChatTime('9:41');
+        setMessageStage(0);
+        setIsTappingNotification(false);
+      }, 0));
 
       // After 2.4s of lock screen, simulate tapping the notification to open app
       const tapTimer = setTimeout(() => {
@@ -110,8 +91,11 @@ export const RenaissanceMemoryWallet: React.FC = () => {
       if (chatScrollRef.current) {
         chatScrollRef.current.scrollTop = 0;
       }
-      setChatTime('9:41');
-      setMessageStage(0);
+      // Reset chat state on the next tick — no synchronous setState in effects
+      timers.push(setTimeout(() => {
+        setChatTime('9:41');
+        setMessageStage(0);
+      }, 0));
 
       // Part 1: 9:41 AM Trade Entry Messages appear ONE BY ONE
       timers.push(setTimeout(() => setMessageStage(1), 250));  // Msg 1: Bought coin
@@ -978,54 +962,6 @@ export const RenaissanceMemoryWallet: React.FC = () => {
               </div>
             </div>
 
-          </div>
-
-        </div>
-
-        {/* =========================================================================
-            3. INTEGRATED RAILS & VENUES (MARQUEE TICKERS)
-            ========================================================================= */}
-        <div className="w-full space-y-4 pt-4 pb-4 overflow-hidden relative z-20">
-          
-          <div className="text-center font-serif italic text-sm text-[#d4c8b6] mb-2">
-            Integrated Rails, Venues &amp; Wallets
-          </div>
-
-          {/* Marquee Row 1: Exchanges (Upbit, Coinbase, Binance, OKX, Bybit, Kraken, Bithumb, Gate) */}
-          <div className="relative w-full overflow-hidden py-1">
-            <div className="flex gap-4 animate-marquee whitespace-nowrap will-change-transform">
-              {[...EXCHANGES_RAILS, ...EXCHANGES_RAILS, ...EXCHANGES_RAILS, ...EXCHANGES_RAILS].map((exchange, idx) => (
-                <div
-                  key={idx}
-                  className="px-6 py-3 rounded-2xl bg-[#1a1714]/80 backdrop-blur-md border border-[#c4a978]/30 shadow-xs font-serif text-xs sm:text-[13px] font-bold text-[#f7f2ea] flex items-center gap-2.5 hover:border-[#dfc28d]/60 transition-colors shrink-0"
-                >
-                  <div className="w-2 h-2 rounded-full bg-[#dfc28d] shrink-0" />
-                  <span>{exchange}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Marquee Row 2: Wallets (MetaMask, Phantom, Base, Coinbase Wallet, Rabby, Ledger, Backpack) */}
-          <div className="relative w-full overflow-hidden py-1">
-            <div className="flex gap-4 animate-marquee whitespace-nowrap will-change-transform" style={{ animationDirection: 'reverse' }}>
-              {[...WALLET_RAILS, ...WALLET_RAILS, ...WALLET_RAILS, ...WALLET_RAILS].map((wallet, idx) => (
-                <div
-                  key={idx}
-                  className="px-6 py-3 rounded-2xl bg-[#141210]/90 backdrop-blur-md border border-[#c4a978]/30 shadow-xs font-serif text-xs sm:text-[13px] font-bold text-[#f7f2ea] flex items-center gap-2.5 hover:border-[#dfc28d]/60 transition-colors shrink-0"
-                >
-                  <div className="w-2 h-2 rounded-full bg-[#4ade80] shrink-0" />
-                  <span>{wallet}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Disclaimer Text */}
-          <div className="pt-6 text-center max-w-3xl mx-auto">
-            <p className="text-xs font-serif italic text-[#a49682] leading-relaxed">
-              Names shown indicate the kinds of rails specialized agents are built to hunt and settle across. No partnership or endorsement is implied.
-            </p>
           </div>
 
         </div>

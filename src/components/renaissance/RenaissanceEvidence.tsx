@@ -7,7 +7,6 @@ import {
   Sparkles, 
   CheckCircle2, 
   RefreshCw, 
-  Zap,
   Workflow,
   Layers,
   Crown

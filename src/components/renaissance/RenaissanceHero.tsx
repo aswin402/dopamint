@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
@@ -24,7 +24,7 @@ interface HeroOverlayProps {
   activeBadge: string | null;
   handleBadgeClick: (badge: string) => void;
   handleFormSubmit: (e: React.FormEvent) => void;
-  scrollYProgress: any;
+  scrollYProgress: MotionValue<number>;
 }
 
 function HeroOverlay({
@@ -280,7 +280,7 @@ export const RenaissanceHero: React.FC = () => {
         videoFront={heroBgVid}
         backgroundContent={<HouseOfAgentsSection />}
       >
-        {(scrollYProgress: any) => (
+        {(scrollYProgress) => (
           <HeroOverlay
             actionIndex={actionIndex}
             promptValue={promptValue}
