@@ -204,8 +204,7 @@ function HouseOfAgentsSection() {
               There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
             </p>
             <p className="font-serif italic text-sm sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
-              Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. <br className="hidden sm:inline" />
-              It handles the rest.
+              Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
             </p>
             <p>
               Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-bold text-[#20291c]">AiFi</span> and <span className="font-bold text-[#20291c]">x402</span> doing the heavy lifting.
