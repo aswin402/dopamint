@@ -6,6 +6,8 @@ import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAge
 import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
 import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
 import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
+import { RenaissanceRoadmapSection } from '../components/renaissance/RenaissanceRoadmapSection';
+import { RenaissanceFooter } from '../components/renaissance/RenaissanceFooter';
 import { BurnTransition } from '../components/ui/BurnTransition';
 import divBurnOutImg from '../assets/Div_Burn_out_image.png';
 
@@ -85,6 +87,12 @@ export function HomePage() {
             />
           </div>
         </div>
+
+        {/* 7. Dopamint Roadmap (Video/Static Transition + Staggered Grid Logo Animation) */}
+        <RenaissanceRoadmapSection />
+
+        {/* 8. Footer Section (Give your AI some agency + The Last Supper background) */}
+        <RenaissanceFooter />
       </main>
     </div>
   );

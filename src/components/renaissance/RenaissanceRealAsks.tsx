@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../assets/Candle_Stand.png';
-import footerImg from '../../assets/footer.png';
+import sideCharImg from '../../assets/side_char.png';
 import iMessagePodiumImg from '../../assets/iMessage_Podium.png';
 import { IMessageBubble } from './IMessageBubble';
 
@@ -249,7 +249,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         className="absolute -bottom-48 sm:-bottom-64 md:-bottom-84 lg:-bottom-[420px] xl:-bottom-[480px] -left-40 sm:-left-56 md:-left-72 lg:-left-[360px] xl:-left-[420px] 2xl:-left-[460px] w-[520px] sm:w-[680px] md:w-[840px] lg:w-[980px] xl:w-[1100px] pointer-events-none z-20"
       >
         <img
-          src={footerImg}
+          src={sideCharImg}
           alt="Renaissance Character"
           className="w-full h-auto object-contain drop-shadow-[0_24px_48px_rgba(40,30,20,0.25)] select-none"
         />

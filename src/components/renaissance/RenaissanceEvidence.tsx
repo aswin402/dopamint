@@ -36,6 +36,7 @@ const AgentNode: React.FC<AgentNodeProps> = ({
     <motion.div
       whileHover={{ scale: 1.015, y: -2 }}
       whileTap={{ scale: 0.99 }}
+      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
       className={`relative px-5 py-3.5 sm:px-7 sm:py-4 rounded-2xl border transition-all duration-300 cursor-pointer text-center group overflow-hidden ${
         isPrimary
           ? 'bg-[#1e1a15]/90 backdrop-blur-xl border-[#d4af37]/60 shadow-[0_0_30px_rgba(212,175,55,0.18)] hover:border-[#f0dcba]'
@@ -49,19 +50,19 @@ const AgentNode: React.FC<AgentNodeProps> = ({
 
       <div className="flex flex-col items-center justify-center space-y-1">
         {badge && (
-          <span className="text-[10px] font-mono font-bold tracking-[0.24em] text-[#dfc28d] uppercase mb-0.5">
+          <span className="text-[10px] font-bold tracking-[0.16em] text-[#dfc28d] uppercase mb-0.5">
             {badge}
           </span>
         )}
         
         <div className="flex items-center gap-2">
           {icon && <span className="text-[#dfc28d]">{icon}</span>}
-          <h4 className="font-serif tracking-[0.14em] text-xs sm:text-[14px] text-[#f7f2ea] uppercase font-bold group-hover:text-[#dfc28d] transition-colors">
+          <h4 className="tracking-[0.08em] text-xs sm:text-[14px] text-[#f7f2ea] uppercase font-bold group-hover:text-[#dfc28d] transition-colors">
             {title}
           </h4>
         </div>
 
-        <p className="font-serif italic text-xs sm:text-[13px] text-[#c7baa4] font-normal leading-tight max-w-[280px]">
+        <p className="text-xs sm:text-[13px] text-[#c7baa4] font-normal leading-tight max-w-[280px]">
           {subtitle}
         </p>
       </div>
@@ -82,14 +83,14 @@ export const RenaissanceEvidence: React.FC = () => {
     <section id="architecture" className="pt-20 sm:pt-28 pb-16 sm:pb-24 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
       
       {/* =========================================================================
-          1. SECTION HEADER (RENAISSANCE TYPOGRAPHY & CANDLELIGHT CHARM)
+          1. SECTION HEADER (CENTER ALIGNED)
           ========================================================================= */}
-      <div className="max-w-4xl mb-14 sm:mb-20 text-left space-y-4">
+      <div className="max-w-4xl mb-14 sm:mb-20 text-center mx-auto space-y-4">
         
         {/* Crown & Classical Eyebrow */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[11px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
           <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
-          <span>AUTONOMOUS REASONING ARCHITECTURE</span>
+          <span>ARCHITECTURE</span>
         </div>
 
         {/* Editorial Headline */}
@@ -99,17 +100,15 @@ export const RenaissanceEvidence: React.FC = () => {
             execution.
           </span>
         </h2>
-
-        {/* Italicized Sub-headline */}
-        <p className="text-base sm:text-lg text-[#d4c8b6] max-w-2xl font-serif italic leading-relaxed pt-1">
-          A continuous sovereign loop where companion agents collaborate, reason, evaluate outputs, and self-improve on every cycle.
-        </p>
       </div>
 
       {/* =========================================================================
-          2. THE RENAISSANCE FLOWCHART GRAPH
+          2. THE RENAISSANCE FLOWCHART GRAPH (HELVETICA TYPOGRAPHY)
           ========================================================================= */}
-      <div className="relative max-w-4xl mx-auto my-8">
+      <div 
+        style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+        className="relative max-w-4xl mx-auto my-8"
+      >
 
         {/* --- RIGHT-SIDE CONTINUOUS FEEDBACK CONDUIT (GOLDEN DOTTED EMBERS) --- */}
         <div className="hidden lg:block absolute right-0 top-6 bottom-14 w-28 pointer-events-none z-10">
@@ -321,7 +320,7 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="pt-6 pb-2 text-center">
             <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-[#f3f2e6] border border-[#c4a978]/40 shadow-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-[#37312c] animate-pulse" />
-              <span className="font-serif italic text-xs sm:text-[14px] tracking-[0.2em] text-[#37312c] font-bold">
+              <span className="text-xs sm:text-[13px] tracking-[0.15em] text-[#37312c] font-bold uppercase">
                 EVERY LOOP MAKES THE COMPANION BETTER
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#37312c] animate-pulse" />
@@ -335,30 +334,33 @@ export const RenaissanceEvidence: React.FC = () => {
       {/* =========================================================================
           3. CAPABILITY PILL BADGES (DARK COLOR #37312c ON LIGHT BEIGE PILLS)
           ========================================================================= */}
-      <div className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 max-w-4xl mx-auto">
+      <div 
+        style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
+        className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 max-w-4xl mx-auto"
+      >
         
-        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
           <span className="font-bold text-[#37312c]">Agent Loop</span>
           <span className="text-[#37312c]/60">·</span>
-          <span className="italic text-[#37312c]/90 font-medium">keeps the task running</span>
+          <span className="text-[#37312c]/90 font-medium">keeps the task running</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
           <span className="font-bold text-[#37312c]">Agent Harness</span>
           <span className="text-[#37312c]/60">·</span>
-          <span className="italic text-[#37312c]/90 font-medium">tools &amp; environments</span>
+          <span className="text-[#37312c]/90 font-medium">tools &amp; environments</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
           <span className="font-bold text-[#37312c]">AiFi</span>
           <span className="text-[#37312c]/60">·</span>
-          <span className="italic text-[#37312c]/90 font-medium">financial execution</span>
+          <span className="text-[#37312c]/90 font-medium">financial execution</span>
         </div>
 
-        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] font-serif text-[#37312c] shadow-xs transition-all flex items-center gap-2">
+        <div className="px-5 py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
           <span className="font-bold text-[#37312c]">x402</span>
           <span className="text-[#37312c]/60">·</span>
-          <span className="italic text-[#37312c]/90 font-medium">autonomous payments</span>
+          <span className="text-[#37312c]/90 font-medium">autonomous payments</span>
         </div>
 
       </div>
