@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVid from '../../assets/herosectionbgvid.webm';
-import handWithMobile from '../../assets/hand_with_mobile.png';
+import chatScreenVid from '../../assets/Chat_Screen.webm';
 import crownImg from '../../assets/Crown.png';
 import { ScrollDissolveReveal } from '../ui/scroll-dissolve-reveal';
 
@@ -230,12 +230,16 @@ function HouseOfAgentsSection() {
 
         </div>
 
-        {/* Right Column: Large Mobile Device Shifted Right */}
+        {/* Right Column: Chat Screen Video Shifted Right */}
         <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end z-10">
           <div className="relative w-full sm:w-[110%] lg:w-[125%] xl:w-[135%] lg:-mr-[3vw] xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-12 flex items-center justify-end">
-            <img
-              src={handWithMobile}
-              alt="House of AI Agents - Hand with Mobile"
+            <video
+              src={chatScreenVid}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
               className="w-full max-h-[75vh] object-contain object-right transition-transform duration-500 hover:scale-[1.01] block"
             />
           </div>
