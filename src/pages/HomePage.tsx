@@ -52,13 +52,15 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.png Background */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          {/* Div_Burn_out_image.png Background — Darkened & Dulled */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
             <img
               src={divBurnOutImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none"
+              className="w-full h-full object-cover object-top select-none brightness-[0.68] contrast-[0.95] saturate-[0.75]"
             />
+            {/* Subtle dark tint overlay */}
+            <div className="absolute inset-0 bg-[#0a0d0a]/30 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
