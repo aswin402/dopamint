@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import roadmapBgVid from '../../assets/Roadmap_BG.webm';
 import roadmapStaticImg from '../../assets/Roadmap_Static.png';
 import { StaggeredGrid } from '../ui/staggered-grid';
@@ -6,6 +6,32 @@ import { StaggeredGrid } from '../ui/staggered-grid';
 export const RenaissanceRoadmapSection: React.FC = () => {
   const [videoEnded, setVideoEnded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hasTriggeredRef = useRef(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    const container = containerRef.current;
+    if (!video || !container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasTriggeredRef.current) {
+            hasTriggeredRef.current = true;
+            video.currentTime = 0;
+            video.play().catch(() => {
+              // Muted autoplay allowed
+            });
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
 
   const handleVideoEnded = () => {
     setVideoEnded(true);
@@ -27,30 +53,29 @@ export const RenaissanceRoadmapSection: React.FC = () => {
         </div>
 
         {/* Scroll Media Container (Video & Static Image placed in the exact same spot) */}
-        <div className="relative w-full max-w-[1720px] mx-auto aspect-[16/9] min-h-[460px] sm:min-h-[620px] md:min-h-[760px] lg:min-h-[880px] xl:min-h-[980px] rounded-2xl sm:rounded-3xl overflow-hidden flex items-center justify-center">
-          
-          {/* Static Image (Revealed when video ends, or sitting seamlessly as base layer) */}
+        <div 
+          ref={containerRef}
+          className="relative w-full max-w-[1720px] mx-auto aspect-[16/9] min-h-[460px] sm:min-h-[620px] md:min-h-[760px] lg:min-h-[880px] xl:min-h-[980px] rounded-2xl sm:rounded-3xl overflow-hidden flex items-center justify-center"
+        >
+          {/* Static Image (Sitting seamlessly as base layer) */}
           <img
             src={roadmapStaticImg}
             alt="Dopamint Roadmap Scroll"
-            className={`absolute inset-0 w-full h-full object-contain select-none transition-opacity duration-700 ${
-              videoEnded ? 'opacity-100' : 'opacity-0'
-            }`}
+            className="w-full h-full object-contain select-none block"
           />
 
-          {/* Animated Scroll Video (Plays first, fades out smoothly when ended) */}
-          <video
-            ref={videoRef}
-            src={roadmapBgVid}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            onEnded={handleVideoEnded}
-            className={`absolute inset-0 w-full h-full object-contain select-none transition-opacity duration-700 ${
-              videoEnded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            }`}
-          />
+          {/* Animated Scroll Video (Plays on scroll view, unmounts instantly on end with zero delay/fade) */}
+          {!videoEnded && (
+            <video
+              ref={videoRef}
+              src={roadmapBgVid}
+              muted
+              playsInline
+              preload="auto"
+              onEnded={handleVideoEnded}
+              className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none"
+            />
+          )}
 
         </div>
 
