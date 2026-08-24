@@ -43,13 +43,13 @@ export const RenaissanceNavbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 py-4 px-6 sm:px-10 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
         isSolidNav
           ? 'bg-[#f3f2e6]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between w-full">
+      <div className="max-w-[1400px] mx-auto flex items-center justify-between w-full">
         {/* Brand with logo_dope.png (Switches from White to Black on scroll or when hero dissolves) */}
         <a href="#hero" className="flex items-center group" aria-label="Home">
           <img
@@ -90,7 +90,7 @@ export const RenaissanceNavbar: React.FC = () => {
         {/* Right Action */}
         <div className="flex items-center gap-3">
           <Type1Button
-            href="#cta"
+            href="#manifesto"
             variant={isSolidNav ? 'dark' : 'light'}
             className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
           >
@@ -126,7 +126,7 @@ export const RenaissanceNavbar: React.FC = () => {
           </a>
           <div className="pt-2">
             <Type1Button
-              href="#cta"
+              href="#manifesto"
               onClick={() => setMobileNavOpen(false)}
               className="!w-full !h-11"
             >

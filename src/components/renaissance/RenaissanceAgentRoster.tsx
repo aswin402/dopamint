@@ -573,7 +573,7 @@ export const RenaissanceAgentRoster: React.FC = () => {
     <section id="agents" className="w-full bg-[#f3f2e6] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
       
       {/* Top Header Section */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
+      <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
           
           {/* Left Title: DOPE runs the House */}
