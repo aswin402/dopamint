@@ -170,11 +170,11 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-4 overflow-y-auto lg:overflow-hidden select-none px-6 sm:px-10 lg:px-16">
-      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-0 overflow-y-auto lg:overflow-hidden select-none px-6 sm:px-10 lg:px-16">
+      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center lg:items-end">
         
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
-        <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center z-20">
+        <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center pb-6 lg:pb-12 z-20">
           
           {/* Small Eyebrow */}
           <div>
@@ -230,9 +230,9 @@ function HouseOfAgentsSection() {
 
         </div>
 
-        {/* Right Column: Chat Screen Video Shifted Right */}
-        <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end z-10">
-          <div className="relative w-full sm:w-[110%] lg:w-[125%] xl:w-[135%] lg:-mr-[3vw] xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-12 flex items-center justify-end">
+        {/* Right Column: Chat Screen Video Shifted Left & Touching Bottom */}
+        <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end">
+          <div className="relative w-full sm:w-[115%] lg:w-[130%] xl:w-[145%] -translate-x-2 sm:-translate-x-6 lg:-translate-x-10 flex items-end justify-end">
             <video
               src={chatScreenVid}
               autoPlay
@@ -240,7 +240,7 @@ function HouseOfAgentsSection() {
               loop
               playsInline
               preload="metadata"
-              className="w-full max-h-[75vh] object-contain object-right transition-transform duration-500 hover:scale-[1.01] block"
+              className="w-full max-h-[80vh] sm:max-h-[85vh] lg:max-h-[92vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block"
             />
           </div>
         </div>
