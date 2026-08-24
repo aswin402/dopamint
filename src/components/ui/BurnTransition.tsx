@@ -397,17 +397,27 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
         float fiberNoise = noise(fiberCoord);
         float combinedGrain = grain * 0.6 + fiberNoise * 0.4;
 
-        float rimWidth = max(localThickness * 2.0, 0.035);
-        float lowerBound = mainEdge - rimWidth * 0.55;
-        float upperBound = mainEdge + rimWidth * 0.45;
-
         if (v_uv.y < lowerBound) {
           gl_FragColor = vec4(u_color, 1.0);
         } else if (v_uv.y < upperBound) {
           float t = (v_uv.y - lowerBound) / max(upperBound - lowerBound, 0.0001);
-          float fiberAlpha = 1.0 - smoothstep(0.35 + combinedGrain * 0.28, 0.95, t);
-          vec3 edgeCol = mix(u_color, u_transition_color, smoothstep(0.0, 0.5, t));
-          gl_FragColor = vec4(edgeCol, fiberAlpha);
+          if (t < 0.2) {
+            float grainThresh = 1.0 - (t / 0.2);
+            if (combinedGrain > grainThresh * 0.5) {
+              gl_FragColor = vec4(u_transition_color, 1.0);
+            } else {
+              gl_FragColor = vec4(u_color, 1.0);
+            }
+          } else if (t > 0.8) {
+            float grainThresh = (t - 0.8) / 0.2;
+            if (combinedGrain > grainThresh * 0.6) {
+              gl_FragColor = vec4(u_transition_color, 1.0);
+            } else {
+              discard;
+            }
+          } else {
+            gl_FragColor = vec4(u_transition_color, 1.0);
+          }
         } else {
           discard;
         }
@@ -532,9 +542,8 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
     const resizeCanvas = () => {
       if (!container || !canvas) return;
       const rect = container.getBoundingClientRect();
-      const dpr = Math.min(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1, 2);
-      const newWidth = Math.max(1, Math.floor(rect.width * dpr));
-      const newHeight = Math.max(1, Math.floor(rect.height * dpr));
+      const newWidth = Math.max(1, Math.floor(rect.width));
+      const newHeight = Math.max(1, Math.floor(rect.height));
 
       if (canvas.width === newWidth && canvas.height === newHeight) return;
       canvas.width = newWidth;

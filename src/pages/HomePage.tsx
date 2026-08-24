@@ -34,16 +34,16 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-48 lg:h-56 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-36 sm:h-48 md:h-64 lg:h-80 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
-              noiseScale={3.5}
-              noiseIntensity={0.65}
+              noiseScale={2.5}
+              noiseIntensity={0.52}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.06}
-              edgeSoftness={0.35}
-              bloomIntensity={1.1}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
               bloomRadius={0.35}
               parallaxEnabled={true}
               inverted={true}
@@ -70,16 +70,16 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-36 sm:h-48 md:h-60 lg:h-72 pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
-              noiseScale={3.5}
-              noiseIntensity={0.65}
+              noiseScale={2.5}
+              noiseIntensity={0.52}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.06}
-              edgeSoftness={0.35}
-              bloomIntensity={1.1}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
               bloomRadius={0.35}
               parallaxEnabled={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
