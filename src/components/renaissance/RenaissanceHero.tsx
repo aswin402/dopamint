@@ -230,9 +230,9 @@ function HouseOfAgentsSection() {
 
         </div>
 
-        {/* Right Column: Chat Screen Video Shifted Left & Touching Bottom */}
+        {/* Right Column: Chat Screen Video Touching Bottom & Shifted Right */}
         <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end">
-          <div className="relative w-full sm:w-[115%] lg:w-[130%] xl:w-[145%] -translate-x-2 sm:-translate-x-6 lg:-translate-x-10 flex items-end justify-end">
+          <div className="relative w-full sm:w-[110%] lg:w-[125%] xl:w-[135%] lg:-mr-[3vw] xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-12 flex items-end justify-end">
             <video
               src={chatScreenVid}
               autoPlay
