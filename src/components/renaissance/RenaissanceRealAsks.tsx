@@ -206,8 +206,8 @@ export const RenaissanceRealAsks: React.FC = () => {
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
-                <IMessageBubble text="why is BTC sending?" side="left" />
-                <IMessageBubble text="spot buying picked up." side="right" />
+                <IMessageBubble text="why is BTC sending?" side="right" />
+                <IMessageBubble text="spot buying picked up." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -222,7 +222,7 @@ export const RenaissanceRealAsks: React.FC = () => {
               whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <div className="flex flex-col">
-                <IMessageBubble text="yo, today is your girlfriend's birthday." side="right" />
+                <IMessageBubble text="yo, today is your girlfriend's birthday." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -237,7 +237,7 @@ export const RenaissanceRealAsks: React.FC = () => {
               whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <div className="flex flex-col">
-                <IMessageBubble text="i paid the electricity bills no worries." side="right" />
+                <IMessageBubble text="i paid the electricity bills no worries." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -252,8 +252,8 @@ export const RenaissanceRealAsks: React.FC = () => {
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
-                <IMessageBubble text="find me a good yield?" side="left" />
-                <IMessageBubble text="found 3. want me to rank them?" side="right" />
+                <IMessageBubble text="find me a good yield?" side="right" />
+                <IMessageBubble text="found 3. want me to rank them?" side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -268,8 +268,8 @@ export const RenaissanceRealAsks: React.FC = () => {
               whileHover={{ scale: 1.05, rotate: 1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
-                <IMessageBubble text="what's on my schedule tomorrow?" side="left" />
-                <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="right" />
+                <IMessageBubble text="what's on my schedule tomorrow?" side="right" />
+                <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="left" />
               </div>
             </motion.div>
           </motion.div>
