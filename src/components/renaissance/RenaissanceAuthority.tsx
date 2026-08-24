@@ -4,7 +4,7 @@ import companionVideo from '../../assets/Companion_Video_1.webm';
 
 export const RenaissanceAuthority: React.FC = () => {
   return (
-    <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-16 sm:pb-24 lg:pb-28 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
+    <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-2 sm:pb-4 lg:pb-6 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
       
       {/* =========================================================================
           1. PLANET — POSITIONED SLIGHTLY UP ALONG THE RIGHT EDGE
@@ -59,7 +59,7 @@ export const RenaissanceAuthority: React.FC = () => {
           </p>
 
           {/* Bottom Bar: Metadata + CTA */}
-          <div className="flex flex-wrap items-center gap-5 pt-8 sm:pt-14 w-full">
+          <div className="flex flex-wrap items-center gap-5 pt-3 sm:pt-6 w-full">
             <span className="text-xs sm:text-[13px] font-sans font-semibold uppercase tracking-[0.2em] text-[#4b5546]">
               Virtual Agents · In the Frame
             </span>
