@@ -145,8 +145,8 @@ export const RenaissanceRealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-  const cardBase = 'imsg-card overflow-hidden rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] px-4 sm:px-6 pt-3.5 sm:pt-5 pb-2.5 sm:pb-3.5 cursor-pointer transition-colors duration-300';
-  const cardSm   = 'imsg-card overflow-hidden rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] px-3.5 sm:px-4.5 pt-3 sm:pt-3.5 pb-1.5 sm:pb-2 cursor-pointer transition-colors duration-300';
+  const cardBase = 'imsg-card overflow-hidden rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4.5 sm:p-6 lg:p-7 cursor-pointer transition-colors duration-300';
+  const cardSm   = 'imsg-card overflow-hidden rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-4.5 cursor-pointer transition-colors duration-300';
   const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
@@ -200,13 +200,13 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* Cards + pedestal */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[660px] sm:min-h-[720px] lg:min-h-[780px]">
+        <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
 
           {/* CARD 1 — top-left (rotate -3.5deg) */}
           <motion.div
             ref={card1Ref} variants={pos1} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[8%] sm:top-[9%] lg:top-[10%] left-0 sm:left-[1%] lg:left-[2%] w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[9%] sm:top-[10%] lg:top-[11%] left-0 sm:left-[1%] lg:left-[2%] w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[400px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3.5 }} animate={{ rotate: -3.5 }}
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -222,7 +222,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[0%] sm:top-[0.5%] lg:top-[1%] left-[38%] sm:left-[41%] lg:left-[43%] w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[250px] z-20 hidden sm:block"
+            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[38%] sm:left-[41%] lg:left-[43%] w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[250px] z-20 hidden sm:block"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -252,7 +252,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[38%] sm:top-[40%] lg:top-[42%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
+            className="absolute top-[35%] sm:top-[37%] lg:top-[39%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -267,7 +267,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[57%] sm:top-[59%] lg:top-[61%] left-[6%] sm:left-[9%] lg:left-[11%] w-full max-w-[290px] sm:max-w-[350px] lg:max-w-[390px] z-20"
+            className="absolute top-[53%] sm:top-[55%] lg:top-[57%] left-[6%] sm:left-[9%] lg:left-[11%] w-full max-w-[290px] sm:max-w-[350px] lg:max-w-[390px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -4 }} animate={{ rotate: -4 }}
               whileHover={{ scale: 1.05, rotate: -1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -283,7 +283,7 @@ export const RenaissanceRealAsks: React.FC = () => {
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[51%] sm:top-[53%] lg:top-[55%] right-0 sm:right-[1%] lg:right-[2%] w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] z-20"
+            className="absolute top-[48%] sm:top-[50%] lg:top-[52%] right-0 sm:right-[1%] lg:right-[2%] w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.05, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
