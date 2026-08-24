@@ -34,17 +34,17 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-16 sm:h-24 md:h-32 lg:h-40 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-24 sm:h-32 md:h-40 lg:h-48 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
-              noiseScale={7.5}
-              noiseIntensity={0.88}
+              noiseScale={2.5}
+              noiseIntensity={0.52}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.06}
-              edgeSoftness={0.04}
-              bloomIntensity={1.2}
-              bloomRadius={0.08}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
+              bloomRadius={0.35}
               parallaxEnabled={true}
               inverted={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
@@ -70,17 +70,17 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-20 sm:h-28 md:h-36 lg:h-48 pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-32 sm:h-44 md:h-56 lg:h-68 pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
-              noiseScale={7.5}
-              noiseIntensity={0.88}
+              noiseScale={2.5}
+              noiseIntensity={0.52}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.06}
-              edgeSoftness={0.04}
-              bloomIntensity={1.2}
-              bloomRadius={0.08}
+              baseAnimationSpeed={0.08}
+              edgeSoftness={0.38}
+              bloomIntensity={0.75}
+              bloomRadius={0.35}
               parallaxEnabled={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
