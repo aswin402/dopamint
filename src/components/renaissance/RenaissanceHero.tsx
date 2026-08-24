@@ -5,7 +5,6 @@ import heroBgVid from '../../assets/herosectionbgvid.webm';
 import handWithMobile from '../../assets/hand_with_mobile.png';
 import crownImg from '../../assets/Crown.png';
 import { ScrollDissolveReveal } from '../ui/scroll-dissolve-reveal';
-import { AgentArchitecturePipeline } from './AgentArchitecturePipeline';
 
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
 
@@ -174,47 +173,29 @@ function HouseOfAgentsSection() {
     <div id="manifesto" className="w-full h-full relative flex flex-col justify-center bg-[#f3f2e6] pt-16 sm:pt-20 lg:pt-22 pb-4 overflow-y-auto lg:overflow-hidden select-none">
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
         
-        {/* Left Column: Editorial Information & Animated Architecture Pipeline */}
-        <div className="lg:col-span-6 space-y-4 sm:space-y-5 text-left self-center z-20">
+        {/* Left Column: Editorial Information (Matches Image 2) */}
+        <div className="lg:col-span-6 space-y-4 sm:space-y-6 text-left self-center z-20">
           
-          {/* Small Eyebrow */}
+          {/* Editorial Title (Olive Forest Green, 3-line stacked serif typography) */}
           <div>
-            <span className="font-mono text-xs sm:text-[13px] uppercase tracking-[0.22em] text-[#4a5c4e] font-semibold">
-              what is dopamint?
-            </span>
-          </div>
-
-          {/* Editorial Title */}
-          <div>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.04]">
-              <span className="block font-serif font-normal text-[#2d3e32]">
+            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] xl:text-[82px] tracking-tight leading-[0.96] text-[#475b4c]">
+              <span className="block font-serif font-normal text-[#475b4c]">
                 House of
               </span>
-              <span className="block font-serif italic font-bold text-[#1e2e22]">
-                Sovereign Agents
+              <span className="block font-serif italic font-bold text-[#475b4c]">
+                Sovereign
+              </span>
+              <span className="block font-serif italic font-bold text-[#475b4c]">
+                Agents
               </span>
             </h2>
-            <p className="font-serif italic font-bold text-lg sm:text-xl text-[#7a382e] mt-1">
-              powered by AiFi
-            </p>
           </div>
 
-          {/* Editorial Body Text */}
-          <div className="space-y-2.5 text-sm sm:text-base text-neutral-800 font-normal leading-relaxed max-w-xl">
-            <p>
-              There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
+          {/* Editorial Description Text (Clean sans font, matching Image 2) */}
+          <div className="max-w-xl">
+            <p className="text-base sm:text-lg md:text-[19px] lg:text-[20px] text-[#374151] font-sans font-normal leading-[1.48] tracking-normal">
+              Dopamint is the home for AI agents that can actually act. Every agent arrives with an AiFi layer — the ability to research, reason and execute across markets, wallets, exchanges and onchain systems.
             </p>
-            <p className="font-serif italic text-base sm:text-lg text-[#243628]">
-              Now, you just ask <span className="font-bold text-[#17251a]">Dope</span>. It handles the rest.
-            </p>
-            <p className="text-xs sm:text-sm text-neutral-700 pt-0.5">
-              Dopamint is a network of agents running on the <span className="font-semibold text-[#223326]">Agent Harness</span>, with a continuous <span className="font-semibold text-[#223326]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-semibold text-[#223326]">AiFi</span> and <span className="font-semibold text-[#223326]">x402</span> doing the heavy lifting.
-            </p>
-          </div>
-
-          {/* Animated Architecture Pipeline Divs */}
-          <div className="pt-1">
-            <AgentArchitecturePipeline />
           </div>
 
         </div>
