@@ -723,10 +723,10 @@ body::-webkit-scrollbar {
 /* ── Renaissance Authentic iMessage Chat Bubble System (from cb-02) ── */
 .imsg-card {
   --thread: #fdfbf7;
-  --in: #f4ede4;
-  --in-ink: #4a2c18;
-  --out: #d0e8c8;
-  --out-ink: #263725;
+  --in: #d0e8c8;
+  --in-ink: #263725;
+  --out: #f4ede4;
+  --out-ink: #4a2c18;
   --radius: 1.35rem;
   --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Figtree", ui-sans-serif, system-ui, sans-serif;
   font-family: var(--sans);
@@ -758,14 +758,16 @@ body::-webkit-scrollbar {
   overflow-wrap: anywhere;
 }
 
-.imsg-turn--in .imsg-msg {
-  background: var(--in);
-  color: var(--in-ink);
+.imsg-turn--in .imsg-msg,
+.imsg-bubble--green {
+  background: var(--in, #d0e8c8) !important;
+  color: var(--in-ink, #263725) !important;
 }
 
-.imsg-turn--out .imsg-msg {
-  background: var(--out);
-  color: var(--out-ink);
+.imsg-turn--out .imsg-msg,
+.imsg-bubble--cream {
+  background: var(--out, #f4ede4) !important;
+  color: var(--out-ink, #4a2c18) !important;
 }
 
 /* ── The exact curved iOS tail: negative-space cutout technique ── */
