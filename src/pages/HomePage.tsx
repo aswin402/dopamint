@@ -34,7 +34,7 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-36 sm:h-48 md:h-64 lg:h-80 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-16 sm:h-24 md:h-32 lg:h-40 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
@@ -70,7 +70,7 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-20 sm:h-28 md:h-36 lg:h-48 pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
