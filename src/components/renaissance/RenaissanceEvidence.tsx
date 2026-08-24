@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Brain, 
@@ -20,6 +20,9 @@ interface AgentNodeProps {
   icon?: React.ReactNode;
   isPrimary?: boolean;
   isAccent?: boolean;
+  isActive?: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
   className?: string;
 }
 
@@ -30,15 +33,24 @@ const AgentNode: React.FC<AgentNodeProps> = ({
   icon,
   isPrimary = false,
   isAccent = false,
+  isActive = false,
+  onMouseEnter,
+  onMouseLeave,
   className = '',
 }) => {
   return (
     <motion.div
-      whileHover={{ scale: 1.015, y: -2 }}
+      animate={isActive ? { scale: 1.025, y: -2 } : { scale: 1, y: 0 }}
+      whileHover={{ scale: 1.02, y: -2 }}
       whileTap={{ scale: 0.99 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-      className={`relative px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer text-center group overflow-hidden ${
-        isPrimary
+      className={`relative px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl sm:rounded-2xl border transition-all duration-500 cursor-pointer text-center group overflow-hidden ${
+        isActive
+          ? 'bg-[#221c15] border-[#f0dcba] shadow-[0_0_36px_rgba(240,220,186,0.36)] ring-1 ring-[#f0dcba]/60 z-30'
+          : isPrimary
           ? 'bg-[#1e1a15]/90 backdrop-blur-xl border-[#d4af37]/60 shadow-[0_0_30px_rgba(212,175,55,0.18)] hover:border-[#f0dcba]'
           : isAccent
           ? 'bg-[#1c1814]/85 backdrop-blur-xl border-[#dfc28d]/55 shadow-[0_0_24px_rgba(223,194,141,0.15)] hover:border-[#f0dcba]'
@@ -46,7 +58,11 @@ const AgentNode: React.FC<AgentNodeProps> = ({
       } ${className}`}
     >
       {/* Delicate candlelight top edge highlight */}
-      <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#f0dcba]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div
+        className={`absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#f0dcba] to-transparent transition-opacity duration-500 ${
+          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        }`}
+      />
 
       <div className="flex flex-col items-center justify-center space-y-0.5">
         {badge && (
@@ -56,22 +72,48 @@ const AgentNode: React.FC<AgentNodeProps> = ({
         )}
         
         <div className="flex items-center gap-2">
-          {icon && <span className="text-[#dfc28d]">{icon}</span>}
-          <h4 className="tracking-[0.08em] text-xs sm:text-[14px] md:text-[15px] text-[#f7f2ea] uppercase font-bold group-hover:text-[#dfc28d] transition-colors">
+          {icon && (
+            <span
+              className={`transition-colors duration-300 ${
+                isActive ? 'text-[#f0dcba]' : 'text-[#dfc28d]'
+              }`}
+            >
+              {icon}
+            </span>
+          )}
+          <h4
+            className={`tracking-[0.08em] text-xs sm:text-[14px] md:text-[15px] uppercase font-bold transition-colors duration-300 ${
+              isActive
+                ? 'text-[#f0dcba] drop-shadow-[0_0_8px_rgba(240,220,186,0.55)]'
+                : 'text-[#f7f2ea] group-hover:text-[#dfc28d]'
+            }`}
+          >
             {title}
           </h4>
         </div>
 
-        <p className="text-xs sm:text-[13px] md:text-[13.5px] text-[#c7baa4] font-normal leading-tight max-w-[320px]">
+        <p
+          className={`text-xs sm:text-[13px] md:text-[13.5px] font-normal leading-tight max-w-[320px] transition-colors duration-300 ${
+            isActive ? 'text-[#f6edd9]' : 'text-[#c7baa4]'
+          }`}
+        >
           {subtitle}
         </p>
       </div>
 
-      {/* Gentle candlelight pulse on primary */}
-      {isPrimary && (
-        <span className="absolute top-2.5 right-3 flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#dfc28d] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dfc28d]" />
+      {/* Gentle candlelight pulse on primary or active */}
+      {(isPrimary || isActive) && (
+        <span className="absolute top-2.5 right-3 flex h-2 w-2 pointer-events-none">
+          <span
+            className={`animate-ping absolute inline-flex h-full w-full rounded-full ${
+              isActive ? 'bg-[#f0dcba] opacity-90' : 'bg-[#dfc28d] opacity-75'
+            }`}
+          />
+          <span
+            className={`relative inline-flex rounded-full h-2 w-2 ${
+              isActive ? 'bg-[#f0dcba]' : 'bg-[#dfc28d]'
+            }`}
+          />
         </span>
       )}
     </motion.div>
@@ -79,6 +121,19 @@ const AgentNode: React.FC<AgentNodeProps> = ({
 };
 
 export const RenaissanceEvidence: React.FC = () => {
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (hoveredStep !== null) return;
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 7);
+    }, 1450);
+    return () => clearInterval(interval);
+  }, [hoveredStep]);
+
+  const currentStep = hoveredStep !== null ? hoveredStep : activeStep;
+
   return (
     <section id="architecture" className="pt-10 sm:pt-14 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
       
@@ -125,18 +180,18 @@ export const RenaissanceEvidence: React.FC = () => {
             <path
               d="M 0 380 H 75 V 15 H 0"
               stroke="#dfc28d"
-              strokeWidth="1.6"
+              strokeWidth={currentStep === 6 ? '2.4' : '1.6'}
               strokeDasharray="4 6"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="opacity-60"
+              className={`transition-opacity duration-500 ${currentStep === 6 ? 'opacity-100' : 'opacity-50'}`}
             />
 
             {/* Glowing animated candlelight ember traveling along the loop */}
-            <circle r="3.5" fill="#f0dcba" filter="drop-shadow(0 0 6px #dfc28d)">
+            <circle r={currentStep === 6 ? '4.5' : '3.5'} fill="#f0dcba" filter="drop-shadow(0 0 8px #f0dcba)">
               <animateMotion
                 path="M 0 380 H 75 V 15 H 0"
-                dur="6s"
+                dur="4.5s"
                 repeatCount="indefinite"
               />
             </circle>
@@ -146,12 +201,15 @@ export const RenaissanceEvidence: React.FC = () => {
         {/* Main Vertical Graph Content */}
         <div className="flex flex-col items-center space-y-1 sm:space-y-1.5 relative z-20">
 
-          {/* STAGE 1: DOPE */}
+          {/* STAGE 1: DOPE (Step 0) */}
           <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="DOPE"
               subtitle="Continual harness / orchestration head"
               isPrimary
+              isActive={currentStep === 0}
+              onMouseEnter={() => setHoveredStep(0)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Crown className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
@@ -160,16 +218,21 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
               animate={{ y: [-15, 25] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
-              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
+              className={`w-full h-2.5 blur-[1px] ${
+                currentStep === 0 || currentStep === 1 ? 'bg-[#f0dcba] shadow-[0_0_6px_#f0dcba]' : 'bg-[#dfc28d]'
+              }`}
             />
           </div>
 
-          {/* STAGE 2: UNDERSTAND INTENT */}
+          {/* STAGE 2: UNDERSTAND INTENT (Step 1) */}
           <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="UNDERSTAND INTENT"
               subtitle="Loads memory, skills and boundaries"
+              isActive={currentStep === 1}
+              onMouseEnter={() => setHoveredStep(1)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Brain className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
@@ -178,16 +241,21 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
               animate={{ y: [-15, 25] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', delay: 0.3 }}
-              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'linear', delay: 0.2 }}
+              className={`w-full h-2.5 blur-[1px] ${
+                currentStep === 1 || currentStep === 2 ? 'bg-[#f0dcba] shadow-[0_0_6px_#f0dcba]' : 'bg-[#dfc28d]'
+              }`}
             />
           </div>
 
-          {/* STAGE 3: PLAN + DELEGATE */}
+          {/* STAGE 3: PLAN + DELEGATE (Step 2) */}
           <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="PLAN + DELEGATE"
               subtitle="Selects the right companion agents"
+              isActive={currentStep === 2}
+              onMouseEnter={() => setHoveredStep(2)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Workflow className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
@@ -196,16 +264,21 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
               animate={{ y: [-15, 25] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', delay: 0.6 }}
-              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'linear', delay: 0.4 }}
+              className={`w-full h-2.5 blur-[1px] ${
+                currentStep === 2 || currentStep === 3 ? 'bg-[#f0dcba] shadow-[0_0_6px_#f0dcba]' : 'bg-[#dfc28d]'
+              }`}
             />
           </div>
 
-          {/* STAGE 4: COMPANION AGENT GRAPH */}
+          {/* STAGE 4: COMPANION AGENT GRAPH (Step 3) */}
           <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="COMPANION AGENT GRAPH"
               subtitle="Specialists collaborate in parallel"
+              isActive={currentStep === 3}
+              onMouseEnter={() => setHoveredStep(3)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Layers className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
@@ -214,24 +287,63 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="w-full max-w-3xl h-5 sm:h-5.5 relative flex items-center justify-center">
             <svg className="w-full h-full" viewBox="0 0 600 22" fill="none" preserveAspectRatio="none">
               {/* Center stem from top */}
-              <path d="M 300 0 V 10" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 300 0 V 10"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
               {/* Horizontal crossbar */}
-              <path d="M 75 10 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 75 10 H 525"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
               {/* 4 Drops to cards */}
-              <path d="M 75 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 375 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 525 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 75 10 V 22"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 225 10 V 22"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 375 10 V 22"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 525 10 V 22"
+                stroke={currentStep === 3 || currentStep === 4 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 3 || currentStep === 4 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 3 || currentStep === 4 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
             </svg>
           </div>
 
-          {/* --- 4 PARALLEL COMPANION AGENT CARDS --- */}
+          {/* --- 4 PARALLEL COMPANION AGENT CARDS (Step 4) --- */}
           <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
             
             {/* 1. MEMORY AGENT */}
             <AgentNode
               title="MEMORY AGENT"
               subtitle="Knows what matters"
+              isActive={currentStep === 4}
+              onMouseEnter={() => setHoveredStep(4)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Brain className="w-4 h-4 text-[#dfc28d]" />}
               className="py-3 px-3.5 sm:px-4"
             />
@@ -240,6 +352,9 @@ export const RenaissanceEvidence: React.FC = () => {
             <AgentNode
               title="RESEARCH AGENT"
               subtitle="Finds useful context"
+              isActive={currentStep === 4}
+              onMouseEnter={() => setHoveredStep(4)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Search className="w-4 h-4 text-[#dfc28d]" />}
               className="py-3 px-3.5 sm:px-4"
             />
@@ -248,6 +363,9 @@ export const RenaissanceEvidence: React.FC = () => {
             <AgentNode
               title="CREATOR AGENT"
               subtitle="Shapes the execution"
+              isActive={currentStep === 4}
+              onMouseEnter={() => setHoveredStep(4)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<Sparkles className="w-4 h-4 text-[#dfc28d]" />}
               className="py-3 px-3.5 sm:px-4"
             />
@@ -256,6 +374,9 @@ export const RenaissanceEvidence: React.FC = () => {
             <AgentNode
               title="GUARDIAN AGENT"
               subtitle="Protects every action"
+              isActive={currentStep === 4}
+              onMouseEnter={() => setHoveredStep(4)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<ShieldCheck className="w-4 h-4 text-[#dfc28d]" />}
               className="py-3 px-3.5 sm:px-4"
             />
@@ -266,22 +387,61 @@ export const RenaissanceEvidence: React.FC = () => {
           <div className="w-full max-w-3xl h-5 sm:h-5.5 relative flex items-center justify-center">
             <svg className="w-full h-full" viewBox="0 0 600 22" fill="none" preserveAspectRatio="none">
               {/* 4 lines up from cards */}
-              <path d="M 75 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 375 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 525 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 75 0 V 12"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 225 0 V 12"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 375 0 V 12"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 525 0 V 12"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
               {/* Horizontal crossbar */}
-              <path d="M 75 12 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 75 12 H 525"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
               {/* Center stem down to next card */}
-              <path d="M 300 12 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 300 12 V 22"
+                stroke={currentStep === 4 || currentStep === 5 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 4 || currentStep === 5 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 4 || currentStep === 5 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
             </svg>
           </div>
 
-          {/* STAGE 5: EVALUATE OUTCOME */}
+          {/* STAGE 5: EVALUATE OUTCOME (Step 5) */}
           <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="EVALUATE OUTCOME"
               subtitle="Evaluation and completion gate"
+              isActive={currentStep === 5}
+              onMouseEnter={() => setHoveredStep(5)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
@@ -289,20 +449,47 @@ export const RenaissanceEvidence: React.FC = () => {
           {/* Split Connector to ADAPT & DELIVER (SVG) */}
           <div className="w-full max-w-md sm:max-w-lg h-4 sm:h-4.5 relative flex items-center justify-center">
             <svg className="w-full h-full" viewBox="0 0 300 18" fill="none" preserveAspectRatio="none">
-              <path d="M 150 0 V 9" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 75 9 H 225" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 75 9 V 18" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 9 V 18" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path
+                d="M 150 0 V 9"
+                stroke={currentStep === 5 || currentStep === 6 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 5 || currentStep === 6 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 5 || currentStep === 6 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 75 9 H 225"
+                stroke={currentStep === 5 || currentStep === 6 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 5 || currentStep === 6 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 5 || currentStep === 6 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 75 9 V 18"
+                stroke={currentStep === 5 || currentStep === 6 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 5 || currentStep === 6 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 5 || currentStep === 6 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
+              <path
+                d="M 225 9 V 18"
+                stroke={currentStep === 5 || currentStep === 6 ? '#f0dcba' : '#c4a978'}
+                strokeOpacity={currentStep === 5 || currentStep === 6 ? 0.9 : 0.45}
+                strokeWidth={currentStep === 5 || currentStep === 6 ? 2 : 1.5}
+                className="transition-all duration-300"
+              />
             </svg>
           </div>
 
-          {/* STAGE 6: ADAPT & DELIVER (2 Outcomes) */}
+          {/* STAGE 6: ADAPT & DELIVER (Step 6) */}
           <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
             
             {/* ADAPT */}
             <AgentNode
               title="ADAPT"
               subtitle="Learn and loop again"
+              isActive={currentStep === 6}
+              onMouseEnter={() => setHoveredStep(6)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<RefreshCw className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
 
@@ -311,6 +498,9 @@ export const RenaissanceEvidence: React.FC = () => {
               title="DELIVER"
               subtitle="Respond, create or act"
               isAccent
+              isActive={currentStep === 6}
+              onMouseEnter={() => setHoveredStep(6)}
+              onMouseLeave={() => setHoveredStep(null)}
               icon={<CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
 
