@@ -37,7 +37,7 @@ const AgentNode: React.FC<AgentNodeProps> = ({
       whileHover={{ scale: 1.015, y: -2 }}
       whileTap={{ scale: 0.99 }}
       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-      className={`relative px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer text-center group overflow-hidden ${
+      className={`relative px-5 py-3 sm:px-7 sm:py-3.5 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer text-center group overflow-hidden ${
         isPrimary
           ? 'bg-[#1e1a15]/90 backdrop-blur-xl border-[#d4af37]/60 shadow-[0_0_30px_rgba(212,175,55,0.18)] hover:border-[#f0dcba]'
           : isAccent
@@ -50,26 +50,26 @@ const AgentNode: React.FC<AgentNodeProps> = ({
 
       <div className="flex flex-col items-center justify-center space-y-0.5">
         {badge && (
-          <span className="text-[10px] font-bold tracking-[0.16em] text-[#dfc28d] uppercase mb-0.5">
+          <span className="text-[11px] font-bold tracking-[0.16em] text-[#dfc28d] uppercase mb-0.5">
             {badge}
           </span>
         )}
         
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           {icon && <span className="text-[#dfc28d]">{icon}</span>}
-          <h4 className="tracking-[0.08em] text-xs sm:text-[13px] text-[#f7f2ea] uppercase font-bold group-hover:text-[#dfc28d] transition-colors">
+          <h4 className="tracking-[0.08em] text-xs sm:text-[14px] md:text-[15px] text-[#f7f2ea] uppercase font-bold group-hover:text-[#dfc28d] transition-colors">
             {title}
           </h4>
         </div>
 
-        <p className="text-[11px] sm:text-xs text-[#c7baa4] font-normal leading-tight max-w-[260px]">
+        <p className="text-xs sm:text-[13px] md:text-[13.5px] text-[#c7baa4] font-normal leading-tight max-w-[320px]">
           {subtitle}
         </p>
       </div>
 
       {/* Gentle candlelight pulse on primary */}
       {isPrimary && (
-        <span className="absolute top-2 right-2.5 flex h-2 w-2">
+        <span className="absolute top-2.5 right-3 flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#dfc28d] opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-[#dfc28d]" />
         </span>
@@ -107,7 +107,7 @@ export const RenaissanceEvidence: React.FC = () => {
           ========================================================================= */}
       <div 
         style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-        className="relative max-w-4xl mx-auto my-4 sm:my-6"
+        className="relative max-w-4xl mx-auto my-3 sm:my-5"
       >
 
         {/* --- RIGHT-SIDE CONTINUOUS FEEDBACK CONDUIT (GOLDEN DOTTED EMBERS) --- */}
@@ -144,166 +144,166 @@ export const RenaissanceEvidence: React.FC = () => {
         </div>
 
         {/* Main Vertical Graph Content */}
-        <div className="flex flex-col items-center space-y-2 sm:space-y-2.5 relative z-20">
+        <div className="flex flex-col items-center space-y-1 sm:space-y-1.5 relative z-20">
 
           {/* STAGE 1: DOPE */}
-          <div className="w-full max-w-sm sm:max-w-md">
+          <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="DOPE"
               subtitle="Continual harness / orchestration head"
               isPrimary
-              icon={<Crown className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<Crown className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
 
           {/* Animated Connecting Line 1 */}
-          <div className="h-4 sm:h-5 w-[1.5px] bg-gradient-to-b from-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
+          <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
-              animate={{ y: [-15, 30] }}
+              animate={{ y: [-15, 25] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'linear' }}
-              className="w-full h-3 bg-[#f0dcba] blur-[1px]"
+              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
             />
           </div>
 
           {/* STAGE 2: UNDERSTAND INTENT */}
-          <div className="w-full max-w-sm sm:max-w-md">
+          <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="UNDERSTAND INTENT"
               subtitle="Loads memory, skills and boundaries"
-              icon={<Brain className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<Brain className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
 
           {/* Animated Connecting Line 2 */}
-          <div className="h-4 sm:h-5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
+          <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
-              animate={{ y: [-15, 30] }}
+              animate={{ y: [-15, 25] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', delay: 0.3 }}
-              className="w-full h-3 bg-[#f0dcba] blur-[1px]"
+              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
             />
           </div>
 
           {/* STAGE 3: PLAN + DELEGATE */}
-          <div className="w-full max-w-sm sm:max-w-md">
+          <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="PLAN + DELEGATE"
               subtitle="Selects the right companion agents"
-              icon={<Workflow className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<Workflow className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
 
           {/* Animated Connecting Line 3 */}
-          <div className="h-4 sm:h-5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
+          <div className="h-3 sm:h-3.5 w-[1.5px] bg-gradient-to-b from-[#4a3f33] via-[#dfc28d] to-[#4a3f33] relative overflow-hidden">
             <motion.div
-              animate={{ y: [-15, 30] }}
+              animate={{ y: [-15, 25] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'linear', delay: 0.6 }}
-              className="w-full h-3 bg-[#f0dcba] blur-[1px]"
+              className="w-full h-2.5 bg-[#f0dcba] blur-[1px]"
             />
           </div>
 
           {/* STAGE 4: COMPANION AGENT GRAPH */}
-          <div className="w-full max-w-sm sm:max-w-md">
+          <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="COMPANION AGENT GRAPH"
               subtitle="Specialists collaborate in parallel"
-              icon={<Layers className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<Layers className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
 
           {/* Branching Tree Connector (SVG) */}
-          <div className="w-full max-w-3xl h-6 sm:h-7 relative flex items-center justify-center">
-            <svg className="w-full h-full" viewBox="0 0 600 28" fill="none" preserveAspectRatio="none">
+          <div className="w-full max-w-3xl h-5 sm:h-5.5 relative flex items-center justify-center">
+            <svg className="w-full h-full" viewBox="0 0 600 22" fill="none" preserveAspectRatio="none">
               {/* Center stem from top */}
-              <path d="M 300 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 300 0 V 10" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
               {/* Horizontal crossbar */}
-              <path d="M 75 12 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 10 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
               {/* 4 Drops to cards */}
-              <path d="M 75 12 V 28" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 12 V 28" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 375 12 V 28" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 525 12 V 28" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 225 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 375 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 525 10 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
             </svg>
           </div>
 
           {/* --- 4 PARALLEL COMPANION AGENT CARDS --- */}
-          <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
+          <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
             
             {/* 1. MEMORY AGENT */}
             <AgentNode
               title="MEMORY AGENT"
               subtitle="Knows what matters"
-              icon={<Brain className="w-3.5 h-3.5 text-[#dfc28d]" />}
-              className="py-2.5 px-3"
+              icon={<Brain className="w-4 h-4 text-[#dfc28d]" />}
+              className="py-3 px-3.5 sm:px-4"
             />
 
             {/* 2. RESEARCH AGENT */}
             <AgentNode
               title="RESEARCH AGENT"
               subtitle="Finds useful context"
-              icon={<Search className="w-3.5 h-3.5 text-[#dfc28d]" />}
-              className="py-2.5 px-3"
+              icon={<Search className="w-4 h-4 text-[#dfc28d]" />}
+              className="py-3 px-3.5 sm:px-4"
             />
 
             {/* 3. CREATOR AGENT */}
             <AgentNode
               title="CREATOR AGENT"
               subtitle="Shapes the execution"
-              icon={<Sparkles className="w-3.5 h-3.5 text-[#dfc28d]" />}
-              className="py-2.5 px-3"
+              icon={<Sparkles className="w-4 h-4 text-[#dfc28d]" />}
+              className="py-3 px-3.5 sm:px-4"
             />
 
             {/* 4. GUARDIAN AGENT */}
             <AgentNode
               title="GUARDIAN AGENT"
               subtitle="Protects every action"
-              icon={<ShieldCheck className="w-3.5 h-3.5 text-[#dfc28d]" />}
-              className="py-2.5 px-3"
+              icon={<ShieldCheck className="w-4 h-4 text-[#dfc28d]" />}
+              className="py-3 px-3.5 sm:px-4"
             />
 
           </div>
 
           {/* Converging Tree Connector (SVG) */}
-          <div className="w-full max-w-3xl h-6 sm:h-7 relative flex items-center justify-center">
-            <svg className="w-full h-full" viewBox="0 0 600 28" fill="none" preserveAspectRatio="none">
+          <div className="w-full max-w-3xl h-5 sm:h-5.5 relative flex items-center justify-center">
+            <svg className="w-full h-full" viewBox="0 0 600 22" fill="none" preserveAspectRatio="none">
               {/* 4 lines up from cards */}
-              <path d="M 75 0 V 16" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 0 V 16" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 375 0 V 16" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 525 0 V 16" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 225 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 375 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 525 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
               {/* Horizontal crossbar */}
-              <path d="M 75 16 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 12 H 525" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
               {/* Center stem down to next card */}
-              <path d="M 300 16 V 28" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 300 12 V 22" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
             </svg>
           </div>
 
           {/* STAGE 5: EVALUATE OUTCOME */}
-          <div className="w-full max-w-sm sm:max-w-md">
+          <div className="w-full max-w-md sm:max-w-lg">
             <AgentNode
               title="EVALUATE OUTCOME"
               subtitle="Evaluation and completion gate"
-              icon={<CheckCircle2 className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
           </div>
 
           {/* Split Connector to ADAPT & DELIVER (SVG) */}
-          <div className="w-full max-w-sm sm:max-w-md h-5 sm:h-6 relative flex items-center justify-center">
-            <svg className="w-full h-full" viewBox="0 0 300 24" fill="none" preserveAspectRatio="none">
-              <path d="M 150 0 V 12" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 75 12 H 225" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 75 12 V 24" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
-              <path d="M 225 12 V 24" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+          <div className="w-full max-w-md sm:max-w-lg h-4 sm:h-4.5 relative flex items-center justify-center">
+            <svg className="w-full h-full" viewBox="0 0 300 18" fill="none" preserveAspectRatio="none">
+              <path d="M 150 0 V 9" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 9 H 225" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 75 9 V 18" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
+              <path d="M 225 9 V 18" stroke="#c4a978" strokeOpacity="0.45" strokeWidth="1.5" />
             </svg>
           </div>
 
           {/* STAGE 6: ADAPT & DELIVER (2 Outcomes) */}
-          <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+          <div className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
             
             {/* ADAPT */}
             <AgentNode
               title="ADAPT"
               subtitle="Learn and loop again"
-              icon={<RefreshCw className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<RefreshCw className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
 
             {/* DELIVER */}
@@ -311,13 +311,13 @@ export const RenaissanceEvidence: React.FC = () => {
               title="DELIVER"
               subtitle="Respond, create or act"
               isAccent
-              icon={<CheckCircle2 className="w-4 h-4 text-[#dfc28d]" />}
+              icon={<CheckCircle2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-[#dfc28d]" />}
             />
 
           </div>
 
           {/* Sub-caption: EVERY LOOP MAKES THE COMPANION BETTER */}
-          <div className="pt-3 pb-1 text-center">
+          <div className="pt-2.5 pb-1 text-center">
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#f3f2e6] border border-[#c4a978]/40 shadow-xs">
               <span className="w-1.5 h-1.5 rounded-full bg-[#37312c] animate-pulse" />
               <span className="text-[11px] sm:text-xs tracking-[0.14em] text-[#37312c] font-bold uppercase">
