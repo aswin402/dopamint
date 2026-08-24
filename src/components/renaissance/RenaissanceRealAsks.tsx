@@ -145,8 +145,8 @@ export const RenaissanceRealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-  const cardBase = 'imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4.5 sm:p-6 lg:p-7 cursor-pointer transition-colors duration-300';
-  const cardSm   = 'imsg-card rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-4.5 cursor-pointer transition-colors duration-300';
+  const cardBase = 'imsg-card overflow-hidden rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4.5 sm:p-6 lg:p-7 cursor-pointer transition-colors duration-300';
+  const cardSm   = 'imsg-card overflow-hidden rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-4.5 cursor-pointer transition-colors duration-300';
   const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
