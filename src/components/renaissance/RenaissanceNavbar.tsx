@@ -6,37 +6,57 @@ import logoDope from '../../assets/logo_dope.png';
 export const RenaissanceNavbar: React.FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isHeroRevealed, setIsHeroRevealed] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 60) {
+      if (window.scrollY > 40) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
     };
 
+    const handleRevealChange = (e: Event) => {
+      const customEvent = e as CustomEvent<{ isRevealed: boolean }>;
+      if (customEvent.detail !== undefined) {
+        setIsHeroRevealed(customEvent.detail.isRevealed);
+      }
+    };
+
+    // Check dataset attribute initially in case hero is already revealed
+    if (document.documentElement.dataset.heroRevealed === 'true') {
+      setIsHeroRevealed(true);
+    }
+
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('hero-reveal-change', handleRevealChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('hero-reveal-change', handleRevealChange);
+    };
   }, []);
+
+  const isSolidNav = isScrolled || isHeroRevealed;
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 py-4 px-4 sm:px-8 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
-        isScrolled
+        isSolidNav
           ? 'bg-[#f3f2e6]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between w-full">
-        {/* Brand with logo_dope.png (Switches from White to Black on scroll) */}
+        {/* Brand with logo_dope.png (Switches from White to Black on scroll or when hero dissolves) */}
         <a href="#hero" className="flex items-center group" aria-label="Home">
           <img
             src={logoDope}
             alt="Dope"
             className={`h-5 sm:h-6 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
-              isScrolled ? 'brightness-0 opacity-100' : 'brightness-100 drop-shadow-md'
+              isSolidNav ? 'brightness-0 opacity-100' : 'brightness-100 drop-shadow-md'
             }`}
           />
         </a>
@@ -44,24 +64,24 @@ export const RenaissanceNavbar: React.FC = () => {
         {/* Nav Links: Agents, AIFI, RAILS */}
         <nav
           className={`hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase transition-colors duration-300 ${
-            isScrolled ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
+            isSolidNav ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
           }`}
         >
           <a
             href="#agents"
-            className={`transition-colors ${isScrolled ? 'hover:text-black' : 'hover:text-white'}`}
+            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             Agents
           </a>
           <a
             href="#manifesto"
-            className={`transition-colors ${isScrolled ? 'hover:text-black' : 'hover:text-white'}`}
+            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             AIFI
           </a>
           <a
             href="#authority"
-            className={`transition-colors ${isScrolled ? 'hover:text-black' : 'hover:text-white'}`}
+            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             RAILS
           </a>
@@ -71,8 +91,8 @@ export const RenaissanceNavbar: React.FC = () => {
         <div className="flex items-center gap-3">
           <Type1Button
             href="#cta"
-            variant={isScrolled ? 'dark' : 'light'}
-            className={`!h-9 !w-36 hidden sm:inline-flex ${!isScrolled ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
+            variant={isSolidNav ? 'dark' : 'light'}
+            className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
           >
             Get access
           </Type1Button>
@@ -81,7 +101,7 @@ export const RenaissanceNavbar: React.FC = () => {
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
             className={`md:hidden p-2 rounded-xl border transition-all cursor-pointer ${
-              isScrolled
+              isSolidNav
                 ? 'bg-white border-neutral-300 text-black'
                 : 'bg-black/40 backdrop-blur-md border-white/30 text-white'
             }`}

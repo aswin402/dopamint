@@ -370,6 +370,12 @@ export function ScrollDissolveReveal({
       const cur = smoothProgressRef.current;
       scrollYProgress.set(cur);
 
+      const isHeroRevealed = cur > 0.45;
+      if (document.documentElement.dataset.heroRevealed !== (isHeroRevealed ? 'true' : 'false')) {
+        document.documentElement.dataset.heroRevealed = isHeroRevealed ? 'true' : 'false';
+        window.dispatchEvent(new CustomEvent('hero-reveal-change', { detail: { isRevealed: isHeroRevealed, progress: cur } }));
+      }
+
       // Gate React re-renders by epsilon — motion values above already drive
       // per-frame visuals; state is only needed for structural switches
       // (canvas mount/unmount). Prevents 60fps re-renders of the hero subtree.
@@ -401,6 +407,7 @@ export function ScrollDissolveReveal({
     return () => {
       cancelAnimationFrame(animId);
       unlockPageScroll();
+      delete document.documentElement.dataset.heroRevealed;
     };
   }, [scrollYProgress]);
 
