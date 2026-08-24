@@ -573,26 +573,24 @@ export const RenaissanceAgentRoster: React.FC = () => {
     <section id="agents" className="w-full bg-[#f3f2e6] pt-20 sm:pt-28 pb-20 sm:pb-28 overflow-hidden relative z-20">
       
       {/* Top Header Section */}
-      <div className="px-6 sm:px-10 lg:px-16">
-        <div className="max-w-[1400px] mx-auto mb-12 sm:mb-16">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
-            
-            {/* Left Title: DOPE runs the House */}
-            <div>
-              <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif leading-[1.05]">
-                <span className="font-serif italic font-bold text-[#1e2e22]">DOPE</span>{' '}
-                <span className="font-serif font-normal text-[#2d3e32]">runs the House</span>
-              </h2>
-            </div>
-
-            {/* Right Editorial Copy */}
-            <div className="max-w-md lg:text-right">
-              <p className="font-serif italic text-xl sm:text-2xl md:text-[26px] text-[#7a382e] leading-snug">
-                The Head of Agents turning your intent into action across a network of specialized agents.
-              </p>
-            </div>
-
+      <div className="px-6 sm:px-10 lg:px-16 mb-12 sm:mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 lg:gap-12">
+          
+          {/* Left Title: DOPE runs the House */}
+          <div>
+            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif leading-[1.05]">
+              <span className="font-serif italic font-bold text-[#1e2e22]">DOPE</span>{' '}
+              <span className="font-serif font-normal text-[#2d3e32]">runs the House</span>
+            </h2>
           </div>
+
+          {/* Right Editorial Copy */}
+          <div className="max-w-md lg:text-right">
+            <p className="font-serif italic text-xl sm:text-2xl md:text-[26px] text-[#7a382e] leading-snug">
+              The Head of Agents turning your intent into action across a network of specialized agents.
+            </p>
+          </div>
+
         </div>
       </div>
 
