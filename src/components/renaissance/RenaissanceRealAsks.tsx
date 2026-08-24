@@ -145,8 +145,8 @@ export const RenaissanceRealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-  const cardBase = 'imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-5 sm:p-7 lg:p-8 cursor-pointer transition-colors duration-300';
-  const cardSm   = 'imsg-card rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4 sm:p-5.5 cursor-pointer transition-colors duration-300';
+  const cardBase = 'imsg-card rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4.5 sm:p-6 lg:p-7 cursor-pointer transition-colors duration-300';
+  const cardSm   = 'imsg-card rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-4.5 cursor-pointer transition-colors duration-300';
   const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
@@ -200,32 +200,32 @@ export const RenaissanceRealAsks: React.FC = () => {
         </div>
 
         {/* Cards + pedestal */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px]">
+        <div className="relative w-full max-w-6xl mx-auto min-h-[660px] sm:min-h-[720px] lg:min-h-[780px]">
 
-          {/* CARD 1 — top-left | Green on top (left), Cream on bot (right) */}
+          {/* CARD 1 — top-left (rotate -3.5deg) */}
           <motion.div
             ref={card1Ref} variants={pos1} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[6%] sm:top-[8%] left-[2%] sm:left-[4%] lg:left-[6%] w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[8%] sm:top-[9%] lg:top-[10%] left-0 sm:left-[1%] lg:left-[2%] w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[400px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3.5 }} animate={{ rotate: -3.5 }}
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex flex-col gap-2.5 sm:gap-3.5">
                 <IMessageBubble text="why is BTC sending?" side="left" />
                 <IMessageBubble text="spot buying picked up." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 2 — top-center | Green bubble (left) */}
+          {/* CARD 2 — top-center (rotate +6deg) */}
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[1%] sm:top-[2%] left-[42%] sm:left-[44%] lg:left-[45%] w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[260px] z-20 hidden sm:block"
+            className="absolute top-[0%] sm:top-[0.5%] lg:top-[1%] left-[38%] sm:left-[41%] lg:left-[43%] w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[250px] z-20 hidden sm:block"
           >
-            <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 3.5 }} animate={{ rotate: 3.5 }}
-              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+            <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
+              whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <div className="flex flex-col">
                 <IMessageBubble text="yo, today is your girlfriend's birthday." side="left" />
@@ -233,14 +233,14 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 3 — top-right | Cream bubble (right) */}
+          {/* CARD 3 — top-right (rotate +8.5deg) */}
           <motion.div
             ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[10%] sm:top-[12%] right-[4%] sm:right-[7%] lg:right-[10%] w-full max-w-[190px] sm:max-w-[230px] lg:max-w-[250px] z-20"
+            className="absolute top-[13%] sm:top-[15%] lg:top-[17%] right-[4%] sm:right-[8%] lg:right-[11%] w-full max-w-[170px] sm:max-w-[210px] lg:max-w-[235px] z-20"
           >
-            <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: -2.5 }} animate={{ rotate: -2.5 }}
-              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+            <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
+              whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <div className="flex flex-col">
                 <IMessageBubble text="i paid the electricity bills no worries." side="right" />
@@ -248,49 +248,49 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 4 — bottom-left | Green on top (left), Cream on bot (right) */}
+          {/* CARD 6 — center (rotate -6.5deg) */}
+          <motion.div
+            ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
+            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
+            className="absolute top-[38%] sm:top-[40%] lg:top-[42%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
+          >
+            <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
+              whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardSm}>
+              <div className="flex flex-col">
+                <IMessageBubble text="portfolio's down 4% today" side="right" />
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* CARD 4 — bottom-left (rotate -4deg) */}
           <motion.div
             ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[56%] sm:top-[58%] left-[8%] sm:left-[11%] lg:left-[14%] w-full max-w-[300px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[57%] sm:top-[59%] lg:top-[61%] left-[6%] sm:left-[9%] lg:left-[11%] w-full max-w-[290px] sm:max-w-[350px] lg:max-w-[390px] z-20"
           >
-            <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -3 }} animate={{ rotate: -3 }}
-              whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+            <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -4 }} animate={{ rotate: -4 }}
+              whileHover={{ scale: 1.05, rotate: -1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex flex-col gap-2.5 sm:gap-3.5">
                 <IMessageBubble text="find me a good yield?" side="left" />
                 <IMessageBubble text="found 3. want me to rank them?" side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 5 — bottom-right | Green on top (left), Cream on bot (right) */}
+          {/* CARD 5 — bottom-right (rotate -6.5deg) */}
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[48%] sm:top-[50%] right-[3%] sm:right-[6%] lg:right-[8%] w-full max-w-[320px] sm:max-w-[390px] lg:max-w-[430px] z-20"
+            className="absolute top-[51%] sm:top-[53%] lg:top-[55%] right-0 sm:right-[1%] lg:right-[2%] w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] z-20"
           >
-            <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: 3.5 }} animate={{ rotate: 3.5 }}
-              whileHover={{ scale: 1.05, rotate: 1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+            <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
+              whileHover={{ scale: 1.05, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-3 sm:gap-4">
+              <div className="flex flex-col gap-2.5 sm:gap-3.5">
                 <IMessageBubble text="what's on my schedule tomorrow?" side="left" />
                 <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="right" />
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* CARD 6 — center | Cream bubble (right) */}
-          <motion.div
-            ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
-            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[40%] sm:top-[42%] left-[36%] sm:left-[39%] lg:left-[40%] w-full max-w-[190px] sm:max-w-[230px] lg:max-w-[250px] z-20 hidden sm:block"
-          >
-            <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -2 }} animate={{ rotate: -2 }}
-              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
-              className={cardSm}>
-              <div className="flex flex-col">
-                <IMessageBubble text="portfolio's down 4% today" side="right" />
               </div>
             </motion.div>
           </motion.div>
