@@ -27,7 +27,6 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
-
     if (isOpen) {
       timeoutRef.current = setTimeout(() => {
         let start: number | null = null;
@@ -46,13 +45,11 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
       const animate = (ts: number) => {
         if (!start) start = ts;
         const rawT = Math.min((ts - start) / duration, 1);
-        const progress = 1 - rawT;
-        if (pathRef.current) pathRef.current.setAttribute('d', getPath(progress));
+        if (pathRef.current) pathRef.current.setAttribute('d', getPath(1 - rawT));
         if (rawT < 1) rafRef.current = requestAnimationFrame(animate);
       };
       rafRef.current = requestAnimationFrame(animate);
     }
-
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -67,13 +64,12 @@ export const RenaissanceRealAsks: React.FC = () => {
   const isInView = useInView(sectionRef, { amount: 0.2, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  // 6 card refs matching image layout
-  const card1Ref = useRef<HTMLDivElement>(null); // top-left   (2 bubbles)
-  const card2Ref = useRef<HTMLDivElement>(null); // top-center (1 bubble)
-  const card3Ref = useRef<HTMLDivElement>(null); // top-right  (1 bubble)
-  const card4Ref = useRef<HTMLDivElement>(null); // mid-center (1 bubble)
-  const card5Ref = useRef<HTMLDivElement>(null); // bot-left   (2 bubbles)
-  const card6Ref = useRef<HTMLDivElement>(null); // bot-right  (2 bubbles)
+  // 5 card refs
+  const card1Ref = useRef<HTMLDivElement>(null); // top-left    QA: BTC
+  const card2Ref = useRef<HTMLDivElement>(null); // top-center  A: birthday
+  const card3Ref = useRef<HTMLDivElement>(null); // top-right   A: electricity
+  const card4Ref = useRef<HTMLDivElement>(null); // bot-left    QA: yield
+  const card5Ref = useRef<HTMLDivElement>(null); // bot-right   QA: schedule
   const pedestalRef = useRef<HTMLDivElement>(null);
 
   const [off1, setOff1] = useState({ x: 0, y: 0, sinkY: 0 });
@@ -81,7 +77,6 @@ export const RenaissanceRealAsks: React.FC = () => {
   const [off3, setOff3] = useState({ x: 0, y: 0, sinkY: 0 });
   const [off4, setOff4] = useState({ x: 0, y: 0, sinkY: 0 });
   const [off5, setOff5] = useState({ x: 0, y: 0, sinkY: 0 });
-  const [off6, setOff6] = useState({ x: 0, y: 0, sinkY: 0 });
 
   useEffect(() => {
     const measure = () => {
@@ -98,7 +93,6 @@ export const RenaissanceRealAsks: React.FC = () => {
         { ref: card3Ref, set: setOff3 },
         { ref: card4Ref, set: setOff4 },
         { ref: card5Ref, set: setOff5 },
-        { ref: card6Ref, set: setOff6 },
       ].forEach(({ ref, set }) => {
         const el = ref.current;
         if (!el) return;
@@ -124,9 +118,8 @@ export const RenaissanceRealAsks: React.FC = () => {
   const path1Ref = useGenieMorph(sectionOpen, 0);
   const path2Ref = useGenieMorph(sectionOpen, 100);
   const path3Ref = useGenieMorph(sectionOpen, 200);
-  const path4Ref = useGenieMorph(sectionOpen, 150);
-  const path5Ref = useGenieMorph(sectionOpen, 50);
-  const path6Ref = useGenieMorph(sectionOpen, 120);
+  const path4Ref = useGenieMorph(sectionOpen, 50);
+  const path5Ref = useGenieMorph(sectionOpen, 150);
 
   const makePos = (off: { x: number; y: number; sinkY: number }, delay: number): Variants => ({
     closed: {
@@ -142,16 +135,14 @@ export const RenaissanceRealAsks: React.FC = () => {
   });
 
   const pos1 = makePos(off1, 0.10);
-  const pos2 = makePos(off2, 0.20);
-  const pos3 = makePos(off3, 0.28);
-  const pos4 = makePos(off4, 0.24);
-  const pos5 = makePos(off5, 0.14);
-  const pos6 = makePos(off6, 0.18);
+  const pos2 = makePos(off2, 0.22);
+  const pos3 = makePos(off3, 0.30);
+  const pos4 = makePos(off4, 0.14);
+  const pos5 = makePos(off5, 0.20);
 
   const cardBase = 'imsg-card rounded-[2.5rem] sm:rounded-[3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-6 sm:p-9 cursor-pointer transition-colors duration-300';
   const cardSm   = 'imsg-card rounded-[2.2rem] sm:rounded-[2.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-5 sm:p-6 cursor-pointer transition-colors duration-300';
-
-  const hoverSpring = { type: 'spring', stiffness: 320, damping: 22 } as const;
+  const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
     <section
@@ -159,7 +150,7 @@ export const RenaissanceRealAsks: React.FC = () => {
       id="asks"
       className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20 overflow-hidden select-none"
     >
-      {/* SVG clip defs — 6 genie morph paths */}
+      {/* SVG clip defs — 5 genie morph paths */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
         <defs>
           <clipPath id="genie-clip-1" clipPathUnits="objectBoundingBox"><path ref={path1Ref} d={STEP3} /></clipPath>
@@ -167,7 +158,6 @@ export const RenaissanceRealAsks: React.FC = () => {
           <clipPath id="genie-clip-3" clipPathUnits="objectBoundingBox"><path ref={path3Ref} d={STEP3} /></clipPath>
           <clipPath id="genie-clip-4" clipPathUnits="objectBoundingBox"><path ref={path4Ref} d={STEP3} /></clipPath>
           <clipPath id="genie-clip-5" clipPathUnits="objectBoundingBox"><path ref={path5Ref} d={STEP3} /></clipPath>
-          <clipPath id="genie-clip-6" clipPathUnits="objectBoundingBox"><path ref={path6Ref} d={STEP3} /></clipPath>
         </defs>
       </svg>
 
@@ -180,7 +170,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         <img src={candleStandImg} alt="Antique Candle Stand" className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none" />
       </motion.div>
 
-      {/* Scholar character — bottom left */}
+      {/* Scholar — bottom left */}
       <motion.div
         animate={{ y: [3, -3, 3] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
@@ -203,26 +193,18 @@ export const RenaissanceRealAsks: React.FC = () => {
           </p>
         </div>
 
-        {/* ── Cards + Pedestal ─────────────────────────────────────────────────── */}
-        {/* Layout mirrors reference image: 3 top, 1 mid-center, 2 bottom         */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[700px] sm:min-h-[760px] lg:min-h-[820px]">
+        {/* Cards + pedestal */}
+        <div className="relative w-full max-w-6xl mx-auto min-h-[640px] sm:min-h-[700px] lg:min-h-[760px]">
 
-          {/* ── CARD 1 — top-left  |  2 bubbles: Q why BTC / A spot buying ── */}
+          {/* CARD 1 — top-left | QA: why is BTC sending / spot buying */}
           <motion.div
-            ref={card1Ref}
-            variants={pos1}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
+            ref={card1Ref} variants={pos1} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[2%] sm:top-[4%] left-0 sm:left-[1%] w-full max-w-[300px] sm:max-w-[380px] lg:max-w-[420px] z-20"
           >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-1)' }}
-              initial={{ rotate: -3 }} animate={{ rotate: -3 }}
-              whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardBase}
-            >
+            <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3 }} animate={{ rotate: -3 }}
+              whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="why is BTC sending?" side="right" />
                 <IMessageBubble text="spot buying picked up." side="left" />
@@ -230,88 +212,45 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── CARD 2 — top-center  |  1 bubble: A portfolio down 4% ── */}
+          {/* CARD 2 — top-center | A: girlfriend's birthday */}
           <motion.div
-            ref={card2Ref}
-            variants={pos2}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
+            ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
             className="absolute top-[0%] left-[40%] sm:left-[42%] lg:left-[44%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20 hidden sm:block"
           >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-2)' }}
-              initial={{ rotate: 2.5 }} animate={{ rotate: 2.5 }}
-              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardSm}
-            >
-              <div className="flex flex-col">
-                <IMessageBubble text="portfolio's down 4% today." side="left" />
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* ── CARD 3 — top-right  |  1 bubble: A girlfriend birthday ── */}
-          <motion.div
-            ref={card3Ref}
-            variants={pos3}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
-            style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[5%] sm:top-[7%] right-0 sm:right-[1%] w-full max-w-[190px] sm:max-w-[230px] lg:max-w-[260px] z-20"
-          >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-3)' }}
-              initial={{ rotate: -1.5 }} animate={{ rotate: -1.5 }}
-              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardSm}
-            >
+            <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 2.5 }} animate={{ rotate: 2.5 }}
+              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardSm}>
               <div className="flex flex-col">
                 <IMessageBubble text="yo, today is your girlfriend's birthday." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* ── CARD 4 — mid-center  |  1 bubble: A electricity bills ── */}
+          {/* CARD 3 — top-right | A: electricity bills */}
           <motion.div
-            ref={card4Ref}
-            variants={pos4}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
+            ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[36%] sm:top-[38%] left-[34%] sm:left-[36%] lg:left-[38%] w-full max-w-[210px] sm:max-w-[250px] lg:max-w-[280px] z-20 hidden sm:block"
+            className="absolute top-[5%] sm:top-[7%] right-0 sm:right-[1%] w-full max-w-[200px] sm:max-w-[240px] lg:max-w-[270px] z-20"
           >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-4)' }}
-              initial={{ rotate: 0.5 }} animate={{ rotate: 0.5 }}
-              whileHover={{ scale: 1.06, rotate: -0.5, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardSm}
-            >
+            <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: -1.5 }} animate={{ rotate: -1.5 }}
+              whileHover={{ scale: 1.06, rotate: 0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardSm}>
               <div className="flex flex-col">
                 <IMessageBubble text="i paid the electricity bills no worries." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* ── CARD 5 — bottom-left  |  2 bubbles: Q yield / A found 3 ── */}
+          {/* CARD 4 — bottom-left | QA: find me a good yield / found 3 */}
           <motion.div
-            ref={card5Ref}
-            variants={pos5}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
+            ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[52%] sm:top-[54%] left-0 sm:left-[1%] w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[390px] z-20"
+            className="absolute top-[50%] sm:top-[52%] left-0 sm:left-[1%] w-full max-w-[300px] sm:max-w-[370px] lg:max-w-[410px] z-20"
           >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-5)' }}
-              initial={{ rotate: -2.5 }} animate={{ rotate: -2.5 }}
-              whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardBase}
-            >
+            <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -2.5 }} animate={{ rotate: -2.5 }}
+              whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="find me a good yield?" side="right" />
                 <IMessageBubble text="found 3. want me to rank them?" side="left" />
@@ -319,22 +258,15 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── CARD 6 — bottom-right  |  2 bubbles: Q schedule / A 2 meetings ── */}
+          {/* CARD 5 — bottom-right | QA: schedule / 2 meetings */}
           <motion.div
-            ref={card6Ref}
-            variants={pos6}
-            initial="closed"
-            animate={sectionOpen ? 'open' : 'closed'}
+            ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[48%] sm:top-[50%] right-0 sm:right-[1%] w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[46%] sm:top-[48%] right-0 sm:right-[1%] w-full max-w-[300px] sm:max-w-[370px] lg:max-w-[410px] z-20"
           >
-            <motion.div
-              style={{ clipPath: 'url(#genie-clip-6)' }}
-              initial={{ rotate: 3.5 }} animate={{ rotate: 3.5 }}
-              whileHover={{ scale: 1.05, rotate: 1, y: -8, transition: hoverSpring }}
-              whileTap={{ scale: 0.98 }}
-              className={cardBase}
-            >
+            <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: 3.5 }} animate={{ rotate: 3.5 }}
+              whileHover={{ scale: 1.05, rotate: 1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
+              className={cardBase}>
               <div className="flex flex-col gap-3.5 sm:gap-4">
                 <IMessageBubble text="what's on my schedule tomorrow?" side="right" />
                 <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="left" />
@@ -342,18 +274,15 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* ── Stone carved iMessage pedestal — bottom center ── */}
+          {/* Stone carved pedestal — bottom center */}
           <div
-            ref={pedestalRef}
-            onClick={handleToggle}
-            className="absolute -bottom-14 sm:-bottom-16 md:-bottom-20 left-1/2 -translate-x-1/2 w-32 sm:w-36 md:w-40 lg:w-44 z-30 flex flex-col items-center cursor-pointer group"
+            ref={pedestalRef} onClick={handleToggle}
+            className="absolute -bottom-14 sm:-bottom-16 md:-bottom-20 left-1/2 -translate-x-1/2 w-32 sm:w-36 md:w-40 lg:w-44 z-30 flex flex-col items-center cursor-pointer"
           >
             <motion.div
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.95 }}
               animate={sectionOpen ? { scale: [1, 1.05, 0.98, 1] } : { scale: 1 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="w-full"
+              transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full"
             >
               <img src={iMessagePodiumImg} alt="iMessage Stone Carved Podium" className="w-full h-auto object-contain drop-shadow-[0_18px_32px_rgba(40,30,20,0.18)] select-none" />
             </motion.div>
