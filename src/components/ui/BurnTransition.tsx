@@ -359,65 +359,42 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       }
 
       void main() {
-        float baseLine = 0.5 + u_parallax_offset;
         float horizontalOffset = u_scroll_offset * u_movement_horizontal;
         float verticalOffset = u_scroll_offset * u_movement_vertical;
 
-        vec2 noiseCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_noise_scale + horizontalOffset,
-          v_uv.y * 2.5 + verticalOffset * 0.6
+        // 1. Macro rolling wave shape
+        vec2 waveCoord = vec2(
+          v_uv.x * u_noise_scale * 2.8 + horizontalOffset * 0.8,
+          v_uv.y * 1.5 + verticalOffset * 0.4
         );
-        float edgeFbm = fbm(noiseCoord);
-        float edgeTurb = turbulence(noiseCoord * 1.2);
-        float edgeNoise = mix(edgeFbm, edgeTurb, 0.38);
-        float mainEdge = baseLine + (edgeNoise - 0.5) * u_noise_intensity * 1.05;
+        float macroWave = (fbm(waveCoord) - 0.5) * u_noise_intensity * 0.85;
+        float baseLine = 0.5 + u_parallax_offset + macroWave;
 
-        vec2 thicknessNoiseCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_noise_scale * 2.3 + horizontalOffset * 0.7,
-          v_uv.y * 2.0 + verticalOffset * 0.4 + 100.0
+        // 2. Jagged micro-tear noise
+        vec2 tearCoord = vec2(
+          v_uv.x * u_noise_scale * 16.0 + horizontalOffset * 1.2,
+          v_uv.y * 8.0
         );
-        float thicknessNoise = fbm(thicknessNoiseCoord);
-        float minThickness = u_edge_softness * 0.35;
-        float maxThickness = u_edge_softness * 1.0;
-        float localThickness = mix(minThickness, maxThickness, thicknessNoise);
+        float microTear = (turbulence(tearCoord) - 0.5) * 0.09;
 
-        float lowerBound = mainEdge - localThickness * 0.4;
-        float upperBound = mainEdge + localThickness * 0.6;
-
-        vec2 grainCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_grain_scale * 3.0 + horizontalOffset * 0.5,
-          v_uv.y * u_grain_scale * 3.0 + verticalOffset * 0.3
-        );
-        float grain = detailedNoise(grainCoord);
-
+        // 3. Fine vertical paper fiber filaments (anisotropic high X frequency)
         vec2 fiberCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_grain_scale * 8.0 + horizontalOffset * 0.3,
-          v_uv.y * u_grain_scale * 2.0 + verticalOffset * 0.2
+          v_uv.x * 280.0 + horizontalOffset * 1.5,
+          v_uv.y * 10.0 + verticalOffset * 0.2
         );
-        float fiberNoise = noise(fiberCoord);
-        float combinedGrain = grain * 0.6 + fiberNoise * 0.4;
+        float fiberStreak = (noise(fiberCoord) * 2.0 - 1.0) * 0.045;
+
+        // 4. Combined torn paper burn edge
+        float edgeThreshold = baseLine + microTear + fiberStreak;
+        float rimWidth = max(u_edge_softness * 0.8, 0.035);
+        float lowerBound = edgeThreshold - rimWidth;
 
         if (v_uv.y < lowerBound) {
           gl_FragColor = vec4(u_color, 1.0);
-        } else if (v_uv.y < upperBound) {
-          float t = (v_uv.y - lowerBound) / max(upperBound - lowerBound, 0.0001);
-          if (t < 0.2) {
-            float grainThresh = 1.0 - (t / 0.2);
-            if (combinedGrain > grainThresh * 0.5) {
-              gl_FragColor = vec4(u_transition_color, 1.0);
-            } else {
-              gl_FragColor = vec4(u_color, 1.0);
-            }
-          } else if (t > 0.8) {
-            float grainThresh = (t - 0.8) / 0.2;
-            if (combinedGrain > grainThresh * 0.6) {
-              gl_FragColor = vec4(u_transition_color, 1.0);
-            } else {
-              discard;
-            }
-          } else {
-            gl_FragColor = vec4(u_transition_color, 1.0);
-          }
+        } else if (v_uv.y < edgeThreshold) {
+          float t = (v_uv.y - lowerBound) / rimWidth;
+          vec3 edgeCol = mix(u_color, u_transition_color, smoothstep(0.0, 0.35, t));
+          gl_FragColor = vec4(edgeCol, 1.0);
         } else {
           discard;
         }
@@ -433,10 +410,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       void main() {
         vec4 pixel = texture2D(u_texture, v_uv);
         float distToTransition = length(pixel.rgb - u_transition_color);
-        float distToBase = length(pixel.rgb - u_base_color);
-        float isTransition = 1.0 - smoothstep(0.0, 0.5, distToTransition);
-        float notBase = smoothstep(0.0, 0.3, distToBase);
-        float mask = pow(isTransition * notBase * pixel.a, 0.8);
+        float mask = (1.0 - smoothstep(0.0, 0.45, distToTransition)) * pixel.a;
         gl_FragColor = vec4(1.0, 1.0, 1.0, mask);
       }
     `;
@@ -595,7 +569,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
         progress = 1 - (viewportHeight - componentTop) / (viewportHeight + componentHeight);
         progress = Math.max(0, Math.min(1, progress));
       }
-      const rawOffset = 1 - progress - 0.5;
+      const rawOffset = (1 - progress - 0.5) * 0.25;
       parallaxOffsetRef.current = invertedRef.current ? -rawOffset : rawOffset;
     };
 
@@ -635,7 +609,7 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       baseTimeRef.current = elapsedSeconds * baseAnimationSpeedRef.current;
 
       const soLoc = glCtx.getUniformLocation(prog, 'u_scroll_offset');
-      if (soLoc) glCtx.uniform1f(soLoc, baseTimeRef.current + scrollOffsetRef.current);
+      if (soLoc) glCtx.uniform1f(soLoc, baseTimeRef.current);
 
       const esLoc = glCtx.getUniformLocation(prog, 'u_edge_softness');
       if (esLoc) glCtx.uniform1f(esLoc, edgeSoftnessRef.current);
@@ -876,17 +850,6 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
 
     const scrollHandler = () => {
       if (!isVisibleRef.current) return;
-      const currentScrollY = window.scrollY || window.pageYOffset;
-      const currentTime = performance.now();
-      if (lastScrollTimeRef.current > 0) {
-        const deltaY = currentScrollY - lastScrollYRef.current;
-        const deltaTime = currentTime - lastScrollTimeRef.current;
-        if (deltaTime > 0 && Math.abs(deltaY) > 0) {
-          scrollOffsetRef.current += deltaY * scrollSensitivityRef.current;
-        }
-      }
-      lastScrollYRef.current = currentScrollY;
-      lastScrollTimeRef.current = currentTime;
       if (parallaxEnabledRef.current) {
         updateParallaxOffset();
       }
