@@ -68,14 +68,14 @@ function HeroOverlay({
           />
         </motion.div>
 
-        {/* Compact "Get Started" Headline */}
+        {/* Compact "ASK DOPE" Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-3.5 sm:mb-4 select-none"
         >
-          Get Started
+          ASK DOPE
         </motion.h2>
 
         {/* Sleek Frosted Glass Input Bar */}
@@ -158,7 +158,7 @@ function HeroOverlay({
 
         {/* Subtitle Under Headline */}
         <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
-          Powered by <span className="font-serif italic font-bold text-white">DOPE</span>
+          Powered by <span className="font-serif italic font-bold text-white">$DOPE</span>
         </p>
       </div>
     </motion.div>

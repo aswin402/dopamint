@@ -61,29 +61,29 @@ export const RenaissanceNavbar: React.FC = () => {
           />
         </a>
 
-        {/* Nav Links: Agents, AIFI, RAILS */}
+        {/* Nav Links: About, Features, Docs */}
         <nav
           className={`hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase transition-colors duration-300 ${
             isSolidNav ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
           }`}
         >
           <a
-            href="#agents"
-            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
-          >
-            Agents
-          </a>
-          <a
             href="#manifesto"
             className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
-            AIFI
+            About
           </a>
           <a
-            href="#authority"
+            href="#agents"
             className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
-            RAILS
+            Features
+          </a>
+          <a
+            href="#architecture"
+            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+          >
+            Docs
           </a>
         </nav>
 
@@ -115,14 +115,14 @@ export const RenaissanceNavbar: React.FC = () => {
       {/* Mobile Drawer */}
       {mobileNavOpen && (
         <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-6 bg-[#e6e6dc]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-neutral-300 text-sm space-y-4 text-black animate-in fade-in slide-in-from-top-2 duration-200">
-          <a href="#agents" onClick={() => setMobileNavOpen(false)} className="block font-bold">
-            Agents
-          </a>
           <a href="#manifesto" onClick={() => setMobileNavOpen(false)} className="block font-bold">
-            AIFI
+            About
           </a>
-          <a href="#authority" onClick={() => setMobileNavOpen(false)} className="block font-bold">
-            RAILS
+          <a href="#agents" onClick={() => setMobileNavOpen(false)} className="block font-bold">
+            Features
+          </a>
+          <a href="#architecture" onClick={() => setMobileNavOpen(false)} className="block font-bold">
+            Docs
           </a>
           <div className="pt-2">
             <Type1Button
