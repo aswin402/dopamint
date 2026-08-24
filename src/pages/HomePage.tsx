@@ -38,13 +38,13 @@ export function HomePage() {
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
-              noiseScale={2.5}
-              noiseIntensity={0.52}
+              noiseScale={7.5}
+              noiseIntensity={0.88}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.08}
-              edgeSoftness={0.38}
-              bloomIntensity={0.75}
-              bloomRadius={0.35}
+              baseAnimationSpeed={0.06}
+              edgeSoftness={0.04}
+              bloomIntensity={1.2}
+              bloomRadius={0.08}
               parallaxEnabled={true}
               inverted={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
@@ -74,13 +74,13 @@ export function HomePage() {
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
-              noiseScale={2.5}
-              noiseIntensity={0.52}
+              noiseScale={7.5}
+              noiseIntensity={0.88}
               scrollSensitivity={0.015}
-              baseAnimationSpeed={0.08}
-              edgeSoftness={0.38}
-              bloomIntensity={0.75}
-              bloomRadius={0.35}
+              baseAnimationSpeed={0.06}
+              edgeSoftness={0.04}
+              bloomIntensity={1.2}
+              bloomRadius={0.08}
               parallaxEnabled={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
