@@ -49,10 +49,10 @@ const ROW_2_LOGOS = [
 
 export const CryptoLogosMarquee: React.FC = () => {
   return (
-    <div className="w-full pt-6 pb-12 sm:pt-8 sm:pb-16 overflow-hidden relative select-none space-y-4 sm:space-y-6">
+    <div className="w-full pt-1 pb-10 sm:pt-2 sm:pb-14 overflow-hidden relative select-none space-y-3 sm:space-y-4">
       
       {/* Subtle Category Eyebrow */}
-      <div className="text-center mb-5 sm:mb-7">
+      <div className="text-center mb-3 sm:mb-4">
         <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#e8e4d5] border border-[#d6cfbe] text-[11px] font-mono tracking-widest text-[#3d4a3a] uppercase font-semibold">
           SUPPORTED WALLETS &amp; EXCHANGES
         </span>

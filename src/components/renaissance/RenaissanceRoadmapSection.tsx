@@ -175,7 +175,7 @@ export const RenaissanceRoadmapSection: React.FC = () => {
       {/* =========================================================================
           PART 2: HORIZONTAL MOVING CRYPTO LOGOS LIST ANIMATION
           ========================================================================= */}
-      <div className="w-full relative z-10">
+      <div className="w-full relative z-10 -mt-4 sm:-mt-8 lg:-mt-12">
         <CryptoLogosMarquee />
       </div>
 
