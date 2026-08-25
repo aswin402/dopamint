@@ -92,13 +92,13 @@ function HeroOverlay({
               value={promptValue}
               onChange={(e) => setPromptValue(e.target.value)}
               placeholder="Ask anything"
-              className="w-full bg-transparent border-none outline-none text-[#1a1a1a] text-xs sm:text-sm font-sans placeholder:text-[#2d2d2d]/80 placeholder:font-sans font-medium caret-[#1a1a1a]"
+              className="w-full bg-transparent border-none outline-none text-[#fafafa] text-xs sm:text-sm font-sans placeholder:text-[#fafafa]/80 placeholder:font-sans font-medium caret-[#fafafa]"
             />
             {promptValue && (
               <button
                 type="button"
                 onClick={() => setPromptValue('')}
-                className="text-[#2d2d2d]/70 hover:text-black text-xs px-1.5 cursor-pointer transition-colors"
+                className="text-[#fafafa]/70 hover:text-[#fafafa] text-xs px-1.5 cursor-pointer transition-colors"
               >
                 ✕
               </button>
@@ -122,8 +122,8 @@ function HeroOverlay({
                 onClick={() => handleBadgeClick(badge)}
                 className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[11px] sm:text-xs font-normal tracking-normal transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
                   isSelected
-                    ? 'bg-white/50 text-[#141820] border border-white/90 scale-105 shadow-sm font-medium'
-                    : 'bg-white/25 hover:bg-white/40 text-[#1a1a1a] hover:text-black border border-white/40 hover:border-white/70 backdrop-blur-md hover:scale-105'
+                    ? 'bg-white/50 text-[#fafafa] border border-white/90 scale-105 shadow-sm font-medium'
+                    : 'bg-white/20 hover:bg-white/35 text-[#fafafa] hover:text-white border border-white/40 hover:border-white/70 backdrop-blur-md hover:scale-105'
                 }`}
               >
                 {badge}
