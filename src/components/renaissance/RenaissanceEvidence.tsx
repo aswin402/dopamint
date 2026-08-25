@@ -135,7 +135,7 @@ export const RenaissanceEvidence: React.FC = () => {
   const currentStep = hoveredStep !== null ? hoveredStep : activeStep;
 
   return (
-    <section id="architecture" className="pt-10 sm:pt-14 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
+    <section id="architecture" className="pt-28 sm:pt-36 md:pt-44 lg:pt-52 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
       
       {/* =========================================================================
           1. SECTION HEADER (CENTER ALIGNED, SINGLE LINE TITLE)
