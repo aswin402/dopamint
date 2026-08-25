@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import roadmapBgVid from '../../assets/Roadmap_BG.webm';
 import roadmapStaticImg from '../../assets/Roadmap_Static.png';
-import { StaggeredGrid } from '../ui/staggered-grid';
+import { CryptoLogosMarquee } from './CryptoLogosMarquee';
 
 const ROADMAP_PHASES = [
   {
@@ -173,14 +173,10 @@ export const RenaissanceRoadmapSection: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          PART 2: LOGO / STAGGERED GRID ANIMATION COMPONENT
+          PART 2: HORIZONTAL MOVING CRYPTO LOGOS LIST ANIMATION
           ========================================================================= */}
       <div className="w-full relative z-10">
-        <StaggeredGrid 
-          centerText="DOPAMINT"
-          className="bg-[#171411] border-t border-[#c4a978]/30"
-          showFooter={false}
-        />
+        <CryptoLogosMarquee />
       </div>
 
     </section>

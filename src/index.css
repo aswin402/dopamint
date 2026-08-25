@@ -737,3 +737,17 @@ body::-webkit-scrollbar {
   position: relative;
   width: 100%;
 }
+
+/* ── Crypto Wallets & Exchanges Infinite Marquee Animation ── */
+@keyframes cryptoMarquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-crypto-marquee {
+  animation: cryptoMarquee 32s linear infinite;
+}
