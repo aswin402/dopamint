@@ -3,6 +3,7 @@ import { useFrame, useThree } from '@react-three/fiber';
 import { useTexture, useVideoTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { coverVertexShader, coverFragmentShader } from './shaders';
+import { toDissolveProgress } from './progress';
 
 export function VideoShaderScene({
   videoFront,
@@ -46,7 +47,7 @@ export function VideoShaderScene({
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
       // Slower, more gradual dissolve progression mapped across 80% of travel
-      const dissolveProgress = Math.min(1.0, progress / 0.95);
+      const dissolveProgress = toDissolveProgress(progress);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       
       const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
@@ -108,7 +109,7 @@ export function ImageShaderScene({
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       
-      const dissolveProgress = Math.min(1.0, progress / 0.95);
+      const dissolveProgress = toDissolveProgress(progress);
       material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
       const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
       material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;

@@ -5,6 +5,8 @@ import { MotionValue, motionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { VideoShaderScene, ImageShaderScene } from "./scenes";
 import { lockPageScroll, unlockPageScroll } from "./scrollLock";
+import { normalizeRevealTarget } from "./progress";
+import { getLenisInstance } from "@/lib/lenis";
 
 
 export interface ScrollDissolveRevealProps {
@@ -31,12 +33,11 @@ export function ScrollDissolveReveal({
   const [smoothProgress, setSmoothProgress] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
   const isUnlockedRef = useRef(false);
-  // Deliberate-reverse gate: near the top, small negative wheel/touch deltas
-  // (trackpad & wheel inertia tails) must NOT re-lock the scroll-jack. Only
-  // sustained upward input (cumulative ≤ -140px, reset by any downward delta,
-  // decayed after 600ms of inactivity) may reverse the animation.
-  const upAccumRef = useRef(0);
-  const lastUpTimeRef = useRef(0);
+  // The wheel/touch stream that completes the dissolve can still contain
+  // momentum events. Wait for a short quiet period before accepting the next
+  // downward gesture as an intentional request to enter section three.
+  const sectionHandoffReadyRef = useRef(false);
+  const sectionHandoffTimerRef = useRef<number | null>(null);
   const scrollYProgress = useMemo(() => motionValue(0), []);
 
   // Frame-rate independent exponential damping physics loop
@@ -52,7 +53,10 @@ export function ScrollDissolveReveal({
       const factor = 1 - Math.exp(-6.5 * deltaSec);
       smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
 
-      if (targetProgressRef.current >= 1.0 && smoothProgressRef.current >= 0.95) {
+      // Once the user has completed the reveal, finish the last fraction in
+      // this frame. Leaving it to the damping loop kept the page locked for
+      // several additional wheel/touch gestures after the reveal looked done.
+      if (targetProgressRef.current >= 1.0) {
         smoothProgressRef.current = 1.0;
       } else if (targetProgressRef.current <= 0.0 && smoothProgressRef.current <= 0.05) {
         smoothProgressRef.current = 0.0;
@@ -60,12 +64,6 @@ export function ScrollDissolveReveal({
 
       const cur = smoothProgressRef.current;
       scrollYProgress.set(cur);
-
-      const isHeroRevealed = cur > 0.45;
-      if (document.documentElement.dataset.heroRevealed !== (isHeroRevealed ? 'true' : 'false')) {
-        document.documentElement.dataset.heroRevealed = isHeroRevealed ? 'true' : 'false';
-        window.dispatchEvent(new CustomEvent('hero-reveal-change', { detail: { isRevealed: isHeroRevealed, progress: cur } }));
-      }
 
       // Gate React re-renders by epsilon — motion values above already drive
       // per-frame visuals; state is only needed for structural switches
@@ -76,6 +74,21 @@ export function ScrollDissolveReveal({
       }
 
       const completed = targetProgressRef.current >= 1.0 && cur >= 0.999;
+
+      // Keep the global visual state synchronized independently from the
+      // internal lock ref. Reverse input deliberately updates the lock ref
+      // immediately, so coupling this signal to that ref skipped the navbar
+      // reset while returning to the hero.
+      const revealedValue = completed ? 'true' : 'false';
+      if (document.documentElement.dataset.heroRevealed !== revealedValue) {
+        document.documentElement.dataset.heroRevealed = revealedValue;
+        window.dispatchEvent(
+          new CustomEvent('hero-reveal-change', {
+            detail: { isRevealed: completed, progress: cur },
+          }),
+        );
+      }
+
       if (completed !== isUnlockedRef.current) {
         isUnlockedRef.current = completed;
         setIsUnlocked(completed);
@@ -102,54 +115,102 @@ export function ScrollDissolveReveal({
     };
   }, [scrollYProgress]);
 
-  const updateTarget = useCallback((val: number) => {
-    const clamped = Math.max(0.0, Math.min(1.0, val));
-    targetProgressRef.current = clamped;
+  const updateTarget = useCallback((val: number, isForward: boolean) => {
+    targetProgressRef.current = normalizeRevealTarget(val, isForward);
   }, []);
+
+  const armSectionHandoff = useCallback(() => {
+    sectionHandoffReadyRef.current = false;
+    if (sectionHandoffTimerRef.current !== null) {
+      window.clearTimeout(sectionHandoffTimerRef.current);
+    }
+    sectionHandoffTimerRef.current = window.setTimeout(() => {
+      sectionHandoffReadyRef.current = true;
+      sectionHandoffTimerRef.current = null;
+    }, 140);
+  }, []);
+
+  const resetSectionHandoff = useCallback(() => {
+    sectionHandoffReadyRef.current = false;
+    if (sectionHandoffTimerRef.current !== null) {
+      window.clearTimeout(sectionHandoffTimerRef.current);
+      sectionHandoffTimerRef.current = null;
+    }
+  }, []);
+
+  const scrollToNextSection = useCallback(() => {
+    const nextSection = document.getElementById('asks');
+    if (!nextSection) return;
+
+    resetSectionHandoff();
+    const lenis = getLenisInstance();
+    if (lenis) {
+      lenis.scrollTo(nextSection, {
+        // Keep the section handoff responsive. A full second made the first
+        // scroll feel like input lag even though Lenis had already accepted it.
+        duration: 0.55,
+        lock: true,
+        onComplete: () => {
+          sectionHandoffReadyRef.current = true;
+        },
+      });
+      return;
+    }
+
+    nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    armSectionHandoff();
+  }, [armSectionHandoff, resetSectionHandoff]);
 
   // Wheel, Touch, and Keyboard listeners
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
-      if (e.deltaY > 0) upAccumRef.current = 0;
-
       // 1. While animation is running, lock scrolling and gently advance/reverse
       if (!isUnlockedRef.current) {
         e.preventDefault();
         e.stopImmediatePropagation();
         const delta = Math.min(Math.abs(e.deltaY) * 0.0005, 0.033);
         if (e.deltaY > 0) {
-          updateTarget(targetProgressRef.current + delta);
+          updateTarget(targetProgressRef.current + delta, true);
+          armSectionHandoff();
         } else if (e.deltaY < 0) {
-          updateTarget(targetProgressRef.current - delta);
+          resetSectionHandoff();
+          updateTarget(targetProgressRef.current - delta, false);
         }
         return;
       }
 
-      // 2. Unlocked at the very top: only a DELIBERATE upward scroll reverses.
-      //    Small negative deltas (inertia tails) are swallowed harmlessly so a
-      //    jittery wheel/trackpad can't re-lock the scroll-jack and throw the
-      //    user back into the pinned hero.
+      // 2. One intentional downward gesture moves the full viewport from the
+      //    revealed second section to section three.
+      if (window.scrollY <= 6 && e.deltaY > 0) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (sectionHandoffReadyRef.current) {
+          scrollToNextSection();
+        } else {
+          armSectionHandoff();
+        }
+        return;
+      }
+
+      // 3. The first upward gesture at the top immediately starts reversing
+      //    the dissolve. The previous cumulative -140px gate caused the three
+      //    apparently dead scrolls reported by users.
       if (window.scrollY <= 6 && e.deltaY < 0) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        const now = performance.now();
-        if (now - lastUpTimeRef.current > 600) upAccumRef.current = 0;
-        lastUpTimeRef.current = now;
-        upAccumRef.current += e.deltaY;
-        if (upAccumRef.current <= -140) {
-          upAccumRef.current = 0;
-          // Re-lock immediately via DOM (no React state lag)
-          isUnlockedRef.current = false;
-          setIsUnlocked(false);
-          lockPageScroll();
-          window.scrollTo(0, 0);
-          const delta = Math.min(Math.abs(e.deltaY) * 0.0005, 0.033);
-          updateTarget(targetProgressRef.current - delta);
-        }
+        resetSectionHandoff();
+        isUnlockedRef.current = false;
+        setIsUnlocked(false);
+        lockPageScroll();
+        window.scrollTo(0, 0);
+        // A single upward gesture requests the complete reverse transition.
+        // The damping loop animates smoothly from 1 back to 0; requiring more
+        // wheel input here made users repeat the gesture several times.
+        updateTarget(0, false);
         return;
       }
 
-      // 3. Unlocked + scrolling DOWN → do nothing, let browser handle naturally ✓
+      // 4. Elsewhere, keep normal Lenis scrolling.
     };
 
     let touchStartY = 0;
@@ -162,50 +223,71 @@ export function ScrollDissolveReveal({
       const deltaY = touchStartY - currentY;
       touchStartY = currentY;
 
-      if (deltaY > 0) upAccumRef.current = 0;
-
       if (!isUnlockedRef.current) {
         e.preventDefault();
         e.stopImmediatePropagation();
         const delta = Math.min(Math.abs(deltaY) * 0.0022, 0.045);
         if (deltaY > 0) {
-          updateTarget(targetProgressRef.current + delta);
+          updateTarget(targetProgressRef.current + delta, true);
         } else if (deltaY < 0) {
-          updateTarget(targetProgressRef.current - delta);
+          resetSectionHandoff();
+          updateTarget(targetProgressRef.current - delta, false);
         }
         return;
       }
 
-      // Same deliberate-reverse gate as wheel: an upward touch tail near the
-      // top must not re-lock the scroll-jack.
+      if (window.scrollY <= 6 && deltaY > 0) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        if (sectionHandoffReadyRef.current) {
+          scrollToNextSection();
+        }
+        return;
+      }
+
       if (window.scrollY <= 6 && deltaY < 0) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        const now = performance.now();
-        if (now - lastUpTimeRef.current > 600) upAccumRef.current = 0;
-        lastUpTimeRef.current = now;
-        upAccumRef.current += deltaY;
-        if (upAccumRef.current <= -140) {
-          upAccumRef.current = 0;
-          isUnlockedRef.current = false;
-          setIsUnlocked(false);
-          lockPageScroll();
-          window.scrollTo(0, 0);
-          const delta = Math.min(Math.abs(deltaY) * 0.0022, 0.045);
-          updateTarget(targetProgressRef.current - delta);
-        }
+        resetSectionHandoff();
+        isUnlockedRef.current = false;
+        setIsUnlocked(false);
+        lockPageScroll();
+        window.scrollTo(0, 0);
+        updateTarget(0, false);
         return;
       }
     };
 
+    const onTouchEnd = () => {
+      if (isUnlockedRef.current) armSectionHandoff();
+    };
+
     const onKeyDown = (e: KeyboardEvent) => {
+      if (isUnlockedRef.current && window.scrollY <= 6) {
+        if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+          e.preventDefault();
+          scrollToNextSection();
+        } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+          e.preventDefault();
+          resetSectionHandoff();
+          isUnlockedRef.current = false;
+          setIsUnlocked(false);
+          lockPageScroll();
+          window.scrollTo(0, 0);
+          updateTarget(0, false);
+        }
+        return;
+      }
+
       if (!isUnlockedRef.current) {
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current + 0.07);
+          updateTarget(targetProgressRef.current + 0.07, true);
+          armSectionHandoff();
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
           e.preventDefault();
-          updateTarget(targetProgressRef.current - 0.07);
+          resetSectionHandoff();
+          updateTarget(targetProgressRef.current - 0.07, false);
         }
       }
     };
@@ -213,15 +295,18 @@ export function ScrollDissolveReveal({
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown, { passive: false });
 
     return () => {
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
+      resetSectionHandoff();
     };
-  }, [updateTarget]);
+  }, [armSectionHandoff, resetSectionHandoff, scrollToNextSection, updateTarget]);
 
   const isVideo = Boolean(videoFront || (imageFront && (imageFront.endsWith('.webm') || imageFront.endsWith('.mp4'))));
   const activeVideo = videoFront || (isVideo ? imageFront! : '');

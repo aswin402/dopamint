@@ -9,33 +9,26 @@ export const Navbar: React.FC = () => {
   const [isHeroRevealed, setIsHeroRevealed] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+    const syncNavbarState = () => {
+      setIsScrolled(window.scrollY > 40);
+      setIsHeroRevealed(document.documentElement.dataset.heroRevealed === 'true');
     };
 
-    const handleRevealChange = (e: Event) => {
-      const customEvent = e as CustomEvent<{ isRevealed: boolean }>;
-      if (customEvent.detail !== undefined) {
-        setIsHeroRevealed(customEvent.detail.isRevealed);
-      }
-    };
+    // The dissolve engine changes this attribute at the exact transition
+    // boundary. Observing it is reliable even when a custom event fires
+    // before React has committed the hero's unlock state.
+    const heroRevealObserver = new MutationObserver(syncNavbarState);
+    heroRevealObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-hero-revealed'],
+    });
 
-    // Check dataset attribute initially in case hero is already revealed
-    if (document.documentElement.dataset.heroRevealed === 'true') {
-      setIsHeroRevealed(true);
-    }
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('hero-reveal-change', handleRevealChange);
+    syncNavbarState();
+    window.addEventListener('scroll', syncNavbarState, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('hero-reveal-change', handleRevealChange);
+      heroRevealObserver.disconnect();
+      window.removeEventListener('scroll', syncNavbarState);
     };
   }, []);
 

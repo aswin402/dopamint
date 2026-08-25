@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
@@ -204,26 +204,6 @@ function HeroOverlay({
     2. SECOND SECTION COMPONENT: House of AI Agents ("what is dopamint? House of Sovereign Agents")
     ========================================================================= */}
 function HouseOfAgentsSection() {
-  const chatVideoRef = useRef<HTMLVideoElement>(null);
-
-  // The dissolve engine flips `data-hero-revealed` (and dispatches
-  // `hero-reveal-change`) once the hero overlay is gone. This 1080×1080 video
-  // is fully covered then — pause its decode loop instead of burning CPU.
-  useEffect(() => {
-    const video = chatVideoRef.current;
-    if (!video) return;
-    const sync = () => {
-      if (document.documentElement.dataset.heroRevealed === 'true') {
-        video.pause();
-      } else {
-        video.play().catch(() => {});
-      }
-    };
-    sync();
-    window.addEventListener('hero-reveal-change', sync);
-    return () => window.removeEventListener('hero-reveal-change', sync);
-  }, []);
-
   return (
     <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-14 sm:pt-18 lg:pt-22 pb-0 overflow-y-auto lg:overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center lg:items-end">
@@ -285,7 +265,6 @@ function HouseOfAgentsSection() {
         <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end w-full">
           <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-0 lg:translate-x-6 xl:translate-x-10 flex items-end justify-center lg:justify-end">
             <video
-              ref={chatVideoRef}
               src={chatScreenVid}
               autoPlay
               muted
