@@ -248,11 +248,11 @@ export const RenaissanceRealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 6 — center (rotate -6.5deg) */}
+          {/* CARD 6 — center (rotate -6.5deg, moved higher up) */}
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[35%] sm:top-[37%] lg:top-[39%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
+            className="absolute top-[22%] sm:top-[24%] lg:top-[25%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
