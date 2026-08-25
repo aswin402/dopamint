@@ -54,7 +54,6 @@ export const RenaissanceRoadmapSection: React.FC = () => {
   const [videoEnded, setVideoEnded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const hasTriggeredRef = useRef(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -64,16 +63,22 @@ export const RenaissanceRoadmapSection: React.FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasTriggeredRef.current) {
-            hasTriggeredRef.current = true;
+          if (entry.isIntersecting) {
+            // When section comes into view: reset and play animation from start
+            setVideoEnded(false);
             video.currentTime = 0;
             video.play().catch(() => {
               // Muted autoplay allowed
             });
+          } else {
+            // When scrolling away: pause and reset state so it triggers fresh on return
+            video.pause();
+            video.currentTime = 0;
+            setVideoEnded(false);
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.25 }
     );
 
     observer.observe(container);
@@ -111,18 +116,18 @@ export const RenaissanceRoadmapSection: React.FC = () => {
             className="w-full h-full object-contain select-none block"
           />
 
-          {/* Animated Scroll Video (Plays on scroll view, unmounts instantly on end with zero delay/fade) */}
-          {!videoEnded && (
-            <video
-              ref={videoRef}
-              src={roadmapBgVid}
-              muted
-              playsInline
-              preload="auto"
-              onEnded={handleVideoEnded}
-              className="absolute inset-0 w-full h-full object-contain select-none pointer-events-none z-20"
-            />
-          )}
+          {/* Animated Scroll Video (Plays on scroll view, reveals static text on end) */}
+          <video
+            ref={videoRef}
+            src={roadmapBgVid}
+            muted
+            playsInline
+            preload="auto"
+            onEnded={handleVideoEnded}
+            className={`absolute inset-0 w-full h-full object-contain select-none pointer-events-none z-20 transition-opacity duration-300 ${
+              videoEnded ? 'opacity-0' : 'opacity-100'
+            }`}
+          />
 
           {/* Overlay Content on top of the 4 columns (Revealed smoothly when video ends) */}
           <div
