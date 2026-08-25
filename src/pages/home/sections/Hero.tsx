@@ -86,7 +86,7 @@ function HeroOverlay({
           onSubmit={handleFormSubmit}
           className="w-full max-w-md sm:max-w-lg md:max-w-xl"
         >
-          <div className="relative group w-full rounded-full backdrop-blur-md bg-white/20 sm:bg-white/25 hover:bg-white/30 focus-within:bg-white/35 border border-white/50 focus-within:border-white/80 shadow-[0_6px_25px_rgba(0,0,0,0.3)] transition-all duration-300 px-4 sm:px-5 py-2 sm:py-2.5 flex items-center gap-2.5">
+          <div className="relative group w-full rounded-full backdrop-blur-md bg-white/20 sm:bg-white/25 hover:bg-white/30 focus-within:bg-white/35 border border-white/50 focus-within:border-white/80 shadow-[0_6px_25px_rgba(0,0,0,0.3)] transition-all duration-300 pl-4 sm:pl-5 pr-1.5 sm:pr-2 py-1.5 sm:py-2 flex items-center gap-2">
             <input
               type="text"
               value={promptValue}
@@ -98,11 +98,35 @@ function HeroOverlay({
               <button
                 type="button"
                 onClick={() => setPromptValue('')}
-                className="text-[#fafafa]/70 hover:text-[#fafafa] text-xs px-1.5 cursor-pointer transition-colors"
+                className="text-[#fafafa]/70 hover:text-[#fafafa] text-xs px-1 cursor-pointer transition-colors"
+                aria-label="Clear input"
               >
                 ✕
               </button>
             )}
+            <button
+              type="submit"
+              disabled={!promptValue.trim()}
+              className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all duration-200 shrink-0 cursor-pointer ${
+                promptValue.trim()
+                  ? 'bg-white text-[#141820] shadow-[0_2px_10px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95'
+                  : 'bg-white/20 text-[#fafafa]/50 hover:bg-white/30 hover:text-[#fafafa]'
+              }`}
+              aria-label="Send prompt"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+              >
+                <path d="M12 19V5" />
+                <path d="m5 12 7-7 7 7" />
+              </svg>
+            </button>
           </div>
         </motion.form>
 
