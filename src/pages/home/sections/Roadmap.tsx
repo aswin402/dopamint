@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import roadmapBgVid from '../../assets/Roadmap_BG.webm';
-import roadmapStaticImg from '../../assets/Roadmap_Static.png';
+import roadmapBgVid from '../../../assets/Roadmap_BG.webm';
+import roadmapStaticImg from '../../../assets/Roadmap_Static.webp';
 import { CryptoLogosMarquee } from './CryptoLogosMarquee';
 
 const ROADMAP_PHASES = [
@@ -50,7 +50,7 @@ const ROADMAP_PHASES = [
   },
 ];
 
-export const RenaissanceRoadmapSection: React.FC = () => {
+export const RoadmapSection: React.FC = () => {
   const [videoEnded, setVideoEnded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -113,6 +113,8 @@ export const RenaissanceRoadmapSection: React.FC = () => {
           <img
             src={roadmapStaticImg}
             alt="Dopamint Roadmap Scroll"
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-contain select-none block"
           />
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import planetImg from '../../assets/Planet.png';
-import companionVideo from '../../assets/Companion_Video_1.webm';
+import planetImg from '../../../assets/Planet.webp';
+import companionVideo from '../../../assets/Companion_Video_1.webm';
 
-export const RenaissanceAuthority: React.FC = () => {
+export const Authority: React.FC = () => {
   return (
     <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-2 sm:pb-4 lg:pb-6 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
       
@@ -13,6 +13,8 @@ export const RenaissanceAuthority: React.FC = () => {
         src={planetImg}
         alt=""
         aria-hidden="true"
+        loading="lazy"
+        decoding="async"
         className="absolute -right-12 sm:-right-16 lg:-right-20 top-10 sm:top-16 lg:top-24 w-48 sm:w-64 lg:w-80 h-auto pointer-events-none select-none z-0 opacity-80"
       />
 

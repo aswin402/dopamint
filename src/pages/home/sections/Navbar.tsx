@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Type1Button } from '../ui/Type1Button';
+import { Type1Button } from '@/components/ui/Type1Button';
 import { Menu, X } from 'lucide-react';
-import logoDope from '../../assets/logo_dope.png';
+import logoDope from '../../../assets/logo_dope.webp';
 
-export const RenaissanceNavbar: React.FC = () => {
+export const Navbar: React.FC = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHeroRevealed, setIsHeroRevealed] = useState(false);
@@ -50,7 +50,7 @@ export const RenaissanceNavbar: React.FC = () => {
       }`}
     >
       <div className="max-w-[1400px] mx-auto flex items-center justify-between w-full">
-        {/* Brand with logo_dope.png (Switches from White to Black on scroll or when hero dissolves) */}
+        {/* Brand with logo_dope.webp (Switches from White to Black on scroll or when hero dissolves) */}
         <a href="#hero" className="flex items-center group" aria-label="Home">
           <img
             src={logoDope}
@@ -94,7 +94,7 @@ export const RenaissanceNavbar: React.FC = () => {
             variant={isSolidNav ? 'dark' : 'light'}
             className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
           >
-            Get access
+            Try iMessage
           </Type1Button>
 
           {/* Mobile menu trigger */}
@@ -130,7 +130,7 @@ export const RenaissanceNavbar: React.FC = () => {
               onClick={() => setMobileNavOpen(false)}
               className="!w-full !h-11"
             >
-              Get access
+              Try iMessage
             </Type1Button>
           </div>
         </div>

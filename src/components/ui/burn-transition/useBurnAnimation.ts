@@ -1,121 +1,50 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef, type RefObject } from 'react';
+import {
+  parseColorToRgba,
+  mapNoiseScale,
+  mapNoiseIntensity,
+  mapScrollSensitivity,
+  mapBaseAnimationSpeed,
+  mapEdgeSoftness,
+  mapBloomRadius,
+} from './mapping';
 
-export interface BurnTransitionProps {
-  color?: string;
+export interface BurnEngineProps {
+  color: string;
   transitionColor?: string;
-  noiseScale?: number;
-  noiseIntensity?: number;
-  scrollSensitivity?: number;
-  baseAnimationSpeed?: number;
-  edgeSoftness?: number;
-  bloomIntensity?: number;
-  bloomRadius?: number;
-  parallaxEnabled?: boolean;
-  inverted?: boolean;
-  movement?: {
-    horizontal?: 'left' | 'center' | 'right';
-    vertical?: number;
-  };
-  style?: React.CSSProperties;
-  className?: string;
+  noiseScale: number;
+  noiseIntensity: number;
+  scrollSensitivity: number;
+  baseAnimationSpeed: number;
+  edgeSoftness: number;
+  bloomIntensity: number;
+  bloomRadius: number;
+  parallaxEnabled: boolean;
+  movement?: { horizontal?: 'left' | 'center' | 'right'; vertical?: number };
 }
 
-// Color parsing utility functions
-function parseColorToRgba(input?: string): { r: number; g: number; b: number; a: number } {
-  if (!input || input.trim() === '') return { r: 1, g: 1, b: 1, a: 1 };
-  const str = input.trim();
-
-  // rgba(r, g, b, a)
-  const rgbaMatch = str.match(
-    /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,\s*([\d.]+)\s*)?\)/i
-  );
-  if (rgbaMatch) {
-    const r = Math.max(0, Math.min(255, parseFloat(rgbaMatch[1]))) / 255;
-    const g = Math.max(0, Math.min(255, parseFloat(rgbaMatch[2]))) / 255;
-    const b = Math.max(0, Math.min(255, parseFloat(rgbaMatch[3]))) / 255;
-    const a = rgbaMatch[4] !== undefined ? Math.max(0, Math.min(1, parseFloat(rgbaMatch[4]))) : 1;
-    return { r, g, b, a };
-  }
-
-  // hex
-  const hex = str.replace(/^#/, '');
-  if (hex.length === 8) {
-    return {
-      r: parseInt(hex.slice(0, 2), 16) / 255,
-      g: parseInt(hex.slice(2, 4), 16) / 255,
-      b: parseInt(hex.slice(4, 6), 16) / 255,
-      a: parseInt(hex.slice(6, 8), 16) / 255,
-    };
-  }
-  if (hex.length === 6) {
-    return {
-      r: parseInt(hex.slice(0, 2), 16) / 255,
-      g: parseInt(hex.slice(2, 4), 16) / 255,
-      b: parseInt(hex.slice(4, 6), 16) / 255,
-      a: 1,
-    };
-  }
-  if (hex.length === 3) {
-    return {
-      r: parseInt(hex[0] + hex[0], 16) / 255,
-      g: parseInt(hex[1] + hex[1], 16) / 255,
-      b: parseInt(hex[2] + hex[2], 16) / 255,
-      a: 1,
-    };
-  }
-  return { r: 1, g: 1, b: 1, a: 1 };
-}
-
-function mapLinear(
-  value: number,
-  inMin: number,
-  inMax: number,
-  outMin: number,
-  outMax: number
-): number {
-  if (inMax === inMin) return outMin;
-  const t = (value - inMin) / (inMax - inMin);
-  return outMin + t * (outMax - outMin);
-}
-
-function mapNoiseScale(ui: number) {
-  if (ui >= 1) return ui;
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.15, 3.5);
-}
-function mapNoiseIntensity(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.85);
-}
-function mapScrollSensitivity(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.01);
-}
-function mapBaseAnimationSpeed(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.1);
-}
-function mapEdgeSoftness(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.015, 0.08);
-}
-function mapBloomRadius(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.02, 0.18);
-}
-
-export const BurnTransition: React.FC<BurnTransitionProps> = ({
-  color = '#D9D6CA',
-  transitionColor = '#FFFFFF',
-  noiseScale = 2.5,
-  noiseIntensity = 0.52,
-  scrollSensitivity = 0.015,
-  baseAnimationSpeed = 0.08,
-  edgeSoftness = 0.38,
-  bloomIntensity = 0.75,
-  bloomRadius = 0.35,
-  parallaxEnabled = true,
-  inverted = false,
-  movement = { horizontal: 'center', vertical: 0.5 },
-  style,
-  className = '',
-}) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+/**
+ * Owns the full WebGL burn-shader engine: refs, uniform syncing and the
+ * single render-loop effect. Pure side effect — returns nothing.
+ */
+export function useBurnAnimation(
+  canvasRef: RefObject<HTMLCanvasElement | null>,
+  containerRef: RefObject<HTMLDivElement | null>,
+  props: BurnEngineProps
+): void {
+  const {
+    color,
+    transitionColor,
+    noiseScale,
+    noiseIntensity,
+    scrollSensitivity,
+    baseAnimationSpeed,
+    edgeSoftness,
+    bloomIntensity,
+    bloomRadius,
+    parallaxEnabled,
+    movement,
+  } = props;
 
   const isVisibleRef = useRef<boolean>(false);
   const animationFrameRef = useRef<number | null>(null);
@@ -916,17 +845,4 @@ export const BurnTransition: React.FC<BurnTransitionProps> = ({
       }
     };
   }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        ...style,
-        ...(inverted ? { transform: 'scaleY(-1)' } : {}),
-      }}
-      className={`relative w-full overflow-hidden pointer-events-none select-none ${className}`}
-    >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
-    </div>
-  );
-};
+}

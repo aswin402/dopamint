@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
-import heroBgVid from '../../assets/herosectionbgvid.webm';
-import chatScreenVid from '../../assets/Chat_Screen.webm';
-import crownImg from '../../assets/Crown.png';
-import { ScrollDissolveReveal } from '../ui/scroll-dissolve-reveal';
+import heroBgVid from '../../../assets/herosectionbgvid.webm';
+import chatScreenVid from '../../../assets/Chat_Screen.webm';
+import crownImg from '../../../assets/Crown.webp';
+import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
 
@@ -160,6 +160,17 @@ function HeroOverlay({
         <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
           Powered by <span className="font-serif italic font-bold text-white">$DOPE</span>
         </p>
+
+        {/* Get App CTA */}
+        <motion.a
+          href="#manifesto"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-4 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-7 py-2 sm:py-2.5 font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+        >
+          Get App
+        </motion.a>
       </div>
     </motion.div>
   );
@@ -169,13 +180,33 @@ function HeroOverlay({
     2. SECOND SECTION COMPONENT: House of AI Agents ("what is dopamint? House of Sovereign Agents")
     ========================================================================= */}
 function HouseOfAgentsSection() {
+  const chatVideoRef = useRef<HTMLVideoElement>(null);
+
+  // The dissolve engine flips `data-hero-revealed` (and dispatches
+  // `hero-reveal-change`) once the hero overlay is gone. This 1080×1080 video
+  // is fully covered then — pause its decode loop instead of burning CPU.
+  useEffect(() => {
+    const video = chatVideoRef.current;
+    if (!video) return;
+    const sync = () => {
+      if (document.documentElement.dataset.heroRevealed === 'true') {
+        video.pause();
+      } else {
+        video.play().catch(() => {});
+      }
+    };
+    sync();
+    window.addEventListener('hero-reveal-change', sync);
+    return () => window.removeEventListener('hero-reveal-change', sync);
+  }, []);
+
   return (
     <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-14 sm:pt-18 lg:pt-22 pb-0 overflow-y-auto lg:overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center lg:items-end">
-        
+
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
         <div className="lg:col-span-6 space-y-3.5 sm:space-y-4 md:space-y-5 text-left self-center pb-4 sm:pb-6 lg:pb-12 z-20">
-          
+
           {/* Small Eyebrow */}
           <div>
             <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
@@ -207,24 +238,21 @@ function HouseOfAgentsSection() {
               Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
             </p>
             <p>
-              Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own — with <span className="font-bold text-[#20291c]">AiFi</span> and <span className="font-bold text-[#20291c]">x402</span> doing the heavy lifting.
+              Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own
             </p>
           </div>
 
-          {/* 2 CTA Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3.5 md:gap-4 pt-2 sm:pt-3 md:pt-4">
-            <a
-              href="#agents"
-              className="inline-flex items-center justify-center rounded-full bg-[#55604e] text-white px-6 sm:px-8 lg:px-9 py-2.5 sm:py-3 lg:py-3.5 font-serif font-bold text-xs sm:text-sm md:text-base hover:bg-[#465040] hover:scale-105 transition-all duration-200 shadow-sm cursor-pointer"
-            >
-              Get the app
-            </a>
-            <a
-              href="#asks"
-              className="inline-flex items-center justify-center rounded-full bg-transparent border border-[#55604e] text-[#55604e] px-6 sm:px-8 lg:px-9 py-2.5 sm:py-3 lg:py-3.5 font-serif font-bold text-xs sm:text-sm md:text-base hover:bg-[#55604e]/10 hover:scale-105 transition-all duration-200 shadow-xs cursor-pointer"
-            >
-              Try iMessage
-            </a>
+          {/* Trust Badges */}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1 sm:pt-2">
+            {['Verifiability', 'AiFi', 'x402', 'Privacy'].map((badge) => (
+              <span
+                key={badge}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[11px] sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#7a382e]/80" />
+                {badge}
+              </span>
+            ))}
           </div>
 
         </div>
@@ -233,6 +261,7 @@ function HouseOfAgentsSection() {
         <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end w-full">
           <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-0 lg:translate-x-6 xl:translate-x-10 flex items-end justify-center lg:justify-end">
             <video
+              ref={chatVideoRef}
               src={chatScreenVid}
               autoPlay
               muted
@@ -252,7 +281,7 @@ function HouseOfAgentsSection() {
   );
 }
 
-export const RenaissanceHero: React.FC = () => {
+export const Hero: React.FC = () => {
   const [actionIndex, setActionIndex] = useState(0);
   const [promptValue, setPromptValue] = useState('');
   const [activeBadge, setActiveBadge] = useState<string | null>(null);

@@ -1,37 +1,36 @@
-import React from 'react';
-import { RenaissanceNavbar } from '../components/renaissance/RenaissanceNavbar';
-import { RenaissanceHero } from '../components/renaissance/RenaissanceHero';
-import { RenaissanceRealAsks } from '../components/renaissance/RenaissanceRealAsks';
-import { RenaissanceAgentRoster } from '../components/renaissance/RenaissanceAgentRoster';
-import { RenaissanceAuthority } from '../components/renaissance/RenaissanceAuthority';
-import { RenaissanceEvidence } from '../components/renaissance/RenaissanceEvidence';
-import { RenaissanceMemoryWallet } from '../components/renaissance/RenaissanceMemoryWallet';
-import { RenaissanceRoadmapSection } from '../components/renaissance/RenaissanceRoadmapSection';
-import { RenaissanceFooter } from '../components/renaissance/RenaissanceFooter';
-import { BurnTransition } from '../components/ui/BurnTransition';
-import divBurnOutImg from '../assets/Div_Burn_out_image.png';
+import { Navbar } from './sections/Navbar';
+import { Hero } from './sections/Hero';
+import { RealAsks } from './sections/RealAsks';
+import { AgentRoster } from './sections/AgentRoster';
+import { Authority } from './sections/Authority';
+import { EvidenceSection } from './sections/Evidence/EvidenceSection';
+import { MemoryWalletSection } from './sections/MemoryWallet/MemoryWalletSection';
+import { RoadmapSection } from './sections/Roadmap';
+import { FooterSection } from './sections/Footer';
+import { BurnTransition } from '../../components/ui/burn-transition';
+import divBurnOutImg from '../../assets/Div_Burn_out_image.webp';
 
 export function HomePage() {
   return (
     <div className="relative min-h-screen bg-[#f3f2e6] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#e5ddd4] selection:text-[#141820]">
       {/* Top Navigation */}
-      <RenaissanceNavbar />
+      <Navbar />
 
       {/* Main Content Sections */}
       <main className="w-full">
         {/* 1. Hero: The Age of AI & Sol iMessage Demo */}
-        <RenaissanceHero />
+        <Hero />
 
         {/* 2. Real asks, real people */}
-        <RenaissanceRealAsks />
+        <RealAsks />
 
         {/* 3. the Dope App: 8 Agent Crew */}
-        <RenaissanceAgentRoster />
+        <AgentRoster />
 
         {/* 4. The Future of Agents */}
-        <RenaissanceAuthority />
+        <Authority />
 
-        {/* 5 & 6. Long Section with Div_Burn_out_image.png Background (Evidence + Memory Wallet / The Floor) */}
+        {/* 5 & 6. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-36 sm:h-48 md:h-64 lg:h-80 pointer-events-none z-20">
@@ -52,9 +51,11 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.png Background (Slightly Darkened for higher contrast) */}
+          {/* Div_Burn_out_image.webp Background (Slightly Darkened for higher contrast) */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
+              loading="lazy"
+              decoding="async"
               src={divBurnOutImg}
               alt="Burn out background"
               className="w-full h-full object-cover object-top select-none brightness-[0.72] contrast-[1.05]"
@@ -64,10 +65,10 @@ export function HomePage() {
 
           <div className="relative z-10">
             {/* Part 1: Cryptographic Evidence Log */}
-            <RenaissanceEvidence />
+            <EvidenceSection />
 
             {/* Part 2: The Floor & Memory Wallet */}
-            <RenaissanceMemoryWallet />
+            <MemoryWalletSection />
           </div>
 
           {/* Bottom Burn Transition Effect */}
@@ -90,10 +91,10 @@ export function HomePage() {
         </div>
 
         {/* 7. Dopamint Roadmap (Video/Static Transition + Staggered Grid Logo Animation) */}
-        <RenaissanceRoadmapSection />
+        <RoadmapSection />
 
         {/* 8. Footer Section (Give your AI some agency + The Last Supper background) */}
-        <RenaissanceFooter />
+        <FooterSection />
       </main>
     </div>
   );

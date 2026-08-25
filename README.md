@@ -87,32 +87,37 @@ bun run preview
 dopamint_new/
 ├── onpkg.json                 # AI Agent Project Manifest
 ├── onpkg_docs/                # Architecture, design & milestone docs
-├── public/                    # Static assets & audio/avatar files
+├── public/                    # Static assets (sequence frames, videos, avatars)
 ├── src/
 │   ├── components/
-│   │   ├── renaissance/       # Renaissance Edition UI sections
-│   │   │   ├── RenaissanceNavbar.tsx
-│   │   │   ├── RenaissanceHero.tsx
-│   │   │   ├── RenaissanceWhyWeBuilt.tsx
-│   │   │   ├── RenaissanceAgentRoster.tsx
-│   │   │   ├── RenaissanceTrustSimulator.tsx
-│   │   │   ├── RenaissanceExecution.tsx
-│   │   │   ├── RenaissanceEvidence.tsx
-│   │   │   ├── RenaissanceMemory.tsx
-│   │   │   ├── RenaissanceMessaging.tsx
-│   │   │   ├── RenaissanceVoice.tsx
-│   │   │   ├── RenaissancePayments.tsx
-│   │   │   ├── RenaissanceOnchain.tsx
-│   │   │   └── RenaissancePrinciples.tsx
+│   │   ├── LordIcon.tsx       # Lordicon animated icon wrapper
 │   │   └── ui/                # Shared UI primitives
+│   │       ├── button.tsx / Type1Button.tsx / staggered-grid.tsx
+│   │       ├── burn-transition/       # WebGL burn-edge section transition
+│   │       │   ├── index.tsx          # Public component
+│   │       │   ├── useBurnAnimation.ts # WebGL engine hook
+│   │       │   └── mapping.ts         # Color/param mapping utils
+│   │       └── scroll-dissolve-reveal/ # WebGL scroll-jacked hero dissolve
+│   │           ├── index.tsx          # Public component + scroll physics
+│   │           ├── shaders.ts / scenes.tsx / scrollLock.ts
 │   ├── data/
-│   │   └── dopamint.ts        # Official DopaMint catalog & mock data
-│   ├── hooks/
-│   │   └── useVoiceSynthesis.ts # Web Speech Voice Synthesis hook
+│   │   └── agents.ts          # 72-agent roster catalog
 │   ├── layouts/
 │   │   └── RootLayout.tsx     # Lenis smooth scroll inertia wrapper
+│   ├── lib/                   # lenis singleton, cn() util
 │   ├── pages/
-│   │   └── HomePage.tsx       # Master Renaissance Edition page
+│   │   ├── home/
+│   │   │   ├── HomePage.tsx   # Landing page composition
+│   │   │   └── sections/      # One folder per landing section
+│   │   │       ├── Navbar.tsx / Hero.tsx / RealAsks.tsx / IMessageBubble.tsx
+│   │   │       ├── AgentRoster.tsx / Authority.tsx / Roadmap.tsx / Footer.tsx
+│   │   │       ├── Evidence/          # Architecture flow section
+│   │   │       │   ├── EvidenceSection.tsx / AgentNode.tsx
+│   │   │       └── MemoryWallet/      # iPhone chat lifecycle simulation
+│   │   │           ├── MemoryWalletSection.tsx  # State machine + effects
+│   │   │           ├── PhoneFrame.tsx / LockScreen.tsx / ChatScreen.tsx
+│   │   │           └── TakeProfitCard.tsx / smoothScroll.ts / useConfettiCelebration.ts
+│   │   ├── AboutPage.tsx / ContactPage.tsx / NotFoundPage.tsx
 │   ├── index.css              # Renaissance typography & color tokens
 │   └── main.tsx               # App entrypoint
 ├── CHANGELOG.md               # Release history
@@ -120,6 +125,13 @@ dopamint_new/
 ```
 
 ---
+
+## 🏛️ Architecture Notes
+
+- **Section-per-folder landing page:** `pages/home/sections/` owns one component per scroll section; `HomePage.tsx` is composition only.
+- **Shared UI lives in `components/ui/`** as folder modules (`burn-transition/`, `scroll-dissolve-reveal/`) — consumers import the folder, internals stay private.
+- **Pure data is extracted** to `src/data/` (`agents.ts`) so marquee content has no React coupling.
+- **Scroll coordination:** `RootLayout` owns the global Lenis instance (module singleton in `lib/lenis.ts`); scroll-jacked components pause/resume it via `dataset.scrollLocked` so virtual scrolling never fights a locked overlay.
 
 ## 📄 License
 

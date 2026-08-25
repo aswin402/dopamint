@@ -2,6 +2,18 @@
 
 All notable changes to the **DopaMint** autonomous agent platform website are documented in this file.
 
+## [Unreleased]
+
+### 🏗️ Architecture Refactor (no behavior change)
+- **Section-based landing architecture:** all Renaissance sections moved from flat `src/components/renaissance/*` to `src/pages/home/sections/*`, one component per scroll section; `HomePage` is now pure composition.
+- **Monolith splits:**
+  - `RenaissanceMemoryWallet` (972 LOC) → `sections/MemoryWallet/` (state-machine entry, `PhoneFrame`, `LockScreen`, `ChatScreen`, `TakeProfitCard`, `smoothScroll` util, `useConfettiCelebration` hook).
+  - `BurnTransition` (932 LOC) → `ui/burn-transition/` folder module (`index` shell, `useBurnAnimation` WebGL engine hook, `mapping` utils).
+  - `scroll-dissolve-reveal` (601 LOC) → `ui/scroll-dissolve-reveal/` folder module (`shaders`, `scenes`, `scrollLock`).
+  - `RenaissanceEvidence` (561 LOC) → `sections/Evidence/` (`EvidenceSection` + `AgentNode`).
+  - `RenaissanceAgentRoster` (668 LOC): 72-agent data array extracted to `src/data/agents.ts`.
+- **README project structure synced to actual tree**; template scaffolding (About/Contact/NotFound) intentionally left untouched.
+
 ## [v0.0.1] - 2026-08-17
 
 ### 🚀 Initial Public Release

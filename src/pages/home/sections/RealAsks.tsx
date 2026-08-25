@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion, useInView, type Variants } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
-import candleStandImg from '../../assets/Candle_Stand.png';
-import sideCharImg from '../../assets/side_char.png';
-import iMessagePodiumImg from '../../assets/iMessage_Podium.png';
+import candleStandImg from '../../../assets/Candle_Stand.webp';
+import sideCharImg from '../../../assets/side_char.webp';
+import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
 import { IMessageBubble } from './IMessageBubble';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
@@ -59,7 +59,7 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   return pathRef;
 }
 
-export const RenaissanceRealAsks: React.FC = () => {
+export const RealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.2, once: false });
   const [isOpen, setIsOpen] = useState(false);
@@ -173,7 +173,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute top-4 sm:top-8 md:top-12 -right-6 sm:-right-8 md:-right-12 lg:-right-14 w-44 sm:w-56 md:w-68 lg:w-80 pointer-events-none z-20"
       >
-        <img src={candleStandImg} alt="Antique Candle Stand" className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none" />
+        <img src={candleStandImg} alt="Antique Candle Stand" loading="lazy" decoding="async" className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none" />
       </motion.div>
 
       {/* Scholar — bottom left */}
@@ -182,7 +182,7 @@ export const RenaissanceRealAsks: React.FC = () => {
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
         className="absolute -bottom-48 sm:-bottom-64 md:-bottom-84 lg:-bottom-[420px] xl:-bottom-[480px] -left-40 sm:-left-56 md:-left-72 lg:-left-[360px] xl:-left-[420px] 2xl:-left-[460px] w-[520px] sm:w-[680px] md:w-[840px] lg:w-[980px] xl:w-[1100px] pointer-events-none z-20"
       >
-        <img src={sideCharImg} alt="Renaissance Character" className="w-full h-auto object-contain drop-shadow-[0_24px_48px_rgba(40,30,20,0.25)] select-none" />
+        <img src={sideCharImg} alt="Renaissance Character" loading="lazy" decoding="async" className="w-full h-auto object-contain drop-shadow-[0_24px_48px_rgba(40,30,20,0.25)] select-none" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
@@ -305,7 +305,7 @@ export const RenaissanceRealAsks: React.FC = () => {
               animate={sectionOpen ? { scale: [1, 1.05, 0.98, 1] } : { scale: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }} className="w-full"
             >
-              <img src={iMessagePodiumImg} alt="iMessage Stone Carved Podium" className="w-full h-auto object-contain drop-shadow-[0_18px_32px_rgba(40,30,20,0.18)] select-none" />
+              <img src={iMessagePodiumImg} alt="iMessage Stone Carved Podium" loading="lazy" decoding="async" className="w-full h-auto object-contain drop-shadow-[0_18px_32px_rgba(40,30,20,0.18)] select-none" />
             </motion.div>
           </div>
 

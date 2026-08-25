@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RootLayout } from '@/layouts/RootLayout';
-import { HomePage } from '@/pages/HomePage';
+import { HomePage } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@/ErrorBoundary';
 
 // Secondary routes are code-split: the landing page stays eager for LCP,

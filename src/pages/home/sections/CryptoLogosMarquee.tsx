@@ -1,25 +1,25 @@
 import React from 'react';
 
 // Import all 19 extracted crypto wallet and exchange logos
-import logo01 from '../../assets/crypto_logos/logo_01.png';
-import logo02 from '../../assets/crypto_logos/logo_02.png';
-import logo03 from '../../assets/crypto_logos/logo_03.png';
-import logo04 from '../../assets/crypto_logos/logo_04.png';
-import logo05 from '../../assets/crypto_logos/logo_05.png';
-import logo06 from '../../assets/crypto_logos/logo_06.png';
-import logo07 from '../../assets/crypto_logos/logo_07.png';
-import logo08 from '../../assets/crypto_logos/logo_08.png';
-import logo09 from '../../assets/crypto_logos/logo_09.png';
-import logo10 from '../../assets/crypto_logos/logo_10.png';
-import logo11 from '../../assets/crypto_logos/logo_11.png';
-import logo12 from '../../assets/crypto_logos/logo_12.png';
-import logo13 from '../../assets/crypto_logos/logo_13.png';
-import logo14 from '../../assets/crypto_logos/logo_14.png';
-import logo15 from '../../assets/crypto_logos/logo_15.png';
-import logo16 from '../../assets/crypto_logos/logo_16.png';
-import logo17 from '../../assets/crypto_logos/logo_17.png';
-import logo18 from '../../assets/crypto_logos/logo_18.png';
-import logo19 from '../../assets/crypto_logos/logo_19.png';
+import logo01 from '../../../assets/crypto_logos/logo_01.webp';
+import logo02 from '../../../assets/crypto_logos/logo_02.webp';
+import logo03 from '../../../assets/crypto_logos/logo_03.webp';
+import logo04 from '../../../assets/crypto_logos/logo_04.webp';
+import logo05 from '../../../assets/crypto_logos/logo_05.webp';
+import logo06 from '../../../assets/crypto_logos/logo_06.webp';
+import logo07 from '../../../assets/crypto_logos/logo_07.webp';
+import logo08 from '../../../assets/crypto_logos/logo_08.webp';
+import logo09 from '../../../assets/crypto_logos/logo_09.webp';
+import logo10 from '../../../assets/crypto_logos/logo_10.webp';
+import logo11 from '../../../assets/crypto_logos/logo_11.webp';
+import logo12 from '../../../assets/crypto_logos/logo_12.webp';
+import logo13 from '../../../assets/crypto_logos/logo_13.webp';
+import logo14 from '../../../assets/crypto_logos/logo_14.webp';
+import logo15 from '../../../assets/crypto_logos/logo_15.webp';
+import logo16 from '../../../assets/crypto_logos/logo_16.webp';
+import logo17 from '../../../assets/crypto_logos/logo_17.webp';
+import logo18 from '../../../assets/crypto_logos/logo_18.webp';
+import logo19 from '../../../assets/crypto_logos/logo_19.webp';
 
 const ROW_1_LOGOS = [
   { id: 'r1-1', src: logo02, alt: 'MetaMask' },

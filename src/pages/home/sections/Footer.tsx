@@ -1,9 +1,9 @@
 import React from 'react';
-import footerBgImg from '../../assets/Footer.png';
-import logoDope from '../../assets/logo_dope.png';
+import footerBgImg from '../../../assets/Footer.webp';
+import logoDope from '../../../assets/logo_dope.webp';
 import { FaTwitter, FaDiscord, FaInstagram, FaTelegramPlane } from 'react-icons/fa';
 
-export const RenaissanceFooter: React.FC = () => {
+export const FooterSection: React.FC = () => {
   return (
     <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden select-none px-6 sm:px-10 lg:px-16">
       
@@ -14,6 +14,8 @@ export const RenaissanceFooter: React.FC = () => {
         <img
           src={footerBgImg}
           alt="Dopamint Renaissance The Last Supper"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover object-center select-none"
         />
         {/* Subtle dark gradient overlay for crystal clear text readability */}
