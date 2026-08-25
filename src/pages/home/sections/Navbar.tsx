@@ -94,7 +94,8 @@ export const Navbar: React.FC = () => {
             variant={isSolidNav ? 'dark' : 'light'}
             className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
           >
-            Try iMessage
+            {/* Brand casing preserved: .btn-txt CSS forces uppercase — opt out for "iMessage" */}
+            <span className="normal-case tracking-[1px]">Try iMessage</span>
           </Type1Button>
 
           {/* Mobile menu trigger */}
@@ -130,7 +131,7 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileNavOpen(false)}
               className="!w-full !h-11"
             >
-              Try iMessage
+              <span className="normal-case tracking-[1px]">Try iMessage</span>
             </Type1Button>
           </div>
         </div>

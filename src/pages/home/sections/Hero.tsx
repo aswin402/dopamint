@@ -225,7 +225,7 @@ function HouseOfAgentsSection() {
               </span>
             </h2>
             <p className="font-serif italic font-bold text-sm sm:text-base md:text-lg text-[#7a382e] mt-1 sm:mt-1.5">
-              powered by AiFi
+              powered by Base
             </p>
           </div>
 
@@ -244,7 +244,7 @@ function HouseOfAgentsSection() {
 
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1 sm:pt-2">
-            {['Verifiability', 'AiFi', 'x402', 'Privacy'].map((badge) => (
+            {['Privacy', 'Verifiability', 'AiFi', 'x402'].map((badge) => (
               <span
                 key={badge}
                 className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[11px] sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
