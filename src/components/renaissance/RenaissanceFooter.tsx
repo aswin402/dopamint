@@ -23,7 +23,7 @@ export const RenaissanceFooter: React.FC = () => {
       {/* =========================================================================
           TOP / CENTER: HEADLINE & GET ACCESS CTA
           ========================================================================= */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-16 sm:pt-24 lg:pt-32 text-center space-y-6 sm:space-y-8">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-6 sm:pt-10 lg:pt-14 text-center space-y-4 sm:space-y-6">
         
         {/* Headline: Give your AI some agency. Not a blank check. */}
         <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
