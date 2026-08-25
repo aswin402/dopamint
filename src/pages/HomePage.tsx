@@ -52,13 +52,14 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.png Background */}
+          {/* Div_Burn_out_image.png Background (Slightly Darkened for higher contrast) */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               src={divBurnOutImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none"
+              className="w-full h-full object-cover object-top select-none brightness-[0.72] contrast-[1.05]"
             />
+            <div className="absolute inset-0 bg-black/25 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
