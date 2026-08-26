@@ -144,13 +144,13 @@ export const MemoryWalletSection: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-12 sm:pt-16 pb-24 sm:pb-32 relative overflow-hidden">
+    <section ref={sectionRef} id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-10 sm:pt-14 pb-12 sm:pb-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* =========================================================================
             MAIN SHOWCASE: LEFT CONTENT + RIGHT IPHONE
             ========================================================================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-6 sm:mb-8">
           
           {/* LEFT COLUMN: SPECIALISED AGENT CONTENT */}
           <div className="lg:col-span-6 space-y-6 text-left">

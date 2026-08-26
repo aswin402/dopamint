@@ -72,7 +72,7 @@ export function HomePage() {
           </div>
 
           {/* Bottom Burn Transition Effect */}
-          <div className="absolute bottom-0 inset-x-0 h-56 sm:h-72 md:h-96 lg:h-[420px] pointer-events-none z-20">
+          <div className="absolute bottom-0 inset-x-0 h-24 sm:h-32 md:h-40 lg:h-48 pointer-events-none z-20">
             <BurnTransition
               color="#f3f2e6"
               transitionColor="#FFFFFF"
