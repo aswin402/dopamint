@@ -33,7 +33,7 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-36 sm:h-48 md:h-64 lg:h-80 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-20 sm:h-28 md:h-32 lg:h-36 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"

@@ -70,7 +70,7 @@ export const EvidenceSection: React.FC = () => {
   ];
 
   return (
-    <section id="architecture" className="pt-28 sm:pt-36 md:pt-44 lg:pt-52 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
+    <section id="architecture" className="pt-14 sm:pt-18 md:pt-22 lg:pt-26 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6]">
       
       {/* =========================================================================
           1. SECTION HEADER (CENTER ALIGNED)
