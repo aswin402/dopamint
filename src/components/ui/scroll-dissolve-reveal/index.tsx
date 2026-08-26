@@ -5,7 +5,7 @@ import { MotionValue, motionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { VideoShaderScene, ImageShaderScene } from "./scenes";
 import { lockPageScroll, unlockPageScroll } from "./scrollLock";
-import { normalizeRevealTarget } from "./progress";
+import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT } from "./progress";
 import { getLenisInstance } from "@/lib/lenis";
 
 
@@ -39,6 +39,11 @@ export function ScrollDissolveReveal({
   const sectionHandoffReadyRef = useRef(false);
   const sectionHandoffTimerRef = useRef<number | null>(null);
   const scrollYProgress = useMemo(() => motionValue(0), []);
+  // Magnetic completion: forward input that stops just short of the snap
+  // threshold leaves a visually finished dissolve that never commits (page
+  // stays locked, navbar theme never flips). A short quiet window after the
+  // last forward gesture finishes the interaction instead.
+  const magnetTimerRef = useRef<number | null>(null);
 
   // Frame-rate independent exponential damping physics loop
   // Overflow is toggled SYNCHRONOUSLY via DOM inside rAF — no React state lag
@@ -110,14 +115,15 @@ export function ScrollDissolveReveal({
     animId = requestAnimationFrame(loop);
     return () => {
       cancelAnimationFrame(animId);
+      if (magnetTimerRef.current !== null) {
+        window.clearTimeout(magnetTimerRef.current);
+        magnetTimerRef.current = null;
+      }
       unlockPageScroll();
       delete document.documentElement.dataset.heroRevealed;
     };
   }, [scrollYProgress]);
 
-  const updateTarget = useCallback((val: number, isForward: boolean) => {
-    targetProgressRef.current = normalizeRevealTarget(val, isForward);
-  }, []);
 
   const armSectionHandoff = useCallback(() => {
     sectionHandoffReadyRef.current = false;
@@ -129,6 +135,33 @@ export function ScrollDissolveReveal({
       sectionHandoffTimerRef.current = null;
     }, 140);
   }, []);
+
+  const updateTarget = useCallback((val: number, isForward: boolean) => {
+    targetProgressRef.current = normalizeRevealTarget(val, isForward);
+
+    // Direction-agnostic arming: a real trackpad flick often ends with tiny
+    // backward jitter events, so requiring the last input to be forward would
+    // leave the magnet disarmed exactly in the stuck state it exists to fix.
+    if (magnetTimerRef.current !== null) {
+      window.clearTimeout(magnetTimerRef.current);
+      magnetTimerRef.current = null;
+    }
+    const target = targetProgressRef.current;
+    if (target < 1 && target >= MAGNETIC_COMPLETION_AT) {
+      magnetTimerRef.current = window.setTimeout(() => {
+        magnetTimerRef.current = null;
+        if (
+          !isUnlockedRef.current &&
+          targetProgressRef.current >= MAGNETIC_COMPLETION_AT &&
+          targetProgressRef.current < 1
+        ) {
+          // The completing gesture already happened; arm the handoff so the
+          // user's next natural scroll moves on to section three.
+          armSectionHandoff();
+        }
+      }, 250);
+    }
+  }, [armSectionHandoff]);
 
   const resetSectionHandoff = useCallback(() => {
     sectionHandoffReadyRef.current = false;

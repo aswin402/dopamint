@@ -34,13 +34,13 @@ export const FooterSection: React.FC = () => {
           Not a blank check.
         </h2>
 
-        {/* Action Button: GET ACCESS */}
+        {/* Action Button: Join Waitlist */}
         <div className="pt-2">
           <a
             href="#access"
             className="inline-flex items-center justify-center rounded-full bg-[#ffffff] text-[#141820] px-8 sm:px-10 py-3.5 sm:py-4 text-xs sm:text-[13px] font-sans font-bold uppercase tracking-[0.2em] shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:bg-[#f3f2e6] hover:scale-105 transition-all duration-200 cursor-pointer"
           >
-            GET ACCESS
+            Join Waitlist
           </a>
         </div>
 

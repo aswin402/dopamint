@@ -5,6 +5,13 @@ export function clampRevealProgress(value: number): number {
 }
 
 /**
+ * Past this point the dissolve is more than half done, so a short input pause
+ * commits the reveal instead of leaving a visually finished transition stuck
+ * one gesture short of the snap threshold (page locked, navbar theme stale).
+ */
+export const MAGNETIC_COMPLETION_AT = 0.5;
+
+/**
  * Downward input completes the interaction at the same point the shader is
  * fully dissolved. Reverse input opts out of snapping so it can move away
  * from 1 smoothly.

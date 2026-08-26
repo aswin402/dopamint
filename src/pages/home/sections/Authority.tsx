@@ -43,7 +43,7 @@ export const Authority: React.FC = () => {
           {/* Category Tag */}
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">
             <span className="w-2 h-2 rounded-full bg-[#3d4a3a]" />
-            Virtual Companions
+            Virtual Agents
           </div>
 
           {/* Editorial Headline */}
@@ -55,10 +55,8 @@ export const Authority: React.FC = () => {
 
           {/* Subtitle & Key Points */}
           <div className="space-y-3.5 max-w-lg">
-            <p className="font-serif italic text-xl sm:text-2xl lg:text-[26px] text-[#4b5546] leading-snug">
-              From agents that execute tasks
-              <br />
-              to agents that become companions.
+            <p className="font-serif italic text-lg sm:text-xl lg:text-[22px] text-[#4b5546] leading-snug">
+              Dopamint powers a privacy-enabled infra layer for agents and AI companions built for live voice, persistent identity, long-term memory, and creator-driven experiences.
             </p>
 
             {/* Feature Points */}
