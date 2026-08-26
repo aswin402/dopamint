@@ -9,17 +9,17 @@ interface IMessageBubbleProps {
 
 export const IMessageBubble: React.FC<IMessageBubbleProps> = ({
   text,
-  side = 'left',
+  side = 'right',
   variant,
   className = '',
 }) => {
-  const isLeft = side === 'left';
+  const isRight = side === 'right';
   const colorClass = variant
     ? (variant === 'green' ? 'imsg-bubble--green' : 'imsg-bubble--cream')
-    : (isLeft ? 'imsg-bubble--green' : 'imsg-bubble--cream');
+    : (isRight ? 'imsg-bubble--green' : 'imsg-bubble--cream');
 
   return (
-    <div className={`imsg-turn ${isLeft ? 'imsg-turn--in' : 'imsg-turn--out'} ${className}`}>
+    <div className={`imsg-turn ${isRight ? 'imsg-turn--out' : 'imsg-turn--in'} ${className}`}>
       <p className={`imsg-msg ${colorClass}`}>
         {text}
       </p>

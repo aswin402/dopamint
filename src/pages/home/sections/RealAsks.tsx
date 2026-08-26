@@ -246,8 +246,8 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="shit i forgot her birthday" side="left" />
-                <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="right" />
+                <IMessageBubble text="shit i forgot her birthday" side="right" />
+                <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -268,7 +268,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="you’ve got 40 mins free. found a coffee spot nearby." side="right" />
+                <IMessageBubble text="you’ve got 40 mins free. found a coffee spot nearby." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -288,7 +288,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="your food is 2 mins away. behave." side="right" />
+                <IMessageBubble text="your food is 2 mins away. behave." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -309,7 +309,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="BTC’s up 10%. shit’s moving." side="right" />
+                <IMessageBubble text="BTC’s up 10%. shit’s moving." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -330,8 +330,8 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="handle my bills pls" side="left" />
-                <IMessageBubble text="on it. your money is leaving faster than your motivation, but we’re good." side="right" />
+                <IMessageBubble text="handle my bills pls" side="right" />
+                <IMessageBubble text="on it. your money is leaving faster than your motivation, but we’re good." side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -353,8 +353,8 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="yo how’s my portfolio doing" side="left" />
-                <IMessageBubble text="ngl, she’s going through it. down 2.4%. BTC is mostly to blame." side="right" />
+                <IMessageBubble text="yo how’s my portfolio doing" side="right" />
+                <IMessageBubble text="ngl, she’s going through it. down 2.4%. BTC is mostly to blame." side="left" />
               </div>
             </motion.div>
           </motion.div>

@@ -723,10 +723,10 @@ body::-webkit-scrollbar {
 /* ── Renaissance Authentic iMessage Chat Bubble System (from cb-02) ── */
 .imsg-card {
   --thread: #fdfbf7;
-  --in: #d0e8c8;
-  --in-ink: #263725;
-  --out: #f4ede4;
-  --out-ink: #4a2c18;
+  --user-green: #d0e8c8;
+  --user-green-ink: #263725;
+  --agent-cream: #f4ede4;
+  --agent-cream-ink: #4a2c18;
   --radius: 1.35rem;
   --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Figtree", ui-sans-serif, system-ui, sans-serif;
   font-family: var(--sans);
@@ -738,11 +738,13 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
-.imsg-turn--in {
+.imsg-turn--in,
+.imsg-turn--left {
   justify-content: flex-start;
 }
 
-.imsg-turn--out {
+.imsg-turn--out,
+.imsg-turn--right {
   justify-content: flex-end;
 }
 
@@ -767,16 +769,18 @@ body::-webkit-scrollbar {
   }
 }
 
-.imsg-turn--in .imsg-msg,
+/* User Bubble: Green on the Right (outgoing) */
+.imsg-turn--out .imsg-msg,
 .imsg-bubble--green {
-  background: var(--in, #d0e8c8) !important;
-  color: var(--in-ink, #263725) !important;
+  background: var(--user-green, #d0e8c8) !important;
+  color: var(--user-green-ink, #263725) !important;
 }
 
-.imsg-turn--out .imsg-msg,
+/* Agent Bubble: Cream on the Left (incoming) */
+.imsg-turn--in .imsg-msg,
 .imsg-bubble--cream {
-  background: var(--out, #f4ede4) !important;
-  color: var(--out-ink, #4a2c18) !important;
+  background: var(--agent-cream, #f4ede4) !important;
+  color: var(--agent-cream-ink, #4a2c18) !important;
 }
 
 /* ── The exact curved iOS tail: negative-space cutout technique ── */
@@ -792,8 +796,9 @@ body::-webkit-scrollbar {
   pointer-events: none;
 }
 
+/* Agent (left) tail */
 .imsg-turn--in .imsg-msg::before {
-  background: var(--in, #d0e8c8);
+  background: var(--agent-cream, #f4ede4);
   left: -7px;
   border-bottom-right-radius: 18px 15px;
 }
@@ -805,8 +810,9 @@ body::-webkit-scrollbar {
   border-bottom-right-radius: 12px;
 }
 
+/* User (right) tail */
 .imsg-turn--out .imsg-msg::before {
-  background: var(--out, #f4ede4);
+  background: var(--user-green, #d0e8c8);
   right: -7px;
   border-bottom-left-radius: 18px 15px;
 }
