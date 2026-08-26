@@ -86,13 +86,8 @@ export const AgentRoster: React.FC = () => {
             />
           </motion.div>
 
-          {/* Compact Description */}
-          <p className="text-xs sm:text-[13px] md:text-[13.5px] text-[#3e5042] font-serif italic max-w-sm leading-snug mt-1 mb-3">
-            The Head of Agents turning your intent into action across a network of specialized agents running in TEE environment.
-          </p>
-
           {/* Capabilities Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5">
+          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 mt-2.5">
             <span className="px-2.5 py-0.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-[9.5px] sm:text-[10px] font-mono uppercase tracking-wider text-[#263725] font-semibold">
               Orchestrator
             </span>
