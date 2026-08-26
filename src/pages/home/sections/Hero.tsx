@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
 import chatScreenVid from '../../../assets/Chat_Screen.webm';
 import crownImg from '../../../assets/Crown.webp';
-import baseLockup from '../../../assets/base-lockup-2color.svg';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
 
@@ -226,7 +225,7 @@ function HouseOfAgentsSection() {
               <span className="block font-serif font-normal text-[#55604e]">
                 House of
               </span>
-              <IntentBaseHeadline baseLogoSrc={baseLockup} />
+              <IntentBaseHeadline />
             </h2>
             <p className="font-serif italic font-bold text-sm sm:text-base md:text-lg text-[#7a382e] mt-1 sm:mt-1.5">
               Built on Base
