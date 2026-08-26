@@ -1,6 +1,8 @@
 import { describe, expect, test } from 'bun:test';
 import {
+  MAGNETIC_COMPLETION_AT,
   normalizeRevealTarget,
+  resolveMagneticCompletionTarget,
   toDissolveProgress,
 } from './progress';
 
@@ -17,5 +19,15 @@ describe('scroll dissolve progress', () => {
 
   test('does not snap while reversing toward the hero', () => {
     expect(normalizeRevealTarget(0.97, false)).toBe(0.97);
+  });
+
+  test('commits a paused forward reveal after the magnetic threshold', () => {
+    expect(resolveMagneticCompletionTarget(MAGNETIC_COMPLETION_AT, false)).toBe(1);
+    expect(resolveMagneticCompletionTarget(0.9, false)).toBe(1);
+  });
+
+  test('does not magnetically complete an unlocked or early reveal', () => {
+    expect(resolveMagneticCompletionTarget(MAGNETIC_COMPLETION_AT - 0.01, false)).toBeNull();
+    expect(resolveMagneticCompletionTarget(0.9, true)).toBeNull();
   });
 });

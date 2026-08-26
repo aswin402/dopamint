@@ -5,7 +5,8 @@ import { MotionValue, motionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { VideoShaderScene, ImageShaderScene } from "./scenes";
 import { lockPageScroll, unlockPageScroll } from "./scrollLock";
-import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT } from "./progress";
+import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT, resolveMagneticCompletionTarget } from "./progress";
+import { SECTION_HANDOFF_DURATION, smoothSectionHandoffProgress } from "./handoff";
 import { getLenisInstance } from "@/lib/lenis";
 
 
@@ -150,11 +151,9 @@ export function ScrollDissolveReveal({
     if (target < 1 && target >= MAGNETIC_COMPLETION_AT) {
       magnetTimerRef.current = window.setTimeout(() => {
         magnetTimerRef.current = null;
-        if (
-          !isUnlockedRef.current &&
-          targetProgressRef.current >= MAGNETIC_COMPLETION_AT &&
-          targetProgressRef.current < 1
-        ) {
+        const completionTarget = resolveMagneticCompletionTarget(targetProgressRef.current, isUnlockedRef.current);
+        if (completionTarget !== null) {
+          targetProgressRef.current = completionTarget;
           // The completing gesture already happened; arm the handoff so the
           // user's next natural scroll moves on to section three.
           armSectionHandoff();
@@ -179,9 +178,10 @@ export function ScrollDissolveReveal({
     const lenis = getLenisInstance();
     if (lenis) {
       lenis.scrollTo(nextSection, {
-        // Keep the section handoff responsive. A full second made the first
-        // scroll feel like input lag even though Lenis had already accepted it.
-        duration: 0.55,
+        // A balanced curve prevents the handoff from jumping through most of
+        // the viewport in its opening frames while remaining responsive.
+        duration: SECTION_HANDOFF_DURATION,
+        easing: smoothSectionHandoffProgress,
         lock: true,
         onComplete: () => {
           sectionHandoffReadyRef.current = true;

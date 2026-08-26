@@ -11,6 +11,15 @@ export function clampRevealProgress(value: number): number {
  */
 export const MAGNETIC_COMPLETION_AT = 0.5;
 
+export function resolveMagneticCompletionTarget(
+  target: number,
+  isUnlocked: boolean,
+): number | null {
+  return !isUnlocked && target >= MAGNETIC_COMPLETION_AT && target < 1
+    ? 1
+    : null;
+}
+
 /**
  * Downward input completes the interaction at the same point the shader is
  * fully dissolved. Reverse input opts out of snapping so it can move away
