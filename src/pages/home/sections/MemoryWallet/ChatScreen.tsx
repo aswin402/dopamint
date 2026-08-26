@@ -102,7 +102,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
             {/* Title & Online badge */}
             <div>
               <div className="text-[12px] font-bold text-[#1c1917] leading-tight flex items-center gap-1">
-                <span>Upbit Agent</span>
+                <span>New Listing Agent</span>
               </div>
               <div className="text-[9px] text-[#78716c] flex items-center gap-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a]" />
@@ -327,7 +327,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
           </button>
           
           <div className="flex-1 bg-[#ffffff] rounded-full px-3.5 py-1.5 text-[10px] text-[#78716c] border border-[#d8cfbe] shadow-2xs">
-            Message Upbit Agent...
+            Message New Listing Agent...
           </div>
 
           <button 

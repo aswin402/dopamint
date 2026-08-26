@@ -174,7 +174,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
               <h4 className="text-[12px] font-bold text-white tracking-tight flex items-center gap-1.5">
-                <span>Upbit Agent</span>
+                <span>New Listing Agent</span>
                 <span className="text-[9px] text-[#dfc28d] opacity-0 group-hover:opacity-100 transition-opacity">tap to open →</span>
               </h4>
               <span className="text-[9px] text-[#c7bdae] font-medium">
