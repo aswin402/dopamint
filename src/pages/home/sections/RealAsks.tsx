@@ -217,13 +217,8 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
         {/* Title */}
         <div className="text-center w-full max-w-4xl mx-auto mb-8 sm:mb-10">
           <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
-            What would you{' '}
-            <span className="font-serif italic font-bold text-[#253b2b]">ask</span>{' '}
-            your agent?
+            Just what you <span className="font-serif italic font-bold text-[#253b2b]">want.</span>
           </h2>
-          <p className="mt-3 sm:mt-4 font-serif italic text-xl sm:text-2xl text-[#4a5c4e] leading-snug">
-            Just state what you want.
-          </p>
         </div>
 
         {/* Cards + pedestal */}
