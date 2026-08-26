@@ -145,8 +145,40 @@ export const RealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-  const cardBase = 'imsg-card overflow-hidden rounded-[2.2rem] sm:rounded-[2.8rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-4.5 sm:p-6 lg:p-7 cursor-pointer transition-colors duration-300';
-  const cardSm   = 'imsg-card overflow-hidden rounded-[2rem] sm:rounded-[2.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-4.5 cursor-pointer transition-colors duration-300';
+interface IntegrationItem {
+  name: string;
+  domain: string;
+}
+
+const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
+  <div className="flex items-center gap-1.5 pb-2 mb-2 border-b border-[#eedbc4]/60 overflow-hidden">
+    <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#7a6b58] font-semibold shrink-0">
+      used:
+    </span>
+    <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
+      {items.map((item) => (
+        <span
+          key={item.name}
+          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#f4ede4]/90 border border-[#e3d0bb] text-[9.5px] sm:text-[10.5px] font-sans font-medium text-[#4a3220] shadow-[0_1px_2px_rgba(0,0,0,0.03)] select-none"
+        >
+          <img
+            src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
+            alt={item.name}
+            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-xs object-contain shrink-0"
+            loading="lazy"
+            onError={(e) => {
+              (e.currentTarget as HTMLElement).style.display = 'none';
+            }}
+          />
+          <span className="whitespace-nowrap">{item.name}</span>
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+  const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
+  const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
   const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
@@ -200,97 +232,134 @@ export const RealAsks: React.FC = () => {
         </div>
 
         {/* Cards + pedestal */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[580px] sm:min-h-[640px] lg:min-h-[700px]">
+        <div className="relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
 
-          {/* CARD 1 — top-left (rotate -3.5deg) */}
+          {/* CARD 1 — top-left: Birthday QA */}
           <motion.div
             ref={card1Ref} variants={pos1} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[9%] sm:top-[10%] lg:top-[11%] left-0 sm:left-[1%] lg:left-[2%] w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[400px] z-20"
+            className="absolute top-[8%] sm:top-[9%] lg:top-[10%] left-0 sm:left-[1%] lg:left-[2%] w-full max-w-[310px] sm:max-w-[390px] lg:max-w-[430px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3.5 }} animate={{ rotate: -3.5 }}
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-2.5 sm:gap-3.5">
-                <IMessageBubble text="why is BTC sending?" side="left" />
-                <IMessageBubble text="spot buying picked up." side="right" />
+              <UsedHeader
+                items={[
+                  { name: 'Google Calendar', domain: 'calendar.google.com' },
+                  { name: 'OpenTable', domain: 'opentable.com' },
+                  { name: 'DoorDash', domain: 'doordash.com' },
+                ]}
+              />
+              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+                <IMessageBubble text="shit i forgot her birthday" side="left" />
+                <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 2 — top-center (rotate +6deg) */}
+          {/* CARD 2 — top-center: Free time alert */}
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[38%] sm:left-[41%] lg:left-[43%] w-full max-w-[180px] sm:max-w-[220px] lg:max-w-[250px] z-20 hidden sm:block"
+            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[36%] sm:left-[39%] lg:left-[41%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20 hidden sm:block"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <div className="flex flex-col">
-                <IMessageBubble text="yo, today is your girlfriend's birthday." side="left" />
+              <UsedHeader
+                items={[
+                  { name: 'Google Calendar', domain: 'calendar.google.com' },
+                  { name: 'Apple Maps', domain: 'apple.com' },
+                ]}
+              />
+              <div className="flex flex-col pt-1">
+                <IMessageBubble text="you’ve got 40 mins free. found a coffee spot nearby." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 3 — top-right (rotate +8.5deg) */}
+          {/* CARD 3 — top-right: Food delivery alert */}
           <motion.div
             ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[13%] sm:top-[15%] lg:top-[17%] right-[4%] sm:right-[8%] lg:right-[11%] w-full max-w-[170px] sm:max-w-[210px] lg:max-w-[235px] z-20"
+            className="absolute top-[12%] sm:top-[14%] lg:top-[16%] right-[3%] sm:right-[6%] lg:right-[9%] w-full max-w-[190px] sm:max-w-[230px] lg:max-w-[260px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
               whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <div className="flex flex-col">
-                <IMessageBubble text="i paid the electricity bills no worries." side="right" />
+              <UsedHeader
+                items={[
+                  { name: 'DoorDash', domain: 'doordash.com' },
+                ]}
+              />
+              <div className="flex flex-col pt-1">
+                <IMessageBubble text="your food is 2 mins away. behave." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 6 — center (rotate -6.5deg) */}
+          {/* CARD 6 — center: BTC market alert */}
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[180px] sm:max-w-[215px] lg:max-w-[240px] z-20 hidden sm:block"
+            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[200px] sm:max-w-[245px] lg:max-w-[275px] z-20 hidden sm:block"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <div className="flex flex-col">
-                <IMessageBubble text="portfolio's down 4% today" side="right" />
+              <UsedHeader
+                items={[
+                  { name: 'Coinbase', domain: 'coinbase.com' },
+                  { name: 'TradingView', domain: 'tradingview.com' },
+                ]}
+              />
+              <div className="flex flex-col pt-1">
+                <IMessageBubble text="BTC’s up 10%. shit’s moving." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 4 — bottom-left (rotate -4deg) */}
+          {/* CARD 4 — bottom-left: Bills QA */}
           <motion.div
             ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[53%] sm:top-[55%] lg:top-[57%] left-[6%] sm:left-[9%] lg:left-[11%] w-full max-w-[290px] sm:max-w-[350px] lg:max-w-[390px] z-20"
+            className="absolute top-[53%] sm:top-[55%] lg:top-[57%] left-[5%] sm:left-[8%] lg:left-[10%] w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -4 }} animate={{ rotate: -4 }}
               whileHover={{ scale: 1.05, rotate: -1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-2.5 sm:gap-3.5">
-                <IMessageBubble text="find me a good yield?" side="left" />
-                <IMessageBubble text="found 3. want me to rank them?" side="right" />
+              <UsedHeader
+                items={[
+                  { name: 'Chase', domain: 'chase.com' },
+                  { name: 'Venmo', domain: 'venmo.com' },
+                ]}
+              />
+              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+                <IMessageBubble text="handle my bills pls" side="left" />
+                <IMessageBubble text="on it. your money is leaving faster than your motivation, but we’re good." side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 5 — bottom-right (rotate -6.5deg) */}
+          {/* CARD 5 — bottom-right: Portfolio QA */}
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[48%] sm:top-[50%] lg:top-[52%] right-0 sm:right-[1%] lg:right-[2%] w-full max-w-[310px] sm:max-w-[380px] lg:max-w-[420px] z-20"
+            className="absolute top-[48%] sm:top-[50%] lg:top-[52%] right-0 sm:right-[1%] lg:right-[2%] w-full max-w-[330px] sm:max-w-[410px] lg:max-w-[450px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.05, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <div className="flex flex-col gap-2.5 sm:gap-3.5">
-                <IMessageBubble text="what's on my schedule tomorrow?" side="left" />
-                <IMessageBubble text="2 meetings, gym at 7. dinner reservation at 8." side="right" />
+              <UsedHeader
+                items={[
+                  { name: 'Coinbase', domain: 'coinbase.com' },
+                  { name: 'Robinhood', domain: 'robinhood.com' },
+                  { name: 'Zerion', domain: 'zerion.io' },
+                ]}
+              />
+              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+                <IMessageBubble text="yo how’s my portfolio doing" side="left" />
+                <IMessageBubble text="ngl, she’s going through it. down 2.4%. BTC is mostly to blame." side="right" />
               </div>
             </motion.div>
           </motion.div>
