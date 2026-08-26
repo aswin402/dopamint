@@ -56,45 +56,45 @@ export const AgentRoster: React.FC = () => {
     <section id="agents" className="w-full bg-[#f3f2e6] pt-8 sm:pt-12 lg:pt-14 pb-12 sm:pb-16 lg:pb-20 overflow-hidden relative z-20">
       
       {/* =========================================================================
-          1. COMPACT CENTER TOP DOPE CARD
+          1. 2-CARDS-WIDE CENTER TOP DOPE CARD
           ========================================================================= */}
-      <div className="px-4 sm:px-6 max-w-sm sm:max-w-md md:max-w-lg mx-auto mb-1 relative z-20">
+      <div className="px-4 sm:px-6 w-full max-w-[700px] sm:max-w-[780px] md:max-w-[840px] mx-auto mb-1 relative z-20">
         <motion.div
           whileHover={{ y: -3, scale: 1.01 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="w-full rounded-2xl sm:rounded-[26px] bg-[#eef2ea] border-[1.5px] border-[#3e4f42]/60 hover:border-[#3e4f42]/90 px-4 py-4 sm:px-6 sm:py-5 flex flex-col items-center justify-center text-center shadow-[0_8px_24px_rgba(40,48,40,0.06)] relative overflow-hidden group"
+          className="w-full rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] border-[1.5px] border-[#3e4f42]/60 hover:border-[#3e4f42]/90 px-6 py-5 sm:px-8 sm:py-6 flex flex-col items-center justify-center text-center shadow-[0_10px_28px_rgba(40,48,40,0.06)] relative overflow-hidden group"
         >
           {/* Subtle top edge highlight */}
           <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#3e4f42]/40 to-transparent" />
 
           {/* Title: DOPE runs the House */}
-          <h2 className="text-xl sm:text-2xl md:text-[26px] tracking-tight text-[#2d3e32] font-serif leading-tight mb-2">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-[#2d3e32] font-serif leading-tight mb-2 sm:mb-2.5">
             <span className="font-serif italic font-bold text-[#1e2e22]">DOPE</span>{' '}
             <span className="font-serif font-normal text-[#2d3e32]">runs the House</span>
           </h2>
 
-          {/* Centered Compact DOPE Icon */}
+          {/* Centered DOPE Icon */}
           <motion.div
-            animate={{ y: [-2, 2, -2] }}
-            transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
-            className="my-1 flex items-center justify-center"
+            animate={{ y: [-2.5, 2.5, -2.5] }}
+            transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+            className="my-1.5 flex items-center justify-center"
           >
             <img
               src={iconDope}
               alt="DOPE Head of Agents Icon"
-              className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.15)] select-none transition-transform duration-300 group-hover:scale-105"
+              className="w-16 h-16 sm:w-20 sm:h-20 md:w-22 md:h-22 object-contain drop-shadow-[0_8px_20px_rgba(0,0,0,0.16)] select-none transition-transform duration-300 group-hover:scale-105"
             />
           </motion.div>
 
-          {/* Capabilities Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 mt-2.5">
-            <span className="px-2.5 py-0.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-[9.5px] sm:text-[10px] font-mono uppercase tracking-wider text-[#263725] font-semibold">
+          {/* Larger Capabilities Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 mt-2 sm:mt-3">
+            <span className="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-xs sm:text-[13px] md:text-sm font-mono uppercase tracking-wider text-[#263725] font-semibold">
               Orchestrator
             </span>
-            <span className="px-2.5 py-0.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-[9.5px] sm:text-[10px] font-mono uppercase tracking-wider text-[#263725] font-semibold">
+            <span className="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-xs sm:text-[13px] md:text-sm font-mono uppercase tracking-wider text-[#263725] font-semibold">
               Confidential TEE
             </span>
-            <span className="px-2.5 py-0.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-[9.5px] sm:text-[10px] font-mono uppercase tracking-wider text-[#263725] font-semibold">
+            <span className="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-xs sm:text-[13px] md:text-sm font-mono uppercase tracking-wider text-[#263725] font-semibold">
               Agent Harness
             </span>
           </div>
