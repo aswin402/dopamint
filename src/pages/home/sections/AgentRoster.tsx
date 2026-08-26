@@ -64,8 +64,8 @@ export const AgentRoster: React.FC = () => {
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="w-full rounded-[32px] sm:rounded-[36px] bg-[#eef2ea] border-[2px] border-[#3e4f42]/60 hover:border-[#3e4f42]/90 p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-[0_12px_36px_rgba(40,48,40,0.08)] relative overflow-hidden group"
         >
-          {/* Subtle top golden light line */}
-          <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#ffd700]/70 to-transparent" />
+          {/* Subtle top light line */}
+          <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#3e4f42]/40 to-transparent" />
 
           {/* Title: DOPE runs the House */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl tracking-tight text-[#2d3e32] font-serif leading-[1.1] mb-3 sm:mb-4">
@@ -82,7 +82,7 @@ export const AgentRoster: React.FC = () => {
             <img
               src={iconDope}
               alt="DOPE Head of Agents Icon"
-              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_10px_24px_rgba(234,179,8,0.22)] select-none transition-transform duration-300 group-hover:scale-105"
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.18)] select-none transition-transform duration-300 group-hover:scale-105"
             />
           </motion.div>
 
@@ -114,13 +114,13 @@ export const AgentRoster: React.FC = () => {
           <motion.div
             animate={{ y: [-15, 60] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-full h-6 bg-gradient-to-b from-transparent via-[#ffd700] to-transparent shadow-[0_0_10px_#ffd700]"
+            className="w-full h-6 bg-gradient-to-b from-transparent via-[#3e4f42] to-transparent shadow-[0_0_8px_rgba(62,79,66,0.6)]"
           />
         </div>
-        {/* Pulsing golden hub node */}
+        {/* Pulsing hub node */}
         <div className="relative flex items-center justify-center -mt-0.5">
-          <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-[#ffd700] opacity-40" />
-          <div className="w-3 h-3 rounded-full bg-[#2d3e32] border border-[#ffd700] shadow-[0_0_8px_rgba(255,215,0,0.6)]" />
+          <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-[#3e4f42] opacity-35" />
+          <div className="w-3 h-3 rounded-full bg-[#2d3e32] border border-[#3e4f42] shadow-[0_0_6px_rgba(62,79,66,0.4)]" />
         </div>
       </div>
 
