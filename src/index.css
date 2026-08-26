@@ -738,6 +738,86 @@ body::-webkit-scrollbar {
   width: 100%;
 }
 
+.imsg-turn--in {
+  justify-content: flex-start;
+}
+
+.imsg-turn--out {
+  justify-content: flex-end;
+}
+
+.imsg-msg {
+  position: relative;
+  margin: 0;
+  max-inline-size: min(22rem, 90%);
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  border-radius: var(--radius);
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  user-select: none;
+}
+
+@media (min-width: 640px) {
+  .imsg-msg {
+    padding: 0.65rem 1.05rem;
+    font-size: 1.02rem;
+  }
+}
+
+.imsg-turn--in .imsg-msg,
+.imsg-bubble--green {
+  background: var(--in, #d0e8c8) !important;
+  color: var(--in-ink, #263725) !important;
+}
+
+.imsg-turn--out .imsg-msg,
+.imsg-bubble--cream {
+  background: var(--out, #f4ede4) !important;
+  color: var(--out-ink, #4a2c18) !important;
+}
+
+/* ── The exact curved iOS tail: negative-space cutout technique ── */
+.imsg-turn--in .imsg-msg::before,
+.imsg-turn--in .imsg-msg::after,
+.imsg-turn--out .imsg-msg::before,
+.imsg-turn--out .imsg-msg::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.imsg-turn--in .imsg-msg::before {
+  background: var(--in, #d0e8c8);
+  left: -7px;
+  border-bottom-right-radius: 18px 15px;
+}
+
+.imsg-turn--in .imsg-msg::after {
+  background: var(--thread, #fdfbf7);
+  left: -21px;
+  width: 22px;
+  border-bottom-right-radius: 12px;
+}
+
+.imsg-turn--out .imsg-msg::before {
+  background: var(--out, #f4ede4);
+  right: -7px;
+  border-bottom-left-radius: 18px 15px;
+}
+
+.imsg-turn--out .imsg-msg::after {
+  background: var(--thread, #fdfbf7);
+  right: -21px;
+  width: 22px;
+  border-bottom-left-radius: 12px;
+}
+
 /* ── Crypto Wallets & Exchanges Infinite Marquee Animation ── */
 @keyframes cryptoMarqueeLeft {
   0% {
