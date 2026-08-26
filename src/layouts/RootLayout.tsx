@@ -4,6 +4,7 @@ import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { setLenisInstance } from '../lib/lenis';
+import { Preloader } from '@/components/ui/preloader';
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
@@ -49,6 +50,9 @@ export function RootLayout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#EBEAE5] text-[#141820] font-sans antialiased">
+      {/* Fullscreen Initial Asset & Theme Preloader */}
+      <Preloader />
+      
       <main className="flex-grow">
         <Outlet />
       </main>
