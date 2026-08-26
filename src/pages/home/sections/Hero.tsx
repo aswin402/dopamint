@@ -229,7 +229,7 @@ function HouseOfAgentsSection() {
               </span>
             </h2>
             <p className="font-serif italic font-bold text-sm sm:text-base md:text-lg text-[#7a382e] mt-1 sm:mt-1.5">
-              powered by Base
+              Built on Base
             </p>
           </div>
 
