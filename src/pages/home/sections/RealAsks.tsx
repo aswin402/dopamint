@@ -150,30 +150,25 @@ interface IntegrationItem {
   domain: string;
 }
 
-const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
-  <div className="flex items-center gap-1.5 pb-2 mb-2 border-b border-[#eedbc4]/60 overflow-hidden">
-    <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#7a6b58] font-semibold shrink-0">
-      used:
-    </span>
-    <div className="flex flex-wrap items-center gap-1 sm:gap-1.5">
-      {items.map((item) => (
-        <span
-          key={item.name}
-          className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-[#f4ede4]/90 border border-[#e3d0bb] text-[9.5px] sm:text-[10.5px] font-sans font-medium text-[#4a3220] shadow-[0_1px_2px_rgba(0,0,0,0.03)] select-none"
-        >
-          <img
-            src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
-            alt={item.name}
-            className="w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-xs object-contain shrink-0"
-            loading="lazy"
-            onError={(e) => {
-              (e.currentTarget as HTMLElement).style.display = 'none';
-            }}
-          />
-          <span className="whitespace-nowrap">{item.name}</span>
-        </span>
-      ))}
-    </div>
+const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
+  <div className="flex items-center justify-end gap-1.5 pb-1 sm:pb-1.5 mb-1.5 w-full">
+    {items.map((item) => (
+      <div
+        key={item.name}
+        title={item.name}
+        className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
+      >
+        <img
+          src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
+          alt={item.name}
+          className="w-full h-full rounded-full object-contain"
+          loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLElement).style.display = 'none';
+          }}
+        />
+      </div>
+    ))}
   </div>
 );
 
@@ -243,14 +238,14 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3.5 }} animate={{ rotate: -3.5 }}
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'Google Calendar', domain: 'calendar.google.com' },
                   { name: 'OpenTable', domain: 'opentable.com' },
                   { name: 'DoorDash', domain: 'doordash.com' },
                 ]}
               />
-              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+              <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
                 <IMessageBubble text="shit i forgot her birthday" side="left" />
                 <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="right" />
               </div>
@@ -266,13 +261,13 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'Google Calendar', domain: 'calendar.google.com' },
                   { name: 'Apple Maps', domain: 'apple.com' },
                 ]}
               />
-              <div className="flex flex-col pt-1">
+              <div className="flex flex-col pt-0.5">
                 <IMessageBubble text="you’ve got 40 mins free. found a coffee spot nearby." side="right" />
               </div>
             </motion.div>
@@ -287,12 +282,12 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
               whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'DoorDash', domain: 'doordash.com' },
                 ]}
               />
-              <div className="flex flex-col pt-1">
+              <div className="flex flex-col pt-0.5">
                 <IMessageBubble text="your food is 2 mins away. behave." side="right" />
               </div>
             </motion.div>
@@ -307,13 +302,13 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'Coinbase', domain: 'coinbase.com' },
                   { name: 'TradingView', domain: 'tradingview.com' },
                 ]}
               />
-              <div className="flex flex-col pt-1">
+              <div className="flex flex-col pt-0.5">
                 <IMessageBubble text="BTC’s up 10%. shit’s moving." side="right" />
               </div>
             </motion.div>
@@ -328,13 +323,13 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -4 }} animate={{ rotate: -4 }}
               whileHover={{ scale: 1.05, rotate: -1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'Chase', domain: 'chase.com' },
                   { name: 'Venmo', domain: 'venmo.com' },
                 ]}
               />
-              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+              <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
                 <IMessageBubble text="handle my bills pls" side="left" />
                 <IMessageBubble text="on it. your money is leaving faster than your motivation, but we’re good." side="right" />
               </div>
@@ -350,14 +345,14 @@ const UsedHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.05, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <UsedHeader
+              <LogosHeader
                 items={[
                   { name: 'Coinbase', domain: 'coinbase.com' },
                   { name: 'Robinhood', domain: 'robinhood.com' },
                   { name: 'Zerion', domain: 'zerion.io' },
                 ]}
               />
-              <div className="flex flex-col gap-2 sm:gap-3 pt-1">
+              <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
                 <IMessageBubble text="yo how’s my portfolio doing" side="left" />
                 <IMessageBubble text="ngl, she’s going through it. down 2.4%. BTC is mostly to blame." side="right" />
               </div>
