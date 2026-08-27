@@ -2,22 +2,25 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import crownImg from '../../../assets/Crown.webp';
 import { useAssetPreloader } from './useAssetPreloader';
+import { PRELOADER_EXIT_MS, PRELOADER_MIN_DURATION_MS } from './config';
 import { lockPageScroll, unlockPageScroll } from '../scroll-dissolve-reveal/scrollLock';
+
+const PRELOADER_SCROLL_LOCK_OWNER = 'preloader';
 
 export interface PreloaderProps {
   onComplete?: () => void;
   minDurationMs?: number;
 }
 
-export function Preloader({ onComplete, minDurationMs = 1800 }: PreloaderProps) {
+export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_MS }: PreloaderProps) {
   const { progress, statusMessage, isComplete } = useAssetPreloader({ minDurationMs });
   const [shouldRender, setShouldRender] = useState(true);
 
   // Lock scroll while preloader is active
   useEffect(() => {
-    lockPageScroll();
+    lockPageScroll(PRELOADER_SCROLL_LOCK_OWNER);
     return () => {
-      unlockPageScroll();
+      unlockPageScroll(PRELOADER_SCROLL_LOCK_OWNER);
     };
   }, []);
 
@@ -26,14 +29,14 @@ export function Preloader({ onComplete, minDurationMs = 1800 }: PreloaderProps) 
     if (isComplete) {
       const timer = setTimeout(() => {
         setShouldRender(false);
-      }, 500); // Allow exit transition to trigger
+      }, PRELOADER_EXIT_MS); // Allow exit transition to trigger
 
       return () => clearTimeout(timer);
     }
   }, [isComplete]);
 
   const handleExitComplete = () => {
-    unlockPageScroll();
+    unlockPageScroll(PRELOADER_SCROLL_LOCK_OWNER);
     onComplete?.();
   };
 
@@ -46,7 +49,7 @@ export function Preloader({ onComplete, minDurationMs = 1800 }: PreloaderProps) 
           exit={{
             clipPath: 'inset(0 0 100% 0)',
             transition: {
-              duration: 0.85,
+              duration: PRELOADER_EXIT_MS / 1000,
               ease: [0.76, 0, 0.24, 1], // Luxury cubic-bezier curtain wipe
             },
           }}

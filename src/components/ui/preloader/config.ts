@@ -1,0 +1,4 @@
+export const PRELOADER_MIN_DURATION_MS = 350;
+export const PRELOADER_TIMEOUT_MS = 1500;
+export const PRELOADER_COMPLETE_HOLD_MS = 80;
+export const PRELOADER_EXIT_MS = 350;

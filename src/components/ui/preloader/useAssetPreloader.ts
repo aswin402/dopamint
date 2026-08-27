@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import crownImg from '../../../assets/Crown.webp';
-import divBurnOutImg from '../../../assets/Div_Burn_out_image.webp';
-import footerImg from '../../../assets/Footer.webp';
-import planetImg from '../../../assets/Planet.webp';
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
-import chatScreenVid from '../../../assets/Chat_Screen.webm';
+import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
 
-const CRITICAL_IMAGES = [crownImg, divBurnOutImg, footerImg, planetImg];
-const CRITICAL_VIDEOS = [heroBgVid, chatScreenVid];
+const CRITICAL_IMAGES = [crownImg];
+const CRITICAL_VIDEOS = [heroBgVid];
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -22,8 +19,8 @@ export interface UseAssetPreloaderOptions {
 }
 
 export function useAssetPreloader({
-  minDurationMs = 1900,
-  timeoutMs = 3400,
+  minDurationMs = PRELOADER_MIN_DURATION_MS,
+  timeoutMs = PRELOADER_TIMEOUT_MS,
 }: UseAssetPreloaderOptions = {}) {
   const [progress, setProgress] = useState(() => (typeof window === 'undefined' ? 100 : 0));
   const [isComplete, setIsComplete] = useState(() => typeof window === 'undefined');
@@ -114,7 +111,7 @@ export function useAssetPreloader({
           // Small buffer at 100% so the user visually sees the completed 100% state
           setTimeout(() => {
             setIsComplete(true);
-          }, 240);
+          }, PRELOADER_COMPLETE_HOLD_MS);
         }
         return;
       }

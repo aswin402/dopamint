@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 import {
   SECTION_HANDOFF_DURATION,
+  getScrollBoundaryState,
   smoothSectionHandoffProgress,
 } from './handoff';
 
@@ -12,5 +13,12 @@ describe('section handoff motion', () => {
     expect(smoothSectionHandoffProgress(0.5)).toBeCloseTo(0.5, 5);
     expect(smoothSectionHandoffProgress(0.9)).toBeGreaterThan(0.95);
     expect(smoothSectionHandoffProgress(1)).toBe(1);
+  });
+
+  test('reports start, middle, and end boundaries for a revealed section', () => {
+    expect(getScrollBoundaryState(0, 1200, 600)).toEqual({ atStart: true, atEnd: false });
+    expect(getScrollBoundaryState(300, 1200, 600)).toEqual({ atStart: false, atEnd: false });
+    expect(getScrollBoundaryState(600, 1200, 600)).toEqual({ atStart: false, atEnd: true });
+    expect(getScrollBoundaryState(0, 600, 600)).toEqual({ atStart: true, atEnd: true });
   });
 });

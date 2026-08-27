@@ -1,16 +1,27 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { setLenisInstance } from '../lib/lenis';
+import { createMotionPolicy } from '@/lib/motionPolicy';
 import { Preloader } from '@/components/ui/preloader';
 
 // Register ScrollTrigger
 gsap.registerPlugin(ScrollTrigger);
 
 export function RootLayout() {
+  const location = useLocation();
+
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    const motionPolicy = createMotionPolicy(prefersReducedMotion);
+
+    if (!motionPolicy.smoothScroll) {
+      setLenisInstance(null);
+      return;
+    }
+
     // Duration mode (fixed glide with expo easing) over lerp mode — lerp makes
     // the page lag far behind the wheel and crawl asymptotically, which reads
     // as heavy/unresponsive across the whole site.
@@ -51,7 +62,7 @@ export function RootLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-[#EBEAE5] text-[#141820] font-sans antialiased">
       {/* Fullscreen Initial Asset & Theme Preloader */}
-      <Preloader />
+      {location.pathname === '/' && <Preloader />}
       
       <main className="flex-grow">
         <Outlet />

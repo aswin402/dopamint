@@ -7,7 +7,7 @@ import crownImg from '../../../assets/Crown.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
 
-const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Message', 'Schedule'];
+const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Research', 'Schedule'];
 
 const SUGGESTION_BADGES = [
   'Write content',

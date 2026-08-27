@@ -1,13 +1,15 @@
 import React, { useRef, useMemo, useState, useEffect, useCallback } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrthographicCamera } from "@react-three/drei";
-import { MotionValue, motionValue } from "framer-motion";
+import { MotionValue, motionValue, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { VideoShaderScene, ImageShaderScene } from "./scenes";
 import { lockPageScroll, unlockPageScroll } from "./scrollLock";
 import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT, resolveMagneticCompletionTarget } from "./progress";
-import { SECTION_HANDOFF_DURATION, smoothSectionHandoffProgress } from "./handoff";
+import { SECTION_HANDOFF_DURATION, getScrollBoundaryState, smoothSectionHandoffProgress } from "./handoff";
 import { getLenisInstance } from "@/lib/lenis";
+
+const HERO_SCROLL_LOCK_OWNER = 'hero-reveal';
 
 
 export interface ScrollDissolveRevealProps {
@@ -30,6 +32,7 @@ export function ScrollDissolveReveal({
 }: ScrollDissolveRevealProps) {
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const renderedProgressRef = useRef(0);
   const [smoothProgress, setSmoothProgress] = useState(0);
   const [isUnlocked, setIsUnlocked] = useState(false);
@@ -101,9 +104,9 @@ export function ScrollDissolveReveal({
 
         // Toggle overflow immediately in this same rAF tick — no React re-render delay
         if (completed) {
-          unlockPageScroll();
+          unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
         } else {
-          lockPageScroll();
+          lockPageScroll(HERO_SCROLL_LOCK_OWNER);
           window.scrollTo(0, 0);
         }
       }
@@ -111,7 +114,19 @@ export function ScrollDissolveReveal({
       animId = requestAnimationFrame(loop);
     };
 
-    lockPageScroll();
+    if (prefersReducedMotion) {
+      targetProgressRef.current = 1;
+      smoothProgressRef.current = 1;
+      renderedProgressRef.current = 1;
+      scrollYProgress.set(1);
+      isUnlockedRef.current = true;
+      document.documentElement.dataset.heroRevealed = 'true';
+      unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
+      return () => {
+        unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
+        delete document.documentElement.dataset.heroRevealed;
+      };
+    }
 
     animId = requestAnimationFrame(loop);
     return () => {
@@ -120,10 +135,10 @@ export function ScrollDissolveReveal({
         window.clearTimeout(magnetTimerRef.current);
         magnetTimerRef.current = null;
       }
-      unlockPageScroll();
+      unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
       delete document.documentElement.dataset.heroRevealed;
     };
-  }, [scrollYProgress]);
+  }, [prefersReducedMotion, scrollYProgress]);
 
 
   const armSectionHandoff = useCallback(() => {
@@ -196,6 +211,8 @@ export function ScrollDissolveReveal({
 
   // Wheel, Touch, and Keyboard listeners
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const onWheel = (e: WheelEvent) => {
       // 1. While animation is running, lock scrolling and gently advance/reverse
       if (!isUnlockedRef.current) {
@@ -212,9 +229,14 @@ export function ScrollDissolveReveal({
         return;
       }
 
+      const manifesto = document.getElementById('manifesto');
+      const manifestoState = manifesto
+        ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
+        : { atStart: true, atEnd: true };
+
       // 2. One intentional downward gesture moves the full viewport from the
       //    revealed second section to section three.
-      if (window.scrollY <= 6 && e.deltaY > 0) {
+      if (window.scrollY <= 6 && e.deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (sectionHandoffReadyRef.current) {
@@ -228,13 +250,13 @@ export function ScrollDissolveReveal({
       // 3. The first upward gesture at the top immediately starts reversing
       //    the dissolve. The previous cumulative -140px gate caused the three
       //    apparently dead scrolls reported by users.
-      if (window.scrollY <= 6 && e.deltaY < 0) {
+      if (window.scrollY <= 6 && e.deltaY < 0 && manifestoState.atStart) {
         e.preventDefault();
         e.stopImmediatePropagation();
         resetSectionHandoff();
         isUnlockedRef.current = false;
         setIsUnlocked(false);
-        lockPageScroll();
+        lockPageScroll(HERO_SCROLL_LOCK_OWNER);
         window.scrollTo(0, 0);
         // A single upward gesture requests the complete reverse transition.
         // The damping loop animates smoothly from 1 back to 0; requiring more
@@ -269,7 +291,12 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      if (window.scrollY <= 6 && deltaY > 0) {
+      const manifesto = document.getElementById('manifesto');
+      const manifestoState = manifesto
+        ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
+        : { atStart: true, atEnd: true };
+
+      if (window.scrollY <= 6 && deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (sectionHandoffReadyRef.current) {
@@ -278,13 +305,13 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      if (window.scrollY <= 6 && deltaY < 0) {
+      if (window.scrollY <= 6 && deltaY < 0 && manifestoState.atStart) {
         e.preventDefault();
         e.stopImmediatePropagation();
         resetSectionHandoff();
         isUnlockedRef.current = false;
         setIsUnlocked(false);
-        lockPageScroll();
+        lockPageScroll(HERO_SCROLL_LOCK_OWNER);
         window.scrollTo(0, 0);
         updateTarget(0, false);
         return;
@@ -297,15 +324,22 @@ export function ScrollDissolveReveal({
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (isUnlockedRef.current && window.scrollY <= 6) {
+        const manifesto = document.getElementById('manifesto');
+        const manifestoState = manifesto
+          ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
+          : { atStart: true, atEnd: true };
+
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
+          if (!manifestoState.atEnd) return;
           e.preventDefault();
           scrollToNextSection();
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
+          if (!manifestoState.atStart) return;
           e.preventDefault();
           resetSectionHandoff();
           isUnlockedRef.current = false;
           setIsUnlocked(false);
-          lockPageScroll();
+          lockPageScroll(HERO_SCROLL_LOCK_OWNER);
           window.scrollTo(0, 0);
           updateTarget(0, false);
         }
@@ -339,13 +373,13 @@ export function ScrollDissolveReveal({
       window.removeEventListener("keydown", onKeyDown);
       resetSectionHandoff();
     };
-  }, [armSectionHandoff, resetSectionHandoff, scrollToNextSection, updateTarget]);
+  }, [armSectionHandoff, prefersReducedMotion, resetSectionHandoff, scrollToNextSection, updateTarget]);
 
   const isVideo = Boolean(videoFront || (imageFront && (imageFront.endsWith('.webm') || imageFront.endsWith('.mp4'))));
   const activeVideo = videoFront || (isVideo ? imageFront! : '');
 
   // Keep hero fixed at top: 0 while animation is running
-  const isLocked = !isUnlocked;
+  const isLocked = !isUnlocked && !prefersReducedMotion;
 
   return (
     /* Outer container always stays h-screen in document flow so next sections never shift */
@@ -367,7 +401,7 @@ export function ScrollDissolveReveal({
         )}
 
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
-        {smoothProgress < 0.999 && (
+        {!prefersReducedMotion && smoothProgress < 0.999 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
             <Canvas
               dpr={[1, 1.5]}

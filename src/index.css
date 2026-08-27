@@ -850,3 +850,25 @@ body::-webkit-scrollbar {
 .animate-crypto-marquee-right {
   animation: cryptoMarqueeRight 32s linear infinite;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee-left,
+  .animate-marquee-right,
+  .animate-crypto-marquee-left,
+  .animate-crypto-marquee-right {
+    animation: none !important;
+  }
+}
