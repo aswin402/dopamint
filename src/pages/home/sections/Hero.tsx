@@ -43,7 +43,7 @@ function HeroOverlay({
   return (
     <motion.div 
       style={{ opacity, y, pointerEvents }}
-      className="absolute inset-0 w-full h-full flex flex-col justify-between items-center pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14 md:pb-16"
+      className="absolute inset-0 w-full h-full flex flex-col justify-center sm:justify-between items-center pt-16 sm:pt-24 md:pt-28 pb-6 sm:pb-14 md:pb-16 px-4"
     >
       {/* Ambient Overlay for Cinematic Contrast */}
       <div className="absolute inset-0 bg-black/15 pointer-events-none -z-10" />
@@ -51,8 +51,8 @@ function HeroOverlay({
       {/* Subtle Bottom Ambient Vignette to ensure text readability */}
       <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none -z-10" />
 
-      {/* CENTER INTERACTIVE SECTION: Crown + Get Started + Input Bar + 5 Badges */}
-      <div className="relative z-20 my-auto w-full max-w-3xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+      {/* CENTER INTERACTIVE SECTION: Crown + Ask Dope + Input Bar + 4 Badges */}
+      <div className="relative z-20 w-full max-w-3xl mx-auto px-2 sm:px-6 flex flex-col items-center text-center my-0 sm:my-auto">
         
         {/* Small Regal Crown */}
         <motion.div
@@ -64,7 +64,7 @@ function HeroOverlay({
           <img
             src={crownImg}
             alt="Renaissance Crown"
-            className="w-10 sm:w-12 md:w-14 h-auto object-contain drop-shadow-[0_2px_14px_rgba(255,255,255,0.7)] filter brightness-0 invert opacity-95 select-none pointer-events-none"
+            className="w-9 sm:w-12 md:w-14 h-auto object-contain drop-shadow-[0_2px_14px_rgba(255,255,255,0.7)] filter brightness-0 invert opacity-95 select-none pointer-events-none"
           />
         </motion.div>
 
@@ -73,7 +73,7 @@ function HeroOverlay({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-3.5 sm:mb-4 select-none"
+          className="text-xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-2.5 sm:mb-4 select-none"
         >
           Ask Dope
         </motion.h2>
@@ -130,7 +130,7 @@ function HeroOverlay({
           </div>
         </motion.form>
 
-        {/* 5 Sleek Suggestion Badges */}
+        {/* 4 Sleek Suggestion Badges */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -158,13 +158,13 @@ function HeroOverlay({
 
       </div>
 
-      {/* BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]") */}
-      <div className="relative z-20 text-center w-full px-4 pt-4 pb-2 sm:pb-4 flex flex-col items-center">
-        <div className="flex items-center justify-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] max-w-full">
+      {/* BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]") moved up on mobile */}
+      <div className="relative z-20 text-center w-full px-2 sm:px-4 pt-4 sm:pt-4 pb-2 sm:pb-4 flex flex-col items-center mt-3 sm:mt-0">
+        <div className="flex items-center justify-center text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] max-w-full">
           <span className="whitespace-nowrap font-serif font-normal text-white mr-2 sm:mr-3 md:mr-4 shrink-0">
             Your Agents can
           </span>
-          <div className="w-[110px] sm:w-[170px] md:w-[220px] lg:w-[280px] xl:w-[350px] text-left shrink-0 relative h-[1.15em] flex items-center overflow-visible">
+          <div className="w-[90px] sm:w-[170px] md:w-[220px] lg:w-[280px] xl:w-[350px] text-left shrink-0 relative h-[1.15em] flex items-center overflow-visible">
             <AnimatePresence mode="wait">
               <motion.span
                 key={ACTION_WORDS[actionIndex]}
@@ -181,7 +181,7 @@ function HeroOverlay({
         </div>
 
         {/* Subtitle Under Headline */}
-        <p className="text-sm sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-2 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
+        <p className="text-xs sm:text-base md:text-lg text-white/90 font-serif italic tracking-wide mt-1.5 sm:mt-3 drop-shadow-[0_2px_14px_rgba(0,0,0,0.95)]">
           Powered by <span className="font-serif italic font-bold text-white">$DOPE</span>
         </p>
 
@@ -191,7 +191,7 @@ function HeroOverlay({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-7 py-2 sm:py-2.5 font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+          className="mt-3 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-5 sm:px-7 py-1.5 sm:py-2.5 font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
         >
           Get App
         </motion.a>
