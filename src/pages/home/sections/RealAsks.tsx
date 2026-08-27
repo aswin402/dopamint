@@ -264,14 +264,29 @@ const MobileStickyStack: React.FC = () => {
       {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-4 overflow-hidden">
         
-        {/* Candle Stand Top Right (Moved down below the title for mobile screens) */}
-        <div className="absolute top-32 sm:top-36 -right-6 sm:-right-8 w-28 sm:w-32 pointer-events-none z-10 opacity-85">
+        {/* Candle Stand Top Right (Enlarged & brought down slightly for mobile) */}
+        <div className="absolute top-28 sm:top-32 -right-8 sm:-right-12 w-44 sm:w-56 pointer-events-none z-10 opacity-90">
           <img
             src={candleStandImg}
             alt="Antique Candle Stand"
-            className="w-full h-auto object-contain drop-shadow-md select-none"
+            className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.2)] select-none"
           />
         </div>
+
+        {/* Renaissance Scholar Man — Full Height Background on Left Side (Far Left) */}
+        <motion.div
+          animate={{ y: [2, -2, 2] }}
+          transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-0 -left-72 sm:-left-80 h-[84vh] max-h-[800px] w-auto pointer-events-none z-10 opacity-100 flex items-end"
+        >
+          <img
+            src={sideCharImg}
+            alt="Renaissance Scholar"
+            loading="lazy"
+            decoding="async"
+            className="h-full w-auto max-w-none object-contain drop-shadow-[0_24px_54px_rgba(40,30,20,0.25)] select-none"
+          />
+        </motion.div>
 
         {/* Section Header */}
         <div className="text-center w-full max-w-sm mx-auto mb-2 relative z-20">
@@ -286,8 +301,8 @@ const MobileStickyStack: React.FC = () => {
           </p>
         </div>
 
-        {/* Card Stacking Stage (Tightly positioned below header with zero large blank gaps) */}
-        <div className="relative w-full max-w-sm mx-auto h-[320px] flex items-center justify-center my-auto z-20">
+        {/* Card Stacking Stage (Overlapping in front of scholar's shoulder / right side) */}
+        <div className="relative w-full max-w-sm mx-auto h-[340px] flex items-center justify-center my-auto z-20">
           {ASK_CARDS.map((card, i) => (
             <MobilePinnedCard
               key={`m_${card.id}`}
@@ -297,17 +312,6 @@ const MobileStickyStack: React.FC = () => {
               total={ASK_CARDS.length}
             />
           ))}
-        </div>
-
-        {/* Stone carved pedestal at bottom */}
-        <div className="pb-2 flex flex-col items-center justify-center relative z-20">
-          <div className="w-24 sm:w-28">
-            <img
-              src={iMessagePodiumImg}
-              alt="iMessage Stone Carved Podium"
-              className="w-full h-auto object-contain drop-shadow-md select-none"
-            />
-          </div>
         </div>
 
       </div>
