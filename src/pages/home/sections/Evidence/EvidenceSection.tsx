@@ -103,22 +103,22 @@ export const EvidenceSection: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. HORIZONTAL ARCHITECTURE FLOW CONTAINER
+          2. ARCHITECTURE FLOW CONTAINER
           ========================================================================= */}
       <div 
         style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
         className="relative max-w-6xl mx-auto my-4 sm:my-6"
       >
         {/* Continuous Feedback Loop Top Conduit */}
-        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 px-2">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-between gap-3 px-1 sm:px-2">
           
           {/* Continuous Loop Pill Badge */}
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#1b1712]/90 backdrop-blur-md border border-[#c4a978]/40 text-[#dfc28d] text-xs font-mono tracking-wide shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+          <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1b1712]/90 backdrop-blur-md border border-[#c4a978]/40 text-[#dfc28d] text-xs font-mono tracking-wide shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
             <RefreshCw 
               className={`w-3.5 h-3.5 text-[#dfc28d] ${isPlaying ? 'animate-spin' : ''}`} 
               style={{ animationDuration: '6s' }} 
             />
-            <span className="font-bold uppercase text-[11px] sm:text-xs tracking-wider text-[#dfc28d]">
+            <span className="font-bold uppercase text-[10.5px] sm:text-xs tracking-wider text-[#dfc28d]">
               CONTINUOUS LEARNING LOOP
             </span>
             <span className="text-white/30 hidden md:inline">·</span>
@@ -152,9 +152,114 @@ export const EvidenceSection: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Horizontal 4 Cards Grid with Integrated Chevron Connectors ── */}
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3 relative z-20 items-stretch">
+        {/* ── MOBILE VIEW: INTERACTIVE STEP STAGE WITH STEP NAV ── */}
+        <div className="md:hidden relative w-full mb-4">
+          
+          {/* Top 4 Step Pill Scrubber */}
+          <div className="grid grid-cols-4 gap-1.5 mb-3.5">
+            {steps.map((item, idx) => {
+              const isCur = currentStep === idx;
+              const isDone = idx < currentStep;
+              return (
+                <button
+                  key={`mob-step-${idx}`}
+                  onClick={() => {
+                    setActiveStep(idx);
+                    setIsPlaying(false);
+                  }}
+                  className={`py-2 px-1 rounded-xl border flex flex-col items-center gap-1 transition-all duration-300 cursor-pointer ${
+                    isCur
+                      ? 'bg-[#2a2218] border-[#f0dcba] text-[#f0dcba] shadow-[0_0_16px_rgba(240,220,186,0.3)] ring-1 ring-[#f0dcba]/60 scale-[1.02]'
+                      : isDone
+                      ? 'bg-[#1a1612] border-[#c4a978]/40 text-[#dfc28d]'
+                      : 'bg-[#12100d]/70 border-white/10 text-white/40'
+                  }`}
+                >
+                  <div className="flex items-center gap-1">
+                    <span className="font-mono text-[10px] font-bold">0{idx + 1}</span>
+                    {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse" />}
+                  </div>
+                  <span className="text-[8.5px] font-mono uppercase tracking-tight truncate max-w-[62px] leading-tight">
+                    {item.timelineLabel}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Card Container with smooth animation */}
+          <div className="relative min-h-[290px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`mob-card-${currentStep}`}
+                initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full h-full"
+              >
+                <AgentNode
+                  step={steps[currentStep].step}
+                  title={steps[currentStep].title}
+                  subtitle={steps[currentStep].subtitle}
+                  tags={steps[currentStep].tags}
+                  icon={steps[currentStep].icon}
+                  isPrimary={steps[currentStep].isPrimary}
+                  isActive={true}
+                  stepIndex={currentStep}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Bottom Prev / Next Navigation Bar */}
+          <div className="flex items-center justify-between gap-3 mt-3 px-1">
+            <button
+              onClick={() => {
+                setActiveStep((prev) => (prev > 0 ? prev - 1 : 3));
+                setIsPlaying(false);
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#1c1813] border border-[#c4a978]/30 text-[#dfc28d] text-xs font-mono hover:border-[#dfc28d] active:scale-95 transition-all cursor-pointer"
+            >
+              <span>←</span>
+              <span>PREV</span>
+            </button>
+
+            {/* Step Dots indicator */}
+            <div className="flex items-center gap-1.5">
+              {steps.map((_, idx) => (
+                <button
+                  key={`dot-${idx}`}
+                  onClick={() => {
+                    setActiveStep(idx);
+                    setIsPlaying(false);
+                  }}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentStep === idx
+                      ? 'w-6 bg-[#dfc28d] shadow-[0_0_8px_#dfc28d]'
+                      : 'w-1.5 bg-white/20'
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                setActiveStep((prev) => (prev + 1) % 4);
+                setIsPlaying(false);
+              }}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#1c1813] border border-[#c4a978]/30 text-[#dfc28d] text-xs font-mono hover:border-[#dfc28d] active:scale-95 transition-all cursor-pointer"
+            >
+              <span>NEXT</span>
+              <span>→</span>
+            </button>
+          </div>
+
+        </div>
+
+        {/* ── DESKTOP VIEW: Horizontal 4 Cards Grid with Integrated Chevron Connectors ── */}
+        <div className="hidden md:block relative">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3 relative z-20 items-stretch">
             {steps.map((item, idx) => (
               <div key={idx} className="relative flex flex-col h-full">
                 <AgentNode
@@ -222,8 +327,8 @@ export const EvidenceSection: React.FC = () => {
           </AnimatePresence>
         </div>
 
-        {/* ── Interactive Progress Timeline Scrubber ── */}
-        <div className="mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
+        {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
+        <div className="hidden md:block mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
           <div className="flex justify-between items-start relative">
             
             {/* Background connecting golden rail (positioned at exact vertical center of circles) */}
@@ -276,63 +381,63 @@ export const EvidenceSection: React.FC = () => {
           ========================================================================= */}
       <div 
         style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-        className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto"
+        className="mt-8 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 max-w-5xl mx-auto"
       >
         {/* Card 1: Agent Loop */}
-        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
-            <Infinity className="w-5 h-5 stroke-[2.2]" />
+        <div className="rounded-2xl sm:rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-3 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <Infinity className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+            <span className="font-bold text-[#141820] text-xs sm:text-[14.5px] leading-tight">
               Agent Loop
             </span>
-            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
-              keeps the task running
+            <span className="text-[#5a544b] text-[10px] sm:text-xs font-normal leading-tight mt-0.5">
+              keeps task running
             </span>
           </div>
         </div>
 
         {/* Card 2: Agent Harness */}
-        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
-            <Settings className="w-5 h-5 stroke-[2.2]" />
+        <div className="rounded-2xl sm:rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-3 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <Settings className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+            <span className="font-bold text-[#141820] text-xs sm:text-[14.5px] leading-tight">
               Agent Harness
             </span>
-            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
-              tools &amp; environments
+            <span className="text-[#5a544b] text-[10px] sm:text-xs font-normal leading-tight mt-0.5">
+              tools &amp; envs
             </span>
           </div>
         </div>
 
         {/* Card 3: x402 */}
-        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
-            <CreditCard className="w-5 h-5 stroke-[2.2]" />
+        <div className="rounded-2xl sm:rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-3 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+            <span className="font-bold text-[#141820] text-xs sm:text-[14.5px] leading-tight">
               x402
             </span>
-            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
-              autonomous payments
+            <span className="text-[#5a544b] text-[10px] sm:text-xs font-normal leading-tight mt-0.5">
+              auto payments
             </span>
           </div>
         </div>
 
         {/* Card 4: AiFi */}
-        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
-            <BarChart2 className="w-5 h-5 stroke-[2.2]" />
+        <div className="rounded-2xl sm:rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-3 sm:px-5 flex items-center gap-2.5 sm:gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <BarChart2 className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+            <span className="font-bold text-[#141820] text-xs sm:text-[14.5px] leading-tight">
               AiFi
             </span>
-            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
+            <span className="text-[#5a544b] text-[10px] sm:text-xs font-normal leading-tight mt-0.5">
               financial execution
             </span>
           </div>
