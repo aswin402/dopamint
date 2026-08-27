@@ -92,7 +92,7 @@ export const AgentRoster: React.FC = () => {
               Orchestrator
             </span>
             <span className="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-xs sm:text-[13px] md:text-sm font-mono uppercase tracking-wider text-[#263725] font-semibold">
-              Confidential TEE
+              Security TEE
             </span>
             <span className="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full border border-[#445648]/40 bg-[#e0e8dc]/80 text-xs sm:text-[13px] md:text-sm font-mono uppercase tracking-wider text-[#263725] font-semibold">
               Agent Harness
@@ -238,7 +238,7 @@ export const AgentRoster: React.FC = () => {
       {/* Bottom Subtitle / Monospace Caption */}
       <div className="w-full text-center pt-8 sm:pt-10 px-4">
         <p className="font-mono text-xs sm:text-sm uppercase tracking-[0.25em] text-[#4a5c4e] font-bold">
-          ONE INTERFACE · 72+ SPECIALIZED AGENTS
+          ONE INTERFACE · 250+ SPECIALIZED AGENTS
         </p>
       </div>
 

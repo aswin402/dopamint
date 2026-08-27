@@ -69,14 +69,14 @@ function HeroOverlay({
           />
         </motion.div>
 
-        {/* Compact "ASK DOPE" Headline */}
+        {/* Compact "Ask Dope" Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-3.5 sm:mb-4 select-none"
         >
-          ASK DOPE
+          Ask Dope
         </motion.h2>
 
         {/* Sleek Frosted Glass Input Bar */}

@@ -1,6 +1,6 @@
 export function IntentBaseHeadline() {
   return (
-    <span className="block font-serif italic font-bold text-[#55604e]">
+    <span className="block font-serif font-normal text-[#55604e]">
       Intent-
       <span
         className="not-italic font-bold text-[#0000ff]"
