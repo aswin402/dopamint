@@ -27,16 +27,13 @@ export function HomePage() {
         {/* 3. the Dope App: 8 Agent Crew */}
         <AgentRoster />
 
-        {/* 4. The Future of Agents */}
-        <Authority />
-
-        {/* 5 & 6. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
+        {/* 4. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-clip bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-44 lg:h-48 pointer-events-none z-20">
             <BurnTransition
-              color="#ffffff"
-              transitionColor="#FFFFFF"
+              color="#f3f2e6"
+              transitionColor="#f3f2e6"
               noiseScale={2.5}
               noiseIntensity={0.52}
               scrollSensitivity={0.015}
