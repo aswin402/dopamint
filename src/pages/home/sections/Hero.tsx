@@ -10,11 +10,10 @@ import { IntentBaseHeadline } from './IntentBaseHeadline';
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Research', 'Schedule'];
 
 const SUGGESTION_BADGES = [
-  'Write content',
-  'Brainstorm Ideas',
-  'Write Code',
-  'Research',
-  'Surprise me',
+  'Check ETH',
+  'Swap USDC',
+  'trending coins',
+  'Plan my weekend',
 ];
 
 interface HeroOverlayProps {

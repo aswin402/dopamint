@@ -27,9 +27,9 @@ export const FooterSection: React.FC = () => {
           ========================================================================= */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 pt-6 sm:pt-10 lg:pt-14 text-center space-y-4 sm:space-y-6">
         
-        {/* Headline: Your last app */}
+        {/* Headline: Your last App */}
         <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
-          Your last <span className="font-serif italic font-bold">app.</span>
+          Your last <span className="font-serif italic font-bold">App.</span>
         </h2>
 
         {/* Action Button: Join Waitlist */}
