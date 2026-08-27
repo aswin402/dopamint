@@ -247,7 +247,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
             </motion.div>
           </motion.div>
 
-          {/* CARD 2 — top-center: Free time alert */}
+          {/* CARD 2 — top-center: Flight boarding alert */}
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -258,12 +258,11 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'Google Calendar', domain: 'calendar.google.com' },
-                  { name: 'Apple Maps', domain: 'apple.com' },
+                  { name: 'American Airlines', domain: 'aa.com' },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="you’ve got 40 mins free. found a coffee spot nearby." side="left" />
+                <IMessageBubble text="your flight’s boarding in 40 mins. maybe start moving." side="left" />
               </div>
             </motion.div>
           </motion.div>
