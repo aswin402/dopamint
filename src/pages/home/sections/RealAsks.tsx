@@ -262,7 +262,7 @@ const MobileStickyStack: React.FC = () => {
   return (
     <div ref={containerRef} className="md:hidden relative w-full h-[280vh]">
       {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-4 overflow-hidden">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-0 px-4 overflow-hidden">
         
         {/* Candle Stand Top Right (Enlarged & brought down slightly for mobile) */}
         <div className="absolute top-28 sm:top-32 -right-8 sm:-right-12 w-44 sm:w-56 pointer-events-none z-10 opacity-90">
@@ -296,9 +296,6 @@ const MobileStickyStack: React.FC = () => {
               want.
             </span>
           </h2>
-          <p className="text-[10.5px] font-mono uppercase tracking-widest text-[#55604e]/70 mt-1">
-            Scroll to stack cards
-          </p>
         </div>
 
         {/* Card Stacking Stage (Overlapping in front of scholar's shoulder / right side) */}
@@ -427,7 +424,7 @@ export const RealAsks: React.FC = () => {
     <section
       ref={sectionRef}
       id="asks"
-      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-12 sm:pb-0 relative z-20 select-none"
+      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20 select-none"
     >
       {/* SVG clip defs — 6 genie morph paths */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
