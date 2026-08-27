@@ -260,8 +260,8 @@ function HouseOfAgentsSection() {
         </div>
 
         {/* Right Column: Chat Screen Video Fully Responsive & Bottom Aligned */}
-        <div className="lg:col-span-6 relative flex items-end justify-center lg:justify-end z-10 self-end w-full">
-          <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-0 lg:translate-x-6 xl:translate-x-10 flex items-end justify-center lg:justify-end">
+        <div className="lg:col-span-6 relative flex items-end justify-end z-10 self-end w-full">
+          <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-3 sm:translate-x-6 lg:translate-x-8 xl:translate-x-12 flex items-end justify-end">
             <video
               src={chatScreenVid}
               autoPlay
