@@ -55,13 +55,13 @@ export const EvidenceSection: React.FC = () => {
       payload: 'Loading persistent memory, evaluating security guardrails & initializing DAG execution plan.',
     },
     {
-      step: '03 · AGENT NETWORK',
-      title: 'AGENT NETWORK',
+      step: '03 · AGENT HARNESS',
+      title: 'AGENT HARNESS',
       subtitle: 'Coordinates multiple agents across trading, research & protection.',
       tags: ['Parallel Agents', 'Specialized Roles', 'Context Share'],
       icon: <Boxes className="w-4 h-4" />,
       isPrimary: true,
-      timelineLabel: 'AGENT NETWORK',
+      timelineLabel: 'AGENT IN ACTION',
       payload: 'Coordinating: AiFi agent scans Aerodrome pool · Guardian agent verifies smart contract safety · x402 agent prepares payment.',
     },
     {
