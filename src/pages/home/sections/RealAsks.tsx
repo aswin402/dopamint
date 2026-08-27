@@ -88,6 +88,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
 
 interface AskCardData {
   id: string;
+  isSm?: boolean;
   logos: IntegrationItem[];
   bubbles: { text: string; side: 'left' | 'right' }[];
   rotation: number;
@@ -96,6 +97,7 @@ interface AskCardData {
 const ASK_CARDS: AskCardData[] = [
   {
     id: 'birthday',
+    isSm: false,
     logos: [
       { name: 'Google Calendar', domain: 'calendar.google.com' },
       { name: 'OpenTable', domain: 'opentable.com' },
@@ -109,6 +111,7 @@ const ASK_CARDS: AskCardData[] = [
   },
   {
     id: 'flight',
+    isSm: true,
     logos: [
       { name: 'American Airlines', domain: 'aa.com' },
     ],
@@ -119,6 +122,7 @@ const ASK_CARDS: AskCardData[] = [
   },
   {
     id: 'food',
+    isSm: true,
     logos: [
       { name: 'DoorDash', domain: 'doordash.com' },
     ],
@@ -129,6 +133,7 @@ const ASK_CARDS: AskCardData[] = [
   },
   {
     id: 'bills',
+    isSm: false,
     logos: [
       { name: 'Chase', domain: 'chase.com' },
       { name: 'Venmo', domain: 'venmo.com' },
@@ -141,6 +146,7 @@ const ASK_CARDS: AskCardData[] = [
   },
   {
     id: 'portfolio',
+    isSm: false,
     logos: [
       { name: 'Coinbase', domain: 'coinbase.com' },
       { name: 'Robinhood', domain: 'robinhood.com' },
@@ -154,6 +160,7 @@ const ASK_CARDS: AskCardData[] = [
   },
   {
     id: 'btc',
+    isSm: true,
     logos: [
       { name: 'Coinbase', domain: 'coinbase.com' },
       { name: 'TradingView', domain: 'tradingview.com' },
@@ -164,6 +171,9 @@ const ASK_CARDS: AskCardData[] = [
     rotation: 1.8,
   },
 ];
+
+const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
+const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
 
 // =========================================================================
 // MOBILE STICKY PARALLAX STACKING CARD COMPONENT
@@ -189,19 +199,22 @@ const MobileStickyCard: React.FC<MobileStickyCardProps> = ({
   return (
     <div
       ref={container}
-      className="sticky top-0 h-screen flex items-center justify-center pointer-events-none"
+      className="sticky top-0 h-[65vh] flex items-center justify-center pointer-events-none"
     >
       <motion.div
         style={{
           scale,
-          top: `calc(-10vh + ${i * 24 + 140}px)`,
+          top: `calc(4vh + ${i * 22}px)`,
           transformOrigin: 'top center',
-          filter: 'drop-shadow(0 16px 36px rgba(40,30,20,0.18))',
+          filter: 'drop-shadow(0 14px 32px rgba(40,30,20,0.16))',
+          transform: `rotate(${card.rotation}deg)`,
         }}
-        className="relative pointer-events-auto w-[92vw] max-w-[360px] rounded-2xl bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-4 sm:p-5 shadow-[0_20px_50px_rgba(50,35,20,0.1)] backdrop-blur-sm"
+        className={`relative pointer-events-auto w-[92vw] ${
+          card.isSm ? 'max-w-[270px] ' + cardSm : 'max-w-[340px] ' + cardBase
+        }`}
       >
         <LogosHeader items={card.logos} />
-        <div className="flex flex-col gap-2 pt-0.5">
+        <div className={`flex flex-col ${card.isSm ? 'pt-0.5' : 'gap-2 sm:gap-3 pt-0.5'}`}>
           {card.bubbles.map((bubble, bIdx) => (
             <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
           ))}
@@ -221,12 +234,12 @@ const MobileStickyStack: React.FC = () => {
   return (
     <div
       ref={containerRef}
-      className="md:hidden relative w-full flex flex-col items-center pb-[50vh] pt-4"
+      className="md:hidden relative w-full flex flex-col items-center pb-[40vh] pt-4"
     >
       {ASK_CARDS.map((card, i) => {
         const targetScale = Math.max(
-          0.65,
-          1 - (ASK_CARDS.length - i - 1) * 0.06
+          0.7,
+          1 - (ASK_CARDS.length - i - 1) * 0.05
         );
         return (
           <MobileStickyCard
