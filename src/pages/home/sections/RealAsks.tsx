@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView, type Variants } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, type Variants, type MotionValue } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import sideCharImg from '../../../assets/side_char.webp';
@@ -59,18 +59,218 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   return pathRef;
 }
 
+interface IntegrationItem {
+  name: string;
+  domain: string;
+}
+
+const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
+  <div className="flex items-center justify-end gap-1.5 pb-1 sm:pb-1.5 mb-1.5 w-full">
+    {items.map((item) => (
+      <div
+        key={item.name}
+        title={item.name}
+        className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
+      >
+        <img
+          src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
+          alt={item.name}
+          className="w-full h-full rounded-full object-contain"
+          loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLElement).style.display = 'none';
+          }}
+        />
+      </div>
+    ))}
+  </div>
+);
+
+interface AskCardData {
+  id: string;
+  logos: IntegrationItem[];
+  bubbles: { text: string; side: 'left' | 'right' }[];
+  rotation: number;
+}
+
+const ASK_CARDS: AskCardData[] = [
+  {
+    id: 'birthday',
+    logos: [
+      { name: 'Google Calendar', domain: 'calendar.google.com' },
+      { name: 'OpenTable', domain: 'opentable.com' },
+      { name: 'DoorDash', domain: 'doordash.com' },
+    ],
+    bubbles: [
+      { text: 'shit i forgot her birthday', side: 'right' },
+      { text: 'already handled. flowers at 6, dinner at 8. reminder to call her at noon.', side: 'left' },
+    ],
+    rotation: -2.5,
+  },
+  {
+    id: 'flight',
+    logos: [
+      { name: 'American Airlines', domain: 'aa.com' },
+    ],
+    bubbles: [
+      { text: 'your flight’s boarding in 40 mins. maybe start moving.', side: 'left' },
+    ],
+    rotation: 2.2,
+  },
+  {
+    id: 'food',
+    logos: [
+      { name: 'DoorDash', domain: 'doordash.com' },
+    ],
+    bubbles: [
+      { text: 'your food is 2 mins away. behave.', side: 'left' },
+    ],
+    rotation: -1.8,
+  },
+  {
+    id: 'bills',
+    logos: [
+      { name: 'Chase', domain: 'chase.com' },
+      { name: 'Venmo', domain: 'venmo.com' },
+    ],
+    bubbles: [
+      { text: 'handle my bills pls', side: 'right' },
+      { text: 'on it. your money is leaving faster than your motivation, but we’re good.', side: 'left' },
+    ],
+    rotation: 2.8,
+  },
+  {
+    id: 'portfolio',
+    logos: [
+      { name: 'Coinbase', domain: 'coinbase.com' },
+      { name: 'Robinhood', domain: 'robinhood.com' },
+      { name: 'Zerion', domain: 'zerion.io' },
+    ],
+    bubbles: [
+      { text: 'yo how’s my portfolio doing', side: 'right' },
+      { text: 'ngl, she’s going through it. down 2.4%. BTC is mostly to blame.', side: 'left' },
+    ],
+    rotation: -2.2,
+  },
+  {
+    id: 'btc',
+    logos: [
+      { name: 'Coinbase', domain: 'coinbase.com' },
+      { name: 'TradingView', domain: 'tradingview.com' },
+    ],
+    bubbles: [
+      { text: 'BTC’s up 10%. shit’s moving.', side: 'left' },
+    ],
+    rotation: 1.8,
+  },
+];
+
+// =========================================================================
+// MOBILE STICKY PARALLAX STACKING CARD COMPONENT
+// =========================================================================
+interface MobileStickyCardProps {
+  i: number;
+  card: AskCardData;
+  progress: MotionValue<number>;
+  range: [number, number];
+  targetScale: number;
+}
+
+const MobileStickyCard: React.FC<MobileStickyCardProps> = ({
+  i,
+  card,
+  progress,
+  range,
+  targetScale,
+}) => {
+  const container = useRef<HTMLDivElement>(null);
+  const scale = useTransform(progress, range, [1, targetScale]);
+
+  return (
+    <div
+      ref={container}
+      className="sticky top-0 h-screen flex items-center justify-center pointer-events-none"
+    >
+      <motion.div
+        style={{
+          scale,
+          top: `calc(-10vh + ${i * 24 + 140}px)`,
+          transformOrigin: 'top center',
+          filter: 'drop-shadow(0 16px 36px rgba(40,30,20,0.18))',
+        }}
+        className="relative pointer-events-auto w-[92vw] max-w-[360px] rounded-2xl bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-4 sm:p-5 shadow-[0_20px_50px_rgba(50,35,20,0.1)] backdrop-blur-sm"
+      >
+        <LogosHeader items={card.logos} />
+        <div className="flex flex-col gap-2 pt-0.5">
+          {card.bubbles.map((bubble, bIdx) => (
+            <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const MobileStickyStack: React.FC = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  });
+
+  return (
+    <div
+      ref={containerRef}
+      className="md:hidden relative w-full flex flex-col items-center pb-[50vh] pt-4"
+    >
+      {ASK_CARDS.map((card, i) => {
+        const targetScale = Math.max(
+          0.65,
+          1 - (ASK_CARDS.length - i - 1) * 0.06
+        );
+        return (
+          <MobileStickyCard
+            key={`m_${card.id}`}
+            i={i}
+            card={card}
+            progress={scrollYProgress}
+            range={[i * 0.16, 1]}
+            targetScale={targetScale}
+          />
+        );
+      })}
+
+      {/* Stone carved pedestal below card stack on mobile */}
+      <div className="pt-8 pb-4 flex flex-col items-center justify-center relative z-30">
+        <div className="w-28 sm:w-32">
+          <img
+            src={iMessagePodiumImg}
+            alt="iMessage Stone Carved Podium"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-auto object-contain drop-shadow-[0_18px_32px_rgba(40,30,20,0.18)] select-none"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// =========================================================================
+// MAIN REAL ASKS SECTION (RESPONSIVE: MOBILE STICKY STACK + DESKTOP GENIE)
+// =========================================================================
 export const RealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.2, once: false });
   const [isOpen, setIsOpen] = useState(false);
 
-  // 6 card refs
-  const card1Ref = useRef<HTMLDivElement>(null); // top-left    QA: BTC
-  const card2Ref = useRef<HTMLDivElement>(null); // top-center  A: birthday
-  const card3Ref = useRef<HTMLDivElement>(null); // top-right   A: electricity
-  const card4Ref = useRef<HTMLDivElement>(null); // bot-left    QA: yield
-  const card5Ref = useRef<HTMLDivElement>(null); // bot-right   QA: schedule
-  const card6Ref = useRef<HTMLDivElement>(null); // center      A: portfolio down
+  // 6 card refs (Desktop)
+  const card1Ref = useRef<HTMLDivElement>(null); // top-left    QA: Birthday
+  const card2Ref = useRef<HTMLDivElement>(null); // top-center  A: Flight
+  const card3Ref = useRef<HTMLDivElement>(null); // top-right   A: Food
+  const card4Ref = useRef<HTMLDivElement>(null); // bot-left    QA: Bills
+  const card5Ref = useRef<HTMLDivElement>(null); // bot-right   QA: Portfolio
+  const card6Ref = useRef<HTMLDivElement>(null); // center      A: BTC
   const pedestalRef = useRef<HTMLDivElement>(null);
 
   const [off1, setOff1] = useState({ x: 0, y: 0, sinkY: 0 });
@@ -145,33 +345,6 @@ export const RealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-interface IntegrationItem {
-  name: string;
-  domain: string;
-}
-
-const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
-  <div className="flex items-center justify-end gap-1.5 pb-1 sm:pb-1.5 mb-1.5 w-full">
-    {items.map((item) => (
-      <div
-        key={item.name}
-        title={item.name}
-        className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
-      >
-        <img
-          src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
-          alt={item.name}
-          className="w-full h-full rounded-full object-contain"
-          loading="lazy"
-          onError={(e) => {
-            (e.currentTarget as HTMLElement).style.display = 'none';
-          }}
-        />
-      </div>
-    ))}
-  </div>
-);
-
   const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
   const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
   const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
@@ -180,7 +353,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
     <section
       ref={sectionRef}
       id="asks"
-      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20 overflow-hidden select-none"
+      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-12 sm:pb-0 relative z-20 select-none"
     >
       {/* SVG clip defs — 6 genie morph paths */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>
@@ -215,14 +388,21 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
 
         {/* Title */}
-        <div className="text-center w-full max-w-4xl mx-auto mb-8 sm:mb-10">
-          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
+        <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-10">
+          <h2 className="text-3xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
             Just state what you <span className="font-serif italic font-bold text-[#253b2b]">want.</span>
           </h2>
         </div>
 
-        {/* Cards + pedestal */}
-        <div className="relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
+        {/* =========================================================================
+            MOBILE LAYOUT: STICKY PARALLAX STACKING CARDS (SKIPER 16 STYLE)
+            ========================================================================= */}
+        <MobileStickyStack />
+
+        {/* =========================================================================
+            DESKTOP LAYOUT: SPATIAL GENIE EXPLOSION
+            ========================================================================= */}
+        <div className="hidden md:block relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
 
           {/* CARD 1 — top-left: Birthday QA */}
           <motion.div
@@ -251,7 +431,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[36%] sm:left-[39%] lg:left-[41%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20 hidden sm:block"
+            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[36%] sm:left-[39%] lg:left-[41%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -291,7 +471,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[200px] sm:max-w-[245px] lg:max-w-[275px] z-20 hidden sm:block"
+            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[200px] sm:max-w-[245px] lg:max-w-[275px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}

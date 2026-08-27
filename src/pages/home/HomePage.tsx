@@ -12,7 +12,7 @@ import divBurnOutImg from '../../assets/Div_Burn_out_image.webp';
 
 export function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#f3f2e6] text-[#141820] font-sans antialiased overflow-x-hidden selection:bg-[#e5ddd4] selection:text-[#141820]">
+    <div className="relative min-h-screen bg-[#f3f2e6] text-[#141820] font-sans antialiased overflow-x-clip selection:bg-[#e5ddd4] selection:text-[#141820]">
       {/* Top Navigation */}
       <Navbar />
 
