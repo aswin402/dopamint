@@ -314,6 +314,19 @@ const MobileStickyStack: React.FC = () => {
           ))}
         </div>
 
+        {/* Stone Carved iMessage Podium at bottom right */}
+        <div className="absolute -bottom-6 sm:-bottom-8 right-6 sm:right-10 w-24 sm:w-28 z-30 flex flex-col items-center cursor-pointer">
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full">
+            <img
+              src={iMessagePodiumImg}
+              alt="iMessage Stone Carved Podium"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-auto object-contain drop-shadow-[0_12px_24px_rgba(40,30,20,0.18)] select-none"
+            />
+          </motion.div>
+        </div>
+
       </div>
     </div>
   );
