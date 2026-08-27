@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
           />
         </a>
 
-        {/* Nav Links: About, Features, Docs */}
+        {/* Nav Links: About, Features, Docs, Ecosystem */}
         <nav
           className={`hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase transition-colors duration-300 ${
             isSolidNav ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
@@ -77,6 +77,12 @@ export const Navbar: React.FC = () => {
             className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             Docs
+          </a>
+          <a
+            href="#ecosystem"
+            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+          >
+            Ecosystem
           </a>
         </nav>
 
@@ -117,6 +123,9 @@ export const Navbar: React.FC = () => {
           </a>
           <a href="#architecture" onClick={() => setMobileNavOpen(false)} className="block font-bold">
             Docs
+          </a>
+          <a href="#ecosystem" onClick={() => setMobileNavOpen(false)} className="block font-bold">
+            Ecosystem
           </a>
           <div className="pt-2">
             <Type1Button

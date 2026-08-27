@@ -61,22 +61,8 @@ export const FooterSection: React.FC = () => {
             />
           </div>
 
-          {/* Links & Socials Container */}
+          {/* Socials Container */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
-            
-            {/* Nav Pages */}
-            <div className="flex items-center gap-6 text-white/90 text-xs sm:text-[13px] font-medium tracking-wider">
-              <a href="#product" className="hover:text-white transition-colors">
-                Product
-              </a>
-              <a href="#ecosystem" className="hover:text-white transition-colors">
-                Ecosystem
-              </a>
-              <a href="#docs" className="hover:text-white transition-colors">
-                Docs
-              </a>
-            </div>
-
             {/* Social Icons with text labels */}
             <div className="flex items-center gap-5 text-white/90 text-xs sm:text-[13px] font-medium tracking-wide">
               <a 
