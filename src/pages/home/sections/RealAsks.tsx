@@ -264,12 +264,12 @@ const MobileStickyStack: React.FC = () => {
       {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
       <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-4 overflow-hidden">
         
-        {/* Candle Stand Top Right */}
-        <div className="absolute top-2 -right-4 w-32 sm:w-40 pointer-events-none z-10 opacity-90">
+        {/* Candle Stand Top Right (Moved down below the title for mobile screens) */}
+        <div className="absolute top-32 sm:top-36 -right-6 sm:-right-8 w-28 sm:w-32 pointer-events-none z-10 opacity-85">
           <img
             src={candleStandImg}
             alt="Antique Candle Stand"
-            className="w-full h-auto object-contain drop-shadow-md"
+            className="w-full h-auto object-contain drop-shadow-md select-none"
           />
         </div>
 
