@@ -224,14 +224,14 @@ export const EvidenceSection: React.FC = () => {
 
         {/* ── Interactive Progress Timeline Scrubber ── */}
         <div className="mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
-          <div className="flex justify-between items-center relative">
+          <div className="flex justify-between items-start relative">
             
-            {/* Background connecting golden rail */}
-            <div className="absolute top-1/2 -translate-y-1/2 inset-x-3 h-[2px] bg-[#3a3228] z-0" />
+            {/* Background connecting golden rail (positioned at exact vertical center of circles) */}
+            <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 inset-x-3 h-[2px] bg-[#3a3228] z-0" />
             
             {/* Animated active fill beam */}
             <div 
-              className="absolute top-1/2 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#dfc28d] via-[#f0dcba] to-[#dfc28d] shadow-[0_0_10px_#dfc28d] z-0 transition-all duration-500"
+              className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#dfc28d] via-[#f0dcba] to-[#dfc28d] shadow-[0_0_10px_#dfc28d] z-0 transition-all duration-500"
               style={{ width: `${(currentStep / 3) * 100}%` }}
             />
 
