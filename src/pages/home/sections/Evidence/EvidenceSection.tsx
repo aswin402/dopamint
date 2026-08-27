@@ -1,30 +1,33 @@
-import { AgentNode } from './AgentNode';
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Sparkles, 
-  Crown, 
-  Layers, 
+  Target, 
+  Network, 
+  Boxes, 
   Zap, 
-  ArrowRight, 
   RefreshCw,
   Play,
   Pause,
-  ChevronRight
+  ChevronRight,
+  Infinity,
+  Settings,
+  CreditCard,
+  BarChart2
 } from 'lucide-react';
 import crownImg from '../../../../assets/Crown.webp';
+import { AgentNode } from './AgentNode';
 
 export const EvidenceSection: React.FC = () => {
-  const [activeStep, setActiveStep] = useState<number>(0);
+  const [activeStep, setActiveStep] = useState<number>(2); // Default to Step 3 (Agent Network) as in reference
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
 
-  // Auto step progression every 2.6s if playing & not hovering
+  // Auto step progression every 3.0s if playing & not hovering
   useEffect(() => {
     if (!isPlaying || hoveredStep !== null) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
-    }, 2600);
+    }, 3000);
     return () => clearInterval(interval);
   }, [isPlaying, hoveredStep]);
 
@@ -36,41 +39,45 @@ export const EvidenceSection: React.FC = () => {
       title: 'USER INTENT',
       subtitle: 'Natural voice, text, or scheduled trigger with deep context awareness.',
       tags: ['Live Voice', 'iMessage', 'Context'],
-      icon: <Sparkles className="w-4 h-4" />,
+      icon: <Target className="w-4 h-4" />,
       isPrimary: false,
-      payload: 'Capturing multimodal intent: "Find best APY on Base and deposit 500 USDC with risk limit under 5%"',
+      timelineLabel: 'INTENT',
+      payload: 'Natural intent received: "Find best APY on Base and deposit 500 USDC with risk limit under 5%"',
     },
     {
       step: '02 · ORCHESTRATE',
       title: 'DOPE HARNESS',
-      subtitle: 'Analyzes intent, loads long-term memory & constructs execution plan.',
+      subtitle: 'Analyzes intent, loads long-term memory & initializes execution plan.',
       tags: ['Memory Sync', 'Reasoning', 'Routing'],
-      icon: <Crown className="w-4 h-4" />,
-      isPrimary: true,
-      payload: 'Querying vector memory: user preferences loaded. Constructing DAG workflow & gas estimation.',
-    },
-    {
-      step: '03 · COLLABORATE',
-      title: 'SPECIALIST AGENTS',
-      subtitle: 'Dispatches tasks to parallel specialist agents for trading, research & protection.',
-      tags: ['AiFi Trading', 'Research', 'Guardian'],
-      icon: <Layers className="w-4 h-4" />,
+      icon: <Network className="w-4 h-4" />,
       isPrimary: false,
-      payload: 'Dispatching: AiFi agent finds 14.2% Aerodrome pool · Guardian agent verifies smart contract safety.',
+      timelineLabel: 'ORCHESTRATE',
+      payload: 'Loading persistent memory, evaluating security guardrails & initializing DAG execution plan.',
     },
     {
-      step: '04 · EXECUTE',
-      title: 'AUTONOMOUS ACTION',
-      subtitle: 'Completes on-chain transactions, invokes APIs, pays via x402 & delivers outcome.',
+      step: '03 · AGENT NETWORK',
+      title: 'AGENT NETWORK',
+      subtitle: 'Coordinates multiple agents across trading, research & protection.',
+      tags: ['Parallel Agents', 'Specialized Roles', 'Context Share'],
+      icon: <Boxes className="w-4 h-4" />,
+      isPrimary: true,
+      timelineLabel: 'AGENT NETWORK',
+      payload: 'Coordinating: AiFi agent scans Aerodrome pool · Guardian agent verifies smart contract safety · x402 agent prepares payment.',
+    },
+    {
+      step: '04 · ACTION LAYER',
+      title: 'AGENT EXECUTION',
+      subtitle: 'Executes on-chain transactions, invokes APIs, pays via x402 & delivers outcomes.',
       tags: ['x402 Pay', 'On-Chain Tx', 'Outcome'],
       icon: <Zap className="w-4 h-4" />,
       isPrimary: false,
-      payload: 'Executed tx #0x9a8f... on Base via x402 micropayment. Position opened. Memory updated.',
+      timelineLabel: 'AGENT EXECUTION',
+      payload: 'Executing on-chain transaction via x402 · Verifying receipt in TEE · Writing proof to ledger.',
     },
   ];
 
   return (
-    <section id="architecture" className="pt-36 sm:pt-44 md:pt-48 lg:pt-56 pb-8 sm:pb-12 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6] relative z-30">
+    <section id="architecture" className="pt-36 sm:pt-44 md:pt-48 lg:pt-56 pb-12 sm:pb-16 px-4 sm:px-8 lg:px-12 max-w-7xl mx-auto text-[#f3f2e6] relative z-30 select-none">
       
       {/* =========================================================================
           1. SECTION HEADER (CENTER ALIGNED)
@@ -111,43 +118,42 @@ export const EvidenceSection: React.FC = () => {
               className={`w-3.5 h-3.5 text-[#dfc28d] ${isPlaying ? 'animate-spin' : ''}`} 
               style={{ animationDuration: '6s' }} 
             />
-            <span className="font-bold uppercase text-[11px] sm:text-xs tracking-wider">
-              Continuous Learning Loop
+            <span className="font-bold uppercase text-[11px] sm:text-xs tracking-wider text-[#dfc28d]">
+              CONTINUOUS LEARNING LOOP
             </span>
             <span className="text-white/30 hidden md:inline">·</span>
-            <span className="text-[#f6edd9]/85 text-[11px] sm:text-xs hidden md:inline">
+            <span className="text-[#f6edd9]/85 text-[11px] sm:text-xs hidden md:inline font-mono">
               Every completed action refines long-term identity &amp; memory
             </span>
           </div>
 
           {/* Interactive Play/Pause & Step Controls */}
-          <div className="flex items-center gap-2 bg-[#171411]/80 backdrop-blur-md px-3 py-1 rounded-full border border-[#c4a978]/25 text-xs font-mono">
+          <div className="flex items-center gap-2 bg-[#171411]/90 backdrop-blur-md px-3 py-1 rounded-full border border-[#c4a978]/30 text-xs font-mono">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className="flex items-center gap-1 text-[#dfc28d] hover:text-[#f0dcba] transition-colors cursor-pointer pr-2 border-r border-white/10"
+              className="flex items-center gap-1.5 text-[#dfc28d] hover:text-[#f0dcba] transition-colors cursor-pointer pr-2.5 border-r border-white/10"
               title={isPlaying ? 'Pause Auto-Play' : 'Resume Auto-Play'}
             >
               {isPlaying ? (
                 <>
                   <Pause className="w-3 h-3 text-[#dfc28d]" />
-                  <span className="text-[10px] uppercase font-bold">Pause</span>
+                  <span className="text-[10px] uppercase font-bold text-[#dfc28d]">PAUSE</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-3 h-3 text-[#4ade80]" />
-                  <span className="text-[10px] uppercase font-bold text-[#4ade80]">Play</span>
+                  <Play className="w-3 h-3 text-[#4ade80] fill-[#4ade80]" />
+                  <span className="text-[10px] uppercase font-bold text-[#4ade80]">PLAY</span>
                 </>
               )}
             </button>
-            <span className="text-[10px] text-[#b8aa94] tracking-wider">
+            <span className="text-[10px] text-[#dfc28d] font-bold tracking-wider">
               STEP 0{currentStep + 1} / 04
             </span>
           </div>
         </div>
 
-        {/* ── Horizontal Cards Grid with Integrated Laser Flow ── */}
+        {/* ── Horizontal 4 Cards Grid with Integrated Chevron Connectors ── */}
         <div className="relative">
-          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-3 relative z-20 items-stretch">
             {steps.map((item, idx) => (
               <div key={idx} className="relative flex flex-col h-full">
@@ -174,8 +180,8 @@ export const EvidenceSection: React.FC = () => {
                     <div 
                       className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all duration-500 ${
                         currentStep === idx 
-                          ? 'bg-[#f0dcba] border-[#f0dcba] text-[#1a140f] shadow-[0_0_12px_#f0dcba] scale-110' 
-                          : 'bg-[#1e1a15] border-[#c4a978]/30 text-[#dfc28d]/60 scale-90'
+                          ? 'bg-[#dfc28d] border-[#dfc28d] text-[#1a140f] shadow-[0_0_12px_#dfc28d] scale-110' 
+                          : 'bg-[#1e1a15] border-[#c4a978]/40 text-[#dfc28d]/70 scale-90'
                       }`}
                     >
                       <ChevronRight className="w-3 h-3 stroke-[2.5]" />
@@ -185,19 +191,18 @@ export const EvidenceSection: React.FC = () => {
               </div>
             ))}
           </div>
-
         </div>
 
         {/* ── Live Step Pipeline Payload Console ── */}
-        <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-[#14110e]/90 backdrop-blur-xl border border-[#c4a978]/30 shadow-lg text-left">
+        <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-[#14110e]/95 backdrop-blur-xl border border-[#c4a978]/35 shadow-xl text-left">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-white/10 text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#dfc28d] animate-ping" />
-              <span className="text-[#dfc28d] font-bold uppercase tracking-wider">
-                Pipeline Execution State: [{steps[currentStep].step}]
+              <span className="w-2.5 h-2.5 rounded-full bg-[#dfc28d] shadow-[0_0_8px_#dfc28d]" />
+              <span className="text-[#dfc28d] font-bold uppercase tracking-wider text-[11.5px] sm:text-xs">
+                PIPELINE STATE: [{steps[currentStep].step}]
               </span>
             </div>
-            <div className="text-[11px] text-[#b8aa94]/80">
+            <div className="text-[11px] text-[#b8aa94]">
               Latency: <span className="text-[#4ade80] font-bold font-mono">18ms</span> · Base Network (Sepolia / Mainnet)
             </div>
           </div>
@@ -208,25 +213,25 @@ export const EvidenceSection: React.FC = () => {
               initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -8 }}
-              transition={{ duration: 0.28 }}
-              className="text-xs sm:text-[13px] font-mono text-[#f6edd9] leading-relaxed"
+              transition={{ duration: 0.25 }}
+              className="text-xs sm:text-[13px] font-mono text-[#f6edd9] leading-relaxed flex items-start gap-2"
             >
-              <span className="text-[#dfc28d] font-bold mr-1.5">➜</span>
-              {steps[currentStep].payload}
+              <span className="text-[#dfc28d] font-bold shrink-0">→</span>
+              <span>{steps[currentStep].payload}</span>
             </motion.p>
           </AnimatePresence>
         </div>
 
         {/* ── Interactive Progress Timeline Scrubber ── */}
-        <div className="mt-5 px-3 sm:px-6">
+        <div className="mt-6 px-3 sm:px-6">
           <div className="flex justify-between items-center relative">
             
-            {/* Background connecting rail */}
-            <div className="absolute top-1/2 -translate-y-1/2 inset-x-2 h-[2px] bg-[#3a3228] z-0" />
+            {/* Background connecting golden rail */}
+            <div className="absolute top-1/2 -translate-y-1/2 inset-x-3 h-[2px] bg-[#3a3228] z-0" />
             
             {/* Animated active fill beam */}
             <div 
-              className="absolute top-1/2 -translate-y-1/2 left-2 h-[2px] bg-gradient-to-r from-[#dfc28d] to-[#f0dcba] shadow-[0_0_10px_#f0dcba] z-0 transition-all duration-500"
+              className="absolute top-1/2 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#dfc28d] via-[#f0dcba] to-[#dfc28d] shadow-[0_0_10px_#dfc28d] z-0 transition-all duration-500"
               style={{ width: `${(currentStep / 3) * 100}%` }}
             />
 
@@ -241,22 +246,22 @@ export const EvidenceSection: React.FC = () => {
                 className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden"
               >
                 <div 
-                  className={`w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] font-mono font-bold transition-all duration-300 ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11px] font-mono font-bold transition-all duration-300 ${
                     currentStep === idx
-                      ? 'bg-[#f0dcba] text-[#1c1611] scale-125 shadow-[0_0_16px_#f0dcba] ring-2 ring-[#f0dcba]/50'
+                      ? 'bg-[#dfc28d] text-[#1c1611] scale-125 shadow-[0_0_18px_#dfc28d] ring-2 ring-[#dfc28d]/60'
                       : idx < currentStep
                       ? 'bg-[#dfc28d] text-[#1c1611] shadow-sm'
-                      : 'bg-[#221c16] text-[#a69680] border border-[#c4a978]/30 group-hover:border-[#dfc28d]'
+                      : 'bg-[#1c1712] text-[#dfc28d] border border-[#c4a978]/40 group-hover:border-[#dfc28d]'
                   }`}
                 >
                   0{idx + 1}
                 </div>
                 <span 
-                  className={`text-[9px] sm:text-[10px] font-mono uppercase tracking-wider mt-1.5 transition-colors hidden sm:block ${
-                    currentStep === idx ? 'text-[#f0dcba] font-bold' : 'text-[#8c7f6e] group-hover:text-[#dfc28d]'
+                  className={`text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider mt-2 transition-colors ${
+                    currentStep === idx ? 'text-[#dfc28d] font-bold' : 'text-[#8c7f6e] group-hover:text-[#dfc28d]'
                   }`}
                 >
-                  {item.title.split(' ')[0]}
+                  {item.timelineLabel}
                 </span>
               </button>
             ))}
@@ -267,34 +272,70 @@ export const EvidenceSection: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          3. CAPABILITY PILL BADGES
+          3. CAPABILITY PILL CARDS (EXACT MATCHING IMAGE 2 UI)
           ========================================================================= */}
       <div 
         style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-        className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-4xl mx-auto"
+        className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto"
       >
-        <div className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
-          <span className="font-bold text-[#37312c]">Agent Loop</span>
-          <span className="text-[#37312c]/60">·</span>
-          <span className="text-[#37312c]/90 font-medium">keeps the task running</span>
+        {/* Card 1: Agent Loop */}
+        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <Infinity className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+              Agent Loop
+            </span>
+            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
+              keeps the task running
+            </span>
+          </div>
         </div>
 
-        <div className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
-          <span className="font-bold text-[#37312c]">Agent Harness</span>
-          <span className="text-[#37312c]/60">·</span>
-          <span className="text-[#37312c]/90 font-medium">tools &amp; environments</span>
+        {/* Card 2: Agent Harness */}
+        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <Settings className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+              Agent Harness
+            </span>
+            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
+              tools &amp; environments
+            </span>
+          </div>
         </div>
 
-        <div className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
-          <span className="font-bold text-[#37312c]">AiFi</span>
-          <span className="text-[#37312c]/60">·</span>
-          <span className="text-[#37312c]/90 font-medium">financial execution</span>
+        {/* Card 3: x402 */}
+        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <CreditCard className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+              x402
+            </span>
+            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
+              autonomous payments
+            </span>
+          </div>
         </div>
 
-        <div className="px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 hover:border-[#c4a978]/70 text-xs sm:text-[13px] text-[#37312c] shadow-xs transition-all flex items-center gap-2">
-          <span className="font-bold text-[#37312c]">x402</span>
-          <span className="text-[#37312c]/60">·</span>
-          <span className="text-[#37312c]/90 font-medium">autonomous payments</span>
+        {/* Card 4: AiFi */}
+        <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <BarChart2 className="w-5 h-5 stroke-[2.2]" />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">
+              AiFi
+            </span>
+            <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">
+              financial execution
+            </span>
+          </div>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, ShieldCheck, Activity, Radio, Cpu, Lock } from 'lucide-react';
+import { CheckCircle2, Activity, Radio, Cpu, Zap, ChevronDown } from 'lucide-react';
 
 interface AgentNodeProps {
   step: string;
@@ -43,10 +43,10 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
       className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-500 cursor-pointer text-left group overflow-hidden ${
         isActive
-          ? 'bg-[#221c15] border-[#f0dcba] shadow-[0_0_40px_rgba(240,220,186,0.32)] ring-1 ring-[#f0dcba]/70 z-20'
+          ? 'bg-[#1e1913] border-[#f0dcba] shadow-[0_0_36px_rgba(240,220,186,0.3)] ring-1 ring-[#f0dcba]/70 z-20'
           : isPrimary
-          ? 'bg-[#1b1712]/90 backdrop-blur-xl border-[#d4af37]/50 shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:border-[#f0dcba]/80'
-          : 'bg-[#15120f]/80 backdrop-blur-xl border-[#c4a978]/25 hover:border-[#e5d4b5]/60 shadow-[0_8px_24px_rgba(0,0,0,0.4)]'
+          ? 'bg-[#171410]/90 backdrop-blur-xl border-[#c4a978]/40 shadow-[0_8px_24px_rgba(0,0,0,0.4)] hover:border-[#f0dcba]/80'
+          : 'bg-[#12100d]/80 backdrop-blur-xl border-[#c4a978]/25 hover:border-[#e5d4b5]/60 shadow-[0_8px_24px_rgba(0,0,0,0.4)]'
       } ${className}`}
     >
       {/* Top candle glow line */}
@@ -66,10 +66,10 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       <div>
         {/* Top bar: Step number + Icon + Live Status */}
         <div className="flex items-center justify-between mb-3 relative z-10">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <span
               className={`font-mono text-[11px] font-bold tracking-widest uppercase transition-colors ${
-                isActive ? 'text-[#f0dcba]' : 'text-[#dfc28d]/80'
+                isActive ? 'text-[#f0dcba]' : 'text-[#dfc28d]'
               }`}
             >
               {step}
@@ -106,14 +106,14 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* Subtitle / Description */}
         <p
-          className={`text-xs sm:text-[12.5px] leading-relaxed transition-colors relative z-10 mb-3 ${
+          className={`text-xs sm:text-[12px] leading-relaxed transition-colors relative z-10 mb-3 ${
             isActive ? 'text-[#f6edd9]' : 'text-[#b8aa94]'
           }`}
         >
           {subtitle}
         </p>
 
-        {/* Live Simulation Preview Box when active */}
+        {/* Live Simulation Preview Box */}
         <div className="relative z-10 mb-3 min-h-[46px]">
           <AnimatePresence mode="wait">
             {isActive ? (
@@ -123,30 +123,30 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.25 }}
-                className="p-2 rounded-lg bg-black/40 border border-[#f0dcba]/30 text-[11px] font-mono text-[#f0dcba] space-y-1 shadow-inner"
+                className="p-2 rounded-lg bg-black/50 border border-[#f0dcba]/30 text-[11px] font-mono text-[#f0dcba] space-y-1 shadow-inner"
               >
                 {stepIndex === 0 && (
                   <div className="flex items-center gap-1.5 text-[#f0dcba]">
-                    <Radio className="w-3 h-3 text-[#f0dcba] animate-pulse" />
+                    <Radio className="w-3 h-3 text-[#f0dcba] animate-pulse shrink-0" />
                     <span className="truncate">“Deploy $5k into top yield”</span>
                   </div>
                 )}
                 {stepIndex === 1 && (
                   <div className="flex items-center gap-1.5 text-[#f0dcba]">
-                    <Cpu className="w-3 h-3 text-[#f0dcba] animate-spin" style={{ animationDuration: '4s' }} />
-                    <span className="truncate">Loading: Risk limits & wallet...</span>
+                    <Cpu className="w-3 h-3 text-[#f0dcba] animate-spin shrink-0" style={{ animationDuration: '4s' }} />
+                    <span className="truncate">Loading: Risk limits &amp; wallet...</span>
                   </div>
                 )}
                 {stepIndex === 2 && (
-                  <div className="flex items-center gap-1.5 text-[#f0dcba]">
-                    <Activity className="w-3 h-3 text-[#4ade80] animate-pulse" />
-                    <span className="truncate">3 agents syncing in parallel</span>
+                  <div className="flex items-center gap-1.5 text-[#4ade80]">
+                    <Zap className="w-3 h-3 text-[#4ade80] fill-[#4ade80] shrink-0" />
+                    <span className="text-[#f6edd9]">3 agents syncing in <span className="bg-white text-black font-bold px-1 py-0.5 rounded text-[10px] font-mono">parallel</span></span>
                   </div>
                 )}
                 {stepIndex === 3 && (
                   <div className="flex items-center gap-1.5 text-[#4ade80]">
-                    <CheckCircle2 className="w-3 h-3 text-[#4ade80]" />
-                    <span className="truncate">Tx #8453 executed on Base</span>
+                    <CheckCircle2 className="w-3 h-3 text-[#4ade80] shrink-0" />
+                    <span className="truncate text-[#f6edd9]">Tx #8453 executed on Base</span>
                   </div>
                 )}
               </motion.div>
@@ -156,10 +156,10 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="p-2 rounded-lg bg-white/[0.02] border border-white/5 text-[10.5px] font-mono text-[#8a7f70] flex items-center justify-between"
+                className="p-2 rounded-lg bg-white/[0.03] border border-white/5 text-[10.5px] font-mono text-[#8a7f70] flex items-center justify-between group-hover:border-[#c4a978]/20 transition-colors"
               >
                 <span>Click to inspect</span>
-                <span className="text-[10px] text-[#dfc28d]/60">→</span>
+                <ChevronDown className="w-3 h-3 text-[#dfc28d]/60 group-hover:text-[#dfc28d]" />
               </motion.div>
             )}
           </AnimatePresence>
