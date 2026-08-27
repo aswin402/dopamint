@@ -205,11 +205,11 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-24 sm:pt-28 lg:pt-20 pb-0 overflow-y-auto lg:overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
-      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center lg:items-end">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-24 sm:pt-28 lg:pt-20 pb-0 overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
+      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center lg:items-end flex-1">
 
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
-        <div className="lg:col-span-6 space-y-3.5 sm:space-y-4 md:space-y-5 text-left self-center pb-4 sm:pb-6 lg:pb-12 z-20">
+        <div className="lg:col-span-6 space-y-3 sm:space-y-4 md:space-y-5 text-left self-center pb-2 sm:pb-6 lg:pb-12 z-20">
 
           {/* Small Eyebrow */}
           <div>
@@ -261,7 +261,7 @@ function HouseOfAgentsSection() {
 
         {/* Right Column: Chat Screen Video Fully Responsive & Bottom Aligned */}
         <div className="lg:col-span-6 relative flex items-end justify-end z-10 self-end w-full">
-          <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-none lg:w-[120%] xl:w-[132%] 2xl:w-[140%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-3 sm:translate-x-6 lg:translate-x-8 xl:translate-x-12 flex items-end justify-end">
+          <div className="relative w-full max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-2 sm:translate-x-6 lg:translate-x-8 xl:translate-x-12 flex items-end justify-center lg:justify-end">
             <video
               src={chatScreenVid}
               autoPlay
@@ -269,15 +269,15 @@ function HouseOfAgentsSection() {
               loop
               playsInline
               preload="metadata"
-              className="w-full max-h-[50vh] sm:max-h-[60vh] md:max-h-[68vh] lg:max-h-[85vh] xl:max-h-[92vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block"
+              className="w-full max-h-[62vh] sm:max-h-[72vh] md:max-h-[80vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block scale-105 sm:scale-100 origin-bottom"
             />
           </div>
         </div>
 
       </div>
 
-      {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners */}
-      <div className="absolute inset-x-0 bottom-0 h-4 sm:h-6 md:h-8 lg:h-10 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
+      {/* Plain solid div with 3rd section color (#ffffff) and rounded top corners (zero gap) */}
+      <div className="absolute inset-x-0 -bottom-[1px] h-6 sm:h-8 md:h-10 lg:h-12 bg-[#ffffff] rounded-t-2xl sm:rounded-t-3xl lg:rounded-t-[36px] pointer-events-none z-20" />
     </div>
   );
 }
