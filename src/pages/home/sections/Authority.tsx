@@ -4,10 +4,10 @@ import companionVideo from '../../../assets/Companion_Video_1.webm';
 
 export const Authority: React.FC = () => {
   return (
-    <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-2 sm:pb-4 lg:pb-6 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
+    <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-4 sm:pb-6 lg:pb-8 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
       
       {/* =========================================================================
-          1. PLANET — POSITIONED SLIGHTLY UP ALONG THE RIGHT EDGE
+          1. PLANET — POSITIONED SLIGHTLY UP ALONG THE RIGHT EDGE (HIDDEN ON MOBILE)
           ========================================================================= */}
       <img
         src={planetImg}
@@ -15,15 +15,15 @@ export const Authority: React.FC = () => {
         aria-hidden="true"
         loading="lazy"
         decoding="async"
-        className="absolute -right-12 sm:-right-16 lg:-right-20 top-10 sm:top-16 lg:top-24 w-48 sm:w-64 lg:w-80 h-auto pointer-events-none select-none z-0 opacity-80"
+        className="hidden sm:block absolute -right-12 sm:-right-16 lg:-right-20 top-10 sm:top-16 lg:top-24 w-48 sm:w-64 lg:w-80 h-auto pointer-events-none select-none z-0 opacity-80"
       />
 
-      <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
         
         {/* =========================================================================
-            2. LEFT — PURE VIDEO POSITIONED SLIGHTLY FURTHER LEFT
+            2. LEFT — PURE VIDEO POSITIONED SLIGHTLY FURTHER LEFT & ENLARGED
             ========================================================================= */}
-        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-2 sm:-ml-6 lg:-ml-16 xl:-ml-24">
+        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-3 sm:-ml-6 lg:-ml-16 xl:-ml-24">
           <video
             src={companionVideo}
             autoPlay
@@ -31,14 +31,14 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-lg sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[580px] sm:max-h-[700px] lg:max-h-[820px]"
+            className="w-full max-w-xl sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[640px] sm:max-h-[700px] lg:max-h-[820px] scale-105 sm:scale-100 origin-center lg:origin-left"
           />
         </div>
 
         {/* =========================================================================
-            3. RIGHT — EDITORIAL HEADLINE + CTA (SHIFTED VERY SLIGHTLY MORE LEFT)
+            3. RIGHT — EDITORIAL HEADLINE + CTA
             ========================================================================= */}
-        <div className="flex flex-col items-start gap-7 lg:col-span-5 -ml-0 lg:-ml-16 xl:-ml-26">
+        <div className="flex flex-col items-start gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-16 xl:-ml-26">
           
           {/* Category Tag */}
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">
@@ -76,14 +76,14 @@ export const Authority: React.FC = () => {
             </div>
           </div>
 
-          {/* Bottom Bar: Metadata + CTA */}
-          <div className="flex flex-wrap items-center gap-5 pt-3 sm:pt-6 w-full">
-            <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] font-semibold text-[#55604e]">
+          {/* Bottom Bar: Metadata + CTA (Center aligned on mobile) */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-4 sm:gap-5 pt-3 sm:pt-6 w-full">
+            <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] font-semibold text-[#55604e] text-center sm:text-left">
               Virtual Agents · In the Frame
             </span>
             <a
               href="#contact"
-              className="inline-flex items-center rounded-full bg-[#55604e] px-7 py-3 text-xs sm:text-[13px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md ml-auto sm:ml-0 cursor-pointer"
+              className="inline-flex items-center justify-center rounded-full bg-[#55604e] px-8 py-3.5 text-xs sm:text-[13px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md mx-auto sm:mx-0 cursor-pointer"
             >
               Get API
             </a>
