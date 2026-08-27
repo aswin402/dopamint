@@ -171,16 +171,16 @@ export const MemoryWalletSection: React.FC = () => {
             </h2>
 
             {/* Sub-headline with bullet tags (White & Bold Italic) */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 text-base sm:text-lg font-serif italic font-bold text-[#ffffff] pt-1">
-              <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#ffffff] not-italic font-bold">
+            <div className="flex flex-wrap items-baseline gap-2 sm:gap-2.5 text-sm sm:text-base text-[#ffffff] pt-1">
+              <span className="font-mono uppercase tracking-wider text-xs sm:text-[13px] text-[#ffffff] font-bold">
                 exchange listing alpha agent
               </span>
-              <span className="text-[#ffffff]">·</span>
-              <span className="text-[#ffffff]">watches</span>
-              <span className="text-[#ffffff]">·</span>
-              <span className="text-[#ffffff]">reasons</span>
-              <span className="text-[#ffffff]">·</span>
-              <span className="text-[#ffffff]">acts</span>
+              <span className="text-[#ffffff]/60 text-xs">·</span>
+              <span className="font-serif italic font-bold text-[#ffffff]">watches</span>
+              <span className="text-[#ffffff]/60 text-xs">·</span>
+              <span className="font-serif italic font-bold text-[#ffffff]">reasons</span>
+              <span className="text-[#ffffff]/60 text-xs">·</span>
+              <span className="font-serif italic font-bold text-[#ffffff]">acts</span>
             </div>
 
           </div>
