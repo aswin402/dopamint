@@ -223,7 +223,7 @@ export const EvidenceSection: React.FC = () => {
         </div>
 
         {/* ── Interactive Progress Timeline Scrubber ── */}
-        <div className="mt-6 px-3 sm:px-6">
+        <div className="mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
           <div className="flex justify-between items-center relative">
             
             {/* Background connecting golden rail */}
