@@ -176,51 +176,79 @@ const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[
 const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
 
 // =========================================================================
-// MOBILE STICKY PARALLAX STACKING CARD COMPONENT
+// MOBILE PINNED STACKING CARDS (PINNED VIEWPORT + SCROLL PROGRESS STACK)
 // =========================================================================
-interface MobileStickyCardProps {
+interface MobilePinnedCardProps {
   i: number;
   card: AskCardData;
   progress: MotionValue<number>;
-  range: [number, number];
-  targetScale: number;
+  total: number;
 }
 
-const MobileStickyCard: React.FC<MobileStickyCardProps> = ({
+const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   i,
   card,
   progress,
-  range,
-  targetScale,
+  total,
 }) => {
-  const container = useRef<HTMLDivElement>(null);
-  const scale = useTransform(progress, range, [1, targetScale]);
+  // Stagger thresholds across scroll progress 0.0 -> 0.88
+  // Card 0 is already present
+  // Card 1 enters at [0.08, 0.22]
+  // Card 2 enters at [0.24, 0.38]
+  // Card 3 enters at [0.40, 0.54]
+  // Card 4 enters at [0.56, 0.70]
+  // Card 5 enters at [0.72, 0.86]
+  const startEnter = i === 0 ? 0 : (i - 1) * 0.16 + 0.08;
+  const finishEnter = i === 0 ? 0 : startEnter + 0.14;
+
+  const opacity = useTransform(
+    progress,
+    i === 0 ? [0, 1] : [Math.max(0, startEnter - 0.02), startEnter, finishEnter],
+    i === 0 ? [1, 1] : [0, 0.2, 1]
+  );
+
+  const y = useTransform(
+    progress,
+    i === 0
+      ? [0, 0.25, 0.50, 0.75, 1.0]
+      : [startEnter, finishEnter, 0.88, 1.0],
+    i === 0
+      ? [0, -6, -14, -20, -26]
+      : [160, 0, -(total - i - 1) * 6, -(total - i - 1) * 6]
+  );
+
+  const scale = useTransform(
+    progress,
+    i === 0
+      ? [0, 0.25, 0.50, 0.75, 1.0]
+      : [startEnter, finishEnter, 0.88, 1.0],
+    i === 0
+      ? [1, 0.95, 0.90, 0.86, 0.82]
+      : [0.92, 1, Math.max(0.84, 1 - (total - i - 1) * 0.04), Math.max(0.84, 1 - (total - i - 1) * 0.04)]
+  );
 
   return (
-    <div
-      ref={container}
-      className="sticky top-0 h-[65vh] flex items-center justify-center pointer-events-none"
+    <motion.div
+      style={{
+        opacity,
+        y,
+        scale,
+        transformOrigin: 'top center',
+        zIndex: 10 + i,
+        filter: 'drop-shadow(0 14px 28px rgba(40,30,20,0.14))',
+        rotate: card.rotation,
+      }}
+      className={`absolute inset-x-0 mx-auto w-[92vw] ${
+        card.isSm ? 'max-w-[270px] ' + cardSm : 'max-w-[340px] ' + cardBase
+      }`}
     >
-      <motion.div
-        style={{
-          scale,
-          top: `calc(4vh + ${i * 22}px)`,
-          transformOrigin: 'top center',
-          filter: 'drop-shadow(0 14px 32px rgba(40,30,20,0.16))',
-          transform: `rotate(${card.rotation}deg)`,
-        }}
-        className={`relative pointer-events-auto w-[92vw] ${
-          card.isSm ? 'max-w-[270px] ' + cardSm : 'max-w-[340px] ' + cardBase
-        }`}
-      >
-        <LogosHeader items={card.logos} />
-        <div className={`flex flex-col ${card.isSm ? 'pt-0.5' : 'gap-2 sm:gap-3 pt-0.5'}`}>
-          {card.bubbles.map((bubble, bIdx) => (
-            <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
-          ))}
-        </div>
-      </motion.div>
-    </div>
+      <LogosHeader items={card.logos} />
+      <div className={`flex flex-col ${card.isSm ? 'pt-0.5' : 'gap-2 sm:gap-3 pt-0.5'}`}>
+        {card.bubbles.map((bubble, bIdx) => (
+          <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
+        ))}
+      </div>
+    </motion.div>
   );
 };
 
@@ -232,45 +260,63 @@ const MobileStickyStack: React.FC = () => {
   });
 
   return (
-    <div
-      ref={containerRef}
-      className="md:hidden relative w-full flex flex-col items-center pb-[40vh] pt-4"
-    >
-      {ASK_CARDS.map((card, i) => {
-        const targetScale = Math.max(
-          0.7,
-          1 - (ASK_CARDS.length - i - 1) * 0.05
-        );
-        return (
-          <MobileStickyCard
-            key={`m_${card.id}`}
-            i={i}
-            card={card}
-            progress={scrollYProgress}
-            range={[i * 0.16, 1]}
-            targetScale={targetScale}
-          />
-        );
-      })}
-
-      {/* Stone carved pedestal below card stack on mobile */}
-      <div className="pt-8 pb-4 flex flex-col items-center justify-center relative z-30">
-        <div className="w-28 sm:w-32">
+    <div ref={containerRef} className="md:hidden relative w-full h-[280vh]">
+      {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-6 px-4 overflow-hidden">
+        
+        {/* Candle Stand Top Right */}
+        <div className="absolute top-2 -right-4 w-32 sm:w-40 pointer-events-none z-10 opacity-90">
           <img
-            src={iMessagePodiumImg}
-            alt="iMessage Stone Carved Podium"
-            loading="lazy"
-            decoding="async"
-            className="w-full h-auto object-contain drop-shadow-[0_18px_32px_rgba(40,30,20,0.18)] select-none"
+            src={candleStandImg}
+            alt="Antique Candle Stand"
+            className="w-full h-auto object-contain drop-shadow-md"
           />
         </div>
+
+        {/* Section Header */}
+        <div className="text-center w-full max-w-sm mx-auto mb-2 relative z-20">
+          <h2 className="text-3xl sm:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
+            Just state what you{' '}
+            <span className="font-serif italic font-bold text-[#253b2b]">
+              want.
+            </span>
+          </h2>
+          <p className="text-[10.5px] font-mono uppercase tracking-widest text-[#55604e]/70 mt-1">
+            Scroll to stack cards
+          </p>
+        </div>
+
+        {/* Card Stacking Stage (Tightly positioned below header with zero large blank gaps) */}
+        <div className="relative w-full max-w-sm mx-auto h-[320px] flex items-center justify-center my-auto z-20">
+          {ASK_CARDS.map((card, i) => (
+            <MobilePinnedCard
+              key={`m_${card.id}`}
+              i={i}
+              card={card}
+              progress={scrollYProgress}
+              total={ASK_CARDS.length}
+            />
+          ))}
+        </div>
+
+        {/* Stone carved pedestal at bottom */}
+        <div className="pb-2 flex flex-col items-center justify-center relative z-20">
+          <div className="w-24 sm:w-28">
+            <img
+              src={iMessagePodiumImg}
+              alt="iMessage Stone Carved Podium"
+              className="w-full h-auto object-contain drop-shadow-md select-none"
+            />
+          </div>
+        </div>
+
       </div>
     </div>
   );
 };
 
 // =========================================================================
-// MAIN REAL ASKS SECTION (RESPONSIVE: MOBILE STICKY STACK + DESKTOP GENIE)
+// MAIN REAL ASKS SECTION (RESPONSIVE: MOBILE PINNED STACK + DESKTOP GENIE)
 // =========================================================================
 export const RealAsks: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -358,9 +404,7 @@ export const RealAsks: React.FC = () => {
   const pos5 = makePos(off5, 0.20);
   const pos6 = makePos(off6, 0.25);
 
-  const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
-  const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
-  const spring   = { type: 'spring', stiffness: 320, damping: 22 } as const;
+  const spring = { type: 'spring', stiffness: 320, damping: 22 } as const;
 
   return (
     <section
@@ -380,42 +424,42 @@ export const RealAsks: React.FC = () => {
         </defs>
       </svg>
 
-      {/* Candle stand — top right */}
+      {/* Candle stand — top right (Desktop) */}
       <motion.div
         animate={{ y: [-5, 5, -5], rotate: [0, 0.4, 0] }}
         transition={{ duration: 5.4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-4 sm:top-8 md:top-12 -right-6 sm:-right-8 md:-right-12 lg:-right-14 w-44 sm:w-56 md:w-68 lg:w-80 pointer-events-none z-20"
+        className="hidden md:block absolute top-4 sm:top-8 md:top-12 -right-6 sm:-right-8 md:-right-12 lg:-right-14 w-44 sm:w-56 md:w-68 lg:w-80 pointer-events-none z-20"
       >
         <img src={candleStandImg} alt="Antique Candle Stand" loading="lazy" decoding="async" className="w-full h-auto object-contain drop-shadow-[0_16px_36px_rgba(40,30,20,0.18)] select-none" />
       </motion.div>
 
-      {/* Scholar — bottom left */}
+      {/* Scholar — bottom left (Desktop) */}
       <motion.div
         animate={{ y: [3, -3, 3] }}
         transition={{ duration: 6.0, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -bottom-48 sm:-bottom-64 md:-bottom-84 lg:-bottom-[420px] xl:-bottom-[480px] -left-40 sm:-left-56 md:-left-72 lg:-left-[360px] xl:-left-[420px] 2xl:-left-[460px] w-[520px] sm:w-[680px] md:w-[840px] lg:w-[980px] xl:w-[1100px] pointer-events-none z-20"
+        className="hidden md:block absolute -bottom-48 sm:-bottom-64 md:-bottom-84 lg:-bottom-[420px] xl:-bottom-[480px] -left-40 sm:-left-56 md:-left-72 lg:-left-[360px] xl:-left-[420px] 2xl:-left-[460px] w-[520px] sm:w-[680px] md:w-[840px] lg:w-[980px] xl:w-[1100px] pointer-events-none z-20"
       >
         <img src={sideCharImg} alt="Renaissance Character" loading="lazy" decoding="async" className="w-full h-auto object-contain drop-shadow-[0_24px_48px_rgba(40,30,20,0.25)] select-none" />
       </motion.div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
+      {/* =========================================================================
+          MOBILE LAYOUT: PINNED SCROLL CARD STACK
+          ========================================================================= */}
+      <MobileStickyStack />
+
+      {/* =========================================================================
+          DESKTOP LAYOUT: SPATIAL GENIE EXPLOSION
+          ========================================================================= */}
+      <div className="hidden md:block max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
 
         {/* Title */}
         <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-10">
-          <h2 className="text-3xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
+          <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-[76px] tracking-tight text-[#2d3e32] font-serif font-normal">
             Just state what you <span className="font-serif italic font-bold text-[#253b2b]">want.</span>
           </h2>
         </div>
 
-        {/* =========================================================================
-            MOBILE LAYOUT: STICKY PARALLAX STACKING CARDS (SKIPER 16 STYLE)
-            ========================================================================= */}
-        <MobileStickyStack />
-
-        {/* =========================================================================
-            DESKTOP LAYOUT: SPATIAL GENIE EXPLOSION
-            ========================================================================= */}
-        <div className="hidden md:block relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
+        <div className="relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
 
           {/* CARD 1 — top-left: Birthday QA */}
           <motion.div
