@@ -64,8 +64,8 @@ export const CryptoLogosMarquee: React.FC = () => {
       </div>
 
       {/* Editorial Headline: Any app. Any exchange. One Dope. */}
-      <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-4">
-        <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] tracking-tight text-[#2d3e32] font-serif font-normal leading-[1.08]">
+      <div className="text-center w-full max-w-6xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[58px] xl:text-[66px] tracking-tight text-[#2d3e32] font-serif font-normal leading-[1.08]">
           Any app. Any exchange. One{' '}
           <span className="font-serif italic font-bold text-[#253b2b]">
             Dope.
