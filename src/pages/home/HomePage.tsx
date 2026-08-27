@@ -33,18 +33,18 @@ export function HomePage() {
         {/* 5 & 6. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-hidden bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
-          <div className="absolute top-0 inset-x-0 h-20 sm:h-28 md:h-32 lg:h-36 pointer-events-none z-20">
+          <div className="absolute top-0 inset-x-0 h-16 sm:h-20 md:h-22 lg:h-24 pointer-events-none z-20">
             <BurnTransition
               color="#ffffff"
               transitionColor="#FFFFFF"
-              noiseScale={2.5}
-              noiseIntensity={0.52}
-              scrollSensitivity={0.015}
-              baseAnimationSpeed={0.08}
-              edgeSoftness={0.38}
-              bloomIntensity={0.75}
-              bloomRadius={0.35}
-              parallaxEnabled={true}
+              noiseScale={2.2}
+              noiseIntensity={0.45}
+              scrollSensitivity={0}
+              baseAnimationSpeed={0.06}
+              edgeSoftness={0.35}
+              bloomIntensity={0.6}
+              bloomRadius={0.3}
+              parallaxEnabled={false}
               inverted={true}
               movement={{ horizontal: 'center', vertical: 0.5 }}
               className="h-full w-full"
