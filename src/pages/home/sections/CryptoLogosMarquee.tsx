@@ -1,6 +1,6 @@
 import React from 'react';
 
-// Import all 19 extracted crypto wallet and exchange logos
+// Import all unique crypto wallet and exchange logos
 import logo01 from '../../../assets/crypto_logos/logo_01.webp';
 import logo02 from '../../../assets/crypto_logos/logo_02.webp';
 import logo03 from '../../../assets/crypto_logos/logo_03.webp';
@@ -12,7 +12,6 @@ import logo08 from '../../../assets/crypto_logos/logo_08.webp';
 import logo09 from '../../../assets/crypto_logos/logo_09.webp';
 import logo10 from '../../../assets/crypto_logos/logo_10.webp';
 import logo11 from '../../../assets/crypto_logos/logo_11.webp';
-import logo12 from '../../../assets/crypto_logos/logo_12.webp';
 import logo13 from '../../../assets/crypto_logos/logo_13.webp';
 import logo14 from '../../../assets/crypto_logos/logo_14.webp';
 import logo15 from '../../../assets/crypto_logos/logo_15.webp';
@@ -20,8 +19,9 @@ import logo16 from '../../../assets/crypto_logos/logo_16.webp';
 import logo17 from '../../../assets/crypto_logos/logo_17.webp';
 import logo18 from '../../../assets/crypto_logos/logo_18.webp';
 import logo19 from '../../../assets/crypto_logos/logo_19.webp';
+import rabbyLogo from '../../../assets/crypto_logos/rabby.webp';
 
-// ── ROW 1: 7 Unique Wallets & Hardware ──
+// ── ROW 1: 7 Unique Wallets & Self-Custody (NO DUPLICATES) ──
 const ROW_1_LOGOS = [
   { id: 'r1-1', src: logo02, alt: 'MetaMask' },
   { id: 'r1-2', src: logo03, alt: 'Phantom' },
@@ -32,23 +32,23 @@ const ROW_1_LOGOS = [
   { id: 'r1-7', src: logo01, alt: 'Coinbase Wallet' },
 ];
 
-// ── ROW 2: 6 Unique Major Global Exchanges ──
+// ── ROW 2: 6 Unique Major Global Exchanges (NO DUPLICATES) ──
 const ROW_2_LOGOS = [
   { id: 'r2-1', src: logo10, alt: 'Binance' },
   { id: 'r2-2', src: logo11, alt: 'Coinbase' },
   { id: 'r2-3', src: logo05, alt: 'OKX' },
-  { id: 'r2-4', src: logo12, alt: 'Kraken' },
+  { id: 'r2-4', src: logo13, alt: 'Gate.io' },
   { id: 'r2-5', src: logo16, alt: 'Bybit' },
   { id: 'r2-6', src: logo17, alt: 'KuCoin' },
 ];
 
-// ── ROW 3: 6 Unique DeFi, Protocols & Trading Platforms ──
+// ── ROW 3: 6 Unique DeFi, Protocols & Trading (NO DUPLICATES) ──
 const ROW_3_LOGOS = [
   { id: 'r3-1', src: logo06, alt: 'Uniswap' },
   { id: 'r3-2', src: logo14, alt: 'Polygon' },
-  { id: 'r3-3', src: logo13, alt: 'Gate.io' },
-  { id: 'r3-4', src: logo15, alt: 'Bitget' },
-  { id: 'r3-5', src: logo18, alt: 'Crypto.com' },
+  { id: 'r3-3', src: logo15, alt: 'Bitget' },
+  { id: 'r3-4', src: logo18, alt: 'Crypto.com' },
+  { id: 'r3-5', src: rabbyLogo, alt: 'Rabby Wallet' },
   { id: 'r3-6', src: logo19, alt: 'Gemini' },
 ];
 
@@ -66,9 +66,9 @@ export const CryptoLogosMarquee: React.FC = () => {
       {/* Editorial Headline: Any app. Any exchange. One Dope. */}
       <div className="text-center w-full max-w-4xl mx-auto mb-6 sm:mb-8 lg:mb-10 px-4">
         <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-[68px] tracking-tight text-[#2d3e32] font-serif font-normal leading-[1.08]">
-          Any app. Any exchange.{' '}
+          Any app. Any exchange. One{' '}
           <span className="font-serif italic font-bold text-[#253b2b]">
-            One Dope.
+            Dope.
           </span>
         </h2>
       </div>
