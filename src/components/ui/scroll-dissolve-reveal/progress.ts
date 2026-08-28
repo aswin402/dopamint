@@ -1,4 +1,5 @@
 export const VISUAL_REVEAL_COMPLETE_AT = 0.95;
+export const NAVBAR_REVEAL_AT = 0.05;
 
 export function clampRevealProgress(value: number): number {
   return Math.max(0, Math.min(1, value));

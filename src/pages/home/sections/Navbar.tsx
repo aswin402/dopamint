@@ -24,9 +24,11 @@ export const Navbar: React.FC = () => {
     });
 
     syncNavbarState();
+    window.addEventListener('hero-reveal-change', syncNavbarState);
     window.addEventListener('scroll', syncNavbarState, { passive: true });
 
     return () => {
+      window.removeEventListener('hero-reveal-change', syncNavbarState);
       heroRevealObserver.disconnect();
       window.removeEventListener('scroll', syncNavbarState);
     };

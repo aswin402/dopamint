@@ -5,11 +5,23 @@ import { MotionValue, motionValue, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { VideoShaderScene, ImageShaderScene } from "./scenes";
 import { lockPageScroll, unlockPageScroll } from "./scrollLock";
-import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT, resolveMagneticCompletionTarget } from "./progress";
+import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT, NAVBAR_REVEAL_AT, resolveMagneticCompletionTarget } from "./progress";
 import { SECTION_HANDOFF_DURATION, getScrollBoundaryState, smoothSectionHandoffProgress } from "./handoff";
 import { getLenisInstance } from "@/lib/lenis";
 
 const HERO_SCROLL_LOCK_OWNER = 'hero-reveal';
+
+function getManifestoBoundaryState(manifesto: HTMLElement | null) {
+  if (!manifesto) return { atStart: true, atEnd: true };
+
+  const overflowY = window.getComputedStyle(manifesto).overflowY;
+  const hasInnerScroll = (overflowY === 'auto' || overflowY === 'scroll')
+    && manifesto.scrollHeight > manifesto.clientHeight + 2;
+
+  if (!hasInnerScroll) return { atStart: true, atEnd: true };
+
+  return getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight);
+}
 
 
 export interface ScrollDissolveRevealProps {
@@ -41,6 +53,7 @@ export function ScrollDissolveReveal({
   // momentum events. Wait for a short quiet period before accepting the next
   // downward gesture as an intentional request to enter section three.
   const sectionHandoffReadyRef = useRef(false);
+  const sectionHandoffInProgressRef = useRef(false);
   const sectionHandoffTimerRef = useRef<number | null>(null);
   const scrollYProgress = useMemo(() => motionValue(0), []);
   // Magnetic completion: forward input that stops just short of the snap
@@ -88,12 +101,12 @@ export function ScrollDissolveReveal({
       // internal lock ref. Reverse input deliberately updates the lock ref
       // immediately, so coupling this signal to that ref skipped the navbar
       // reset while returning to the hero.
-      const revealedValue = completed ? 'true' : 'false';
+      const revealedValue = cur >= NAVBAR_REVEAL_AT ? 'true' : 'false';
       if (document.documentElement.dataset.heroRevealed !== revealedValue) {
         document.documentElement.dataset.heroRevealed = revealedValue;
         window.dispatchEvent(
           new CustomEvent('hero-reveal-change', {
-            detail: { isRevealed: completed, progress: cur },
+            detail: { isRevealed: cur >= NAVBAR_REVEAL_AT, progress: cur },
           }),
         );
       }
@@ -104,6 +117,7 @@ export function ScrollDissolveReveal({
 
         // Toggle overflow immediately in this same rAF tick — no React re-render delay
         if (completed) {
+          sectionHandoffReadyRef.current = true;
           unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
         } else {
           lockPageScroll(HERO_SCROLL_LOCK_OWNER);
@@ -122,6 +136,7 @@ export function ScrollDissolveReveal({
       isUnlockedRef.current = true;
       document.documentElement.dataset.heroRevealed = 'true';
       unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
+      sectionHandoffReadyRef.current = true;
       return () => {
         unlockPageScroll(HERO_SCROLL_LOCK_OWNER);
         delete document.documentElement.dataset.heroRevealed;
@@ -186,8 +201,11 @@ export function ScrollDissolveReveal({
   }, []);
 
   const scrollToNextSection = useCallback(() => {
+    if (sectionHandoffInProgressRef.current) return;
+
     const nextSection = document.getElementById('asks');
     if (!nextSection) return;
+    sectionHandoffInProgressRef.current = true;
 
     resetSectionHandoff();
     const lenis = getLenisInstance();
@@ -199,6 +217,7 @@ export function ScrollDissolveReveal({
         easing: smoothSectionHandoffProgress,
         lock: true,
         onComplete: () => {
+          sectionHandoffInProgressRef.current = false;
           sectionHandoffReadyRef.current = true;
         },
       });
@@ -206,6 +225,9 @@ export function ScrollDissolveReveal({
     }
 
     nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.setTimeout(() => {
+      sectionHandoffInProgressRef.current = false;
+    }, SECTION_HANDOFF_DURATION * 1000);
     armSectionHandoff();
   }, [armSectionHandoff, resetSectionHandoff]);
 
@@ -230,20 +252,14 @@ export function ScrollDissolveReveal({
       }
 
       const manifesto = document.getElementById('manifesto');
-      const manifestoState = manifesto
-        ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
-        : { atStart: true, atEnd: true };
+      const manifestoState = getManifestoBoundaryState(manifesto);
 
       // 2. One intentional downward gesture moves the full viewport from the
       //    revealed second section to section three.
       if (window.scrollY <= 6 && e.deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (sectionHandoffReadyRef.current) {
-          scrollToNextSection();
-        } else {
-          armSectionHandoff();
-        }
+        scrollToNextSection();
         return;
       }
 
@@ -292,16 +308,12 @@ export function ScrollDissolveReveal({
       }
 
       const manifesto = document.getElementById('manifesto');
-      const manifestoState = manifesto
-        ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
-        : { atStart: true, atEnd: true };
+      const manifestoState = getManifestoBoundaryState(manifesto);
 
       if (window.scrollY <= 6 && deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        if (sectionHandoffReadyRef.current) {
-          scrollToNextSection();
-        }
+        scrollToNextSection();
         return;
       }
 
@@ -325,9 +337,7 @@ export function ScrollDissolveReveal({
     const onKeyDown = (e: KeyboardEvent) => {
       if (isUnlockedRef.current && window.scrollY <= 6) {
         const manifesto = document.getElementById('manifesto');
-        const manifestoState = manifesto
-          ? getScrollBoundaryState(manifesto.scrollTop, manifesto.scrollHeight, manifesto.clientHeight)
-          : { atStart: true, atEnd: true };
+        const manifestoState = getManifestoBoundaryState(manifesto);
 
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
           if (!manifestoState.atEnd) return;

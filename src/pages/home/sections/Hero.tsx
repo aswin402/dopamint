@@ -205,7 +205,7 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 sm:px-8 md:px-10 lg:px-16">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 sm:px-8 md:px-10 lg:px-16 select-text">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-6 items-center lg:items-end flex-1">
 
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
