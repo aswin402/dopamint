@@ -4,7 +4,7 @@ import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import sideCharImg from '../../../assets/side_char.webp';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
-import logoDarkPurple from '../../../assets/logo-dark-purple.svg';
+import logoDarkPurple from '../../../assets/logo-dark-purple.png';
 import { IMessageBubble } from './IMessageBubble';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
