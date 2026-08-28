@@ -29,7 +29,7 @@ export const FooterSection: React.FC = () => {
         
         {/* Headline: Your last App */}
         <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
-          Your last <span className="font-serif italic font-bold">App.</span>
+          Your last App.
         </h2>
 
         {/* Action Button: Join Waitlist */}
