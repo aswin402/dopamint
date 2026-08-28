@@ -8,7 +8,7 @@ import { MemoryWalletSection } from './sections/MemoryWallet/MemoryWalletSection
 import { RoadmapSection } from './sections/Roadmap';
 import { FooterSection } from './sections/Footer';
 import { BurnTransition } from '../../components/ui/burn-transition';
-import divBurnOutImg from '../../assets/Div_Burn_out_image.webp';
+import divBurnImg from '../../assets/div_burn.webp';
 
 export function HomePage() {
   return (
@@ -48,17 +48,16 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.webp Background (Natural bright Renaissance painting) */}
+          {/* div_burn.webp Background (Darkened across the full section for high contrast) */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               loading="lazy"
               decoding="async"
-              src={divBurnOutImg}
+              src={divBurnImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none brightness-100"
+              className="w-full h-full object-cover object-top select-none brightness-[0.70] contrast-[1.08]"
             />
-            {/* Subtle top-only shadow strictly at the very top edge behind the header */}
-            <div className="absolute top-0 inset-x-0 h-44 sm:h-56 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-black/45 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
