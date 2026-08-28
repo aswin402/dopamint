@@ -48,16 +48,16 @@ export function HomePage() {
             />
           </div>
 
-          {/* Div_Burn_out_image.webp Background (Slightly Darkened for higher contrast) */}
+          {/* Div_Burn_out_image.webp Background (Darkened across the full section for high contrast) */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               loading="lazy"
               decoding="async"
               src={divBurnOutImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none brightness-[0.72] contrast-[1.05]"
+              className="w-full h-full object-cover object-top select-none brightness-[0.70] contrast-[1.08]"
             />
-            <div className="absolute inset-0 bg-black/25 pointer-events-none" />
+            <div className="absolute inset-0 bg-black/45 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
