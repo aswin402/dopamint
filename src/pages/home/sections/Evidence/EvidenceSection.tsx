@@ -294,7 +294,7 @@ export const EvidenceSection: React.FC = () => {
               execution.
             </span>
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-[#dfc28d]/80 font-serif italic max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-[#dfc28d]/80 font-serif italic max-w-5xl mx-auto">
             How Dopamint seamlessly translates your natural thoughts into verified autonomous action.
           </p>
         </div>

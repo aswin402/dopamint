@@ -4,6 +4,7 @@ import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import sideCharImg from '../../../assets/side_char.webp';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
+import logoDarkPurple from '../../../assets/logo-dark-purple.svg';
 import { IMessageBubble } from './IMessageBubble';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
@@ -61,7 +62,8 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
 
 interface IntegrationItem {
   name: string;
-  domain: string;
+  domain?: string;
+  iconSrc?: string;
 }
 
 const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
@@ -73,7 +75,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
         className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
       >
         <img
-          src={`https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
+          src={item.iconSrc || `https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
           alt={item.name}
           className="w-full h-full rounded-full object-contain"
           loading="lazy"
@@ -113,7 +115,7 @@ const ASK_CARDS: AskCardData[] = [
     id: 'flight',
     isSm: true,
     logos: [
-      { name: 'American Airlines', domain: 'aa.com' },
+      { name: 'Flight Alert', iconSrc: logoDarkPurple },
     ],
     bubbles: [
       { text: 'your flight’s boarding in 40 mins. maybe start moving.', side: 'left' },
@@ -509,7 +511,7 @@ export const RealAsks: React.FC = () => {
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'American Airlines', domain: 'aa.com' },
+                  { name: 'Flight Alert', iconSrc: logoDarkPurple },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
