@@ -5,7 +5,7 @@ import { FaTwitter, FaDiscord, FaInstagram, FaTelegramPlane } from 'react-icons/
 
 export const FooterSection: React.FC = () => {
   return (
-    <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden select-none px-6 sm:px-10 lg:px-16">
+    <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden px-6 sm:px-10 lg:px-16">
       
       {/* =========================================================================
           BACKGROUND ARTWORK (FOOTER.PNG - RENAISSANCE PAINTING)

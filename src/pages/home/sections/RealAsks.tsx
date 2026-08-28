@@ -426,7 +426,7 @@ export const RealAsks: React.FC = () => {
     <section
       ref={sectionRef}
       id="asks"
-      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20 select-none"
+      className="w-full bg-[#ffffff] pt-12 sm:pt-16 pb-0 relative z-20"
     >
       {/* SVG clip defs — 6 genie morph paths */}
       <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }}>

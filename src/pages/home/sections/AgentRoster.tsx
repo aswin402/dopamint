@@ -17,7 +17,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
   const suffix = parts[parts.length - 1];
 
   return (
-    <div className="w-[340px] sm:w-[380px] md:w-[410px] h-[200px] sm:h-[215px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 select-none cursor-pointer relative hover:z-20">
+    <div className="w-[340px] sm:w-[380px] md:w-[410px] h-[200px] sm:h-[215px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20">
       {/* Top Header */}
       <div>
         <div className="flex items-baseline justify-between gap-2">

@@ -54,7 +54,7 @@ const ROW_3_LOGOS = [
 
 export const CryptoLogosMarquee: React.FC = () => {
   return (
-    <div className="w-full py-4 sm:py-6 lg:py-8 overflow-hidden relative select-none space-y-4 sm:space-y-6">
+    <div className="w-full py-4 sm:py-6 lg:py-8 overflow-hidden relative space-y-4 sm:space-y-6">
       
       {/* Category Eyebrow */}
       <div className="text-center mb-2 sm:mb-2.5">

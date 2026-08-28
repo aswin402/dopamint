@@ -73,7 +73,7 @@ function HeroOverlay({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          className="text-xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-2.5 sm:mb-4 select-none"
+          className="text-xl sm:text-3xl md:text-4xl lg:text-[40px] font-serif italic font-normal text-white tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)] mb-2.5 sm:mb-4"
         >
           Ask Dope
         </motion.h2>
@@ -205,7 +205,7 @@ function HeroOverlay({
     ========================================================================= */}
 function HouseOfAgentsSection() {
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden select-none px-4 sm:px-8 md:px-10 lg:px-16">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 sm:px-8 md:px-10 lg:px-16">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-6 items-center lg:items-end flex-1">
 
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}

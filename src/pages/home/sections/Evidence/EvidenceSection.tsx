@@ -94,7 +94,7 @@ export const EvidenceSection: React.FC = () => {
   ];
 
   return (
-    <section id="architecture" className="relative z-30 select-none text-[#f3f2e6]">
+    <section id="architecture" className="relative z-30 text-[#f3f2e6]">
       
       {/* =========================================================================
           1. MOBILE VIEW: SCROLL-DRIVEN PINNED ARCHITECTURE PIPELINE
@@ -458,7 +458,7 @@ export const EvidenceSection: React.FC = () => {
 
           {/* ── Capability Pill Cards (Desktop) ── */}
           <div className="mt-8 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto">
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
                 <Infinity className="w-5 h-5 stroke-[2.2]" />
               </div>
@@ -468,7 +468,7 @@ export const EvidenceSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
                 <Settings className="w-5 h-5 stroke-[2.2]" />
               </div>
@@ -478,7 +478,7 @@ export const EvidenceSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
                 <CreditCard className="w-5 h-5 stroke-[2.2]" />
               </div>
@@ -488,7 +488,7 @@ export const EvidenceSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300 select-none">
+            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
                 <BarChart2 className="w-5 h-5 stroke-[2.2]" />
               </div>
