@@ -145,9 +145,6 @@ export const MemoryWalletSection: React.FC = () => {
 
   return (
     <section ref={sectionRef} id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-10 sm:pt-14 pb-12 sm:pb-16 relative overflow-hidden">
-      {/* Darkening background overlay applied ONLY to this bottom section */}
-      <div className="absolute inset-0 bg-black/45 pointer-events-none z-10" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* =========================================================================

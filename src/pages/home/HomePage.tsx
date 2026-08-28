@@ -48,7 +48,7 @@ export function HomePage() {
             />
           </div>
 
-          {/* div_burn.webp Background (Natural image with zero darkening overlay) */}
+          {/* div_burn.webp Background with smooth continuous atmospheric gradient */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               loading="lazy"
@@ -57,6 +57,8 @@ export function HomePage() {
               alt="Burn out background"
               className="w-full h-full object-cover object-top select-none"
             />
+            {/* Smooth full-section atmospheric gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/40 to-black/70 pointer-events-none" />
           </div>
 
           <div className="relative z-10">
