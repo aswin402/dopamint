@@ -36,14 +36,14 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      animate={isActive ? { scale: 1.025, y: -4 } : { scale: 1, y: 0 }}
-      whileHover={{ scale: 1.025, y: -4 }}
+      animate={isActive ? { scale: 1.03, y: -6 } : { scale: 1, y: 0 }}
+      whileHover={{ scale: 1.03, y: -6 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
       className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-500 cursor-pointer text-left group overflow-hidden ${
         isActive
-          ? 'bg-[#ffffff]/85 hover:bg-[#ffffff] backdrop-blur-md border-[#c4a978] shadow-[0_16px_40px_rgba(0,0,0,0.35)] ring-2 ring-[#c4a978]/70 z-20 scale-[1.02]'
+          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_20px_45px_rgba(0,0,0,0.35)] ring-2 ring-[#c4a978]/70 z-20'
           : isPrimary
           ? 'bg-[#fbf9f4]/55 hover:bg-[#ffffff] backdrop-blur-md border-white/50 hover:border-[#c4a978] shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
           : 'bg-[#f8f5ee]/45 hover:bg-[#ffffff] backdrop-blur-md border-white/40 hover:border-[#c4a978] shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'

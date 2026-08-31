@@ -1,26 +1,28 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useTransform, useInView } from 'framer-motion';
 import { 
   Target, 
   Network, 
   Boxes, 
   Zap, 
-  RefreshCw,
-  Play,
-  Pause,
-  ChevronRight,
-  Infinity,
-  Settings,
-  CreditCard,
-  BarChart2
+  RefreshCw, 
+  Play, 
+  Pause, 
+  ChevronRight, 
+  Infinity, 
+  Settings, 
+  CreditCard, 
+  BarChart2 
 } from 'lucide-react';
 import crownImg from '../../../../assets/Crown.webp';
 import { AgentNode } from './AgentNode';
 
 export const EvidenceSection: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { amount: 0.15 });
   const [activeStep, setActiveStep] = useState<number>(0);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isManual, setIsManual] = useState<boolean>(false);
 
   const mobileContainerRef = useRef<HTMLDivElement>(null);
@@ -41,12 +43,12 @@ export const EvidenceSection: React.FC = () => {
 
   // Auto step progression if playing (Desktop or manual play)
   useEffect(() => {
-    if (!isPlaying || hoveredStep !== null) return;
+    if (!isPlaying || !isInView || hoveredStep !== null) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
-    }, 3000);
+    }, 2600);
     return () => clearInterval(interval);
-  }, [isPlaying, hoveredStep]);
+  }, [isPlaying, isInView, hoveredStep]);
 
   const currentStep = hoveredStep !== null ? hoveredStep : activeStep;
 
@@ -94,7 +96,7 @@ export const EvidenceSection: React.FC = () => {
   ];
 
   return (
-    <section id="architecture" className="relative z-30 text-[#f3f2e6]">
+    <section ref={sectionRef} id="architecture" className="relative z-30 text-[#f3f2e6]">
       
       {/* =========================================================================
           1. MOBILE VIEW: SCROLL-DRIVEN PINNED ARCHITECTURE PIPELINE
