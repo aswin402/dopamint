@@ -1,14 +1,17 @@
+import React, { lazy, Suspense } from 'react';
 import { Navbar } from './sections/Navbar';
 import { Hero } from './sections/Hero';
 import { RealAsks } from './sections/RealAsks';
-import { AgentRoster } from './sections/AgentRoster';
-import { Authority } from './sections/Authority';
-import { EvidenceSection } from './sections/Evidence/EvidenceSection';
-import { MemoryWalletSection } from './sections/MemoryWallet/MemoryWalletSection';
-import { RoadmapSection } from './sections/Roadmap';
-import { FooterSection } from './sections/Footer';
 import { BurnTransition } from '../../components/ui/burn-transition';
 import divBurnImg from '../../assets/div_burn.webp';
+
+// Lazy load below-the-fold sections to optimize initial JavaScript execution
+const AgentRoster = lazy(() => import('./sections/AgentRoster').then((m) => ({ default: m.AgentRoster })));
+const EvidenceSection = lazy(() => import('./sections/Evidence/EvidenceSection').then((m) => ({ default: m.EvidenceSection })));
+const MemoryWalletSection = lazy(() => import('./sections/MemoryWallet/MemoryWalletSection').then((m) => ({ default: m.MemoryWalletSection })));
+const RoadmapSection = lazy(() => import('./sections/Roadmap').then((m) => ({ default: m.RoadmapSection })));
+const FooterSection = lazy(() => import('./sections/Footer').then((m) => ({ default: m.FooterSection })));
+
 
 export function HomePage() {
   return (
@@ -25,7 +28,9 @@ export function HomePage() {
         <RealAsks />
 
         {/* 3. the Dope App: 8 Agent Crew */}
-        <AgentRoster />
+        <Suspense fallback={null}>
+          <AgentRoster />
+        </Suspense>
 
         {/* 4. Long Section with Div_Burn_out_image.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-clip bg-[#282a2d]">
@@ -61,11 +66,13 @@ export function HomePage() {
           </div>
 
           <div className="relative z-10">
-            {/* Part 1: Cryptographic Evidence Log */}
-            <EvidenceSection />
+            <Suspense fallback={null}>
+              {/* Part 1: Cryptographic Evidence Log */}
+              <EvidenceSection />
 
-            {/* Part 2: The Floor & Memory Wallet */}
-            <MemoryWalletSection />
+              {/* Part 2: The Floor & Memory Wallet */}
+              <MemoryWalletSection />
+            </Suspense>
           </div>
 
           {/* Bottom Burn Transition Effect */}
@@ -88,10 +95,14 @@ export function HomePage() {
         </div>
 
         {/* 7. Dopamint Roadmap (Video/Static Transition + Staggered Grid Logo Animation) */}
-        <RoadmapSection />
+        <Suspense fallback={null}>
+          <RoadmapSection />
+        </Suspense>
 
         {/* 8. Footer Section (Give your AI some agency + The Last Supper background) */}
-        <FooterSection />
+        <Suspense fallback={null}>
+          <FooterSection />
+        </Suspense>
       </main>
     </div>
   );

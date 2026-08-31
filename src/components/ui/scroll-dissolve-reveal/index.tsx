@@ -405,7 +405,10 @@ export function ScrollDissolveReveal({
       >
         {/* Layer 1: Inner Section (House of Sovereign Agents) */}
         {backgroundContent && (
-          <div className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden">
+          <div 
+            className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden"
+            style={{ opacity: smoothProgress > 0.002 ? 1 : 0, pointerEvents: smoothProgress > 0.05 ? 'auto' : 'none' }}
+          >
             {backgroundContent}
           </div>
         )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
-import iconDope from '@/assets/Icondope.png';
+import iconDope from '@/assets/Icondope.webp';
 
 // Split 72 agents evenly into 2 horizontal marquee lanes (36 in each)
 const LANE_1 = ALL_72_AGENTS.slice(0, 36);

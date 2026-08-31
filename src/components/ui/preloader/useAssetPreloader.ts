@@ -47,22 +47,44 @@ export function useAssetPreloader({
       realLoadedRef.current = loadedCount;
     };
 
-    // 1. Preload Images
+    // 1. Preload Images with off-thread decoding
     CRITICAL_IMAGES.forEach((src) => {
       const img = new Image();
-      img.onload = notifyItemLoaded;
-      img.onerror = notifyItemLoaded;
       img.src = src;
+      if (typeof img.decode === 'function') {
+        img
+          .decode()
+          .then(notifyItemLoaded)
+          .catch(notifyItemLoaded);
+      } else {
+        img.onload = notifyItemLoaded;
+        img.onerror = notifyItemLoaded;
+      }
     });
 
-    // 2. Preload Videos (metadata / early buffer)
+    // 2. Preload Videos (wait for first playable frame / buffer)
     CRITICAL_VIDEOS.forEach((src) => {
       const vid = document.createElement('video');
-      vid.preload = 'metadata';
+      vid.preload = 'auto';
       vid.muted = true;
-      vid.onloadedmetadata = notifyItemLoaded;
-      vid.onerror = notifyItemLoaded;
+      vid.playsInline = true;
+
+      const handleVideoReady = () => {
+        cleanup();
+        notifyItemLoaded();
+      };
+
+      const cleanup = () => {
+        vid.removeEventListener('canplaythrough', handleVideoReady);
+        vid.removeEventListener('loadeddata', handleVideoReady);
+        vid.removeEventListener('error', handleVideoReady);
+      };
+
+      vid.addEventListener('canplaythrough', handleVideoReady, { once: true });
+      vid.addEventListener('loadeddata', handleVideoReady, { once: true });
+      vid.addEventListener('error', handleVideoReady, { once: true });
       vid.src = src;
+      vid.load();
     });
 
     // 3. Preload document fonts

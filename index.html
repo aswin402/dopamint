@@ -14,13 +14,23 @@
     <meta property="og:description" content="Give your AI some agency. Not a blank check. Autonomous agents ready to get stuff done under deterministic policy checks." />
     <meta property="og:image" content="/favicon.svg" />
 
-    <!-- Fonts -->
+    <!-- Resource Hints & Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.cdnfonts.com">
+    <link rel="dns-prefetch" href="https://fonts.cdnfonts.com">
     <link href="https://fonts.cdnfonts.com/css/winslow-book" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600;1,700&family=JetBrains+Mono:wght@400;500;600;700;800&family=Cinzel:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Instant Matching Parchment Background before React Hydration -->
+    <style>
+      html, body, #root {
+        background-color: #f3f2e6;
+        min-height: 100%;
+      }
+    </style>
   </head>
-  <body class="bg-[#f7f3ef] text-[#141820] antialiased">
+  <body class="bg-[#f3f2e6] text-[#141820] antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
