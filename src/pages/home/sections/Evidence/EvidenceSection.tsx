@@ -204,7 +204,10 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Live Pipeline State Console */}
-          <div className="p-2.5 rounded-xl bg-[#dfc28d] backdrop-blur-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left">
+          <div 
+            style={{ backgroundColor: '#dfc28d' }}
+            className="p-2.5 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left"
+          >
             <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15 text-[10px] font-mono">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
@@ -387,7 +390,10 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* ── Live Step Pipeline Payload Console ── */}
-          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-[#dfc28d] backdrop-blur-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left">
+          <div 
+            style={{ backgroundColor: '#dfc28d' }}
+            className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left"
+          >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-[#1a140f]/15 text-xs font-mono">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#7a382e] shadow-[0_0_8px_rgba(122,56,46,0.6)]" />
