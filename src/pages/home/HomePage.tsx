@@ -48,15 +48,16 @@ export function HomePage() {
             />
           </div>
 
-          {/* div_burn.webp Background (Original natural image, no darkening) */}
+          {/* div_burn.webp Background (Darkened background for high-contrast light theme components) */}
           <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
             <img
               loading="lazy"
               decoding="async"
               src={divBurnImg}
               alt="Burn out background"
-              className="w-full h-full object-cover object-top select-none"
+              className="w-full h-full object-cover object-top select-none brightness-[0.70] contrast-[1.08]"
             />
+            <div className="absolute inset-0 bg-black/55 pointer-events-none" />
           </div>
 
           <div className="relative z-10">

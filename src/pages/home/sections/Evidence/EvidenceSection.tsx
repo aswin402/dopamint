@@ -106,11 +106,11 @@ export const EvidenceSection: React.FC = () => {
           
           {/* Header */}
           <div className="text-center mx-auto space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[10px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[10px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
               <img src={crownImg} alt="Crown" className="w-3 h-3 object-contain" />
               <span>ARCHITECTURE</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#ffffff] tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl font-serif text-[#ffffff] tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
               From intent to{' '}
               <span className="font-serif italic font-normal text-[#dfc28d]">
                 execution.
@@ -120,14 +120,14 @@ export const EvidenceSection: React.FC = () => {
 
           {/* Continuous Loop Pill & Step Counter Header */}
           <div className="flex items-center justify-between gap-2 px-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#1b1712]/90 border border-[#c4a978]/40 text-[#dfc28d] text-[9.5px] font-mono tracking-wide">
-              <RefreshCw className="w-3 h-3 text-[#dfc28d] animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-bold uppercase tracking-wider text-[#dfc28d]">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#25362a] text-[9.5px] font-mono tracking-wide shadow-md">
+              <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
+              <span className="font-bold uppercase tracking-wider text-[#25362a]">
                 FEEDBACK LOOP
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#171411]/90 px-2.5 py-0.5 rounded-full border border-[#c4a978]/30 text-[10px] font-mono text-[#dfc28d] font-bold">
+            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 text-[10px] font-mono text-[#25362a] font-bold shadow-md">
               <span>STEP 0{currentStep + 1} / 04</span>
             </div>
           </div>
@@ -147,19 +147,19 @@ export const EvidenceSection: React.FC = () => {
                       setIsPlaying(false);
                       setTimeout(() => setIsManual(false), 4000);
                     }}
-                    className={`py-1.5 px-1 rounded-xl border flex flex-col items-center gap-0.5 transition-all duration-300 cursor-pointer ${
+                    className={`py-2 px-1 rounded-xl border flex flex-col items-center gap-0.5 transition-all duration-300 cursor-pointer ${
                       isCur
-                        ? 'bg-[#2a2218] border-[#f0dcba] text-[#f0dcba] shadow-[0_0_16px_rgba(240,220,186,0.3)] ring-1 ring-[#f0dcba]/60 scale-[1.02]'
+                        ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.03]'
                         : isDone
-                        ? 'bg-[#1a1612] border-[#c4a978]/40 text-[#dfc28d]'
-                        : 'bg-[#12100d]/70 border-white/10 text-white/40'
+                        ? 'bg-[#f3f2e6] border-[#c4a978]/40 text-[#25362a]'
+                        : 'bg-[#f3f2e6]/75 border-[#dcd6c8] text-[#7a746a]'
                     }`}
                   >
                     <div className="flex items-center gap-1">
                       <span className="font-mono text-[9.5px] font-bold">0{idx + 1}</span>
-                      {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#4ade80] animate-pulse" />}
+                      {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />}
                     </div>
-                    <span className="text-[8px] font-mono uppercase tracking-tight truncate max-w-[58px] leading-tight">
+                    <span className="text-[8px] font-mono uppercase tracking-tight truncate max-w-[58px] leading-tight font-semibold">
                       {item.timelineLabel}
                     </span>
                   </button>
@@ -168,10 +168,10 @@ export const EvidenceSection: React.FC = () => {
             </div>
 
             {/* Glowing Scroll-driven progress underline bar */}
-            <div className="w-full h-[2px] bg-white/10 rounded-full mt-1.5 relative overflow-hidden">
+            <div className="w-full h-[2.5px] bg-[#dcd6c8]/40 rounded-full mt-1.5 relative overflow-hidden">
               <motion.div
                 style={{ width: smoothProgressPercent }}
-                className="h-full bg-gradient-to-r from-[#c4a978] via-[#f0dcba] to-[#dfc28d] shadow-[0_0_8px_#dfc28d]"
+                className="h-full bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)]"
               />
             </div>
           </div>
@@ -202,16 +202,16 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Live Pipeline State Console */}
-          <div className="p-2.5 rounded-xl bg-[#14110e]/95 backdrop-blur-xl border border-[#c4a978]/35 shadow-lg text-left">
-            <div className="flex items-center justify-between pb-1 mb-1 border-b border-white/10 text-[10px] font-mono">
+          <div className="p-2.5 rounded-xl bg-[#f8f6f0] backdrop-blur-xl border border-[#c4a978]/60 shadow-[0_8px_24px_rgba(0,0,0,0.3)] text-left">
+            <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#e2dcd0] text-[10px] font-mono">
               <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#dfc28d] shadow-[0_0_6px_#dfc28d]" />
-                <span className="text-[#dfc28d] font-bold uppercase tracking-wider text-[10px]">
+                <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
+                <span className="text-[#25362a] font-bold uppercase tracking-wider text-[10px]">
                   PIPELINE STATE: [{steps[currentStep].step}]
                 </span>
               </div>
-              <div className="text-[9px] text-[#b8aa94]">
-                Latency: <span className="text-[#4ade80] font-bold font-mono">18ms</span> · Base
+              <div className="text-[9px] text-[#5a544b]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Base
               </div>
             </div>
             
@@ -222,9 +222,9 @@ export const EvidenceSection: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -6 }}
                 transition={{ duration: 0.2 }}
-                className="text-[10.5px] font-mono text-[#f6edd9] leading-relaxed flex items-start gap-1.5"
+                className="text-[10.5px] font-mono text-[#141820] leading-relaxed flex items-start gap-1.5 font-medium"
               >
-                <span className="text-[#dfc28d] font-bold shrink-0">→</span>
+                <span className="text-[#7a382e] font-bold shrink-0">→</span>
                 <span>{steps[currentStep].payload}</span>
               </motion.p>
             </AnimatePresence>
@@ -283,18 +283,18 @@ export const EvidenceSection: React.FC = () => {
         
         {/* Section Header (Desktop) */}
         <div className="max-w-4xl mb-8 sm:mb-10 text-center mx-auto space-y-2.5">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-[#c4a978]/35 text-[11px] font-mono tracking-widest text-[#dfc28d] uppercase font-semibold">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[11px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
             <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
             <span>ARCHITECTURE</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-serif text-[#ffffff] tracking-tight leading-[1.08]">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-serif text-[#ffffff] tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
             From intent to{' '}
             <span className="font-serif italic font-normal text-[#dfc28d]">
               execution.
             </span>
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-[#dfc28d]/80 font-serif italic max-w-5xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-[#f3f2e6]/90 font-serif italic max-w-5xl mx-auto drop-shadow-sm">
             How Dopamint seamlessly translates your natural thoughts into verified autonomous action.
           </p>
         </div>
@@ -305,39 +305,39 @@ export const EvidenceSection: React.FC = () => {
         >
           {/* Continuous Feedback Loop Top Conduit */}
           <div className="mb-4 sm:mb-6 flex items-center justify-between gap-3 px-2">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#1b1712]/90 backdrop-blur-md border border-[#c4a978]/40 text-[#dfc28d] text-xs font-mono tracking-wide shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#25362a] text-xs font-mono tracking-wide shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
               <RefreshCw 
-                className={`w-3.5 h-3.5 text-[#dfc28d] ${isPlaying ? 'animate-spin' : ''}`} 
+                className={`w-3.5 h-3.5 text-[#7a382e] ${isPlaying ? 'animate-spin' : ''}`} 
                 style={{ animationDuration: '6s' }} 
               />
-              <span className="font-bold uppercase text-xs tracking-wider text-[#dfc28d]">
+              <span className="font-bold uppercase text-xs tracking-wider text-[#25362a]">
                 CONTINUOUS LEARNING LOOP
               </span>
-              <span className="text-white/30">·</span>
-              <span className="text-[#f6edd9]/85 text-xs font-mono">
+              <span className="text-[#37312c]/40">·</span>
+              <span className="text-[#5a544b] text-xs font-mono">
                 Every completed action refines long-term identity &amp; memory
               </span>
             </div>
 
-            <div className="flex items-center gap-2 bg-[#171411]/90 backdrop-blur-md px-3 py-1 rounded-full border border-[#c4a978]/30 text-xs font-mono">
+            <div className="flex items-center gap-2 bg-[#f3f2e6] px-3.5 py-1.5 rounded-full border border-[#c4a978]/60 text-xs font-mono shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="flex items-center gap-1.5 text-[#dfc28d] hover:text-[#f0dcba] transition-colors cursor-pointer pr-2.5 border-r border-white/10"
+                className="flex items-center gap-1.5 text-[#25362a] hover:text-[#7a382e] transition-colors cursor-pointer pr-2.5 border-r border-[#dcd6c8]"
                 title={isPlaying ? 'Pause Auto-Play' : 'Resume Auto-Play'}
               >
                 {isPlaying ? (
                   <>
-                    <Pause className="w-3 h-3 text-[#dfc28d]" />
-                    <span className="text-[10px] uppercase font-bold text-[#dfc28d]">PAUSE</span>
+                    <Pause className="w-3 h-3 text-[#7a382e]" />
+                    <span className="text-[10px] uppercase font-bold text-[#7a382e]">PAUSE</span>
                   </>
                 ) : (
                   <>
-                    <Play className="w-3 h-3 text-[#4ade80] fill-[#4ade80]" />
-                    <span className="text-[10px] uppercase font-bold text-[#4ade80]">PLAY</span>
+                    <Play className="w-3 h-3 text-[#16a34a] fill-[#16a34a]" />
+                    <span className="text-[10px] uppercase font-bold text-[#16a34a]">PLAY</span>
                   </>
                 )}
               </button>
-              <span className="text-[10px] text-[#dfc28d] font-bold tracking-wider">
+              <span className="text-[10px] text-[#25362a] font-bold tracking-wider">
                 STEP 0{currentStep + 1} / 04
               </span>
             </div>
@@ -371,8 +371,8 @@ export const EvidenceSection: React.FC = () => {
                       <div 
                         className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all duration-500 ${
                           currentStep === idx 
-                            ? 'bg-[#dfc28d] border-[#dfc28d] text-[#1a140f] shadow-[0_0_12px_#dfc28d] scale-110' 
-                            : 'bg-[#1e1a15] border-[#c4a978]/40 text-[#dfc28d]/70 scale-90'
+                            ? 'bg-[#c4a978] border-[#c4a978] text-[#141820] shadow-[0_2px_10px_rgba(196,169,120,0.5)] scale-110' 
+                            : 'bg-[#f3f2e6] border-[#c4a978]/60 text-[#37312c] scale-90'
                         }`}
                       >
                         <ChevronRight className="w-3 h-3 stroke-[2.5]" />
@@ -385,16 +385,16 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* ── Live Step Pipeline Payload Console ── */}
-          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-[#14110e]/95 backdrop-blur-xl border border-[#c4a978]/35 shadow-xl text-left">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-white/10 text-xs font-mono">
+          <div className="mt-4 p-3.5 sm:p-4 rounded-xl bg-[#f8f6f0] backdrop-blur-xl border border-[#c4a978]/60 shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-[#e2dcd0] text-xs font-mono">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#dfc28d] shadow-[0_0_8px_#dfc28d]" />
-                <span className="text-[#dfc28d] font-bold uppercase tracking-wider text-[11.5px] sm:text-xs">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#7a382e] shadow-[0_0_8px_rgba(122,56,46,0.6)]" />
+                <span className="text-[#25362a] font-bold uppercase tracking-wider text-[11.5px] sm:text-xs">
                   PIPELINE STATE: [{steps[currentStep].step}]
                 </span>
               </div>
-              <div className="text-[11px] text-[#b8aa94]">
-                Latency: <span className="text-[#4ade80] font-bold font-mono">18ms</span> · Base Network (Sepolia / Mainnet)
+              <div className="text-[11px] text-[#5a544b]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Base Network (Sepolia / Mainnet)
               </div>
             </div>
             
@@ -405,10 +405,10 @@ export const EvidenceSection: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -8 }}
                 transition={{ duration: 0.25 }}
-                className="text-xs sm:text-[13px] font-mono text-[#f6edd9] leading-relaxed flex items-start gap-2"
+                className="text-xs sm:text-[13px] font-mono text-[#141820] leading-relaxed flex items-start gap-2"
               >
-                <span className="text-[#dfc28d] font-bold shrink-0">→</span>
-                <span>{steps[currentStep].payload}</span>
+                <span className="text-[#7a382e] font-bold shrink-0">→</span>
+                <span className="font-medium">{steps[currentStep].payload}</span>
               </motion.p>
             </AnimatePresence>
           </div>
@@ -416,9 +416,9 @@ export const EvidenceSection: React.FC = () => {
           {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
           <div className="mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
             <div className="flex justify-between items-start relative">
-              <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 inset-x-3 h-[2px] bg-[#3a3228] z-0" />
+              <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 inset-x-3 h-[2px] bg-[#dcd6c8]/40 z-0" />
               <div 
-                className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#dfc28d] via-[#f0dcba] to-[#dfc28d] shadow-[0_0_10px_#dfc28d] z-0 transition-all duration-500"
+                className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)] z-0 transition-all duration-500"
                 style={{ width: `${(currentStep / 3) * 100}%` }}
               />
 
@@ -435,17 +435,17 @@ export const EvidenceSection: React.FC = () => {
                   <div 
                     className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11px] font-mono font-bold transition-all duration-300 ${
                       currentStep === idx
-                        ? 'bg-[#dfc28d] text-[#1c1611] scale-125 shadow-[0_0_18px_#dfc28d] ring-2 ring-[#dfc28d]/60'
+                        ? 'bg-[#ffffff] text-[#141820] border-2 border-[#c4a978] scale-125 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-[#c4a978]/60'
                         : idx < currentStep
-                        ? 'bg-[#dfc28d] text-[#1c1611] shadow-sm'
-                        : 'bg-[#1c1712] text-[#dfc28d] border border-[#c4a978]/40 group-hover:border-[#dfc28d]'
+                        ? 'bg-[#c4a978] text-[#141820] shadow-sm'
+                        : 'bg-[#f3f2e6] text-[#55604e] border border-[#c4a978]/60 group-hover:border-[#c4a978]'
                     }`}
                   >
                     0{idx + 1}
                   </div>
                   <span 
                     className={`text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider mt-2 transition-colors ${
-                      currentStep === idx ? 'text-[#dfc28d] font-bold' : 'text-[#8c7f6e] group-hover:text-[#dfc28d]'
+                      currentStep === idx ? 'text-[#f3f2e6] font-bold drop-shadow-sm' : 'text-[#f3f2e6]/75 group-hover:text-[#f3f2e6]'
                     }`}
                   >
                     {item.timelineLabel}
