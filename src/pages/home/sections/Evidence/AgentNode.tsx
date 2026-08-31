@@ -58,8 +58,8 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         isEffectiveActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_20px_45px_rgba(0,0,0,0.35)] ring-2 ring-[#c4a978]/70 z-20'
           : isPrimary
-          ? 'bg-[#fbf9f4]/55 hover:bg-[#ffffff] backdrop-blur-md border-white/50 hover:border-[#c4a978] shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
-          : 'bg-[#f8f5ee]/45 hover:bg-[#ffffff] backdrop-blur-md border-white/40 hover:border-[#c4a978] shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
+          ? 'bg-white/80 hover:bg-[#ffffff] backdrop-blur-lg border-white/80 hover:border-[#c4a978] shadow-[0_12px_32px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
+          : 'bg-white/70 hover:bg-[#ffffff] backdrop-blur-lg border-white/70 hover:border-[#c4a978] shadow-[0_12px_32px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
       } ${className}`}
     >
       {/* Top candle glow line */}
@@ -99,7 +99,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
             className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-300 ${
               isEffectiveActive
                 ? 'bg-[#f3f2e6] border-[#c4a978] text-[#7a382e] shadow-[0_2px_8px_rgba(196,169,120,0.3)]'
-                : 'bg-white/40 group-hover:bg-[#ede7dc] border-white/60 group-hover:border-[#dcd6c8] text-[#25362a]'
+                : 'bg-white/70 group-hover:bg-[#ede7dc] border-white/90 group-hover:border-[#dcd6c8] text-[#25362a] shadow-xs'
             }`}
           >
             {icon}
@@ -161,7 +161,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="p-2 rounded-lg bg-white/35 group-hover:bg-[#ede8dd] border border-white/50 group-hover:border-[#dcd6c8] text-[10.5px] font-mono text-[#37312c] flex items-center justify-between transition-colors shadow-xs"
+                className="p-2 rounded-lg bg-white/60 group-hover:bg-[#ede8dd] border border-white/80 group-hover:border-[#dcd6c8] text-[10.5px] font-mono text-[#37312c] flex items-center justify-between transition-colors shadow-xs"
               >
                 <span>Click to inspect</span>
                 <ChevronDown className="w-3 h-3 text-[#55604e] group-hover:text-[#25362a]" />
@@ -180,7 +180,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
               className={`text-[10px] sm:text-[10.5px] font-semibold px-2 py-0.5 rounded-md transition-colors ${
                 isEffectiveActive
                   ? 'bg-[#f3f2e6] text-[#25362a] border border-[#c4a978]'
-                  : 'bg-white/45 group-hover:bg-[#ede7dc] text-[#25362a] group-hover:text-[#55604e] border border-white/60 group-hover:border-[#dcd6c8]'
+                  : 'bg-white/65 group-hover:bg-[#ede7dc] text-[#25362a] group-hover:text-[#55604e] border border-white/80 group-hover:border-[#dcd6c8]'
               }`}
             >
               {tag}
