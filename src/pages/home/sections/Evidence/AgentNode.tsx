@@ -31,18 +31,31 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
   onMouseLeave,
   className = '',
 }) => {
+  const [isLocalHovered, setIsLocalHovered] = React.useState(false);
+  const isEffectiveActive = isActive || isLocalHovered;
+
+  const handleMouseEnter = () => {
+    setIsLocalHovered(true);
+    if (onMouseEnter) onMouseEnter();
+  };
+
+  const handleMouseLeave = () => {
+    setIsLocalHovered(false);
+    if (onMouseLeave) onMouseLeave();
+  };
+
   return (
     <motion.div
       onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      animate={isActive ? { scale: 1.03, y: -6 } : { scale: 1, y: 0 }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      animate={isEffectiveActive ? { scale: 1.03, y: -6 } : { scale: 1, y: 0 }}
       whileHover={{ scale: 1.03, y: -6 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
       className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-500 cursor-pointer text-left group overflow-hidden ${
-        isActive
+        isEffectiveActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_20px_45px_rgba(0,0,0,0.35)] ring-2 ring-[#c4a978]/70 z-20'
           : isPrimary
           ? 'bg-[#fbf9f4]/55 hover:bg-[#ffffff] backdrop-blur-md border-white/50 hover:border-[#c4a978] shadow-[0_10px_30px_rgba(0,0,0,0.25)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]'
@@ -52,14 +65,14 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       {/* Top candle glow line */}
       <div
         className={`absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#c4a978] to-transparent transition-opacity duration-500 ${
-          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          isEffectiveActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`}
       />
 
       {/* Ambient background radial glow when active */}
       <div
         className={`absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-32 bg-[#c4a978]/15 rounded-full blur-2xl pointer-events-none transition-opacity duration-500 ${
-          isActive ? 'opacity-100' : 'opacity-0'
+          isEffectiveActive ? 'opacity-100' : 'opacity-0'
         }`}
       />
 
@@ -69,12 +82,12 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
           <div className="flex items-center gap-2">
             <span
               className={`font-mono text-[11px] font-bold tracking-widest uppercase transition-colors ${
-                isActive ? 'text-[#7a382e]' : 'text-[#37312c] group-hover:text-[#55604e]'
+                isEffectiveActive ? 'text-[#7a382e]' : 'text-[#37312c] group-hover:text-[#55604e]'
               }`}
             >
               {step}
             </span>
-            {isActive && (
+            {isEffectiveActive && (
               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#16a34a]/15 border border-[#16a34a]/30 text-[#15803d] text-[9px] font-mono font-bold">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
                 ACTIVE
@@ -84,7 +97,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
           <div
             className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-300 ${
-              isActive
+              isEffectiveActive
                 ? 'bg-[#f3f2e6] border-[#c4a978] text-[#7a382e] shadow-[0_2px_8px_rgba(196,169,120,0.3)]'
                 : 'bg-white/40 group-hover:bg-[#ede7dc] border-white/60 group-hover:border-[#dcd6c8] text-[#25362a]'
             }`}
@@ -95,9 +108,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* Title */}
         <h4
-          className={`text-sm sm:text-[15px] font-bold uppercase tracking-wider mb-1.5 transition-colors relative z-10 ${
-            isActive ? 'text-[#141820]' : 'text-[#141820] group-hover:text-[#141820]'
-          }`}
+          className="text-sm sm:text-[15px] font-bold uppercase tracking-wider mb-1.5 transition-colors relative z-10 text-[#141820]"
         >
           {title}
         </h4>
@@ -110,7 +121,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         {/* Live Simulation Preview Box */}
         <div className="relative z-10 mb-3 min-h-[46px]">
           <AnimatePresence mode="wait">
-            {isActive ? (
+            {isEffectiveActive ? (
               <motion.div
                 key={`sim-${stepIndex}`}
                 initial={{ opacity: 0, y: 6 }}
@@ -167,7 +178,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
             <span
               key={idx}
               className={`text-[10px] sm:text-[10.5px] font-semibold px-2 py-0.5 rounded-md transition-colors ${
-                isActive
+                isEffectiveActive
                   ? 'bg-[#f3f2e6] text-[#25362a] border border-[#c4a978]'
                   : 'bg-white/45 group-hover:bg-[#ede7dc] text-[#25362a] group-hover:text-[#55604e] border border-white/60 group-hover:border-[#dcd6c8]'
               }`}
@@ -179,16 +190,16 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       )}
 
       {/* Active pulse dot */}
-      {(isPrimary || isActive) && (
+      {(isPrimary || isEffectiveActive) && (
         <span className="absolute top-2.5 right-2.5 flex h-2 w-2 pointer-events-none z-10">
           <span
             className={`animate-ping absolute inline-flex h-full w-full rounded-full ${
-              isActive ? 'bg-[#c4a978] opacity-90' : 'bg-[#7a382e] opacity-75'
+              isEffectiveActive ? 'bg-[#c4a978] opacity-90' : 'bg-[#7a382e] opacity-75'
             }`}
           />
           <span
             className={`relative inline-flex rounded-full h-2 w-2 ${
-              isActive ? 'bg-[#c4a978]' : 'bg-[#7a382e]'
+              isEffectiveActive ? 'bg-[#c4a978]' : 'bg-[#7a382e]'
             }`}
           />
         </span>
