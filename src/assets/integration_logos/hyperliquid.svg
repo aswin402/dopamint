@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="10" fill="#0B0E14"/>
+  <!-- Mint green geometric H mark -->
+  <path d="M13 14H19V21.5H29V14H35V34H29V26.5H19V34H13V14Z" fill="#50E3C2"/>
+  <!-- Isometric shading accents -->
+  <path d="M19 14L22 11H28L25 14H19Z" fill="#97FCE5"/>
+  <path d="M35 14L38 11V31L35 34V14Z" fill="#2BB393"/>
+</svg>

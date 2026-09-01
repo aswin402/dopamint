@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <script src="/charting_library_v28.5/charting_library/charting_library.js?bust=v8"></script>
+    <title>Hyperliquid</title>
+    <meta
+      name="description"
+      content="Trade crypto, commodities, indices, and more on Hyperliquid: 300+ perpetual and spot markets, fully onchain, non-custodial, 24/7."
+    />
+
+    <base href="/" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <!-- add to homescreen for ios -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- you can manually bump this version number if you want to guarantee clients will reload on deploy -->
+    <meta name="version" content="1" />
+    <script type="module" crossorigin src="/assets/index-DiXfiuVj.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-C_s2cVnS.js">
+    <link rel="modulepreload" crossorigin href="/assets/jsx-runtime-DDui8BY5.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dom-D0bYJXHM.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-Bpv4vmSW.js">
+    <link rel="modulepreload" crossorigin href="/assets/preload-helper-Czpn1I53.js">
+    <link rel="modulepreload" crossorigin href="/assets/ccip-DA1sy2b1.js">
+    <link rel="modulepreload" crossorigin href="/assets/secp256k1-CVTd387I.js">
+    <link rel="modulepreload" crossorigin href="/assets/_esm-C_nWy398.js">
+    <link rel="modulepreload" crossorigin href="/assets/tslib.es6-DWjEJTj2.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-B3-21qHn.js">
+    <link rel="modulepreload" crossorigin href="/assets/useActiveWallet-BdFIc7_K-DggiyHje.js">
+    <link rel="modulepreload" crossorigin href="/assets/waitForCallsStatus-BAeZSVDK.js">
+    <link rel="modulepreload" crossorigin href="/assets/utils-DdckVfQr.js">
+    <link rel="modulepreload" crossorigin href="/assets/events-mo8iUHSb.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.es-MmM24a-0.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-CoS6E-3x.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.es-DzUDarxn.js">
+    <link rel="modulepreload" crossorigin href="/assets/blakejs-DLplI6PL.js">
+    <link rel="modulepreload" crossorigin href="/assets/useWallets-3r4yfFNg-DR-InllO.js">
+    <link rel="modulepreload" crossorigin href="/assets/usePrivy-CeQ3C1KS-BTwc597M.js">
+    <link rel="modulepreload" crossorigin href="/assets/moonpay-CrUhGais.js">
+    <link rel="modulepreload" crossorigin href="/assets/src-cpFLh9w8.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-BupnFI1Y.js">
+    <link rel="modulepreload" crossorigin href="/assets/hmac-ULLuYa3r.js">
+    <link rel="modulepreload" crossorigin href="/assets/clsx.m-CsnoUGnw.js">
+    <link rel="modulepreload" crossorigin href="/assets/hooks.module-DV1cbjRL.js">
+    <link rel="modulepreload" crossorigin href="/assets/trigger-BhKAUSZw.js">
+    <link rel="modulepreload" crossorigin href="/assets/esm-B25tgIBd.js">
+    <link rel="modulepreload" crossorigin href="/assets/construct-url-BRCVK0XS.js">
+    <link rel="modulepreload" crossorigin href="/assets/index-CUao1WyN-C4wB_l4q.js">
+    <link rel="modulepreload" crossorigin href="/assets/parseEther-CoC_3cRp.js">
+    <link rel="modulepreload" crossorigin href="/assets/custom-9aBUr4UI.js">
+    <link rel="modulepreload" crossorigin href="/assets/dist-CChB-JD7.js">
+    <link rel="modulepreload" crossorigin href="/assets/safe-buffer-DvCOg_6b.js">
+    <link rel="modulepreload" crossorigin href="/assets/config-h2nQi3Vo.js">
+    <link rel="modulepreload" crossorigin href="/assets/fallback-DSSCfTcf.js">
+    <link rel="modulepreload" crossorigin href="/assets/LineChart-DhMY78Bj.js">
+    <link rel="modulepreload" crossorigin href="/assets/FavoriteButton-Cj-mjPAJ.js">
+    <link rel="modulepreload" crossorigin href="/assets/CoinSelector.provider-DTPov476.js">
+    <link rel="modulepreload" crossorigin href="/assets/Badge-QCJBFFc3.js">
+    <link rel="modulepreload" crossorigin href="/assets/series-CIOEUVN8.js">
+    <link rel="modulepreload" crossorigin href="/assets/AcrossWithdrawModal-CifikBJX.js">
+    <link rel="modulepreload" crossorigin href="/assets/browser-CVrmIXXt.js">
+    <link rel="modulepreload" crossorigin href="/assets/index.es-Cuk9vOJr.js">
+    <link rel="modulepreload" crossorigin href="/assets/provideDelegations-CcarN2s6.js">
+    <link rel="stylesheet" crossorigin href="/assets/config-Ywd9Ze1i.css">
+    <link rel="stylesheet" crossorigin href="/assets/index-R-MmLFNE.css">
+  </head>
+
+  <body style="background-color: #303030">
+    <div id="root" style="height: 100%"></div>
+    <script src="https://hyperliquid.statuspage.io/embed/script.js"></script>
+    <!--
+      Minimal `process` global for the browserify shims that vite.config.ts
+      aliases node builtins to. `readable-stream` (reached via
+      stream-browserify, in turn via crypto-browserify) reads `process.browser`
+      and `process.version` at MODULE SCOPE:
+
+        var i = !process.browser && ['v0.10','v0.9.'].indexOf(
+          process.version.slice(0, 5)) > -1 ? setImmediate : nextTick
+
+      so it throws "process is not defined" during import, before React mounts.
+      webpack provided a process shim for CRA; vite does not.
+
+      `define` cannot cover this: it rewrites `process.env` textually but leaves
+      bare `process` alone. This has to be a real global, and it has to exist
+      before any module evaluates -- hence a classic script here rather than an
+      import, since those are deferred.
+
+      Deliberately tiny: only what the shims actually touch. `env` is present
+      for safety but unused, because `define` replaces `process.env` at build
+      time.
+    -->
+    <script>
+      window.process = window.process || {
+        env: {},
+        browser: true,
+        version: "",
+        versions: {},
+        platform: "browser",
+        nextTick: function (callback) {
+          queueMicrotask(callback);
+        },
+      };
+    </script>
+  </body>
+</html>

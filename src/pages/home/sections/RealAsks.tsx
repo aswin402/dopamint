@@ -6,6 +6,17 @@ import sideCharImg from '../../../assets/side_char.webp';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
 import { IMessageBubble } from './IMessageBubble';
 
+import googleCalendarLogo from '../../../assets/integration_logos/google_calendar.svg';
+import googleMapsLogo from '../../../assets/integration_logos/google_maps.svg';
+import googleFlightsLogo from '../../../assets/integration_logos/google_flights.svg';
+import googleFinanceLogo from '../../../assets/integration_logos/google_finance.svg';
+import googlePayLogo from '../../../assets/integration_logos/google_pay.svg';
+import uberLogo from '../../../assets/integration_logos/uber.svg';
+import tradingviewLogo from '../../../assets/integration_logos/tradingview.svg';
+import coingeckoLogo from '../../../assets/integration_logos/coingecko.svg';
+import hyperliquidLogo from '../../../assets/integration_logos/hyperliquid.svg';
+import yahooFinanceLogo from '../../../assets/integration_logos/yahoo_finance.svg';
+
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
 const STEP2 =
   'M 0.00 0.00 L 1.00 0.00 C 0.96 0.18 0.88 0.36 0.80 0.52 C 0.74 0.64 0.68 0.78 0.62 1.00 L 0.38 1.00 C 0.32 0.78 0.26 0.64 0.20 0.52 C 0.12 0.36 0.04 0.18 0.00 0.00 Z';
@@ -100,9 +111,9 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box1_flight',
     isSm: true,
     logos: [
-      { name: 'Google Maps', domain: 'maps.google.com' },
-      { name: 'Uber', domain: 'uber.com' },
-      { name: 'Google Flights', domain: 'flights.google.com' },
+      { name: 'Google Maps', iconSrc: googleMapsLogo },
+      { name: 'Uber', iconSrc: uberLogo },
+      { name: 'Google Flights', iconSrc: googleFlightsLogo },
     ],
     bubbles: [
       { text: 'your flight is boarding in 40 mins, and your food is 2 mins away. maybe start moving.', side: 'left' },
@@ -113,8 +124,8 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box2_sui',
     isSm: true,
     logos: [
-      { name: 'CoinGecko', domain: 'coingecko.com' },
-      { name: 'TradingView', domain: 'tradingview.com' },
+      { name: 'CoinGecko', iconSrc: coingeckoLogo },
+      { name: 'TradingView', iconSrc: tradingviewLogo },
     ],
     bubbles: [
       { text: 'SUI token unlock in 4 hours. 12.4M tokens (~$23.6M) entering circulation.', side: 'left' },
@@ -125,8 +136,8 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box3_funding',
     isSm: true,
     logos: [
-      { name: 'Hyperliquid', domain: 'hyperliquid.xyz' },
-      { name: 'TradingView', domain: 'tradingview.com' },
+      { name: 'Hyperliquid', iconSrc: hyperliquidLogo },
+      { name: 'TradingView', iconSrc: tradingviewLogo },
     ],
     bubbles: [
       { text: 'negative funding rates detected on APT, ARB, and OP perps.', side: 'left' },
@@ -137,8 +148,8 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box4_birthday',
     isSm: false,
     logos: [
-      { name: 'Google Calendar', domain: 'calendar.google.com' },
-      { name: 'Google Maps', domain: 'maps.google.com' },
+      { name: 'Google Calendar', iconSrc: googleCalendarLogo },
+      { name: 'Google Maps', iconSrc: googleMapsLogo },
     ],
     bubbles: [
       { text: 'shit i forget her birthday', side: 'right' },
@@ -150,8 +161,8 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box5_bills',
     isSm: false,
     logos: [
-      { name: 'Google Pay', domain: 'pay.google.com' },
-      { name: 'Google Calendar', domain: 'calendar.google.com' },
+      { name: 'Google Pay', iconSrc: googlePayLogo },
+      { name: 'Google Calendar', iconSrc: googleCalendarLogo },
     ],
     bubbles: [
       { text: 'handle my bills pls', side: 'right' },
@@ -163,9 +174,9 @@ const ASK_CARDS: AskCardData[] = [
     id: 'box6_stocks',
     isSm: false,
     logos: [
-      { name: 'TradingView', domain: 'tradingview.com' },
-      { name: 'Yahoo Finance', domain: 'finance.yahoo.com' },
-      { name: 'Google Finance', domain: 'finance.google.com' },
+      { name: 'TradingView', iconSrc: tradingviewLogo },
+      { name: 'Yahoo Finance', iconSrc: yahooFinanceLogo },
+      { name: 'Google Finance', iconSrc: googleFinanceLogo },
     ],
     bubbles: [
       { text: 'yo how’s my portfolio doing', side: 'right' },
@@ -489,8 +500,8 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'Google Calendar', domain: 'calendar.google.com' },
-                  { name: 'Google Maps', domain: 'maps.google.com' },
+                  { name: 'Google Calendar', iconSrc: googleCalendarLogo },
+                  { name: 'Google Maps', iconSrc: googleMapsLogo },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
@@ -511,9 +522,9 @@ export const RealAsks: React.FC = () => {
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'Google Maps', domain: 'maps.google.com' },
-                  { name: 'Uber', domain: 'uber.com' },
-                  { name: 'Google Flights', domain: 'flights.google.com' },
+                  { name: 'Google Maps', iconSrc: googleMapsLogo },
+                  { name: 'Uber', iconSrc: uberLogo },
+                  { name: 'Google Flights', iconSrc: googleFlightsLogo },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
@@ -533,8 +544,8 @@ export const RealAsks: React.FC = () => {
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'CoinGecko', domain: 'coingecko.com' },
-                  { name: 'TradingView', domain: 'tradingview.com' },
+                  { name: 'CoinGecko', iconSrc: coingeckoLogo },
+                  { name: 'TradingView', iconSrc: tradingviewLogo },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
@@ -554,8 +565,8 @@ export const RealAsks: React.FC = () => {
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'Hyperliquid', domain: 'hyperliquid.xyz' },
-                  { name: 'TradingView', domain: 'tradingview.com' },
+                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo },
+                  { name: 'TradingView', iconSrc: tradingviewLogo },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
@@ -575,8 +586,8 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'Google Pay', domain: 'pay.google.com' },
-                  { name: 'Google Calendar', domain: 'calendar.google.com' },
+                  { name: 'Google Pay', iconSrc: googlePayLogo },
+                  { name: 'Google Calendar', iconSrc: googleCalendarLogo },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
@@ -597,9 +608,9 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'TradingView', domain: 'tradingview.com' },
-                  { name: 'Yahoo Finance', domain: 'finance.yahoo.com' },
-                  { name: 'Google Finance', domain: 'finance.google.com' },
+                  { name: 'TradingView', iconSrc: tradingviewLogo },
+                  { name: 'Yahoo Finance', iconSrc: yahooFinanceLogo },
+                  { name: 'Google Finance', iconSrc: googleFinanceLogo },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="24" fill="#8DC63F"/>
+  <!-- Gecko head outline & cheek -->
+  <path d="M24 6C13.5 6 7 13.8 7 23.5C7 33.2 14.6 41 24.5 41C34.4 41 41 33.2 41 23.5C41 13.8 34.5 6 24 6Z" fill="#8DC63F"/>
+  <!-- Yellow face patch -->
+  <path d="M27 12C20 12 15 17 15 24C15 31 20.5 36 28 36C34 36 38 31 38 24C38 17 33 12 27 12Z" fill="#88C057" opacity="0.3"/>
+  <ellipse cx="28" cy="26" rx="10" ry="8" fill="#F4EB49"/>
+  <!-- Eye -->
+  <circle cx="20" cy="18" r="6" fill="#FFFFFF" stroke="#231F20" stroke-width="1.5"/>
+  <circle cx="21" cy="17" r="3.5" fill="#231F20"/>
+  <circle cx="22" cy="15.5" r="1.2" fill="#FFFFFF"/>
+  <!-- Smile -->
+  <path d="M20 28C24 33 33 32 35 27" stroke="#231F20" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <!-- Red tongue / cheek blush -->
+  <circle cx="14" cy="27" r="3" fill="#ED1C24" opacity="0.7"/>
+</svg>
