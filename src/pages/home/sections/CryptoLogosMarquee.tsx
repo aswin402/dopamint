@@ -122,7 +122,7 @@ export const CryptoLogosMarquee: React.FC = () => {
       </div>
 
       {/* Main 4-Row Marquee Track Wrapper with Gradient Edge Masks */}
-      <div className="relative w-full overflow-hidden space-y-3 sm:space-y-4">
+      <div className="relative w-full overflow-hidden space-y-3 sm:space-y-4 lg:space-y-5">
         
         {/* Left Gradient Fade (Covers all 4 Rows) */}
         <div className="pointer-events-none absolute left-0 inset-y-0 w-20 sm:w-32 lg:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/90 to-transparent z-20" />
@@ -132,18 +132,18 @@ export const CryptoLogosMarquee: React.FC = () => {
 
         {/* ── ROW 1: Consumer & Daily Apps (Moving LEFT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
-          <div className="flex w-max items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}
             {ROW_1_LOGOS.map((logo) => (
               <div
                 key={`r1-a-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -152,12 +152,12 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r1-b-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -166,18 +166,18 @@ export const CryptoLogosMarquee: React.FC = () => {
 
         {/* ── ROW 2: Productivity, Social & Market Intel (Moving RIGHT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
-          <div className="flex w-max items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}
             {ROW_2_LOGOS.map((logo) => (
               <div
                 key={`r2-a-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -186,32 +186,32 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r2-b-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── ROW 3: Major Global Exchanges & Trading (Moving LEFT) ── */}
+        {/* ── ROW 3: Major Global Exchanges & Protocols (Moving LEFT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
-          <div className="flex w-max items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}
             {ROW_3_LOGOS.map((logo) => (
               <div
                 key={`r3-a-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -220,32 +220,32 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r3-b-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── ROW 4: Web3 Wallets, Protocols & Hardware (Moving RIGHT) ── */}
+        {/* ── ROW 4: Web3 Wallets, Hardware & Custody (Moving RIGHT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
-          <div className="flex w-max items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}
             {ROW_4_LOGOS.map((logo) => (
               <div
                 key={`r4-a-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -254,12 +254,12 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r4-b-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-5 sm:mx-8 lg:mx-12 shrink-0 h-10 sm:h-12 lg:h-14 px-3 py-1 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="max-h-6 sm:max-h-8 lg:max-h-9 w-auto max-w-[120px] sm:max-w-[150px] lg:max-w-[170px] object-contain opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
