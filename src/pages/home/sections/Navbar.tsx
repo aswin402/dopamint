@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Type1Button } from '@/components/ui/Type1Button';
 import { Menu, X } from 'lucide-react';
+import { getLenisInstance } from '@/lib/lenis';
 import logoDope from '../../../assets/logo_dope.webp';
 
 export const Navbar: React.FC = () => {
@@ -34,6 +35,48 @@ export const Navbar: React.FC = () => {
     };
   }, []);
 
+  const handleNavClick = useCallback((e: React.MouseEvent<HTMLElement>, targetId: string) => {
+    e.preventDefault();
+    setMobileNavOpen(false);
+
+    const lenis = getLenisInstance();
+
+    if (targetId === 'hero') {
+      if (lenis) {
+        lenis.scrollTo(0, { duration: 1.2 });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      window.dispatchEvent(new CustomEvent('set-hero-progress', { detail: { target: 0 } }));
+      return;
+    }
+
+    if (targetId === 'manifesto') {
+      // Smoothly advance hero dissolve to show "what is dopamint"
+      window.dispatchEvent(new CustomEvent('set-hero-progress', { detail: { target: 1 } }));
+      if (window.scrollY > 10) {
+        if (lenis) {
+          lenis.scrollTo(0, { duration: 0.9 });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+      return;
+    }
+
+    // For other sections: first ensure hero dissolve is complete / page unlocked
+    window.dispatchEvent(new CustomEvent('set-hero-progress', { detail: { target: 1 } }));
+
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      if (lenis) {
+        lenis.scrollTo(targetEl, { offset: -24, duration: 1.3 });
+      } else {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, []);
+
   const isSolidNav = isScrolled || isHeroRevealed;
 
   return (
@@ -46,7 +89,12 @@ export const Navbar: React.FC = () => {
     >
       <div className="max-w-[1400px] mx-auto flex items-center justify-between w-full">
         {/* Brand with logo_dope.webp (Switches from White to Black on scroll or when hero dissolves) */}
-        <a href="#hero" className="flex items-center group" aria-label="Home">
+        <a
+          href="#hero"
+          onClick={(e) => handleNavClick(e, 'hero')}
+          className="flex items-center group cursor-pointer"
+          aria-label="Home"
+        >
           <img
             src={logoDope}
             alt="Dope"
@@ -56,7 +104,7 @@ export const Navbar: React.FC = () => {
           />
         </a>
 
-        {/* Nav Links: About, Features, Docs, Ecosystem */}
+        {/* Nav Links: About, Agents, Ecosystem */}
         <nav
           className={`hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase transition-colors duration-300 ${
             isSolidNav ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
@@ -64,25 +112,22 @@ export const Navbar: React.FC = () => {
         >
           <a
             href="#manifesto"
-            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+            onClick={(e) => handleNavClick(e, 'manifesto')}
+            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             About
           </a>
           <a
             href="#agents"
-            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+            onClick={(e) => handleNavClick(e, 'agents')}
+            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
-            Features
-          </a>
-          <a
-            href="#architecture"
-            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
-          >
-            Docs
+            Agents
           </a>
           <a
             href="#ecosystem"
-            className={`transition-colors ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+            onClick={(e) => handleNavClick(e, 'ecosystem')}
+            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
           >
             Ecosystem
           </a>
@@ -92,6 +137,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center gap-3">
           <Type1Button
             href="#manifesto"
+            onClick={(e) => handleNavClick(e, 'manifesto')}
             variant={isSolidNav ? 'dark' : 'light'}
             className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
           >
@@ -117,22 +163,31 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       {mobileNavOpen && (
         <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-6 bg-[#e6e6dc]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-neutral-300 text-sm space-y-4 text-black animate-in fade-in slide-in-from-top-2 duration-200">
-          <a href="#manifesto" onClick={() => setMobileNavOpen(false)} className="block font-bold">
+          <a
+            href="#manifesto"
+            onClick={(e) => handleNavClick(e, 'manifesto')}
+            className="block font-bold cursor-pointer"
+          >
             About
           </a>
-          <a href="#agents" onClick={() => setMobileNavOpen(false)} className="block font-bold">
-            Features
+          <a
+            href="#agents"
+            onClick={(e) => handleNavClick(e, 'agents')}
+            className="block font-bold cursor-pointer"
+          >
+            Agents
           </a>
-          <a href="#architecture" onClick={() => setMobileNavOpen(false)} className="block font-bold">
-            Docs
-          </a>
-          <a href="#ecosystem" onClick={() => setMobileNavOpen(false)} className="block font-bold">
+          <a
+            href="#ecosystem"
+            onClick={(e) => handleNavClick(e, 'ecosystem')}
+            className="block font-bold cursor-pointer"
+          >
             Ecosystem
           </a>
           <div className="pt-2">
             <Type1Button
               href="#manifesto"
-              onClick={() => setMobileNavOpen(false)}
+              onClick={(e) => handleNavClick(e, 'manifesto')}
               className="!w-full !h-11"
             >
               <span className="normal-case tracking-[1px]">Try iMessage</span>
@@ -143,3 +198,4 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+

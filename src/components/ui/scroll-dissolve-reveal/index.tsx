@@ -75,10 +75,8 @@ export function ScrollDissolveReveal({
       const factor = 1 - Math.exp(-6.5 * deltaSec);
       smoothProgressRef.current += (targetProgressRef.current - smoothProgressRef.current) * factor;
 
-      // Once the user has completed the reveal, finish the last fraction in
-      // this frame. Leaving it to the damping loop kept the page locked for
-      // several additional wheel/touch gestures after the reveal looked done.
-      if (targetProgressRef.current >= 1.0) {
+      // Once the reveal is nearly finished, snap the final fraction
+      if (targetProgressRef.current >= 1.0 && smoothProgressRef.current >= 0.95) {
         smoothProgressRef.current = 1.0;
       } else if (targetProgressRef.current <= 0.0 && smoothProgressRef.current <= 0.05) {
         smoothProgressRef.current = 0.0;
@@ -369,11 +367,28 @@ export function ScrollDissolveReveal({
       }
     };
 
+    const onSetHeroProgress = (e: Event) => {
+      const customEv = e as CustomEvent<{ target: number }>;
+      const target = customEv.detail?.target ?? 0;
+      if (target === 0) {
+        resetSectionHandoff();
+        isUnlockedRef.current = false;
+        setIsUnlocked(false);
+        lockPageScroll(HERO_SCROLL_LOCK_OWNER);
+        window.scrollTo(0, 0);
+        updateTarget(0, false);
+      } else {
+        updateTarget(target, true);
+        armSectionHandoff();
+      }
+    };
+
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKeyDown, { passive: false });
+    window.addEventListener("set-hero-progress", onSetHeroProgress);
 
     return () => {
       window.removeEventListener("wheel", onWheel);
@@ -381,6 +396,7 @@ export function ScrollDissolveReveal({
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("set-hero-progress", onSetHeroProgress);
       resetSectionHandoff();
     };
   }, [armSectionHandoff, prefersReducedMotion, resetSectionHandoff, scrollToNextSection, updateTarget]);

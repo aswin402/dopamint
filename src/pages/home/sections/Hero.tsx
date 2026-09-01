@@ -10,9 +10,9 @@ import { IntentBaseHeadline } from './IntentBaseHeadline';
 const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Research', 'Schedule'];
 
 const SUGGESTION_BADGES = [
-  'Check ETH',
+  'Long SPCX',
   'Swap USDC',
-  'trending coins',
+  'whale moments 🚨',
   'Plan my weekend',
 ];
 
