@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <rect width="48" height="48" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1"/>
+  <rect x="8" y="8" width="32" height="32" rx="6" fill="#FFFFFF"/>
+  <path d="M32 8h-4v4h-8V8h-4v4h-4c-2.2 0-4 1.8-4 4v20c0 2.2 1.8 4 4 4h24c2.2 0 4-1.8 4-4V16c0-2.2-1.8-4-4-4h-4V8z" fill="#4285F4"/>
+  <path d="M12 20h24v16H12z" fill="#FFFFFF"/>
+  <text x="24" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="bold" fill="#1A73E8" text-anchor="middle">31</text>
+  <path d="M36 12h-4v4h4v-4z" fill="#EA4335"/>
+  <path d="M16 12h-4v4h4v-4z" fill="#FBBC04"/>
+  <path d="M12 36h4v4h-4v-4z" fill="#34A853"/>
+</svg>

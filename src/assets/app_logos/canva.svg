@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="canvaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#00C4CC"/>
+      <stop offset="100%" stopColor="#7D2AE8"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="10" fill="url(#canvaGrad)"/>
+  <text x="24" y="29" font-family="'Brush Script MT', 'Dancing Script', cursive, sans-serif" font-size="18" font-style="italic" font-weight="bold" fill="#FFFFFF" text-anchor="middle">Canva</text>
+</svg>
