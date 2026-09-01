@@ -4,7 +4,6 @@ import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import sideCharImg from '../../../assets/side_char.webp';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
-import logoDarkPurple from '../../../assets/logo-dark-purple.webp';
 import { IMessageBubble } from './IMessageBubble';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
@@ -98,77 +97,79 @@ interface AskCardData {
 
 const ASK_CARDS: AskCardData[] = [
   {
-    id: 'birthday',
-    isSm: false,
-    logos: [
-      { name: 'Google Calendar', domain: 'calendar.google.com' },
-      { name: 'OpenTable', domain: 'opentable.com' },
-      { name: 'DoorDash', domain: 'doordash.com' },
-    ],
-    bubbles: [
-      { text: 'shit i forgot her birthday', side: 'right' },
-      { text: 'already handled. flowers at 6, dinner at 8. reminder to call her at noon.', side: 'left' },
-    ],
-    rotation: -2.5,
-  },
-  {
-    id: 'flight',
+    id: 'box1_flight',
     isSm: true,
     logos: [
-      { name: 'Flight Alert', iconSrc: logoDarkPurple },
+      { name: 'Google Maps', domain: 'maps.google.com' },
+      { name: 'Uber', domain: 'uber.com' },
+      { name: 'Google Flights', domain: 'flights.google.com' },
     ],
     bubbles: [
-      { text: 'your flight’s boarding in 40 mins. maybe start moving.', side: 'left' },
+      { text: 'your flight is boarding in 40 mins, and your food is 2 mins away. maybe start moving.', side: 'left' },
+    ],
+    rotation: -2.0,
+  },
+  {
+    id: 'box2_sui',
+    isSm: true,
+    logos: [
+      { name: 'CoinGecko', domain: 'coingecko.com' },
+      { name: 'TradingView', domain: 'tradingview.com' },
+    ],
+    bubbles: [
+      { text: 'SUI token unlock in 4 hours. 12.4M tokens (~$23.6M) entering circulation.', side: 'left' },
     ],
     rotation: 2.2,
   },
   {
-    id: 'food',
+    id: 'box3_funding',
     isSm: true,
     logos: [
-      { name: 'DoorDash', domain: 'doordash.com' },
+      { name: 'Hyperliquid', domain: 'hyperliquid.xyz' },
+      { name: 'TradingView', domain: 'tradingview.com' },
     ],
     bubbles: [
-      { text: 'your food is 2 mins away. behave.', side: 'left' },
+      { text: 'negative funding rates detected on APT, ARB, and OP perps.', side: 'left' },
     ],
     rotation: -1.8,
   },
   {
-    id: 'bills',
+    id: 'box4_birthday',
     isSm: false,
     logos: [
-      { name: 'Chase', domain: 'chase.com' },
-      { name: 'Venmo', domain: 'venmo.com' },
+      { name: 'Google Calendar', domain: 'calendar.google.com' },
+      { name: 'Google Maps', domain: 'maps.google.com' },
+    ],
+    bubbles: [
+      { text: 'shit i forget her birthday', side: 'right' },
+      { text: 'already handled. flowers at 6, dinner at 8. reminder to call her at noon.', side: 'left' },
+    ],
+    rotation: 2.5,
+  },
+  {
+    id: 'box5_bills',
+    isSm: false,
+    logos: [
+      { name: 'Google Pay', domain: 'pay.google.com' },
+      { name: 'Google Calendar', domain: 'calendar.google.com' },
     ],
     bubbles: [
       { text: 'handle my bills pls', side: 'right' },
       { text: 'on it. your money is leaving faster than your motivation, but we’re good.', side: 'left' },
     ],
-    rotation: 2.8,
+    rotation: -2.8,
   },
   {
-    id: 'portfolio',
+    id: 'box6_stocks',
     isSm: false,
     logos: [
-      { name: 'Coinbase', domain: 'coinbase.com' },
-      { name: 'Robinhood', domain: 'robinhood.com' },
-      { name: 'Zerion', domain: 'zerion.io' },
+      { name: 'TradingView', domain: 'tradingview.com' },
+      { name: 'Yahoo Finance', domain: 'finance.yahoo.com' },
+      { name: 'Google Finance', domain: 'finance.google.com' },
     ],
     bubbles: [
       { text: 'yo how’s my portfolio doing', side: 'right' },
-      { text: 'ngl, she’s going through it. down 2.4%. BTC is mostly to blame.', side: 'left' },
-    ],
-    rotation: -2.2,
-  },
-  {
-    id: 'btc',
-    isSm: true,
-    logos: [
-      { name: 'Coinbase', domain: 'coinbase.com' },
-      { name: 'TradingView', domain: 'tradingview.com' },
-    ],
-    bubbles: [
-      { text: 'BTC’s up 10%. shit’s moving.', side: 'left' },
+      { text: 'ngl, she’s going through it. down 2.4%. NVDA is mostly to blame.', side: 'left' },
     ],
     rotation: 1.8,
   },
@@ -477,7 +478,7 @@ export const RealAsks: React.FC = () => {
 
         <div className="relative w-full max-w-6xl mx-auto min-h-[600px] sm:min-h-[660px] lg:min-h-[720px]">
 
-          {/* CARD 1 — top-left: Birthday QA */}
+          {/* CARD 1 — top-left: Box 4 Birthday QA */}
           <motion.div
             ref={card1Ref} variants={pos1} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -489,79 +490,81 @@ export const RealAsks: React.FC = () => {
               <LogosHeader
                 items={[
                   { name: 'Google Calendar', domain: 'calendar.google.com' },
-                  { name: 'OpenTable', domain: 'opentable.com' },
-                  { name: 'DoorDash', domain: 'doordash.com' },
+                  { name: 'Google Maps', domain: 'maps.google.com' },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="shit i forgot her birthday" side="right" />
+                <IMessageBubble text="shit i forget her birthday" side="right" />
                 <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 2 — top-center: Flight boarding alert */}
+          {/* CARD 2 — top-center: Box 1 Flight & Food alert */}
           <motion.div
             ref={card2Ref} variants={pos2} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[36%] sm:left-[39%] lg:left-[41%] w-full max-w-[210px] sm:max-w-[260px] lg:max-w-[290px] z-20"
+            className="absolute top-[1%] sm:top-[1.5%] lg:top-[2%] left-[34%] sm:left-[37%] lg:left-[39%] w-full max-w-[240px] sm:max-w-[290px] lg:max-w-[325px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'Flight Alert', iconSrc: logoDarkPurple },
+                  { name: 'Google Maps', domain: 'maps.google.com' },
+                  { name: 'Uber', domain: 'uber.com' },
+                  { name: 'Google Flights', domain: 'flights.google.com' },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="your flight’s boarding in 40 mins. maybe start moving." side="left" />
+                <IMessageBubble text="your flight is boarding in 40 mins, and your food is 2 mins away. maybe start moving." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 3 — top-right: Food delivery alert */}
+          {/* CARD 3 — top-right: Box 2 SUI token unlock alert */}
           <motion.div
             ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[12%] sm:top-[14%] lg:top-[16%] right-[3%] sm:right-[6%] lg:right-[9%] w-full max-w-[190px] sm:max-w-[230px] lg:max-w-[260px] z-20"
+            className="absolute top-[12%] sm:top-[14%] lg:top-[16%] right-[2%] sm:right-[5%] lg:right-[7%] w-full max-w-[210px] sm:max-w-[255px] lg:max-w-[285px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
               whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'DoorDash', domain: 'doordash.com' },
+                  { name: 'CoinGecko', domain: 'coingecko.com' },
+                  { name: 'TradingView', domain: 'tradingview.com' },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="your food is 2 mins away. behave." side="left" />
+                <IMessageBubble text="SUI token unlock in 4 hours. 12.4M tokens (~$23.6M) entering circulation." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 6 — center: BTC market alert */}
+          {/* CARD 6 — center: Box 3 Funding rates alert */}
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[200px] sm:max-w-[245px] lg:max-w-[275px] z-20"
+            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[210px] sm:max-w-[255px] lg:max-w-[285px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'Coinbase', domain: 'coinbase.com' },
+                  { name: 'Hyperliquid', domain: 'hyperliquid.xyz' },
                   { name: 'TradingView', domain: 'tradingview.com' },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="BTC’s up 10%. shit’s moving." side="left" />
+                <IMessageBubble text="negative funding rates detected on APT, ARB, and OP perps." side="left" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 4 — bottom-left: Bills QA */}
+          {/* CARD 4 — bottom-left: Box 5 Bills QA */}
           <motion.div
             ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -572,8 +575,8 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'Chase', domain: 'chase.com' },
-                  { name: 'Venmo', domain: 'venmo.com' },
+                  { name: 'Google Pay', domain: 'pay.google.com' },
+                  { name: 'Google Calendar', domain: 'calendar.google.com' },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
@@ -583,7 +586,7 @@ export const RealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 5 — bottom-right: Portfolio QA */}
+          {/* CARD 5 — bottom-right: Box 6 Stocks Portfolio QA */}
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -594,14 +597,14 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'Coinbase', domain: 'coinbase.com' },
-                  { name: 'Robinhood', domain: 'robinhood.com' },
-                  { name: 'Zerion', domain: 'zerion.io' },
+                  { name: 'TradingView', domain: 'tradingview.com' },
+                  { name: 'Yahoo Finance', domain: 'finance.yahoo.com' },
+                  { name: 'Google Finance', domain: 'finance.google.com' },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
                 <IMessageBubble text="yo how’s my portfolio doing" side="right" />
-                <IMessageBubble text="ngl, she’s going through it. down 2.4%. BTC is mostly to blame." side="left" />
+                <IMessageBubble text="ngl, she’s going through it. down 2.4%. NVDA is mostly to blame." side="left" />
               </div>
             </motion.div>
           </motion.div>
