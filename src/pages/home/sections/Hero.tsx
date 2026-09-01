@@ -12,7 +12,7 @@ const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Research', 'Schedule'];
 const SUGGESTION_BADGES = [
   'Long SPCX',
   'Swap USDC',
-  'whale moments 🚨',
+  'whale moments',
   'Plan my weekend',
 ];
 
