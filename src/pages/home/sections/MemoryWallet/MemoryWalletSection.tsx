@@ -161,12 +161,11 @@ export const MemoryWalletSection: React.FC = () => {
               <span className="text-[#37312c]">OUR SPECIALISED AGENT</span>
             </div>
 
-            {/* Editorial Title - 3-Line Alignment */}
+            {/* Editorial Title */}
             <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.06]">
               Agent hunts the signal. <br />
               <span className="font-serif italic font-bold text-[#ffffff]">
-                Your Always-On <br />
-                Profit Agent.
+                So You Don't Have To.
               </span>
             </h2>
 
