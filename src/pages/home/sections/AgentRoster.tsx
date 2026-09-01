@@ -25,9 +25,6 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
             <span className="font-serif italic font-bold">{mainRole}</span>{' '}
             <span className="font-serif italic font-normal text-[#38493d]">{suffix}</span>
           </h3>
-          <span className="font-mono text-xs sm:text-sm uppercase tracking-[0.2em] text-[#4a5c4e] font-semibold shrink-0">
-            {agent.name}
-          </span>
         </div>
 
         {/* Description / One-liner */}
