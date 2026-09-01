@@ -25,8 +25,17 @@ export const FooterSection: React.FC = () => {
       {/* =========================================================================
           TOP / CENTER: HEADLINE & GET ACCESS CTA
           ========================================================================= */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-6 sm:pt-10 lg:pt-14 text-center space-y-4 sm:space-y-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 pt-6 sm:pt-10 lg:pt-14 text-center flex flex-col items-center space-y-4 sm:space-y-6">
         
+        {/* Brand Logo above headline */}
+        <div className="flex justify-center items-center pb-1">
+          <img
+            src={logoDope}
+            alt="Dopamint"
+            className="h-9 sm:h-12 md:h-14 w-auto object-contain brightness-0 invert drop-shadow-[0_4px_18px_rgba(0,0,0,0.6)] select-none"
+          />
+        </div>
+
         {/* Headline: Your last App */}
         <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
           Your last App.
