@@ -140,7 +140,7 @@ const ASK_CARDS: AskCardData[] = [
       { name: 'TradingView', iconSrc: tradingviewLogo },
     ],
     bubbles: [
-      { text: 'negative funding rates detected on APT, ARB, and OP perps.', side: 'left' },
+      { text: 'negative funding rates detected on OP perps.', side: 'left' },
     ],
     rotation: -1.8,
   },
@@ -569,7 +569,7 @@ export const RealAsks: React.FC = () => {
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="negative funding rates detected on APT, ARB, and OP perps." side="left" />
+                <IMessageBubble text="negative funding rates detected on OP perps." side="left" />
               </div>
             </motion.div>
           </motion.div>
