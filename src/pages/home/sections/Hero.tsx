@@ -246,7 +246,7 @@ function HouseOfAgentsSection() {
 
           {/* Trust Badges */}
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 pt-0.5 sm:pt-2">
-            {['Privacy', 'Verifiability', 'AiFi', 'x402'].map((badge) => (
+            {['AiFi', 'Verifiability', 'x402'].map((badge) => (
               <span
                 key={badge}
                 className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
