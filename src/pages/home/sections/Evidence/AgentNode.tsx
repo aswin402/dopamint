@@ -23,7 +23,6 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
   step,
   title,
   subtitle,
-  tags = [],
   icon,
   isActive = false,
   stepIndex,
@@ -54,11 +53,10 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       whileHover={{ scale: 1.02, y: -4 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
       className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-500 cursor-pointer text-left group overflow-hidden ${
         isEffectiveActive
-          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_20px_45px_rgba(0,0,0,0.35)] ring-2 ring-[#c4a978]/80 z-20'
-          : 'bg-[#eae4d9] hover:bg-[#f3f0e8] border-[#d8d0c2] shadow-[0_8px_24px_rgba(0,0,0,0.15)]'
+          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_24px_50px_rgba(196,169,120,0.28)] ring-1.5 ring-[#c4a978]/80 z-20'
+          : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_12px_32px_rgba(20,24,32,0.08)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)]'
       } ${className}`}
     >
       {/* Top golden accent line when active */}
@@ -68,9 +66,9 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         }`}
       />
 
-      {/* Top pulsating amber dot on active */}
+      {/* Top pulsating amber jewel on active */}
       {isEffectiveActive && (
-        <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 pointer-events-none z-10">
+        <span className="absolute top-3 right-3 flex h-2.5 w-2.5 pointer-events-none z-10">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c4a978] opacity-75" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#c4a978]" />
         </span>
@@ -78,21 +76,14 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
       <div>
         {/* Top Header: Step number + Live Status + Icon */}
-        <div className="flex items-start justify-between mb-2.5 relative z-10">
-          <div className="flex flex-col">
+        <div className="flex items-center justify-between mb-3 relative z-10">
+          <div className="flex items-center gap-2">
             <span
-              className={`font-mono text-[11px] font-bold tracking-widest uppercase transition-colors leading-tight ${
-                isEffectiveActive ? 'text-[#a66522]' : 'text-[#37312c]'
+              className={`font-mono text-[10.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase transition-colors whitespace-nowrap ${
+                isEffectiveActive ? 'text-[#a66522]' : 'text-[#5a544b]'
               }`}
             >
-              {stepIndex === 2 ? (
-                <>
-                  03 – AGENT <br />
-                  <span className="text-[#a66522]">HARNESS</span>
-                </>
-              ) : (
-                step
-              )}
+              {step}
             </span>
           </div>
 
@@ -108,7 +99,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
               className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${
                 isEffectiveActive
                   ? 'bg-[#ffffff] border-[#c4a978] text-[#a66522] shadow-xs'
-                  : 'bg-[#ffffff] border-[#d8d0c2] text-[#37312c]'
+                  : 'bg-[#ffffff] border-[#ded5c5] text-[#37312c]'
               }`}
             >
               {icon}
@@ -122,7 +113,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         </h4>
 
         {/* Subtitle */}
-        <p className="text-xs text-[#5a544b] font-normal leading-tight mb-3">
+        <p className="text-xs text-[#5a544b] font-serif italic leading-snug mb-3">
           {subtitle}
         </p>
 
@@ -130,28 +121,36 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* 1. INTENT CARD */}
         {stepIndex === 0 && (
-          <div className="space-y-2.5 pt-1">
-            <div className="font-serif italic font-bold text-sm sm:text-[15px] text-[#141820]">
-              “Buy $100 of NVDA”
+          <div className="space-y-2.5 pt-0.5">
+            {/* Editorial Quote Box */}
+            <div className="bg-[#f5f1e8] border border-[#e5dcce] rounded-xl px-3 py-2 flex items-center shadow-xs">
+              <span className="font-serif italic font-bold text-xs sm:text-[13.5px] text-[#141820] tracking-tight">
+                “Buy $100 of NVDA”
+              </span>
             </div>
 
-            <div className="bg-[#ffffff] rounded-xl p-3 border border-[#d8d0c2] shadow-xs space-y-2.5">
+            {/* Asset Details Pill */}
+            <div className="bg-[#ffffff] rounded-xl p-3 border border-[#ded5c5] shadow-xs space-y-2.5">
               {/* Nvidia item */}
               <div className="flex items-center gap-2.5">
-                <img src={nvidiaLogo} alt="Nvidia" className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg object-contain shrink-0" />
+                <div className="w-8 h-8 rounded-lg bg-[#76B900]/10 border border-[#76B900]/25 p-1 flex items-center justify-center shrink-0">
+                  <img src={nvidiaLogo} alt="Nvidia" className="w-full h-full object-contain" />
+                </div>
                 <div className="flex flex-col text-left leading-tight">
-                  <span className="font-bold text-[11px] uppercase tracking-wider text-[#141820]">BUY</span>
-                  <span className="text-xs font-semibold text-[#141820]">Nvidia · NVDAc</span>
-                  <span className="text-[10px] text-[#78716c]">Tokenized Stock</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-bold text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#16a34a]/10 text-[#15803d]">BUY</span>
+                    <span className="text-xs font-semibold text-[#141820]">Nvidia · NVDAc</span>
+                  </div>
+                  <span className="text-[10px] font-mono text-[#78716c] mt-0.5">Tokenized Stock</span>
                 </div>
               </div>
 
               {/* Base Network item */}
               <div className="flex items-center gap-2.5 pt-2 border-t border-[#f0ebe1]">
-                <img src={baseLogo} alt="Base" className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-contain shrink-0" />
+                <img src={baseLogo} alt="Base" className="w-6 h-6 rounded-full object-contain shrink-0" />
                 <div className="flex flex-col text-left leading-tight">
                   <span className="font-bold text-xs text-[#141820]">Base</span>
-                  <span className="text-[10px] text-[#78716c]">L2 Network</span>
+                  <span className="text-[10px] font-mono text-[#78716c]">L2 Network</span>
                 </div>
               </div>
             </div>
@@ -160,16 +159,21 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* 2. ORCHESTRATE CARD */}
         {stepIndex === 1 && (
-          <div className="space-y-1.5 pt-1">
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+          <div className="space-y-1.5 pt-0.5">
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Check Balance
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+            {/* Elegant Pipeline Connector */}
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Find Liquidity
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Select Route
             </div>
           </div>
@@ -177,16 +181,20 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* 3. AGENT HARNESS CARD */}
         {stepIndex === 2 && (
-          <div className="space-y-1.5 pt-1">
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+          <div className="space-y-1.5 pt-0.5">
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Find Liquidity
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Execute Trade
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Verify Transaction
             </div>
 
@@ -195,7 +203,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
               {['Parallel Agents', 'Routing', 'Safety'].map((tag, idx) => (
                 <span
                   key={idx}
-                  className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#d8d0c2] text-[#37312c] shadow-xs"
+                  className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
                 >
                   {tag}
                 </span>
@@ -206,24 +214,28 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* 4. ACTION LAYER CARD */}
         {stepIndex === 3 && (
-          <div className="space-y-1.5 pt-1">
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+          <div className="space-y-1.5 pt-0.5">
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Trade Executed
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
-            <div className="w-full py-2 px-3 rounded-lg bg-[#ffffff] border border-[#d8d0c2] text-center text-xs font-semibold text-[#141820] shadow-xs">
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
+            <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Transaction Confirmed
             </div>
-            <div className="text-center text-[11px] text-[#8c827a] font-bold leading-none py-0.5">↓</div>
+            <div className="flex flex-col items-center justify-center py-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
+            </div>
 
             {/* Success Outcome Box */}
-            <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#ffffff] border border-[#d8d0c2] shadow-xs">
-              <div className="w-6 h-6 rounded-full bg-[#15803d] text-white flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[#f4f9f4] border border-[#bbf7d0] shadow-xs">
+              <div className="w-6 h-6 rounded-full bg-[#15803d] text-white flex items-center justify-center shrink-0 shadow-xs">
                 <Check className="w-3.5 h-3.5 stroke-[3]" />
               </div>
               <div className="flex flex-col text-left leading-tight">
                 <span className="font-bold text-xs text-[#141820]">NVDAc Received</span>
-                <span className="text-[10px] text-[#78716c]">Tokenized Nvidia share on Base</span>
+                <span className="text-[10px] font-serif italic text-[#55604e]">Tokenized Nvidia share on Base</span>
               </div>
             </div>
           </div>
@@ -232,4 +244,5 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
     </motion.div>
   );
 };
+
 

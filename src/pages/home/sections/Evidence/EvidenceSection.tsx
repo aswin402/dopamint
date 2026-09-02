@@ -54,7 +54,7 @@ export const EvidenceSection: React.FC = () => {
 
   const steps = [
     {
-      step: '01 – INTENT',
+      step: '01 · INTENT',
       title: 'USER INTENT',
       subtitle: 'Natural voice or text.',
       tags: ['Live Voice', 'iMessage', 'Context'],
@@ -63,7 +63,7 @@ export const EvidenceSection: React.FC = () => {
       timelineLabel: 'INTENT',
     },
     {
-      step: '02 – ORCHESTRATE',
+      step: '02 · ORCHESTRATE',
       title: 'DOPE HARNESS',
       subtitle: 'Understands intent and prepares execution.',
       tags: ['Memory Sync', 'Reasoning', 'Routing'],
@@ -72,7 +72,7 @@ export const EvidenceSection: React.FC = () => {
       timelineLabel: 'ORCHESTRATE',
     },
     {
-      step: '03 – AGENT HARNESS',
+      step: '03 · AGENT HARNESS',
       title: 'AGENT HARNESS',
       subtitle: 'Coordinates execution.',
       tags: ['Parallel Agents', 'Routing', 'Safety'],
@@ -81,7 +81,7 @@ export const EvidenceSection: React.FC = () => {
       timelineLabel: 'AGENT HARNESS',
     },
     {
-      step: '04 – ACTION LAYER',
+      step: '04 · ACTION LAYER',
       title: 'AGENT EXECUTION',
       subtitle: 'Executes on Base.',
       tags: ['x402 Pay', 'On-Chain Tx', 'Outcome'],
@@ -223,43 +223,43 @@ export const EvidenceSection: React.FC = () => {
 
           {/* 4 Bottom Capability Capsule Pills (Mobile 2x2 grid) */}
           <div className="grid grid-cols-2 gap-1.5">
-            <div className="rounded-xl bg-[#f3f2e6] border border-[#dcd6c8] py-1 px-2 flex items-center gap-1.5 shadow-sm">
-              <div className="w-5 h-5 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0">
+            <div className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-1.5 px-2 flex items-center gap-1.5 shadow-sm">
+              <div className="w-5 h-5 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0">
                 <Infinity className="w-3 h-3 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-[10px] leading-tight">Agent Loop</span>
-                <span className="text-[#5a544b] text-[8px] leading-tight">continuous</span>
+                <span className="text-[#5a544b] font-serif italic text-[8px] leading-tight">continuous</span>
               </div>
             </div>
 
-            <div className="rounded-xl bg-[#f3f2e6] border border-[#dcd6c8] py-1 px-2 flex items-center gap-1.5 shadow-sm">
-              <div className="w-5 h-5 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0">
+            <div className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-1.5 px-2 flex items-center gap-1.5 shadow-sm">
+              <div className="w-5 h-5 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0">
                 <Settings className="w-3 h-3 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-[10px] leading-tight">Agent Harness</span>
-                <span className="text-[#5a544b] text-[8px] leading-tight">tools &amp; envs</span>
+                <span className="text-[#5a544b] font-serif italic text-[8px] leading-tight">tools &amp; envs</span>
               </div>
             </div>
 
-            <div className="rounded-xl bg-[#f3f2e6] border border-[#dcd6c8] py-1 px-2 flex items-center gap-1.5 shadow-sm">
-              <div className="w-5 h-5 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0">
+            <div className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-1.5 px-2 flex items-center gap-1.5 shadow-sm">
+              <div className="w-5 h-5 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0">
                 <CreditCard className="w-3 h-3 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-[10px] leading-tight">x402</span>
-                <span className="text-[#5a544b] text-[8px] leading-tight">auto payments</span>
+                <span className="text-[#5a544b] font-serif italic text-[8px] leading-tight">auto payments</span>
               </div>
             </div>
 
-            <div className="rounded-xl bg-[#f3f2e6] border border-[#dcd6c8] py-1 px-2 flex items-center gap-1.5 shadow-sm">
-              <div className="w-5 h-5 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0">
+            <div className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-1.5 px-2 flex items-center gap-1.5 shadow-sm">
+              <div className="w-5 h-5 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0">
                 <BarChart2 className="w-3 h-3 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-[10px] leading-tight">AiFi</span>
-                <span className="text-[#5a544b] text-[8px] leading-tight">financial execution</span>
+                <span className="text-[#5a544b] font-serif italic text-[8px] leading-tight">financial execution</span>
               </div>
             </div>
           </div>
@@ -290,10 +290,7 @@ export const EvidenceSection: React.FC = () => {
           </p>
         </div>
 
-        <div 
-          style={{ fontFamily: 'Helvetica, "Helvetica Neue", Arial, sans-serif' }}
-          className="relative max-w-6xl mx-auto my-4 sm:my-6"
-        >
+        <div className="relative max-w-6xl mx-auto my-4 sm:my-6">
           {/* Continuous Feedback Loop Top Conduit */}
           <div className="mb-4 sm:mb-6 flex items-center justify-between gap-3 px-2">
             <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#25362a] text-xs font-mono tracking-wide shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
@@ -397,7 +394,6 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
-          {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
           <div className="mt-8 sm:mt-10 md:mt-12 px-2 sm:px-4 max-w-5xl mx-auto">
             <div className="grid grid-cols-4 relative">
               {steps.map((item, idx) => {
@@ -455,8 +451,10 @@ export const EvidenceSection: React.FC = () => {
                         0{idx + 1}
                       </div>
                       <span
-                        className={`text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider mt-2 text-center transition-colors truncate max-w-full px-1 ${
-                          isCur ? 'text-[#f3f2e6] font-bold drop-shadow-sm' : 'text-[#f3f2e6]/75 group-hover:text-[#f3f2e6]'
+                        className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-wider mt-2.5 text-center transition-all duration-300 px-2.5 py-0.5 rounded-full ${
+                          isCur
+                            ? 'text-[#141820] bg-[#dfc28d] font-bold shadow-[0_2px_10px_rgba(223,194,141,0.5)]'
+                            : 'text-[#f3f2e6] bg-[#141820]/75 backdrop-blur-md border border-[#c4a978]/30 font-semibold drop-shadow-md group-hover:border-[#c4a978]'
                         }`}
                       >
                         {item.timelineLabel}
@@ -470,43 +468,43 @@ export const EvidenceSection: React.FC = () => {
 
           {/* ── Capability Pill Cards (Desktop) ── */}
           <div className="mt-8 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto">
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <div className="rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_10px_28px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_36px_rgba(196,169,120,0.35)] hover:scale-105 transition-all duration-300">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0 shadow-inner">
                 <Infinity className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">Agent Loop</span>
-                <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">keeps the task running</span>
+                <span className="text-[#5a544b] font-serif italic text-[11px] sm:text-xs leading-tight mt-0.5">keeps the task running</span>
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <div className="rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_10px_28px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_36px_rgba(196,169,120,0.35)] hover:scale-105 transition-all duration-300">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0 shadow-inner">
                 <Settings className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">Agent Harness</span>
-                <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">tools &amp; environments</span>
+                <span className="text-[#5a544b] font-serif italic text-[11px] sm:text-xs leading-tight mt-0.5">tools &amp; environments</span>
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <div className="rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_10px_28px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_36px_rgba(196,169,120,0.35)] hover:scale-105 transition-all duration-300">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0 shadow-inner">
                 <CreditCard className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">x402</span>
-                <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">autonomous payments</span>
+                <span className="text-[#5a544b] font-serif italic text-[11px] sm:text-xs leading-tight mt-0.5">autonomous payments</span>
               </div>
             </div>
 
-            <div className="rounded-full bg-[#f3f2e6] border border-[#dcd6c8] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.18)] hover:scale-105 transition-all duration-300">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#dfdbd0] flex items-center justify-center text-[#1a1a1a] shrink-0 shadow-inner">
+            <div className="rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_10px_28px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_36px_rgba(196,169,120,0.35)] hover:scale-105 transition-all duration-300">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 flex items-center justify-center text-[#7a382e] shrink-0 shadow-inner">
                 <BarChart2 className="w-5 h-5 stroke-[2.2]" />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">AiFi</span>
-                <span className="text-[#5a544b] text-[11px] sm:text-xs font-normal leading-tight mt-0.5">financial execution</span>
+                <span className="text-[#5a544b] font-serif italic text-[11px] sm:text-xs leading-tight mt-0.5">financial execution</span>
               </div>
             </div>
           </div>
