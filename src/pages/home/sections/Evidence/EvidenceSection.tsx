@@ -397,44 +397,74 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
-          <div className="mt-8 sm:mt-10 md:mt-12 px-3 sm:px-6">
-            <div className="flex justify-between items-start relative">
-              <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 inset-x-3 h-[2px] bg-[#dcd6c8]/40 z-0" />
-              <div 
-                className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-3 h-[2px] bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)] z-0 transition-all duration-500"
-                style={{ width: `${(currentStep / 3) * 100}%` }}
-              />
+          {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
+          <div className="mt-8 sm:mt-10 md:mt-12 px-2 sm:px-4 max-w-5xl mx-auto">
+            <div className="grid grid-cols-4 relative">
+              {steps.map((item, idx) => {
+                const isCur = currentStep === idx;
+                const isPassed = currentStep > idx;
 
-              {/* 4 Interactive Step Beads */}
-              {steps.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setActiveStep(idx);
-                  }}
-                  className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden"
-                >
-                  <div 
-                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11px] font-mono font-bold transition-all duration-300 ${
-                      currentStep === idx
-                        ? 'bg-[#ffffff] text-[#141820] border-2 border-[#c4a978] scale-125 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-[#c4a978]/60'
-                        : idx < currentStep
-                        ? 'bg-[#c4a978] text-[#141820] shadow-sm'
-                        : 'bg-[#f3f2e6] text-[#55604e] border border-[#c4a978]/60 group-hover:border-[#c4a978]'
-                    }`}
-                  >
-                    0{idx + 1}
+                return (
+                  <div key={idx} className="relative flex flex-col items-center">
+                    {/* Background Track Line Segments */}
+                    {/* Segment going to the left (for beads 2, 3, 4) */}
+                    {idx > 0 && (
+                      <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 right-1/2 left-0 h-[2px] bg-[#dcd6c8]/40 z-0 pointer-events-none" />
+                    )}
+                    {/* Segment going to the right (for beads 1, 2, 3 - NEVER for bead 4) */}
+                    {idx < 3 && (
+                      <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-1/2 right-0 h-[2px] bg-[#dcd6c8]/40 z-0 pointer-events-none" />
+                    )}
+
+                    {/* Active Highlight Line Segments */}
+                    {idx > 0 && (
+                      <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 right-1/2 left-0 h-[2px] overflow-hidden z-0 pointer-events-none">
+                        <div
+                          className={`h-full bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)] transition-all duration-500 ${
+                            isPassed || isCur ? 'w-full' : 'w-0'
+                          }`}
+                        />
+                      </div>
+                    )}
+                    {idx < 3 && (
+                      <div className="absolute top-3.5 sm:top-4 -translate-y-1/2 left-1/2 right-0 h-[2px] overflow-hidden z-0 pointer-events-none">
+                        <div
+                          className={`h-full bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)] transition-all duration-500 ${
+                            isPassed ? 'w-full' : 'w-0'
+                          }`}
+                        />
+                      </div>
+                    )}
+
+                    {/* Step Bead Button */}
+                    <button
+                      onClick={() => {
+                        setActiveStep(idx);
+                      }}
+                      className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden w-full"
+                    >
+                      <div
+                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11px] font-mono font-bold transition-all duration-300 shrink-0 ${
+                          isCur
+                            ? 'bg-[#ffffff] text-[#141820] border-2 border-[#c4a978] scale-125 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-[#c4a978]/60'
+                            : isPassed
+                            ? 'bg-[#c4a978] text-[#141820] shadow-sm'
+                            : 'bg-[#f3f2e6] text-[#55604e] border border-[#c4a978]/60 group-hover:border-[#c4a978]'
+                        }`}
+                      >
+                        0{idx + 1}
+                      </div>
+                      <span
+                        className={`text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider mt-2 text-center transition-colors truncate max-w-full px-1 ${
+                          isCur ? 'text-[#f3f2e6] font-bold drop-shadow-sm' : 'text-[#f3f2e6]/75 group-hover:text-[#f3f2e6]'
+                        }`}
+                      >
+                        {item.timelineLabel}
+                      </span>
+                    </button>
                   </div>
-                  <span 
-                    className={`text-[9.5px] sm:text-[10.5px] font-mono uppercase tracking-wider mt-2 transition-colors ${
-                      currentStep === idx ? 'text-[#f3f2e6] font-bold drop-shadow-sm' : 'text-[#f3f2e6]/75 group-hover:text-[#f3f2e6]'
-                    }`}
-                  >
-                    {item.timelineLabel}
-                  </span>
-                </button>
-              ))}
-
+                );
+              })}
             </div>
           </div>
 
