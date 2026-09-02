@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <circle cx="24" cy="24" r="24" fill="#0A0E27"/>
+  <g transform="translate(8, 8)">
+    <!-- Gradient scanner curves for Solscan -->
+    <defs>
+      <linearGradient id="solGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00FFA3"/>
+        <stop offset="100%" stop-color="#DC1FFF"/>
+      </linearGradient>
+    </defs>
+    <path d="M6 8C6 6.895 6.895 6 8 6H24C25.105 6 26 6.895 26 8V9C26 10.105 25.105 11 24 11H8C6.895 11 6 10.105 6 9V8Z" fill="url(#solGrad)"/>
+    <path d="M10 15C10 13.895 10.895 13 12 13H28C29.105 13 30 13.895 30 15V16C30 17.105 29.105 18 28 18H12C10.895 18 10 17.105 10 16V15Z" fill="url(#solGrad)"/>
+    <path d="M6 22C6 20.895 6.895 20 8 20H24C25.105 20 26 20.895 26 22V23C26 24.105 25.105 25 24 25H8C6.895 25 6 24.105 6 23V22Z" fill="url(#solGrad)"/>
+    <circle cx="16" cy="15.5" r="4.5" fill="#0A0E27" stroke="#00FFA3" stroke-width="2"/>
+  </g>
+</svg>

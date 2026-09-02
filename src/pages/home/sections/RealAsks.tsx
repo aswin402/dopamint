@@ -9,13 +9,13 @@ import { IMessageBubble } from './IMessageBubble';
 import googleCalendarLogo from '../../../assets/integration_logos/google_calendar.svg';
 import googleMapsLogo from '../../../assets/integration_logos/google_maps.svg';
 import googleFlightsLogo from '../../../assets/integration_logos/google_flights.svg';
-import googleFinanceLogo from '../../../assets/integration_logos/google_finance.svg';
-import googlePayLogo from '../../../assets/integration_logos/google_pay.svg';
 import uberLogo from '../../../assets/integration_logos/uber.svg';
 import tradingviewLogo from '../../../assets/integration_logos/tradingview.svg';
-import coingeckoLogo from '../../../assets/integration_logos/coingecko.svg';
 import hyperliquidLogo from '../../../assets/integration_logos/hyperliquid.svg';
-import yahooFinanceLogo from '../../../assets/integration_logos/yahoo_finance.svg';
+import xLogo from '../../../assets/integration_logos/x.svg';
+import coinbaseLogo from '../../../assets/integration_logos/coinbase.svg';
+import binanceLogo from '../../../assets/integration_logos/binance.svg';
+import solscanLogo from '../../../assets/integration_logos/solscan.svg';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
 const STEP2 =
@@ -121,14 +121,14 @@ const ASK_CARDS: AskCardData[] = [
     rotation: -2.0,
   },
   {
-    id: 'box2_sui',
+    id: 'box2_clarity',
     isSm: true,
     logos: [
-      { name: 'CoinGecko', iconSrc: coingeckoLogo },
-      { name: 'TradingView', iconSrc: tradingviewLogo },
+      { name: 'X', iconSrc: xLogo, domain: 'x.com' },
+      { name: 'Coinbase', iconSrc: coinbaseLogo, domain: 'coinbase.com' },
     ],
     bubbles: [
-      { text: 'SUI token unlock in 4 hours. 12.4M tokens (~$23.6M) entering circulation.', side: 'left' },
+      { text: 'Trump backs the CLARITY Act. BTC just caught a bid. you know what time it is. 👀', side: 'left' },
     ],
     rotation: 2.2,
   },
@@ -158,29 +158,28 @@ const ASK_CARDS: AskCardData[] = [
     rotation: 2.5,
   },
   {
-    id: 'box5_bills',
+    id: 'box5_hype',
     isSm: false,
     logos: [
-      { name: 'Google Pay', iconSrc: googlePayLogo },
-      { name: 'Google Calendar', iconSrc: googleCalendarLogo },
+      { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
+      { name: 'Binance', iconSrc: binanceLogo, domain: 'binance.com' },
     ],
     bubbles: [
-      { text: 'handle my bills pls', side: 'right' },
-      { text: 'on it. your money is leaving faster than your motivation, but we’re good.', side: 'left' },
+      { text: 'yo, your HYPE long is getting close. liq $71.30, HYPE $74.90 and sliding. you’ve got a few % of room left.', side: 'left' },
+      { text: 'shit ok how much do i need to add', side: 'right' },
     ],
     rotation: -2.8,
   },
   {
-    id: 'box6_stocks',
+    id: 'box6_cashcat',
     isSm: false,
     logos: [
-      { name: 'TradingView', iconSrc: tradingviewLogo },
-      { name: 'Yahoo Finance', iconSrc: yahooFinanceLogo },
-      { name: 'Google Finance', iconSrc: googleFinanceLogo },
+      { name: 'Solscan', iconSrc: solscanLogo, domain: 'solscan.io' },
+      { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
     ],
     bubbles: [
-      { text: 'yo how’s my portfolio doing', side: 'right' },
-      { text: 'ngl, she’s going through it. down 2.4%. NVDA is mostly to blame.', side: 'left' },
+      { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?', side: 'left' },
+      { text: 'yeah get me $200', side: 'right' },
     ],
     rotation: 1.8,
   },
@@ -533,7 +532,7 @@ export const RealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 3 — top-right: Box 2 SUI token unlock alert */}
+          {/* CARD 3 — top-right: Box 2 Trump CLARITY Act alert */}
           <motion.div
             ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -544,12 +543,12 @@ export const RealAsks: React.FC = () => {
               className={cardSm}>
               <LogosHeader
                 items={[
-                  { name: 'CoinGecko', iconSrc: coingeckoLogo },
-                  { name: 'TradingView', iconSrc: tradingviewLogo },
+                  { name: 'X', iconSrc: xLogo, domain: 'x.com' },
+                  { name: 'Coinbase', iconSrc: coinbaseLogo, domain: 'coinbase.com' },
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="SUI token unlock in 4 hours. 12.4M tokens (~$23.6M) entering circulation." side="left" />
+                <IMessageBubble text="Trump backs the CLARITY Act. BTC just caught a bid. you know what time it is. 👀" side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -575,7 +574,7 @@ export const RealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 4 — bottom-left: Box 5 Bills QA */}
+          {/* CARD 4 — bottom-left: Box 5 HYPE Long Position Warning */}
           <motion.div
             ref={card4Ref} variants={pos4} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -586,18 +585,18 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'Google Pay', iconSrc: googlePayLogo },
-                  { name: 'Google Calendar', iconSrc: googleCalendarLogo },
+                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
+                  { name: 'Binance', iconSrc: binanceLogo, domain: 'binance.com' },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="handle my bills pls" side="right" />
-                <IMessageBubble text="on it. your money is leaving faster than your motivation, but we’re good." side="left" />
+                <IMessageBubble text="yo, your HYPE long is getting close. liq $71.30, HYPE $74.90 and sliding. you’ve got a few % of room left." side="left" />
+                <IMessageBubble text="shit ok how much do i need to add" side="right" />
               </div>
             </motion.div>
           </motion.div>
 
-          {/* CARD 5 — bottom-right: Box 6 Stocks Portfolio QA */}
+          {/* CARD 5 — bottom-right: Box 6 CASHCAT Whales Alert */}
           <motion.div
             ref={card5Ref} variants={pos5} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
@@ -608,14 +607,13 @@ export const RealAsks: React.FC = () => {
               className={cardBase}>
               <LogosHeader
                 items={[
-                  { name: 'TradingView', iconSrc: tradingviewLogo },
-                  { name: 'Yahoo Finance', iconSrc: yahooFinanceLogo },
-                  { name: 'Google Finance', iconSrc: googleFinanceLogo },
+                  { name: 'Solscan', iconSrc: solscanLogo, domain: 'solscan.io' },
+                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="yo how’s my portfolio doing" side="right" />
-                <IMessageBubble text="ngl, she’s going through it. down 2.4%. NVDA is mostly to blame." side="left" />
+                <IMessageBubble text="6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?" side="left" />
+                <IMessageBubble text="yeah get me $200" side="right" />
               </div>
             </motion.div>
           </motion.div>
