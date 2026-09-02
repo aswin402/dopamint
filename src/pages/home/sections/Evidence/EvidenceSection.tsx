@@ -54,44 +54,40 @@ export const EvidenceSection: React.FC = () => {
 
   const steps = [
     {
-      step: '01 · INTENT',
+      step: '01 – INTENT',
       title: 'USER INTENT',
-      subtitle: 'Natural voice, text, or scheduled trigger with deep context awareness.',
+      subtitle: 'Natural voice or text.',
       tags: ['Live Voice', 'iMessage', 'Context'],
-      icon: <Target className="w-4 h-4" />,
+      icon: <Target className="w-4 h-4 text-[#141820]" />,
       isPrimary: false,
       timelineLabel: 'INTENT',
-      payload: 'Natural intent received: "Find best APY on Base and deposit 500 USDC with risk limit under 5%"',
     },
     {
-      step: '02 · ORCHESTRATE',
+      step: '02 – ORCHESTRATE',
       title: 'DOPE HARNESS',
-      subtitle: 'Analyzes intent, loads long-term memory & initializes execution plan.',
+      subtitle: 'Understands intent and prepares execution.',
       tags: ['Memory Sync', 'Reasoning', 'Routing'],
-      icon: <Network className="w-4 h-4" />,
+      icon: <Network className="w-4 h-4 text-[#141820]" />,
       isPrimary: false,
       timelineLabel: 'ORCHESTRATE',
-      payload: 'Loading persistent memory, evaluating security guardrails & initializing DAG execution plan.',
     },
     {
-      step: '03 · AGENT HARNESS',
+      step: '03 – AGENT HARNESS',
       title: 'AGENT HARNESS',
-      subtitle: 'Coordinates multiple agents across trading, research & protection.',
-      tags: ['Parallel Agents', 'Specialized Roles', 'Context Share'],
-      icon: <Boxes className="w-4 h-4" />,
+      subtitle: 'Coordinates execution.',
+      tags: ['Parallel Agents', 'Routing', 'Safety'],
+      icon: <Boxes className="w-4 h-4 text-[#141820]" />,
       isPrimary: true,
-      timelineLabel: 'AGENT IN ACTION',
-      payload: 'Coordinating: AiFi agent scans Aerodrome pool · Guardian agent verifies smart contract safety · x402 agent prepares payment.',
+      timelineLabel: 'AGENT HARNESS',
     },
     {
-      step: '04 · ACTION LAYER',
+      step: '04 – ACTION LAYER',
       title: 'AGENT EXECUTION',
-      subtitle: 'Executes on-chain transactions, invokes APIs, pays via x402 & delivers outcomes.',
+      subtitle: 'Executes on Base.',
       tags: ['x402 Pay', 'On-Chain Tx', 'Outcome'],
-      icon: <Zap className="w-4 h-4" />,
+      icon: <Zap className="w-4 h-4 text-[#141820]" />,
       isPrimary: false,
-      timelineLabel: 'AGENT EXECUTION',
-      payload: 'Executing on-chain transaction via x402 · Verifying receipt in TEE · Writing proof to ledger.',
+      timelineLabel: 'ACTION LAYER',
     },
   ];
 
@@ -203,36 +199,26 @@ export const EvidenceSection: React.FC = () => {
             </AnimatePresence>
           </div>
 
-          {/* Live Pipeline State Console */}
+          {/* Static Pipeline State Console */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-2.5 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left"
+            className="p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left font-mono"
           >
-            <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15 text-[10px] font-mono">
+            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15 text-[10px] font-mono">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
-                <span className="text-[#1a140f] font-bold uppercase tracking-wider text-[10px]">
-                  PIPELINE STATE: [{steps[currentStep].step}]
+                <span className="text-[#1a140f] font-bold uppercase tracking-wider text-[10.5px]">
+                  PIPELINE STATE: [BUY NVDAc]
                 </span>
               </div>
-              <div className="text-[9px] text-[#37312c]">
-                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Base
+              <div className="text-[9.5px] text-[#37312c]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Network: Base
               </div>
             </div>
             
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentStep}
-                initial={{ opacity: 0, x: 6 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -6 }}
-                transition={{ duration: 0.2 }}
-                className="text-[10.5px] font-mono text-[#1a140f] leading-relaxed flex items-start gap-1.5 font-medium"
-              >
-                <span className="text-[#7a382e] font-bold shrink-0">→</span>
-                <span>{steps[currentStep].payload}</span>
-              </motion.p>
-            </AnimatePresence>
+            <p className="text-[10.5px] font-mono text-[#1a140f] leading-relaxed font-medium">
+              → Intent recognized → Route found → Trade executed → Confirmed
+            </p>
           </div>
 
           {/* 4 Bottom Capability Capsule Pills (Mobile 2x2 grid) */}
@@ -364,7 +350,6 @@ export const EvidenceSection: React.FC = () => {
                     stepIndex={idx}
                     onClick={() => {
                       setActiveStep(idx);
-                      setIsPlaying(false);
                     }}
                     onMouseEnter={() => setHoveredStep(idx)}
                     onMouseLeave={() => setHoveredStep(null)}
@@ -389,36 +374,26 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* ── Live Step Pipeline Payload Console ── */}
+          {/* ── Static Pipeline State Console (Desktop) ── */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left"
+            className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left font-mono"
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-[#1a140f]/15 text-xs font-mono">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#7a382e] shadow-[0_0_8px_rgba(122,56,46,0.6)]" />
                 <span className="text-[#1a140f] font-bold uppercase tracking-wider text-[11.5px] sm:text-xs">
-                  PIPELINE STATE: [{steps[currentStep].step}]
+                  PIPELINE STATE: [BUY NVDAc]
                 </span>
               </div>
-              <div className="text-[11px] text-[#37312c]">
-                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Base Network (Sepolia / Mainnet)
+              <div className="text-[11.5px] text-[#37312c]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-semibold">Network: Base</span>
               </div>
             </div>
             
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={currentStep}
-                initial={{ opacity: 0, x: 8 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -8 }}
-                transition={{ duration: 0.25 }}
-                className="text-xs sm:text-[13px] font-mono text-[#1a140f] leading-relaxed flex items-start gap-2"
-              >
-                <span className="text-[#7a382e] font-bold shrink-0">→</span>
-                <span className="font-medium">{steps[currentStep].payload}</span>
-              </motion.p>
-            </AnimatePresence>
+            <p className="text-xs sm:text-[13px] font-mono text-[#1a140f] leading-relaxed flex items-center gap-2 font-medium">
+              <span>→ Intent recognized → Route found → Trade executed → Confirmed</span>
+            </p>
           </div>
 
           {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
@@ -436,7 +411,6 @@ export const EvidenceSection: React.FC = () => {
                   key={idx}
                   onClick={() => {
                     setActiveStep(idx);
-                    setIsPlaying(false);
                   }}
                   className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden"
                 >
