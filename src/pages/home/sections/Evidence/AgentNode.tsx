@@ -125,7 +125,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
             {/* Editorial Quote Box */}
             <div className="bg-[#f5f1e8] border border-[#e5dcce] rounded-xl px-3 py-2 flex items-center shadow-xs">
               <span className="font-serif italic font-bold text-xs sm:text-[13.5px] text-[#141820] tracking-tight">
-                “Buy $100 of NVDA”
+                “Buy $5000 of NVDA”
               </span>
             </div>
 
