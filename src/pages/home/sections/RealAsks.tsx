@@ -128,7 +128,7 @@ const ASK_CARDS: AskCardData[] = [
       { name: 'Coinbase', iconSrc: coinbaseLogo, domain: 'coinbase.com' },
     ],
     bubbles: [
-      { text: 'Trump backs the CLARITY Act. BTC just caught a bid. you know what time it is. 👀', side: 'left' },
+      { text: "Trump's out here doing IR for CLARITY again. If Congress catches the vibe, Circle could be the read-through. Should we ape? 👀", side: 'left' },
     ],
     rotation: 2.2,
   },
@@ -179,7 +179,7 @@ const ASK_CARDS: AskCardData[] = [
     ],
     bubbles: [
       { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?', side: 'left' },
-      { text: 'yeah get me $200', side: 'right' },
+      { text: 'yeah get me $3000', side: 'right' },
     ],
     rotation: 1.8,
   },
@@ -536,7 +536,7 @@ export const RealAsks: React.FC = () => {
           <motion.div
             ref={card3Ref} variants={pos3} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[12%] sm:top-[14%] lg:top-[16%] right-[2%] sm:right-[5%] lg:right-[7%] w-full max-w-[210px] sm:max-w-[255px] lg:max-w-[285px] z-20"
+            className="absolute top-[12%] sm:top-[14%] lg:top-[16%] right-[2%] sm:right-[5%] lg:right-[7%] w-full max-w-[230px] sm:max-w-[275px] lg:max-w-[310px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
               whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -548,7 +548,7 @@ export const RealAsks: React.FC = () => {
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="Trump backs the CLARITY Act. BTC just caught a bid. you know what time it is. 👀" side="left" />
+                <IMessageBubble text="Trump's out here doing IR for CLARITY again. If Congress catches the vibe, Circle could be the read-through. Should we ape? 👀" side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -613,7 +613,7 @@ export const RealAsks: React.FC = () => {
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
                 <IMessageBubble text="6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?" side="left" />
-                <IMessageBubble text="yeah get me $200" side="right" />
+                <IMessageBubble text="yeah get me $3000" side="right" />
               </div>
             </motion.div>
           </motion.div>
