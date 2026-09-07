@@ -48,7 +48,7 @@ export const TakeProfitCard: React.FC = () => {
         </div>
 
         <div className="text-[8.5px] text-[#16a34a] font-semibold">
-          +142.36%)
+          +142.36%
         </div>
       </motion.div>
 

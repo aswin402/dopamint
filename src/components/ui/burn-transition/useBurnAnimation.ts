@@ -844,5 +844,5 @@ export function useBurnAnimation(
         if (blurTexture2Ref.current) glCtx.deleteTexture(blurTexture2Ref.current);
       }
     };
-  }, []);
+  }, [canvasRef, containerRef]);
 }
