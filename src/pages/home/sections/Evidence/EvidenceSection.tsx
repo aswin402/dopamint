@@ -47,6 +47,10 @@ export const EvidenceSection: React.FC = () => {
   // Auto step progression if playing (Desktop or manual play)
   useEffect(() => {
     if (!isPlaying || !isInView || hoveredStep !== null) return;
+    // On mobile devices, let scroll-driven pinning cleanly govern step progression
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      return;
+    }
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 4);
     }, 2600);
@@ -54,6 +58,13 @@ export const EvidenceSection: React.FC = () => {
   }, [isPlaying, isInView, hoveredStep]);
 
   const currentStep = hoveredStep !== null ? hoveredStep : activeStep;
+
+  const PIPELINE_MILESTONES = [
+    'Intent recognized',
+    'Route found',
+    'Trade executed',
+    'Confirmed',
+  ];
 
   const steps = [
     {
@@ -148,6 +159,8 @@ export const EvidenceSection: React.FC = () => {
                       setIsPlaying(false);
                       setTimeout(() => setIsManual(false), 4000);
                     }}
+                    aria-label={`Step ${idx + 1}: ${item.timelineLabel}`}
+                    aria-current={isCur ? 'step' : undefined}
                     className={`py-2 px-1 rounded-xl border flex flex-col items-center gap-0.5 transition-all duration-300 cursor-pointer ${
                       isCur
                         ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.03]'
@@ -189,12 +202,10 @@ export const EvidenceSection: React.FC = () => {
                 className="w-full h-full"
               >
                 <AgentNode
-                  step={steps[currentStep].step}
                   title={steps[currentStep].title}
                   subtitle={steps[currentStep].subtitle}
                   tags={steps[currentStep].tags}
                   icon={steps[currentStep].icon}
-                  isPrimary={steps[currentStep].isPrimary}
                   isActive={true}
                   stepIndex={currentStep}
                 />
@@ -202,7 +213,7 @@ export const EvidenceSection: React.FC = () => {
             </AnimatePresence>
           </div>
 
-          {/* Static Pipeline State Console */}
+          {/* Dynamic Pipeline State Console */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
             className="p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left"
@@ -219,9 +230,28 @@ export const EvidenceSection: React.FC = () => {
               </div>
             </div>
             
-            <p className="font-serif italic text-[11px] sm:text-xs text-[#1a140f] leading-relaxed font-medium tracking-wide">
-              → Intent recognized → Route found → Trade executed → Confirmed
-            </p>
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-serif text-[10.5px] text-[#1a140f] leading-relaxed font-medium">
+              {PIPELINE_MILESTONES.map((milestone, idx) => {
+                const isCur = currentStep === idx;
+                const isPassed = currentStep > idx;
+                return (
+                  <React.Fragment key={idx}>
+                    <span className="text-[#7a382e]/60 font-mono text-[9.5px] select-none">→</span>
+                    <span
+                      className={`transition-all duration-300 rounded px-1.5 py-0.5 ${
+                        isCur
+                          ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs scale-105'
+                          : isPassed
+                          ? 'text-[#1a140f] font-semibold'
+                          : 'text-[#1a140f]/45 italic'
+                      }`}
+                    >
+                      {milestone}
+                    </span>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
 
           {/* 4 Bottom Capability Capsule Pills (Mobile 2x2 grid) */}
@@ -315,6 +345,7 @@ export const EvidenceSection: React.FC = () => {
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="flex items-center gap-1.5 text-[#141820] hover:text-[#7a382e] transition-colors cursor-pointer pr-2.5 border-r border-[#dcd6c8]"
                 title={isPlaying ? 'Pause Auto-Play' : 'Resume Auto-Play'}
+                aria-label={isPlaying ? 'Pause Auto-Play' : 'Resume Auto-Play'}
               >
                 {isPlaying ? (
                   <>
@@ -340,12 +371,10 @@ export const EvidenceSection: React.FC = () => {
               {steps.map((item, idx) => (
                 <div key={idx} className="relative flex flex-col h-full">
                   <AgentNode
-                    step={item.step}
                     title={item.title}
                     subtitle={item.subtitle}
                     tags={item.tags}
                     icon={item.icon}
-                    isPrimary={item.isPrimary}
                     isActive={currentStep === idx}
                     stepIndex={idx}
                     onClick={() => {
@@ -374,7 +403,7 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* ── Static Pipeline State Console (Desktop) ── */}
+          {/* ── Dynamic Pipeline State Console (Desktop) ── */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
             className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left"
@@ -391,9 +420,28 @@ export const EvidenceSection: React.FC = () => {
               </div>
             </div>
             
-            <p className="font-serif italic text-xs sm:text-[13.5px] text-[#1a140f] leading-relaxed flex items-center gap-1.5 font-medium tracking-wide">
-              <span>→ Intent recognized → Route found → Trade executed → Confirmed</span>
-            </p>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-serif text-xs sm:text-[13.5px] text-[#1a140f] leading-relaxed font-medium">
+              {PIPELINE_MILESTONES.map((milestone, idx) => {
+                const isCur = currentStep === idx;
+                const isPassed = currentStep > idx;
+                return (
+                  <React.Fragment key={idx}>
+                    <span className="text-[#7a382e]/60 font-mono text-xs select-none">→</span>
+                    <span
+                      className={`transition-all duration-300 rounded px-2 py-0.5 ${
+                        isCur
+                          ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs scale-105'
+                          : isPassed
+                          ? 'text-[#1a140f] font-semibold'
+                          : 'text-[#1a140f]/45 italic'
+                      }`}
+                    >
+                      {milestone}
+                    </span>
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
 
           {/* ── Interactive Progress Timeline Scrubber (Desktop) ── */}
@@ -440,6 +488,8 @@ export const EvidenceSection: React.FC = () => {
                       onClick={() => {
                         setActiveStep(idx);
                       }}
+                      aria-label={`Step ${idx + 1}: ${item.timelineLabel}`}
+                      aria-current={isCur ? 'step' : undefined}
                       className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden w-full"
                     >
                       <div

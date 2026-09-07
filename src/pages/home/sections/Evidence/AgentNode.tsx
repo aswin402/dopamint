@@ -5,12 +5,10 @@ import nvidiaLogo from '../../../../assets/integration_logos/nvidia.svg';
 import baseLogo from '../../../../assets/integration_logos/base.svg';
 
 interface AgentNodeProps {
-  step?: string;
   title: string;
   subtitle: string;
   tags?: string[];
   icon?: React.ReactNode;
-  isPrimary?: boolean;
   isActive?: boolean;
   stepIndex: number;
   onClick?: () => void;
