@@ -89,7 +89,7 @@ export const FooterSection: React.FC = () => {
                     key={social.name}
                     href={social.href}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="flex items-center gap-1.5 hover:text-white transition-colors"
                   >
                     <Icon className="w-3.5 h-3.5" />

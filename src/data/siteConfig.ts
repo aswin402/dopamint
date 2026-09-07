@@ -25,10 +25,10 @@ export const SITE_CONFIG = {
     { label: 'Ecosystem', href: '#ecosystem', targetId: 'ecosystem' },
   ] as NavItem[],
   socials: [
-    { name: 'Twitter/X', href: 'https://x.com/dopamint', label: 'Twitter/X' },
-    { name: 'Discord', href: 'https://discord.gg', label: 'Discord' },
-    { name: 'Instagram', href: 'https://instagram.com', label: 'Insta' },
-    { name: 'Telegram', href: 'https://t.me', label: 'Telegram' },
+    { name: 'Twitter/X', href: 'https://x.com/DopaMintLabs', label: 'Twitter/X' },
+    { name: 'Discord', href: 'https://discord.gg/GEygHaKUKt', label: 'Discord' },
+    { name: 'Instagram', href: 'https://www.instagram.com/dopamintlabs/', label: 'Instagram' },
+    { name: 'Telegram', href: 'https://t.me/dopamint_labs', label: 'Telegram' },
   ] as SocialLink[],
   legal: [
     { name: 'Privacy Policy', href: '#privacy' },
