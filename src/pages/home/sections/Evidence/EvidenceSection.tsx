@@ -31,8 +31,11 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Sync active step with scroll progress on mobile (0% -> 25% -> 50% -> 75% -> 100%)
+  // Sync active step with scroll progress on mobile ONLY (< 768px)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      return;
+    }
     if (!isManual) {
       const stepIndex = Math.min(3, Math.floor(latest * 4));
       setActiveStep(stepIndex);
@@ -358,8 +361,8 @@ export const EvidenceSection: React.FC = () => {
                       <div 
                         className={`w-5 h-5 rounded-full flex items-center justify-center border transition-all duration-500 ${
                           currentStep === idx 
-                            ? 'bg-[#c4a978] border-[#c4a978] text-[#141820] shadow-[0_2px_10px_rgba(196,169,120,0.5)] scale-110' 
-                            : 'bg-[#f3f2e6] border-[#c4a978]/60 text-[#37312c] scale-90'
+                            ? 'bg-[#c4a978] border-[#c4a978] text-[#141820] shadow-[0_2px_10px_rgba(196,169,120,0.5)] scale-110 opacity-100' 
+                            : 'bg-[#f3f2e6] border-[#c4a978]/60 text-[#37312c] scale-90 opacity-75'
                         }`}
                       >
                         <ChevronRight className="w-3 h-3 stroke-[2.5]" />

@@ -31,43 +31,34 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
   onMouseLeave,
   className = '',
 }) => {
-  const [isLocalHovered, setIsLocalHovered] = React.useState(false);
-  const isEffectiveActive = isActive || isLocalHovered;
-
-  const handleMouseEnter = () => {
-    setIsLocalHovered(true);
-    if (onMouseEnter) onMouseEnter();
-  };
-
-  const handleMouseLeave = () => {
-    setIsLocalHovered(false);
-    if (onMouseLeave) onMouseLeave();
-  };
-
   return (
     <motion.div
       onClick={onClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      animate={isEffectiveActive ? { scale: 1.02, y: -4 } : { scale: 1, y: 0 }}
-      whileHover={{ scale: 1.02, y: -4 }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      animate={
+        isActive
+          ? { scale: 1.02, y: -4, opacity: 1 }
+          : { scale: 1, y: 0, opacity: 0.78 }
+      }
+      whileHover={{ scale: 1.015, y: -2, opacity: 1 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-all duration-500 cursor-pointer text-left group overflow-hidden ${
-        isEffectiveActive
+      className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden ${
+        isActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_24px_50px_rgba(196,169,120,0.28)] ring-1.5 ring-[#c4a978]/80 z-20'
-          : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_12px_32px_rgba(20,24,32,0.08)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)]'
+          : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_8px_24px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10'
       } ${className}`}
     >
       {/* Top golden accent line when active */}
       <div
-        className={`absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#c4a978] to-transparent transition-opacity duration-500 ${
-          isEffectiveActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        className={`absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#c4a978] to-transparent transition-opacity duration-300 ${
+          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`}
       />
 
       {/* Top pulsating amber jewel on active */}
-      {isEffectiveActive && (
+      {isActive && (
         <span className="absolute top-3 right-3 flex h-2.5 w-2.5 pointer-events-none z-10">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c4a978] opacity-75" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#c4a978]" />
@@ -83,7 +74,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
           <div
             className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 shrink-0 ${
-              isEffectiveActive
+              isActive
                 ? 'bg-[#ffffff] border-[#c4a978] text-[#a66522] shadow-xs'
                 : 'bg-[#ffffff] border-[#ded5c5] text-[#37312c]'
             }`}
