@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
 import iconDope from '@/assets/Icondope.webp';
 
@@ -55,9 +56,9 @@ export const AgentRoster: React.FC = () => {
       {/* =========================================================================
           1. 2-CARDS-WIDE CENTER TOP DOPE CARD
           ========================================================================= */}
-      <div className="px-4 sm:px-6 w-full max-w-[700px] sm:max-w-[780px] md:max-w-[840px] mx-auto mb-1 relative z-20">
+      <div className="px-4 sm:px-6 w-full max-w-[700px] sm:max-w-[780px] md:max-w-[840px] mx-auto relative z-20 flex flex-col items-center">
         <motion.div
-          whileHover={{ y: -3, scale: 1.01 }}
+          whileHover={{ scale: 1.008 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
           className="w-full rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] border-[1.5px] border-[#3e4f42]/60 hover:border-[#3e4f42]/90 px-6 py-5 sm:px-8 sm:py-6 flex flex-col items-center justify-center text-center shadow-[0_10px_28px_rgba(40,48,40,0.06)] relative overflow-hidden group"
         >
@@ -99,97 +100,174 @@ export const AgentRoster: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. MULTI-POINT ANIMATED BRANCHING CONNECTOR TO BOTTOM CARDS
+          2. ARCHITECTURAL BRANCHING DISTRIBUTION RAIL (BOUNDED EXACTLY BETWEEN DROPS)
           ========================================================================= */}
-      <div className="w-full max-w-4xl mx-auto px-4 my-1 sm:my-2 relative z-10 flex flex-col items-center">
-        {/* Top center stem */}
-        <div className="w-[1.5px] h-4 sm:h-5 bg-[#3e4f42]/60 relative overflow-hidden">
+      <div className="w-full flex flex-col items-center relative z-10 -mt-[1px]">
+        {/* Vertical feeder stem: directly touches card bottom edge with zero gap and no circle */}
+        <div className="w-[2px] h-7 sm:h-8 bg-[#3e4f42]/85 relative overflow-hidden">
+          {/* Top-to-down glow energy pulse originating from DOPE card */}
           <motion.div
-            animate={{ y: [-15, 25] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: 'linear' }}
-            className="w-full h-3.5 bg-gradient-to-b from-transparent via-[#25362a] to-transparent shadow-[0_0_6px_rgba(37,54,42,0.8)]"
+            animate={{
+              y: ['-100%', '-100%', '200%', '200%', '-100%'],
+              opacity: [0, 1, 1, 0, 0],
+            }}
+            transition={{
+              duration: 2.8,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              times: [0, 0.04, 0.20, 0.24, 1],
+            }}
+            className="w-full h-5 bg-gradient-to-b from-transparent via-[#dfc28d] to-transparent shadow-[0_0_10px_#dfc28d]"
           />
         </div>
 
-        {/* SVG Multi-Point Branching Tree (5 Drop Lines pointing down across width) */}
-        <div className="w-full h-7 sm:h-9 relative">
-          <svg className="w-full h-full" viewBox="0 0 800 36" fill="none" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="branchGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3e4f42" stopOpacity="0.2" />
-                <stop offset="20%" stopColor="#3e4f42" stopOpacity="0.8" />
-                <stop offset="50%" stopColor="#25362a" stopOpacity="1" />
-                <stop offset="80%" stopColor="#3e4f42" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#3e4f42" stopOpacity="0.2" />
-              </linearGradient>
-            </defs>
+        {/* Crisp Horizontal Base Line: ONLY spans from 0% (Drop 1) to 100% (Drop 5) */}
+        <div className="w-full max-w-[650px] sm:max-w-[720px] md:max-w-[780px] px-4 sm:px-0 relative -mt-0.5">
+          <div className="relative w-full">
+            {/* Horizontal Rail */}
+            <div className="relative w-full h-[2px] bg-[#3e4f42]/80 rounded-full overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
+              {/* Ambient Gold Glow Underlay */}
+              <div className="absolute inset-0 bg-[#c4a978]/25 blur-[0.5px]" />
 
-            {/* Horizontal Distribution Rail */}
-            <path
-              d="M 80 10 H 720"
-              stroke="url(#branchGrad)"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-            />
+              {/* LEFT BRANCH FLOW: Originates at center (50%), flows parallel to LEFT (0%) */}
+              <div className="absolute left-0 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none">
+                <motion.div
+                  animate={{
+                    x: ['0%', '0%', '-350%', '-350%', '0%'],
+                    opacity: [0, 1, 1, 0, 0],
+                  }}
+                  transition={{
+                    duration: 2.8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: [0, 0.21, 0.49, 0.52, 1],
+                  }}
+                  className="absolute right-0 inset-y-0 w-28 sm:w-36 bg-gradient-to-l from-transparent via-[#dfc28d] to-transparent shadow-[0_0_12px_#dfc28d]"
+                />
+              </div>
 
-            {/* Center drop from stem */}
-            <path
-              d="M 400 0 V 10"
-              stroke="#25362a"
-              strokeWidth="1.5"
-            />
+              {/* RIGHT BRANCH FLOW: Originates at center (50%), flows parallel to RIGHT (100%) */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none">
+                <motion.div
+                  animate={{
+                    x: ['0%', '0%', '350%', '350%', '0%'],
+                    opacity: [0, 1, 1, 0, 0],
+                  }}
+                  transition={{
+                    duration: 2.8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: [0, 0.21, 0.49, 0.52, 1],
+                  }}
+                  className="absolute left-0 inset-y-0 w-28 sm:w-36 bg-gradient-to-r from-transparent via-[#dfc28d] to-transparent shadow-[0_0_12px_#dfc28d]"
+                />
+              </div>
+            </div>
 
-            {/* 5 Vertical Drop Lines pointing down */}
-            <path d="M 80 10 V 28" stroke="#3e4f42" strokeWidth="1.5" strokeOpacity="0.7" />
-            <path d="M 240 10 V 28" stroke="#3e4f42" strokeWidth="1.5" strokeOpacity="0.85" />
-            <path d="M 400 10 V 28" stroke="#25362a" strokeWidth="1.5" strokeOpacity="1" />
-            <path d="M 560 10 V 28" stroke="#3e4f42" strokeWidth="1.5" strokeOpacity="0.85" />
-            <path d="M 720 10 V 28" stroke="#3e4f42" strokeWidth="1.5" strokeOpacity="0.7" />
+            {/* 5 Distribution Drops - Exactly 0%, 25%, 50%, 75%, 100% (Zero overhangs) */}
+            {[
+              {
+                pct: 0,
+                dotTimes: [0, 0.47, 0.51, 0.57, 1],
+                dropTimes: [0, 0.49, 0.64, 0.67, 1],
+                medallionTimes: [0, 0.62, 0.66, 0.72, 1],
+              },
+              {
+                pct: 25,
+                dotTimes: [0, 0.33, 0.37, 0.43, 1],
+                dropTimes: [0, 0.35, 0.50, 0.53, 1],
+                medallionTimes: [0, 0.48, 0.52, 0.58, 1],
+              },
+              {
+                pct: 50,
+                dotTimes: [0, 0.18, 0.23, 0.30, 1],
+                dropTimes: [0, 0.21, 0.36, 0.39, 1],
+                medallionTimes: [0, 0.34, 0.38, 0.44, 1],
+              },
+              {
+                pct: 75,
+                dotTimes: [0, 0.33, 0.37, 0.43, 1],
+                dropTimes: [0, 0.35, 0.50, 0.53, 1],
+                medallionTimes: [0, 0.48, 0.52, 0.58, 1],
+              },
+              {
+                pct: 100,
+                dotTimes: [0, 0.47, 0.51, 0.57, 1],
+                dropTimes: [0, 0.49, 0.64, 0.67, 1],
+                medallionTimes: [0, 0.62, 0.66, 0.72, 1],
+              },
+            ].map(({ pct, dotTimes, dropTimes, medallionTimes }, idx) => (
+              <div
+                key={idx}
+                style={{ left: `${pct}%` }}
+                className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
+              >
+                {/* Rail Junction Dot */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1, 1.3, 1, 1],
+                  }}
+                  transition={{
+                    duration: 2.8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: dotTimes,
+                  }}
+                  className={`rounded-full bg-[#f3f2e6] shadow-xs z-10 ${
+                    pct === 50
+                      ? 'w-3.5 h-3.5 border-2 border-[#c4a978] shadow-[0_0_10px_rgba(196,169,120,0.8)] -mt-[5px] flex items-center justify-center'
+                      : 'w-2.5 h-2.5 border-[1.5px] border-[#3e4f42] -mt-[3.5px]'
+                  }`}
+                >
+                  {pct === 50 && <span className="w-1.5 h-1.5 rounded-full bg-[#25362a]" />}
+                </motion.div>
 
-            {/* 5 Arrowheads pointing to cards */}
-            <path d="M 77 24 L 80 30 L 83 24" stroke="#3e4f42" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 237 24 L 240 30 L 243 24" stroke="#3e4f42" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 397 24 L 400 30 L 403 24" stroke="#25362a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 557 24 L 560 30 L 563 24" stroke="#3e4f42" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <path d="M 717 24 L 720 30 L 723 24" stroke="#3e4f42" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                {/* Vertical Drop Conduit */}
+                <div className="w-[1.5px] h-6 sm:h-7 bg-gradient-to-b from-[#3e4f42]/90 via-[#3e4f42]/60 to-[#c4a978] relative overflow-hidden">
+                  <motion.div
+                    animate={{
+                      y: ['-100%', '-100%', '200%', '200%', '-100%'],
+                      opacity: [0, 1, 1, 0, 0],
+                    }}
+                    transition={{
+                      duration: 2.8,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      times: dropTimes,
+                    }}
+                    className="w-full h-3.5 bg-gradient-to-b from-transparent via-[#dfc28d] to-[#c4a978] shadow-[0_0_6px_#dfc28d]"
+                  />
+                </div>
 
-            {/* Animated Traveling Pulses along branches */}
-            <circle r="2" fill="#25362a">
-              <animateMotion
-                path="M 400 0 V 10 H 80 V 30"
-                dur="2.4s"
-                repeatCount="indefinite"
-              />
-            </circle>
-            <circle r="2" fill="#25362a">
-              <animateMotion
-                path="M 400 0 V 10 H 240 V 30"
-                dur="1.9s"
-                repeatCount="indefinite"
-              />
-            </circle>
-            <circle r="2" fill="#25362a">
-              <animateMotion
-                path="M 400 0 V 30"
-                dur="1.4s"
-                repeatCount="indefinite"
-              />
-            </circle>
-            <circle r="2" fill="#25362a">
-              <animateMotion
-                path="M 400 0 V 10 H 560 V 30"
-                dur="1.9s"
-                repeatCount="indefinite"
-              />
-            </circle>
-            <circle r="2" fill="#25362a">
-              <animateMotion
-                path="M 400 0 V 10 H 720 V 30"
-                dur="2.4s"
-                repeatCount="indefinite"
-              />
-            </circle>
-          </svg>
+                {/* Directional Jewelry Medallion with Animated Chevron */}
+                <motion.div
+                  animate={{
+                    y: [0, 0, 2.5, 0, 0],
+                    boxShadow: [
+                      '0 4px 12px rgba(45,62,50,0.14)',
+                      '0 4px 12px rgba(45,62,50,0.14)',
+                      '0 0 16px rgba(223,194,141,0.9)',
+                      '0 4px 12px rgba(45,62,50,0.14)',
+                      '0 4px 12px rgba(45,62,50,0.14)',
+                    ],
+                  }}
+                  transition={{
+                    duration: 2.8,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                    times: medallionTimes,
+                  }}
+                  whileHover={{ scale: 1.15, y: 2 }}
+                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#ffffff] border-[1.5px] border-[#c4a978] shadow-[0_4px_12px_rgba(45,62,50,0.14)] flex items-center justify-center text-[#25362a] relative z-10 transition-transform cursor-pointer group"
+                >
+                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] text-[#2d3e32] group-hover:text-[#7a382e] transition-colors" />
+                </motion.div>
+              </div>
+            ))}
+          </div>
+
+          {/* Clearance spacing for the 24px medallions */}
+          <div className="h-8 sm:h-9" />
         </div>
       </div>
 
