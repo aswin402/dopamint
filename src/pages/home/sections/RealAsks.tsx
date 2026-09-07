@@ -16,19 +16,12 @@ function useIsMobile() {
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 767px)');
-    const onChange = (e: MediaQueryListEvent | MediaQueryList) => {
+    const onChange = (e: MediaQueryListEvent) => {
       setIsMobile(e.matches);
     };
     setIsMobile(mql.matches);
-    if (mql.addEventListener) {
-      mql.addEventListener('change', onChange);
-      return () => mql.removeEventListener('change', onChange);
-    } else {
-      // @ts-expect-error fallback for older WebKit
-      mql.addListener(onChange);
-      // @ts-expect-error fallback for older WebKit
-      return () => mql.removeListener(onChange);
-    }
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
   }, []);
 
   return isMobile;
