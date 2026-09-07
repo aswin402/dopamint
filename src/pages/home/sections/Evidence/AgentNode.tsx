@@ -20,9 +20,9 @@ interface AgentNodeProps {
 }
 
 export const AgentNode: React.FC<AgentNodeProps> = ({
-  step,
   title,
   subtitle,
+  tags,
   icon,
   isActive = false,
   stepIndex,
@@ -125,10 +125,24 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
                 </div>
               </div>
             </div>
+
+            {/* Bottom 3 tags */}
+            {tags && tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-1.5">
+                {tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="text-[9.5px] sm:text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
-        {/* 2. ORCHESTRATE CARD */}
+        {/* 2. ROUTE / DOPE CARD */}
         {stepIndex === 1 && (
           <div className="space-y-1.5 pt-0.5">
             <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
@@ -139,7 +153,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
               <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
             </div>
             <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
-              Find Liquidity
+              Check Memory &amp; Context
             </div>
             <div className="flex flex-col items-center justify-center py-0.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#c4a978]" />
@@ -147,6 +161,20 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
             <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
               Select Route
             </div>
+
+            {/* Bottom 3 tags */}
+            {tags && tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
+                {tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="text-[9.5px] sm:text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -170,20 +198,22 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
             </div>
 
             {/* Bottom 3 tags */}
-            <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
-              {['Parallel Agents', 'Routing', 'Safety'].map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {tags && tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 pt-2.5">
+                {tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="text-[9.5px] sm:text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
-        {/* 4. ACTION LAYER CARD */}
+        {/* 4. EXECUTION LAYER CARD */}
         {stepIndex === 3 && (
           <div className="space-y-1.5 pt-0.5">
             <div className="w-full py-2 px-3 rounded-xl bg-[#ffffff] border border-[#ded5c5] text-center text-xs font-semibold text-[#141820] shadow-xs">
