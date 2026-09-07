@@ -140,7 +140,7 @@ const ASK_CARDS: AskCardData[] = [
       { name: 'TradingView', iconSrc: tradingviewLogo },
     ],
     bubbles: [
-      { text: 'negative funding rates detected on OP perps.', side: 'left' },
+      { text: 'Fed rate cut looking less likely. Gold might be getting ready to send 📈', side: 'left' },
     ],
     rotation: -1.8,
   },
@@ -178,7 +178,7 @@ const ASK_CARDS: AskCardData[] = [
       { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
     ],
     bubbles: [
-      { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?', side: 'left' },
+      { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT. Already up 34%. Want in? 😌', side: 'left' },
       { text: 'yeah get me $3000', side: 'right' },
     ],
     rotation: 1.8,
@@ -553,11 +553,11 @@ export const RealAsks: React.FC = () => {
             </motion.div>
           </motion.div>
 
-          {/* CARD 6 — center: Box 3 Funding rates alert */}
+          {/* CARD 6 — center: Box 3 Fed Rate Cut / Gold alert */}
           <motion.div
             ref={card6Ref} variants={pos6} initial="closed" animate={sectionOpen ? 'open' : 'closed'}
             style={{ filter: 'drop-shadow(0 8px 24px rgba(30,20,10,0.25))' }}
-            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[210px] sm:max-w-[255px] lg:max-w-[285px] z-20"
+            className="absolute top-[27%] sm:top-[29%] lg:top-[30%] left-[33%] sm:left-[36%] lg:left-[38%] w-full max-w-[220px] sm:max-w-[265px] lg:max-w-[295px] z-20"
           >
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
@@ -569,7 +569,7 @@ export const RealAsks: React.FC = () => {
                 ]}
               />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="negative funding rates detected on OP perps." side="left" />
+                <IMessageBubble text="Fed rate cut looking less likely. Gold might be getting ready to send 📈" side="left" />
               </div>
             </motion.div>
           </motion.div>
@@ -612,7 +612,7 @@ export const RealAsks: React.FC = () => {
                 ]}
               />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT, avg entry $0.0043. still $0.0044. want in?" side="left" />
+                <IMessageBubble text="6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT. Already up 34%. Want in? 😌" side="left" />
                 <IMessageBubble text="yeah get me $3000" side="right" />
               </div>
             </motion.div>
