@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useTransform, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
 import { 
   Target, 
   Command, 
@@ -57,8 +57,6 @@ export const EvidenceSection: React.FC = () => {
     }
   });
 
-  const smoothProgressPercent = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
-
   // Auto step progression if playing (Desktop or manual play)
   useEffect(() => {
     if (!isPlaying || !isInView || hoveredStep !== null) return;
@@ -104,10 +102,10 @@ export const EvidenceSection: React.FC = () => {
 
       <div ref={mobileContainerRef} className="md:hidden relative w-full h-[280vh]">
         {/* Pinned Screen Viewport: Pins cleanly below the 60px fixed Navbar */}
-        <div className="sticky top-[60px] sm:top-[68px] h-[calc(100dvh-64px)] sm:h-[calc(100dvh-72px)] w-full flex flex-col justify-between pt-1.5 pb-2.5 px-3 sm:px-4 overflow-hidden bg-transparent">
+        <div className="sticky top-[68px] sm:top-[76px] h-[calc(100dvh-76px)] sm:h-[calc(100dvh-84px)] w-full flex flex-col justify-between pt-3 pb-7 px-3 sm:px-4 overflow-hidden bg-transparent">
           
           {/* Continuous Loop Pill & Step Counter Header */}
-          <div className="flex items-center justify-between gap-2 px-1 shrink-0">
+          <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-1">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
               <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
               <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] text-[#141820]">
@@ -120,8 +118,8 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Top 4 Step Pill Scrubber with Animated Progress Underline */}
-          <div className="relative shrink-0 mt-1.5">
+          {/* Top 4 Step Pill Scrubber without bottom line */}
+          <div className="relative shrink-0 mt-2">
             <div className="grid grid-cols-4 gap-1.5 relative z-10">
               {steps.map((item, idx) => {
                 const isCur = currentStep === idx;
@@ -163,14 +161,6 @@ export const EvidenceSection: React.FC = () => {
                 );
               })}
             </div>
-
-            {/* Glowing Scroll-driven progress underline bar */}
-            <div className="w-full h-[2.5px] bg-[#dcd6c8]/40 rounded-full mt-1.5 relative overflow-hidden">
-              <motion.div
-                style={{ width: smoothProgressPercent }}
-                className="h-full bg-gradient-to-r from-[#7a382e] via-[#c4a978] to-[#7a382e] shadow-[0_0_8px_rgba(196,169,120,0.8)]"
-              />
-            </div>
           </div>
 
           {/* Active Card Container with Smooth Slide Transitions */}
@@ -196,10 +186,10 @@ export const EvidenceSection: React.FC = () => {
             </AnimatePresence>
           </div>
 
-          {/* Dynamic Pipeline State Console */}
+          {/* Dynamic Pipeline State Console (Moved up with bottom margin) */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-2.5 sm:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1"
+            className="p-2.5 sm:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-3"
           >
             <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-1.5">
