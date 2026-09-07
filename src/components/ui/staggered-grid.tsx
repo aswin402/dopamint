@@ -67,7 +67,8 @@ export function StaggeredGrid({
     if (imgs.length > 0) {
       imagesLoaded(imgs, { background: true }, handleLoad);
     } else {
-      setIsLoaded(true);
+      const raf = requestAnimationFrame(() => setIsLoaded(true));
+      return () => cancelAnimationFrame(raf);
     }
   }, []);
 
