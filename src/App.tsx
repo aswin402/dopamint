@@ -4,10 +4,6 @@ import { RootLayout } from '@/layouts/RootLayout';
 import { HomePage } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@/ErrorBoundary';
 
-// Secondary routes are code-split: the landing page stays eager for LCP,
-// everything else loads on demand.
-const AboutPage = lazy(() => import('@/pages/AboutPage').then((m) => ({ default: m.AboutPage })));
-const ContactPage = lazy(() => import('@/pages/ContactPage').then((m) => ({ default: m.ContactPage })));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 
 const router = createBrowserRouter([
@@ -18,14 +14,6 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
-      },
-      {
-        path: 'about',
-        element: <AboutPage />,
-      },
-      {
-        path: 'contact',
-        element: <ContactPage />,
       },
       {
         path: '*',
