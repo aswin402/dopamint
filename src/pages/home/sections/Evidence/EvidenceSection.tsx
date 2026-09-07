@@ -154,10 +154,10 @@ export const EvidenceSection: React.FC = () => {
                     }`}
                   >
                     <div className="flex items-center gap-1">
-                      <span className="font-mono text-[9.5px] font-bold">0{idx + 1}</span>
+                      <span className="font-sans text-[10px] font-bold">0{idx + 1}</span>
                       {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />}
                     </div>
-                    <span className="text-[8px] font-mono uppercase tracking-tight truncate max-w-[58px] leading-tight font-semibold">
+                    <span className="text-[8.5px] font-sans uppercase tracking-[0.1em] truncate max-w-[62px] leading-tight font-semibold">
                       {item.timelineLabel}
                     </span>
                   </button>
@@ -440,7 +440,7 @@ export const EvidenceSection: React.FC = () => {
                       className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-hidden w-full"
                     >
                       <div
-                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11px] font-mono font-bold transition-all duration-300 shrink-0 ${
+                        className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-[11.5px] sm:text-xs font-sans font-bold transition-all duration-300 shrink-0 ${
                           isCur
                             ? 'bg-[#ffffff] text-[#141820] border-2 border-[#c4a978] scale-125 shadow-[0_4px_16px_rgba(0,0,0,0.3)] ring-2 ring-[#c4a978]/60'
                             : isPassed
@@ -451,7 +451,7 @@ export const EvidenceSection: React.FC = () => {
                         0{idx + 1}
                       </div>
                       <span
-                        className={`text-[10px] sm:text-[11px] font-mono uppercase tracking-wider mt-2.5 text-center transition-all duration-300 px-2.5 py-0.5 rounded-full ${
+                        className={`text-[10px] sm:text-[11px] font-sans uppercase tracking-[0.14em] mt-2.5 text-center transition-all duration-300 px-3 py-0.5 rounded-full ${
                           isCur
                             ? 'text-[#141820] bg-[#dfc28d] font-bold shadow-[0_2px_10px_rgba(223,194,141,0.5)]'
                             : 'text-[#f3f2e6] bg-[#141820]/75 backdrop-blur-md border border-[#c4a978]/30 font-semibold drop-shadow-md group-hover:border-[#c4a978]'
