@@ -118,14 +118,14 @@ export const EvidenceSection: React.FC = () => {
 
           {/* Continuous Loop Pill & Step Counter Header */}
           <div className="flex items-center justify-between gap-2 px-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#25362a] text-[9.5px] font-mono tracking-wide shadow-md">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
               <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-bold uppercase tracking-wider text-[#25362a]">
+              <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] text-[#141820]">
                 FEEDBACK LOOP
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 text-[10px] font-mono text-[#25362a] font-bold shadow-md">
+            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 font-mono text-[10px] text-[#141820] font-bold tracking-wider shadow-md">
               <span>STEP 0{currentStep + 1} / 04</span>
             </div>
           </div>
@@ -202,21 +202,21 @@ export const EvidenceSection: React.FC = () => {
           {/* Static Pipeline State Console */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left font-mono"
+            className="p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left"
           >
-            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15 text-[10px] font-mono">
+            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
-                <span className="text-[#1a140f] font-bold uppercase tracking-wider text-[10.5px]">
-                  PIPELINE STATE: [BUY NVDAc]
+                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10.5px]">
+                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[10px]">[BUY NVDAc]</span>
                 </span>
               </div>
-              <div className="text-[9.5px] text-[#37312c]">
-                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · Network: Base
+              <div className="font-sans text-[9.5px] text-[#37312c]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-mono font-bold text-[#1a140f]">Base</span>
               </div>
             </div>
             
-            <p className="text-[10.5px] font-mono text-[#1a140f] leading-relaxed font-medium">
+            <p className="font-serif italic text-[11px] sm:text-xs text-[#1a140f] leading-relaxed font-medium tracking-wide">
               → Intent recognized → Route found → Trade executed → Confirmed
             </p>
           </div>
@@ -291,41 +291,41 @@ export const EvidenceSection: React.FC = () => {
         </div>
 
         <div className="relative max-w-6xl mx-auto my-4 sm:my-6">
-          {/* Continuous Feedback Loop Top Conduit */}
+          {/* Loop Status Pill & Controls */}
           <div className="mb-4 sm:mb-6 flex items-center justify-between gap-3 px-2">
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#25362a] text-xs font-mono tracking-wide shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
               <RefreshCw 
                 className={`w-3.5 h-3.5 text-[#7a382e] ${isPlaying ? 'animate-spin' : ''}`} 
                 style={{ animationDuration: '6s' }} 
               />
-              <span className="font-bold uppercase text-xs tracking-wider text-[#25362a]">
+              <span className="font-sans font-bold uppercase text-xs tracking-[0.14em] text-[#141820]">
                 CONTINUOUS LEARNING LOOP
               </span>
-              <span className="text-[#37312c]/40">·</span>
-              <span className="text-[#5a544b] text-xs font-mono">
+              <span className="text-[#c4a978]">·</span>
+              <span className="font-serif italic text-xs sm:text-[13px] text-[#4e4e4e]">
                 Every completed action refines long-term identity &amp; memory
               </span>
             </div>
 
-            <div className="flex items-center gap-2 bg-[#f3f2e6] px-3.5 py-1.5 rounded-full border border-[#c4a978]/60 text-xs font-mono shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
+            <div className="flex items-center gap-2 bg-[#f3f2e6] px-3.5 py-1.5 rounded-full border border-[#c4a978]/60 shadow-[0_8px_24px_rgba(0,0,0,0.35)]">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="flex items-center gap-1.5 text-[#25362a] hover:text-[#7a382e] transition-colors cursor-pointer pr-2.5 border-r border-[#dcd6c8]"
+                className="flex items-center gap-1.5 text-[#141820] hover:text-[#7a382e] transition-colors cursor-pointer pr-2.5 border-r border-[#dcd6c8]"
                 title={isPlaying ? 'Pause Auto-Play' : 'Resume Auto-Play'}
               >
                 {isPlaying ? (
                   <>
                     <Pause className="w-3 h-3 text-[#7a382e]" />
-                    <span className="text-[10px] uppercase font-bold text-[#7a382e]">PAUSE</span>
+                    <span className="font-mono text-[10.5px] uppercase font-bold text-[#7a382e] tracking-wider">PAUSE</span>
                   </>
                 ) : (
                   <>
                     <Play className="w-3 h-3 text-[#16a34a] fill-[#16a34a]" />
-                    <span className="text-[10px] uppercase font-bold text-[#16a34a]">PLAY</span>
+                    <span className="font-mono text-[10.5px] uppercase font-bold text-[#16a34a] tracking-wider">PLAY</span>
                   </>
                 )}
               </button>
-              <span className="text-[10px] text-[#25362a] font-bold tracking-wider">
+              <span className="font-mono text-[10.5px] text-[#141820] font-bold tracking-wider">
                 STEP 0{currentStep + 1} / 04
               </span>
             </div>
@@ -374,21 +374,21 @@ export const EvidenceSection: React.FC = () => {
           {/* ── Static Pipeline State Console (Desktop) ── */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left font-mono"
+            className="mt-4 p-3.5 sm:p-4 rounded-xl border border-[#c4a978] shadow-[0_12px_36px_rgba(0,0,0,0.35)] text-left"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-[#1a140f]/15 text-xs font-mono">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 mb-2 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#7a382e] shadow-[0_0_8px_rgba(122,56,46,0.6)]" />
-                <span className="text-[#1a140f] font-bold uppercase tracking-wider text-[11.5px] sm:text-xs">
-                  PIPELINE STATE: [BUY NVDAc]
+                <span className="font-sans font-bold uppercase tracking-[0.16em] text-[#1a140f] text-[11.5px] sm:text-xs">
+                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-xs">[BUY NVDAc]</span>
                 </span>
               </div>
-              <div className="text-[11.5px] text-[#37312c]">
-                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-semibold">Network: Base</span>
+              <div className="font-sans text-[11.5px] sm:text-xs text-[#37312c]">
+                Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-sans font-medium">Network:</span> <span className="font-mono font-bold text-[#1a140f]">Base</span>
               </div>
             </div>
             
-            <p className="text-xs sm:text-[13px] font-mono text-[#1a140f] leading-relaxed flex items-center gap-2 font-medium">
+            <p className="font-serif italic text-xs sm:text-[13.5px] text-[#1a140f] leading-relaxed flex items-center gap-1.5 font-medium tracking-wide">
               <span>→ Intent recognized → Route found → Trade executed → Confirmed</span>
             </p>
           </div>
