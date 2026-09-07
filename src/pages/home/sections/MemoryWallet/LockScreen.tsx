@@ -1,12 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import {
-  Lock,
-  Wifi,
-  Battery,
-  Flashlight,
-  Camera,
-} from 'lucide-react';
+import { Lock, Flashlight, Camera } from 'lucide-react';
+import { IPhoneStatusBar } from './IPhoneStatusBar';
+import { AgentAvatar } from './AgentAvatar';
+import { NOTIFICATION_DATA } from '@/data/chatConversation';
 
 interface LockScreenProps {
   notificationKey: number;
@@ -106,28 +103,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
       </div>
 
       {/* 1. Status Bar */}
-      <div className="relative z-30 pt-2.5 px-5 flex items-center justify-between text-white text-[11px] font-semibold select-none">
-        <span className="w-10 text-left pl-0.5 font-bold">9:41</span>
-
-        {/* Dynamic Island */}
-        <div className="w-[94px] h-[24px] rounded-full bg-black flex items-center justify-between px-2.5 shadow-[0_2px_8px_rgba(0,0,0,0.8)] border border-white/10">
-          <div className="w-2 h-2 rounded-full bg-[#111] border border-white/20 flex items-center justify-center">
-            <div className="w-1 h-1 rounded-full bg-[#1e293b]" />
-          </div>
-          <div className="w-2 h-2 rounded-full bg-[#0a0f1d] border border-blue-900/40" />
-        </div>
-
-        {/* Indicators */}
-        <div className="w-10 flex items-center justify-end gap-1 text-white pr-0.5">
-          <div className="flex items-end gap-[1px] h-2">
-            <span className="w-[2px] h-1 bg-white rounded-xs" />
-            <span className="w-[2px] h-1.5 bg-white rounded-xs" />
-            <span className="w-[2px] h-2 bg-white rounded-xs" />
-          </div>
-          <Wifi className="w-2.5 h-2.5" />
-          <Battery className="w-3 h-3" />
-        </div>
-      </div>
+      <IPhoneStatusBar time="9:41" theme="dark" className="relative z-30 pt-2.5 px-5" />
 
       {/* 2. Clock & Date */}
       <div className="relative z-20 pt-2 flex flex-col items-center justify-center text-center">
@@ -162,28 +138,21 @@ export const LockScreen: React.FC<LockScreenProps> = ({
               : 'bg-[#24211b]/85 border-[#887d6c]/35 hover:border-[#dfc28d]/60'
           }`}
         >
-          <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#887d6c] via-[#bdae99] to-[#f0e8dc] p-[1.5px] shrink-0 shadow-[0_0_10px_rgba(136,125,108,0.6)]">
-            <div className="w-full h-full rounded-full bg-[#12100d] flex items-center justify-center">
-              <div className="w-3.5 h-3.5 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1.5px]">
-                <span className="w-0.5 h-0.5 rounded-full bg-black" />
-                <span className="w-0.5 h-0.5 rounded-full bg-black" />
-              </div>
-            </div>
-          </div>
+          <AgentAvatar size="md" />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
               <h4 className="text-[12px] font-bold text-white tracking-tight flex items-center gap-1.5">
-                <span>New Listing Agent</span>
+                <span>{NOTIFICATION_DATA.title}</span>
                 <span className="text-[9px] text-[#dfc28d] opacity-0 group-hover:opacity-100 transition-opacity">tap to open →</span>
               </h4>
               <span className="text-[9px] text-[#c7bdae] font-medium">
-                now
+                {NOTIFICATION_DATA.time}
               </span>
             </div>
 
             <p className="text-[11px] text-[#f7f4ed] font-normal leading-snug mt-0.5">
-              yo, i just bought that $XX coin the moment it got launched 🚀
+              {NOTIFICATION_DATA.message}
             </p>
           </div>
         </motion.div>
