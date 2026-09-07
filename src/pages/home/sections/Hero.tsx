@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
-import chatScreenVid from '../../../assets/Chat_Screen.webm';
+import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
+import chatScreenWebm from '../../../assets/Chat_Screen.webm';
 import crownImg from '../../../assets/Crown.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
@@ -204,6 +205,39 @@ function HeroOverlay({
     2. SECOND SECTION COMPONENT: House of AI Agents ("what is dopamint? House of Sovereign Agents")
     ========================================================================= */}
 function HouseOfAgentsSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Enforce muted & playsinline directly on DOM to comply with iOS/Mac Safari autoplay policy
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    const tryPlay = () => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // If iOS Low Power Mode or Safari policy pauses it, resume on first interaction
+          const resume = () => {
+            video.play().catch(() => {});
+            window.removeEventListener('touchstart', resume);
+            window.removeEventListener('click', resume);
+          };
+          window.addEventListener('touchstart', resume, { once: true });
+          window.addEventListener('click', resume, { once: true });
+        });
+      }
+    };
+
+    tryPlay();
+  }, []);
+
   return (
     <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 sm:px-8 md:px-10 lg:px-16 select-text">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-6 items-center lg:items-end flex-1">
@@ -263,14 +297,20 @@ function HouseOfAgentsSection() {
         <div className="lg:col-span-6 relative flex items-end justify-end z-10 self-end w-full">
           <div className="relative w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-8 xl:translate-x-12 flex items-end justify-end">
             <video
-              src={chatScreenVid}
+              ref={videoRef}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
-              className="w-auto max-w-full max-h-[46vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom"
-            />
+              preload="auto"
+              controls={false}
+              disablePictureInPicture
+              disableRemotePlayback
+              className="w-auto max-w-full max-h-[46vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none"
+            >
+              <source src={chatScreenMp4} type="video/mp4" />
+              <source src={chatScreenWebm} type="video/webm" />
+            </video>
           </div>
         </div>
 
