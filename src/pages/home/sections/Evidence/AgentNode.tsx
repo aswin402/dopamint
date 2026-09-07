@@ -5,7 +5,7 @@ import nvidiaLogo from '../../../../assets/integration_logos/nvidia.svg';
 import baseLogo from '../../../../assets/integration_logos/base.svg';
 
 interface AgentNodeProps {
-  step: string;
+  step?: string;
   title: string;
   subtitle: string;
   tags?: string[];
@@ -75,42 +75,22 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       )}
 
       <div>
-        {/* Top Header: Step number + Live Status + Icon */}
-        <div className="flex items-center justify-between mb-3 relative z-10">
-          <div className="flex items-center gap-2">
-            <span
-              className={`font-mono text-[10.5px] sm:text-[11px] font-bold tracking-[0.16em] uppercase transition-colors whitespace-nowrap ${
-                isEffectiveActive ? 'text-[#a66522]' : 'text-[#5a544b]'
-              }`}
-            >
-              {step}
-            </span>
-          </div>
+        {/* Title and Icon Row */}
+        <div className="flex items-center justify-between gap-2 mb-1.5 relative z-10">
+          <h4 className="text-sm sm:text-[15px] font-bold uppercase tracking-wider text-[#141820]">
+            {title}
+          </h4>
 
-          <div className="flex items-center gap-1.5">
-            {isEffectiveActive && (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#dcfce7] border border-[#86efac] text-[#15803d] text-[9.5px] font-mono font-bold tracking-wider">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />
-                ACTIVE
-              </span>
-            )}
-
-            <div
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${
-                isEffectiveActive
-                  ? 'bg-[#ffffff] border-[#c4a978] text-[#a66522] shadow-xs'
-                  : 'bg-[#ffffff] border-[#ded5c5] text-[#37312c]'
-              }`}
-            >
-              {icon}
-            </div>
+          <div
+            className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-300 shrink-0 ${
+              isEffectiveActive
+                ? 'bg-[#ffffff] border-[#c4a978] text-[#a66522] shadow-xs'
+                : 'bg-[#ffffff] border-[#ded5c5] text-[#37312c]'
+            }`}
+          >
+            {icon}
           </div>
         </div>
-
-        {/* Main Title */}
-        <h4 className="text-sm sm:text-[15px] font-bold uppercase tracking-wider mb-1 text-[#141820]">
-          {title}
-        </h4>
 
         {/* Subtitle */}
         <p className="text-xs text-[#5a544b] font-serif italic leading-snug mb-3">
