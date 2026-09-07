@@ -42,7 +42,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       whileHover={{ scale: 1.015, y: -2, opacity: 1 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative h-full flex flex-col justify-between p-4 sm:p-5 rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden ${
+      className={`relative h-full flex flex-col justify-between p-3.5 sm:p-5 rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden ${
         isActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_24px_50px_rgba(196,169,120,0.28)] ring-1.5 ring-[#c4a978]/80 z-20'
           : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_8px_24px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10'
@@ -65,7 +65,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
       <div>
         {/* Title and Icon Row */}
-        <div className="flex items-center justify-between gap-2 mb-1.5 relative z-10">
+        <div className="flex items-center justify-between gap-2 mb-1 sm:mb-1.5 relative z-10">
           <h4 className="text-sm sm:text-[15px] font-bold uppercase tracking-wider text-[#141820]">
             {title}
           </h4>
@@ -82,7 +82,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         </div>
 
         {/* Subtitle */}
-        <p className="text-xs text-[#5a544b] font-serif italic leading-snug mb-3">
+        <p className="text-[11px] sm:text-xs text-[#5a544b] font-serif italic leading-snug mb-2 sm:mb-3">
           {subtitle}
         </p>
 
@@ -90,47 +90,47 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
         {/* 1. INTENT CARD */}
         {stepIndex === 0 && (
-          <div className="space-y-2.5 pt-0.5">
+          <div className="space-y-2 sm:space-y-2.5 pt-0.5">
             {/* Editorial Quote Box */}
-            <div className="bg-[#f5f1e8] border border-[#e5dcce] rounded-xl px-3 py-2 flex items-center shadow-xs">
+            <div className="bg-[#f5f1e8] border border-[#e5dcce] rounded-xl px-2.5 sm:px-3 py-1.5 sm:py-2 flex items-center shadow-xs">
               <span className="font-serif italic font-bold text-xs sm:text-[13.5px] text-[#141820] tracking-tight">
                 “Buy $5000 of NVDA”
               </span>
             </div>
 
             {/* Asset Details Pill */}
-            <div className="bg-[#ffffff] rounded-xl p-3 border border-[#ded5c5] shadow-xs space-y-2.5">
+            <div className="bg-[#ffffff] rounded-xl p-2.5 sm:p-3 border border-[#ded5c5] shadow-xs space-y-2 sm:space-y-2.5">
               {/* Nvidia item */}
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#76B900]/10 border border-[#76B900]/25 p-1 flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-2 sm:gap-2.5">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#76B900]/10 border border-[#76B900]/25 p-1 flex items-center justify-center shrink-0">
                   <img src={nvidiaLogo} alt="Nvidia" className="w-full h-full object-contain" />
                 </div>
                 <div className="flex flex-col text-left leading-tight">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#16a34a]/10 text-[#15803d]">BUY</span>
+                    <span className="font-bold text-[9.5px] sm:text-[10px] uppercase font-mono px-1.5 py-0.5 rounded bg-[#16a34a]/10 text-[#15803d]">BUY</span>
                     <span className="text-xs font-semibold text-[#141820]">Nvidia · NVDAc</span>
                   </div>
-                  <span className="text-[10px] font-mono text-[#78716c] mt-0.5">Tokenized Stock</span>
+                  <span className="text-[9.5px] sm:text-[10px] font-mono text-[#78716c] mt-0.5">Tokenized Stock</span>
                 </div>
               </div>
 
               {/* Base Network item */}
-              <div className="flex items-center gap-2.5 pt-2 border-t border-[#f0ebe1]">
-                <img src={baseLogo} alt="Base" className="w-6 h-6 rounded-full object-contain shrink-0" />
+              <div className="flex items-center gap-2 sm:gap-2.5 pt-1.5 sm:pt-2 border-t border-[#f0ebe1]">
+                <img src={baseLogo} alt="Base" className="w-5 h-5 sm:w-6 sm:h-6 rounded-full object-contain shrink-0" />
                 <div className="flex flex-col text-left leading-tight">
                   <span className="font-bold text-xs text-[#141820]">Base</span>
-                  <span className="text-[10px] font-mono text-[#78716c]">L2 Network</span>
+                  <span className="text-[9.5px] sm:text-[10px] font-mono text-[#78716c]">L2 Network</span>
                 </div>
               </div>
             </div>
 
             {/* Bottom 3 tags */}
             {tags && tags.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 pt-1.5">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 pt-1 sm:pt-1.5">
                 {tags.map((tag, idx) => (
                   <span
                     key={idx}
-                    className="text-[9.5px] sm:text-[10px] font-mono font-medium px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
+                    className="text-[9px] sm:text-[10px] font-mono font-medium px-1.5 sm:px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#ded5c5] text-[#37312c] shadow-xs"
                   >
                     {tag}
                   </span>

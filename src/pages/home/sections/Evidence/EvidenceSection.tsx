@@ -85,27 +85,29 @@ export const EvidenceSection: React.FC = () => {
       {/* =========================================================================
           1. MOBILE VIEW: SCROLL-DRIVEN PINNED ARCHITECTURE PIPELINE
           ========================================================================= */}
-      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[250vh]">
-        
-        {/* Pinned Screen Viewport: Pins cleanly while user scrolls through 4 steps */}
-        <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-12 pb-3 px-3 overflow-hidden bg-transparent">
-          
-          {/* Header */}
-          <div className="text-center mx-auto space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[10px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
-              <img src={crownImg} alt="Crown" className="w-3 h-3 object-contain" />
-              <span>ARCHITECTURE</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-serif text-[#ffffff] tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
-              From intent to{' '}
-              <span className="font-serif italic font-normal text-[#dfc28d]">
-                execution.
-              </span>
-            </h2>
-          </div>
+      {/* Mobile Section Header (Normal scroll flow before sticky container so it's fully visible and never cut off) */}
+      <div className="md:hidden text-center px-4 pt-36 sm:pt-44 pb-6 space-y-2 max-w-sm mx-auto">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[10px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
+          <img src={crownImg} alt="Crown" className="w-3 h-3 object-contain" />
+          <span>ARCHITECTURE</span>
+        </div>
+        <h2 className="text-3xl font-serif text-[#ffffff] tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
+          From intent to{' '}
+          <span className="font-serif italic font-normal text-[#dfc28d]">
+            execution.
+          </span>
+        </h2>
+        <p className="text-xs text-[#f3f2e6]/90 font-serif italic max-w-xs mx-auto drop-shadow-sm">
+          How Dopamint seamlessly translates your natural thoughts into verified autonomous action.
+        </p>
+      </div>
 
+      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[280vh]">
+        {/* Pinned Screen Viewport: Pins cleanly below the 60px fixed Navbar */}
+        <div className="sticky top-[60px] sm:top-[68px] h-[calc(100dvh-64px)] sm:h-[calc(100dvh-72px)] w-full flex flex-col justify-between pt-1.5 pb-2.5 px-3 sm:px-4 overflow-hidden bg-transparent">
+          
           {/* Continuous Loop Pill & Step Counter Header */}
-          <div className="flex items-center justify-between gap-2 px-1">
+          <div className="flex items-center justify-between gap-2 px-1 shrink-0">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
               <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
               <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] text-[#141820]">
@@ -119,7 +121,7 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Top 4 Step Pill Scrubber with Animated Progress Underline */}
-          <div className="relative">
+          <div className="relative shrink-0 mt-1.5">
             <div className="grid grid-cols-4 gap-1.5 relative z-10">
               {steps.map((item, idx) => {
                 const isCur = currentStep === idx;
@@ -135,20 +137,27 @@ export const EvidenceSection: React.FC = () => {
                     }}
                     aria-label={`Step ${idx + 1}: ${item.timelineLabel}`}
                     aria-current={isCur ? 'step' : undefined}
-                    className={`py-2 px-1 rounded-xl border flex flex-col items-center gap-0.5 transition-all duration-300 cursor-pointer ${
+                    className={`py-1.5 px-1 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer min-h-[50px] ${
                       isCur
-                        ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.03]'
+                        ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.02]'
                         : isDone
                         ? 'bg-[#f3f2e6] border-[#c4a978]/40 text-[#25362a]'
                         : 'bg-[#f3f2e6]/75 border-[#dcd6c8] text-[#7a746a]'
                     }`}
                   >
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 leading-none mb-0.5">
                       <span className="font-sans text-[10px] font-bold">0{idx + 1}</span>
                       {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />}
                     </div>
-                    <span className="text-[8.5px] font-sans uppercase tracking-[0.1em] truncate max-w-[62px] leading-tight font-semibold">
-                      {item.timelineLabel}
+                    <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[9px] font-sans uppercase tracking-[0.05em] text-center leading-[1.15] font-semibold">
+                      {idx === 2 ? (
+                        <>
+                          <span className="block">AGENT</span>
+                          <span className="block">HARNESS</span>
+                        </>
+                      ) : (
+                        item.timelineLabel
+                      )}
                     </span>
                   </button>
                 );
@@ -165,7 +174,7 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Active Card Container with Smooth Slide Transitions */}
-          <div className="relative flex-1 min-h-[240px] max-h-[285px] my-auto">
+          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-1 min-h-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`mob-card-${currentStep}`}
@@ -173,7 +182,7 @@ export const EvidenceSection: React.FC = () => {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full h-full"
+                className="w-full"
               >
                 <AgentNode
                   title={steps[currentStep].title}
@@ -190,27 +199,27 @@ export const EvidenceSection: React.FC = () => {
           {/* Dynamic Pipeline State Console */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left"
+            className="p-2.5 sm:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1"
           >
-            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15">
+            <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
-                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10.5px]">
-                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[10px]">[BUY NVDAc]</span>
+                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10px] sm:text-[10.5px]">
+                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[9.5px] sm:text-[10px]">[BUY NVDAc]</span>
                 </span>
               </div>
-              <div className="font-sans text-[9.5px] text-[#37312c]">
+              <div className="font-sans text-[9px] sm:text-[9.5px] text-[#37312c]">
                 Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-mono font-bold text-[#1a140f]">Base</span>
               </div>
             </div>
             
-            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-serif text-[10.5px] text-[#1a140f] leading-relaxed font-medium">
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-serif text-[10px] sm:text-[10.5px] text-[#1a140f] leading-snug font-medium">
               {PIPELINE_MILESTONES.map((milestone, idx) => {
                 const isCur = currentStep === idx;
                 const isPassed = currentStep > idx;
                 return (
                   <React.Fragment key={idx}>
-                    <span className="text-[#7a382e]/60 font-mono text-[9.5px] select-none">→</span>
+                    {idx > 0 && <span className="text-[#7a382e]/60 font-mono text-[9px] select-none">→</span>}
                     <span
                       className={`transition-all duration-300 rounded px-1.5 py-0.5 ${
                         isCur
@@ -228,21 +237,23 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* 4 Bottom Capability Capsule Pills (Mobile 2x2 grid) */}
-          <div className="grid grid-cols-2 gap-1.5">
-            {CAPABILITY_PILLS.map((pill) => (
-              <div key={pill.id} className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-1.5 px-2 flex items-center gap-1.5 shadow-sm">
-                <div className="w-5 h-5 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-1 flex items-center justify-center text-[#7a382e] shrink-0">
-                  {CAPABILITY_ICONS[pill.icon]}
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="font-bold text-[#141820] text-[10px] leading-tight">{pill.title}</span>
-                  <span className="text-[#5a544b] font-serif italic text-[8px] leading-tight">{pill.description}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        </div>
+      </div>
 
+      {/* Mobile Capability Capsule Pills (Normal scroll flow after sticky animation) */}
+      <div className="md:hidden px-4 pb-12 pt-6 max-w-md mx-auto">
+        <div className="grid grid-cols-2 gap-2">
+          {CAPABILITY_PILLS.map((pill) => (
+            <div key={pill.id} className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-2 px-2.5 flex items-center gap-2 shadow-sm">
+              <div className="w-6 h-6 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-1.5 flex items-center justify-center text-[#7a382e] shrink-0">
+                {CAPABILITY_ICONS[pill.icon]}
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-bold text-[#141820] text-[10.5px] leading-tight">{pill.title}</span>
+                <span className="text-[#5a544b] font-serif italic text-[8.5px] leading-tight">{pill.description}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
