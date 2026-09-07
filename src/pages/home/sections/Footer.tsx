@@ -2,6 +2,14 @@ import React from 'react';
 import footerBgImg from '../../../assets/Footer.webp';
 import logoDope from '../../../assets/logo_dope.webp';
 import { FaTwitter, FaDiscord, FaInstagram, FaTelegramPlane } from 'react-icons/fa';
+import { SITE_CONFIG } from '@/data/siteConfig';
+
+const SOCIAL_ICONS: Record<string, React.FC<{ className?: string }>> = {
+  'Twitter/X': FaTwitter,
+  Discord: FaDiscord,
+  Instagram: FaInstagram,
+  Telegram: FaTelegramPlane,
+};
 
 export const FooterSection: React.FC = () => {
   return (
@@ -74,45 +82,21 @@ export const FooterSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
             {/* Social Icons with text labels */}
             <div className="flex items-center gap-5 text-white/90 text-xs sm:text-[13px] font-medium tracking-wide">
-              <a 
-                href="https://x.com/dopamint" 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <FaTwitter className="w-3.5 h-3.5" />
-                <span>Twitter/X</span>
-              </a>
-
-              <a 
-                href="https://discord.gg" 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <FaDiscord className="w-3.5 h-3.5" />
-                <span>Discord</span>
-              </a>
-
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <FaInstagram className="w-3.5 h-3.5" />
-                <span>Insta</span>
-              </a>
-
-              <a 
-                href="https://t.me" 
-                target="_blank" 
-                rel="noreferrer"
-                className="flex items-center gap-1.5 hover:text-white transition-colors"
-              >
-                <FaTelegramPlane className="w-3.5 h-3.5" />
-                <span>Telegram</span>
-              </a>
+              {SITE_CONFIG.socials.map((social) => {
+                const Icon = SOCIAL_ICONS[social.name] || FaTwitter;
+                return (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1.5 hover:text-white transition-colors"
+                  >
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{social.label}</span>
+                  </a>
+                );
+              })}
             </div>
 
           </div>
@@ -122,18 +106,17 @@ export const FooterSection: React.FC = () => {
         {/* Sub-Footer Legal & Disclaimer Bar */}
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/70">
           <div>
-            <span>© 2026 Dopamint. All rights reserved.</span>
+            <span>© {SITE_CONFIG.copyrightYear} {SITE_CONFIG.name}. All rights reserved.</span>
             <span className="mx-2 text-white/40">|</span>
             <span className="font-serif italic text-white/90">Powered by $DOPE.</span>
           </div>
 
           <div className="flex items-center gap-6 font-serif italic text-white/80">
-            <a href="#privacy" className="hover:text-white transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#terms" className="hover:text-white transition-colors">
-              Terms &amp; Conditions
-            </a>
+            {SITE_CONFIG.legal.map((item) => (
+              <a key={item.name} href={item.href} className="hover:text-white transition-colors">
+                {item.name}
+              </a>
+            ))}
           </div>
         </div>
 

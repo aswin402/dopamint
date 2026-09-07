@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Type1Button } from '@/components/ui/Type1Button';
 import { Menu, X } from 'lucide-react';
 import { getLenisInstance } from '@/lib/lenis';
+import { SITE_CONFIG } from '@/data/siteConfig';
 import logoDope from '../../../assets/logo_dope.webp';
 
 export const Navbar: React.FC = () => {
@@ -110,27 +111,16 @@ export const Navbar: React.FC = () => {
             isSolidNav ? 'text-neutral-700' : 'text-white/90 drop-shadow-xs'
           }`}
         >
-          <a
-            href="#manifesto"
-            onClick={(e) => handleNavClick(e, 'manifesto')}
-            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
-          >
-            About
-          </a>
-          <a
-            href="#agents"
-            onClick={(e) => handleNavClick(e, 'agents')}
-            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
-          >
-            Agents
-          </a>
-          <a
-            href="#ecosystem"
-            onClick={(e) => handleNavClick(e, 'ecosystem')}
-            className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
-          >
-            Ecosystem
-          </a>
+          {SITE_CONFIG.nav.map((item) => (
+            <a
+              key={item.targetId}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.targetId)}
+              className={`transition-colors cursor-pointer ${isSolidNav ? 'hover:text-black' : 'hover:text-white'}`}
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         {/* Right Action */}
@@ -163,27 +153,16 @@ export const Navbar: React.FC = () => {
       {/* Mobile Drawer */}
       {mobileNavOpen && (
         <div className="md:hidden absolute top-full left-4 right-4 mt-2 p-6 bg-[#e6e6dc]/95 backdrop-blur-2xl rounded-2xl shadow-2xl border border-neutral-300 text-sm space-y-4 text-black animate-in fade-in slide-in-from-top-2 duration-200">
-          <a
-            href="#manifesto"
-            onClick={(e) => handleNavClick(e, 'manifesto')}
-            className="block font-bold cursor-pointer"
-          >
-            About
-          </a>
-          <a
-            href="#agents"
-            onClick={(e) => handleNavClick(e, 'agents')}
-            className="block font-bold cursor-pointer"
-          >
-            Agents
-          </a>
-          <a
-            href="#ecosystem"
-            onClick={(e) => handleNavClick(e, 'ecosystem')}
-            className="block font-bold cursor-pointer"
-          >
-            Ecosystem
-          </a>
+          {SITE_CONFIG.nav.map((item) => (
+            <a
+              key={`mob-${item.targetId}`}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.targetId)}
+              className="block font-bold cursor-pointer"
+            >
+              {item.label}
+            </a>
+          ))}
           <div className="pt-2">
             <Type1Button
               href="#manifesto"

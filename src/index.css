@@ -16,6 +16,15 @@
   --color-charcoal-primary: #141820;
   --color-charcoal-secondary: #2C3240;
   --color-slate-editorial: #525866;
+
+  /* Renaissance Brand Accent Tokens */
+  --color-gold-accent: #c4a978;
+  --color-gold-amber: #dfc28d;
+  --color-brand-wine: #7a382e;
+  --color-sage-deep: #25362a;
+  --color-sage-border: #3e4f42;
+  --color-sage-bg: #eef2ea;
+  --color-sage-pill: #e0e8dc;
 }
 
 @layer base {

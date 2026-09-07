@@ -9,7 +9,7 @@ import divBurnImg from '../../assets/div_burn.webp';
 const AgentRoster = lazy(() => import('./sections/AgentRoster').then((m) => ({ default: m.AgentRoster })));
 const EvidenceSection = lazy(() => import('./sections/Evidence/EvidenceSection').then((m) => ({ default: m.EvidenceSection })));
 const MemoryWalletSection = lazy(() => import('./sections/MemoryWallet/MemoryWalletSection').then((m) => ({ default: m.MemoryWalletSection })));
-const RoadmapSection = lazy(() => import('./sections/Roadmap').then((m) => ({ default: m.RoadmapSection })));
+const EcosystemSection = lazy(() => import('./sections/EcosystemSection').then((m) => ({ default: m.EcosystemSection })));
 const FooterSection = lazy(() => import('./sections/Footer').then((m) => ({ default: m.FooterSection })));
 
 
@@ -94,9 +94,9 @@ export function HomePage() {
           </div>
         </div>
 
-        {/* 7. Dopamint Roadmap (Video/Static Transition + Staggered Grid Logo Animation) */}
+        {/* 7. Ecosystem (Everyday Apps, Markets, Exchanges & Wallets Marquee) */}
         <Suspense fallback={null}>
-          <RoadmapSection />
+          <EcosystemSection />
         </Suspense>
 
         {/* 8. Footer Section (Give your AI some agency + The Last Supper background) */}

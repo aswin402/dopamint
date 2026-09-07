@@ -6,16 +6,7 @@ import sideCharImg from '../../../assets/side_char.webp';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
 import { IMessageBubble } from './IMessageBubble';
 
-import googleCalendarLogo from '../../../assets/integration_logos/google_calendar.svg';
-import googleMapsLogo from '../../../assets/integration_logos/google_maps.svg';
-import googleFlightsLogo from '../../../assets/integration_logos/google_flights.svg';
-import uberLogo from '../../../assets/integration_logos/uber.svg';
-import tradingviewLogo from '../../../assets/integration_logos/tradingview.svg';
-import hyperliquidLogo from '../../../assets/integration_logos/hyperliquid.svg';
-import xLogo from '../../../assets/integration_logos/x.svg';
-import coinbaseLogo from '../../../assets/integration_logos/coinbase.svg';
-import binanceLogo from '../../../assets/integration_logos/binance.svg';
-import solscanLogo from '../../../assets/integration_logos/solscan.svg';
+import { ASK_CARDS, type AskCardData, type IntegrationItem } from '@/data/realAsks';
 
 const STEP3 = 'M 0.35 0.85 L 0.65 0.85 L 0.65 1.00 L 0.35 1.00 Z';
 const STEP2 =
@@ -70,12 +61,6 @@ function useGenieMorph(isOpen: boolean, delayMs: number) {
   return pathRef;
 }
 
-interface IntegrationItem {
-  name: string;
-  domain?: string;
-  iconSrc?: string;
-}
-
 const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
   <div className="flex items-center justify-end gap-1.5 pb-1 sm:pb-1.5 mb-1.5 w-full">
     {items.map((item) => (
@@ -97,93 +82,6 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
     ))}
   </div>
 );
-
-interface AskCardData {
-  id: string;
-  isSm?: boolean;
-  logos: IntegrationItem[];
-  bubbles: { text: string; side: 'left' | 'right' }[];
-  rotation: number;
-}
-
-const ASK_CARDS: AskCardData[] = [
-  {
-    id: 'box1_flight',
-    isSm: true,
-    logos: [
-      { name: 'Google Maps', iconSrc: googleMapsLogo },
-      { name: 'Uber', iconSrc: uberLogo },
-      { name: 'Google Flights', iconSrc: googleFlightsLogo },
-    ],
-    bubbles: [
-      { text: 'your flight is boarding in 40 mins, and your food is 2 mins away. maybe start moving.', side: 'left' },
-    ],
-    rotation: -2.0,
-  },
-  {
-    id: 'box2_clarity',
-    isSm: true,
-    logos: [
-      { name: 'X', iconSrc: xLogo, domain: 'x.com' },
-      { name: 'Coinbase', iconSrc: coinbaseLogo, domain: 'coinbase.com' },
-    ],
-    bubbles: [
-      { text: "Trump's out here doing IR for CLARITY again. If Congress catches the vibe, Circle could be the read-through. Should we ape? 👀", side: 'left' },
-    ],
-    rotation: 2.2,
-  },
-  {
-    id: 'box3_funding',
-    isSm: true,
-    logos: [
-      { name: 'Hyperliquid', iconSrc: hyperliquidLogo },
-      { name: 'TradingView', iconSrc: tradingviewLogo },
-    ],
-    bubbles: [
-      { text: 'Fed rate cut looking less likely. Gold might be getting ready to send 📈', side: 'left' },
-    ],
-    rotation: -1.8,
-  },
-  {
-    id: 'box4_birthday',
-    isSm: false,
-    logos: [
-      { name: 'Google Calendar', iconSrc: googleCalendarLogo },
-      { name: 'Google Maps', iconSrc: googleMapsLogo },
-    ],
-    bubbles: [
-      { text: 'shit i forget her birthday', side: 'right' },
-      { text: 'already handled. flowers at 6, dinner at 8. reminder to call her at noon.', side: 'left' },
-    ],
-    rotation: 2.5,
-  },
-  {
-    id: 'box5_hype',
-    isSm: false,
-    logos: [
-      { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
-      { name: 'Binance', iconSrc: binanceLogo, domain: 'binance.com' },
-    ],
-    bubbles: [
-      { text: 'yo, your HYPE long is getting close. liq $71.30, HYPE $74.90 and sliding. you’ve got a few % of room left.', side: 'left' },
-      { text: 'shit ok how much do i need to add', side: 'right' },
-    ],
-    rotation: -2.8,
-  },
-  {
-    id: 'box6_cashcat',
-    isSm: false,
-    logos: [
-      { name: 'Solscan', iconSrc: solscanLogo, domain: 'solscan.io' },
-      { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
-    ],
-    bubbles: [
-      { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT. Already up 34%. Want in? 😌', side: 'left' },
-      { text: 'yeah get me $3000', side: 'right' },
-    ],
-    rotation: 1.8,
-  },
-];
 
 const cardBase = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
 const cardSm   = 'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_20px_50px_rgba(50,35,20,0.06)] hover:shadow-[0_30px_70px_rgba(50,35,20,0.14)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
@@ -497,15 +395,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-1)' }} initial={{ rotate: -3.5 }} animate={{ rotate: -3.5 }}
               whileHover={{ scale: 1.05, rotate: -0.5, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <LogosHeader
-                items={[
-                  { name: 'Google Calendar', iconSrc: googleCalendarLogo },
-                  { name: 'Google Maps', iconSrc: googleMapsLogo },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[3].logos} />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="shit i forget her birthday" side="right" />
-                <IMessageBubble text="already handled. flowers at 6, dinner at 8. reminder to call her at noon." side="left" />
+                {ASK_CARDS[3].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -519,15 +413,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-2)' }} initial={{ rotate: 6 }} animate={{ rotate: 6 }}
               whileHover={{ scale: 1.06, rotate: 2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <LogosHeader
-                items={[
-                  { name: 'Google Maps', iconSrc: googleMapsLogo },
-                  { name: 'Uber', iconSrc: uberLogo },
-                  { name: 'Google Flights', iconSrc: googleFlightsLogo },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[0].logos} />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="your flight is boarding in 40 mins, and your food is 2 mins away. maybe start moving." side="left" />
+                {ASK_CARDS[0].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -541,14 +431,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-3)' }} initial={{ rotate: 8.5 }} animate={{ rotate: 8.5 }}
               whileHover={{ scale: 1.06, rotate: 4, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <LogosHeader
-                items={[
-                  { name: 'X', iconSrc: xLogo, domain: 'x.com' },
-                  { name: 'Coinbase', iconSrc: coinbaseLogo, domain: 'coinbase.com' },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[1].logos} />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="Trump's out here doing IR for CLARITY again. If Congress catches the vibe, Circle could be the read-through. Should we ape? 👀" side="left" />
+                {ASK_CARDS[1].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -562,14 +449,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-6)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.06, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardSm}>
-              <LogosHeader
-                items={[
-                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo },
-                  { name: 'TradingView', iconSrc: tradingviewLogo },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[2].logos} />
               <div className="flex flex-col pt-0.5">
-                <IMessageBubble text="Fed rate cut looking less likely. Gold might be getting ready to send 📈" side="left" />
+                {ASK_CARDS[2].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -583,15 +467,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-4)' }} initial={{ rotate: -4 }} animate={{ rotate: -4 }}
               whileHover={{ scale: 1.05, rotate: -1, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <LogosHeader
-                items={[
-                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
-                  { name: 'Binance', iconSrc: binanceLogo, domain: 'binance.com' },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[4].logos} />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="yo, your HYPE long is getting close. liq $71.30, HYPE $74.90 and sliding. you’ve got a few % of room left." side="left" />
-                <IMessageBubble text="shit ok how much do i need to add" side="right" />
+                {ASK_CARDS[4].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
@@ -605,15 +485,11 @@ export const RealAsks: React.FC = () => {
             <motion.div style={{ clipPath: 'url(#genie-clip-5)' }} initial={{ rotate: -6.5 }} animate={{ rotate: -6.5 }}
               whileHover={{ scale: 1.05, rotate: -2, y: -8, transition: spring }} whileTap={{ scale: 0.98 }}
               className={cardBase}>
-              <LogosHeader
-                items={[
-                  { name: 'Solscan', iconSrc: solscanLogo, domain: 'solscan.io' },
-                  { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
-                ]}
-              />
+              <LogosHeader items={ASK_CARDS[5].logos} />
               <div className="flex flex-col gap-2 sm:gap-3 pt-0.5">
-                <IMessageBubble text="6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT. Already up 34%. Want in? 😌" side="left" />
-                <IMessageBubble text="yeah get me $3000" side="right" />
+                {ASK_CARDS[5].bubbles.map((bubble, idx) => (
+                  <IMessageBubble key={idx} text={bubble.text} side={bubble.side} />
+                ))}
               </div>
             </motion.div>
           </motion.div>
