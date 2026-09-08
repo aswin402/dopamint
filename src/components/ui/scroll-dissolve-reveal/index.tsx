@@ -24,9 +24,32 @@ function getManifestoBoundaryState(manifesto: HTMLElement | null) {
 }
 
 
+class CanvasErrorBoundary extends React.Component<
+  { fallback?: React.ReactNode; children: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { fallback?: React.ReactNode; children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error: unknown) {
+    console.warn("WebGL Canvas encountered an issue, falling back to CSS dissolve:", error);
+  }
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback ?? null;
+    }
+    return this.props.children;
+  }
+}
+
 export interface ScrollDissolveRevealProps {
   imageFront?: string;
   videoFront?: string;
+  posterImage?: string;
   className?: string;
   containerClassName?: string;
   backgroundContent?: React.ReactNode;
@@ -37,6 +60,7 @@ export interface ScrollDissolveRevealProps {
 export function ScrollDissolveReveal({
   imageFront,
   videoFront,
+  posterImage,
   className,
   containerClassName,
   backgroundContent,
@@ -295,7 +319,8 @@ export function ScrollDissolveReveal({
       if (!isUnlockedRef.current) {
         e.preventDefault();
         e.stopImmediatePropagation();
-        const delta = Math.min(Math.abs(deltaY) * 0.0022, 0.045);
+        // Responsive mobile sensitivity so a normal swipe smoothly dissolves without requiring 20+ drags
+        const delta = Math.min(Math.abs(deltaY) * 0.0055, 0.08);
         if (deltaY > 0) {
           updateTarget(targetProgressRef.current + delta, true);
         } else if (deltaY < 0) {
@@ -329,7 +354,17 @@ export function ScrollDissolveReveal({
     };
 
     const onTouchEnd = () => {
-      if (isUnlockedRef.current) armSectionHandoff();
+      if (!isUnlockedRef.current) {
+        // Mobile gesture snap: if user dragged past 55%, snap forward to complete reveal
+        if (targetProgressRef.current >= 0.55) {
+          updateTarget(1.0, true);
+          armSectionHandoff();
+        } else if (targetProgressRef.current < 0.2) {
+          updateTarget(0.0, false);
+        }
+      } else {
+        armSectionHandoff();
+      }
     };
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -408,13 +443,13 @@ export function ScrollDissolveReveal({
   const isLocked = !isUnlocked && !prefersReducedMotion;
 
   return (
-    /* Outer container always stays h-screen in document flow so next sections never shift */
-    <div className={cn("relative w-full h-screen bg-[#f3f2e6]", containerClassName)}>
+    /* Outer container always stays h-screen / min-h-[100dvh] in document flow so next sections never shift */
+    <div className={cn("relative w-full h-screen min-h-[100dvh] bg-[#f3f2e6]", containerClassName)}>
       
       {/* Inner Viewport: Fixed at top: 0 while dissolving, then seamlessly relative when unlocked */}
       <div
         className={cn(
-          "w-full h-full overflow-hidden bg-[#f3f2e6]",
+          "w-full h-full min-h-[100dvh] overflow-hidden bg-[#f3f2e6]",
           isLocked ? "fixed inset-0 z-30" : "relative z-10",
           className
         )}
@@ -429,38 +464,51 @@ export function ScrollDissolveReveal({
           </div>
         )}
 
+        {/* Layer 1.5: Immediate Poster / CSS Dissolve Fallback */}
+        {posterImage && smoothProgress < 0.999 && (
+          <div
+            className="absolute inset-0 z-[5] w-full h-full bg-cover bg-center pointer-events-none"
+            style={{
+              backgroundImage: `url(${posterImage})`,
+              opacity: smoothProgress > 0.02 ? Math.max(0, 1 - smoothProgress * 1.5) : 1,
+            }}
+          />
+        )}
+
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
         {!prefersReducedMotion && smoothProgress < 0.999 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
-            <Canvas
-              dpr={[1, 1.5]}
-              gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
-            >
-              <OrthographicCamera
-                makeDefault
-                manual
-                left={-1}
-                right={1}
-                top={1}
-                bottom={-1}
-                near={0.1}
-                far={10}
-                position={[0, 0, 1]}
-              />
-              <React.Suspense fallback={null}>
-                {isVideo ? (
-                  <VideoShaderScene
-                    videoFront={activeVideo}
-                    progress={smoothProgress}
-                  />
-                ) : imageFront ? (
-                  <ImageShaderScene
-                    imageFront={imageFront}
-                    progress={smoothProgress}
-                  />
-                ) : null}
-              </React.Suspense>
-            </Canvas>
+            <CanvasErrorBoundary>
+              <Canvas
+                dpr={[1, 1.5]}
+                gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+              >
+                <OrthographicCamera
+                  makeDefault
+                  manual
+                  left={-1}
+                  right={1}
+                  top={1}
+                  bottom={-1}
+                  near={0.1}
+                  far={10}
+                  position={[0, 0, 1]}
+                />
+                <React.Suspense fallback={null}>
+                  {isVideo ? (
+                    <VideoShaderScene
+                      videoFront={activeVideo}
+                      progress={smoothProgress}
+                    />
+                  ) : imageFront ? (
+                    <ImageShaderScene
+                      imageFront={imageFront}
+                      progress={smoothProgress}
+                    />
+                  ) : null}
+                </React.Suspense>
+              </Canvas>
+            </CanvasErrorBoundary>
           </div>
         )}
 

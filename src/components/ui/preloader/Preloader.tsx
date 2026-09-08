@@ -24,19 +24,17 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
     };
   }, []);
 
-  // When loading finishes, wait for exit animation before unmounting
+  // When loading finishes, immediately trigger exit transition
   useEffect(() => {
     if (isComplete) {
-      const timer = setTimeout(() => {
-        setShouldRender(false);
-      }, PRELOADER_EXIT_MS); // Allow exit transition to trigger
-
-      return () => clearTimeout(timer);
+      setShouldRender(false);
     }
   }, [isComplete]);
 
   const handleExitComplete = () => {
+    document.documentElement.dataset.preloaderComplete = 'true';
     unlockPageScroll(PRELOADER_SCROLL_LOCK_OWNER);
+    window.dispatchEvent(new CustomEvent('preloader-dismissed'));
     onComplete?.();
   };
 

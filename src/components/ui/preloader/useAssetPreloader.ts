@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import iconDopeImg from '../../../assets/Icondope.webp';
-import heroBgVid from '../../../assets/herosectionbgvid.webm';
+import logoDopeImg from '../../../assets/logo_dope.webp';
+import heroPosterImg from '../../../assets/herosectionbg_poster.webp';
+import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
+import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
+import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
+import candleStandImg from '../../../assets/Candle_Stand.webp';
+import divBurnImg from '../../../assets/div_burn.webp';
+import footerImg from '../../../assets/Footer.webp';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
-
-const CRITICAL_IMAGES = [iconDopeImg];
-const CRITICAL_VIDEOS = [heroBgVid];
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -18,6 +22,69 @@ export interface UseAssetPreloaderOptions {
   timeoutMs?: number;
 }
 
+function preloadImage(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+    if (typeof img.decode === 'function') {
+      img.decode().then(() => resolve()).catch(() => resolve());
+    } else {
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+    }
+  });
+}
+
+function preloadVideo(src: string): Promise<void> {
+  return new Promise((resolve) => {
+    const vid = document.createElement('video');
+    vid.preload = 'auto';
+    vid.muted = true;
+    vid.playsInline = true;
+    vid.setAttribute('playsinline', '');
+    vid.setAttribute('webkit-playsinline', '');
+    vid.setAttribute('muted', '');
+
+    let finished = false;
+    const done = () => {
+      if (!finished) {
+        finished = true;
+        vid.removeEventListener('canplay', done);
+        vid.removeEventListener('canplaythrough', done);
+        vid.removeEventListener('loadeddata', done);
+        vid.removeEventListener('error', done);
+        resolve();
+      }
+    };
+
+    vid.addEventListener('canplay', done, { once: true });
+    vid.addEventListener('canplaythrough', done, { once: true });
+    vid.addEventListener('loadeddata', done, { once: true });
+    vid.addEventListener('error', done, { once: true });
+
+    // Safety timeout per video so slow cellular/mobile networks don't stall the pipeline
+    setTimeout(done, 2200);
+
+    vid.src = src;
+    vid.load();
+  });
+}
+
+function preloadFonts(): Promise<void> {
+  if (typeof document !== 'undefined' && document.fonts?.ready) {
+    return Promise.race([
+      document.fonts.ready.then(() => {}),
+      new Promise<void>((r) => setTimeout(r, 1200)),
+    ]);
+  }
+  return Promise.resolve();
+}
+
+interface QueuedAsset {
+  name: string;
+  load: () => Promise<void>;
+}
+
 export function useAssetPreloader({
   minDurationMs = PRELOADER_MIN_DURATION_MS,
   timeoutMs = PRELOADER_TIMEOUT_MS,
@@ -27,7 +94,6 @@ export function useAssetPreloader({
   const [stageIndex, setStageIndex] = useState(() => (typeof window === 'undefined' ? 3 : 0));
 
   const realLoadedRef = useRef(0);
-  const totalItemsRef = useRef(CRITICAL_IMAGES.length + CRITICAL_VIDEOS.length + 1); // +1 for fonts
   const startTimeRef = useRef(0);
   const rafIdRef = useRef<number | null>(null);
   const completedRef = useRef(false);
@@ -39,72 +105,47 @@ export function useAssetPreloader({
     }
 
     startTimeRef.current = performance.now();
-    let loadedCount = 0;
-    const totalCount = totalItemsRef.current;
+    let isCancelled = false;
 
-    const notifyItemLoaded = () => {
-      loadedCount += 1;
-      realLoadedRef.current = loadedCount;
-    };
+    // Ordered sequence of critical assets to load one by one in the background
+    const ASSET_PIPELINE: QueuedAsset[] = [
+      { name: 'Fonts', load: preloadFonts },
+      { name: 'Hero Poster', load: () => preloadImage(heroPosterImg) },
+      { name: 'Dope Icon', load: () => preloadImage(iconDopeImg) },
+      { name: 'Dope Logo', load: () => preloadImage(logoDopeImg) },
+      { name: 'Hero Background Video', load: () => preloadVideo(heroBgVidMp4) },
+      { name: 'Chat Screen Video', load: () => preloadVideo(chatScreenMp4) },
+      { name: 'iMessage Podium', load: () => preloadImage(iMessagePodiumImg) },
+      { name: 'Candle Stand', load: () => preloadImage(candleStandImg) },
+      { name: 'Burn Div Texture', load: () => preloadImage(divBurnImg) },
+      { name: 'Footer Art', load: () => preloadImage(footerImg) },
+    ];
 
-    // 1. Preload Images with off-thread decoding
-    CRITICAL_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      if (typeof img.decode === 'function') {
-        img
-          .decode()
-          .then(notifyItemLoaded)
-          .catch(notifyItemLoaded);
-      } else {
-        img.onload = notifyItemLoaded;
-        img.onerror = notifyItemLoaded;
+    const totalCount = ASSET_PIPELINE.length;
+
+    // Load assets strictly one by one in sequence
+    (async () => {
+      for (let i = 0; i < totalCount; i++) {
+        if (isCancelled) break;
+        try {
+          await ASSET_PIPELINE[i].load();
+        } catch {
+          // Continue to next asset so nothing blocks
+        }
+        if (isCancelled) break;
+        realLoadedRef.current = i + 1;
       }
-    });
-
-    // 2. Preload Videos (wait for first playable frame / buffer)
-    CRITICAL_VIDEOS.forEach((src) => {
-      const vid = document.createElement('video');
-      vid.preload = 'auto';
-      vid.muted = true;
-      vid.playsInline = true;
-
-      const handleVideoReady = () => {
-        cleanup();
-        notifyItemLoaded();
-      };
-
-      const cleanup = () => {
-        vid.removeEventListener('canplaythrough', handleVideoReady);
-        vid.removeEventListener('loadeddata', handleVideoReady);
-        vid.removeEventListener('error', handleVideoReady);
-      };
-
-      vid.addEventListener('canplaythrough', handleVideoReady, { once: true });
-      vid.addEventListener('loadeddata', handleVideoReady, { once: true });
-      vid.addEventListener('error', handleVideoReady, { once: true });
-      vid.src = src;
-      vid.load();
-    });
-
-    // 3. Preload document fonts
-    if (document.fonts?.ready) {
-      document.fonts.ready
-        .then(notifyItemLoaded)
-        .catch(notifyItemLoaded);
-    } else {
-      notifyItemLoaded();
-    }
+    })();
 
     // Animation Loop for fluid, organic progress
     const updateProgress = (now: number) => {
       const elapsed = now - startTimeRef.current;
       const timeRatio = Math.min(elapsed / minDurationMs, 1);
       
-      // Calculate weighted progress (blend of asset loading & time progression)
+      // Calculate weighted progress (blend of real asset completion & minimum time pacing)
       const assetRatio = Math.min(realLoadedRef.current / totalCount, 1);
       const targetPercent = Math.min(
-        Math.floor((assetRatio * 0.4 + timeRatio * 0.6) * 100),
+        Math.floor((assetRatio * 0.65 + timeRatio * 0.35) * 100),
         100
       );
 
@@ -132,7 +173,9 @@ export function useAssetPreloader({
           completedRef.current = true;
           // Small buffer at 100% so the user visually sees the completed 100% state
           setTimeout(() => {
-            setIsComplete(true);
+            if (!isCancelled) {
+              setIsComplete(true);
+            }
           }, PRELOADER_COMPLETE_HOLD_MS);
         }
         return;
@@ -144,6 +187,7 @@ export function useAssetPreloader({
     rafIdRef.current = requestAnimationFrame(updateProgress);
 
     return () => {
+      isCancelled = true;
       if (rafIdRef.current) {
         cancelAnimationFrame(rafIdRef.current);
       }

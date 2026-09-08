@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
-import heroBgVid from '../../../assets/herosectionbgvid.webm';
+import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
+import heroPosterImg from '../../../assets/herosectionbg_poster.webp';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenWebm from '../../../assets/Chat_Screen.webm';
 import iconDopeImg from '../../../assets/Icondope.webp';
@@ -308,8 +309,8 @@ function HouseOfAgentsSection() {
               disableRemotePlayback
               className="w-auto max-w-full max-h-[46vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none"
             >
-              <source src={chatScreenWebm} type="video/webm" />
               <source src={chatScreenMp4} type="video/mp4" />
+              <source src={chatScreenWebm} type="video/webm" />
             </video>
           </div>
         </div>
@@ -360,7 +361,8 @@ export const Hero: React.FC = () => {
           - Scrolling back UP to the top cleanly reverses the animation.
           ========================================================================= */}
       <ScrollDissolveReveal
-        videoFront={heroBgVid}
+        videoFront={heroBgVidMp4}
+        posterImage={heroPosterImg}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (

@@ -19,4 +19,11 @@ describe('Preloader Component', () => {
     expect(html).toContain('%');
     expect(html).toContain('bg-[#f3f2e6]');
   });
+
+  test('contains telemetry stages and ready indicators', () => {
+    const html = renderToStaticMarkup(<Preloader minDurationMs={100} />);
+
+    expect(html).toContain('v2.4 · SOVEREIGN AI');
+    expect(html).toContain('ONCHAIN VERIFIABILITY');
+  });
 });

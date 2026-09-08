@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { useTexture, useVideoTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -21,6 +21,40 @@ export function VideoShaderScene({
   });
   const material1Ref = useRef<THREE.ShaderMaterial>(null);
   const { size } = useThree();
+
+  // Enforce iOS Safari WebKit inline video playback and autoplay recovery
+  useEffect(() => {
+    const video = texture1?.image as HTMLVideoElement | undefined;
+    if (!video) return;
+
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('muted', '');
+    video.muted = true;
+    video.defaultMuted = true;
+
+    const tryPlay = () => {
+      const promise = video.play();
+      if (promise !== undefined) {
+        promise.catch(() => {
+          // iOS Safari Low Power Mode or initial policy might defer playback
+          const resume = () => {
+            video.play().catch(() => {});
+            window.removeEventListener('touchstart', resume);
+            window.removeEventListener('scroll', resume);
+            window.removeEventListener('click', resume);
+            window.removeEventListener('wheel', resume);
+          };
+          window.addEventListener('touchstart', resume, { once: true, passive: true });
+          window.addEventListener('scroll', resume, { once: true, passive: true });
+          window.addEventListener('click', resume, { once: true, passive: true });
+          window.addEventListener('wheel', resume, { once: true, passive: true });
+        });
+      }
+    };
+
+    tryPlay();
+  }, [texture1]);
 
   const uniforms1 = useMemo(
     () => ({
