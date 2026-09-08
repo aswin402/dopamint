@@ -268,13 +268,13 @@ function HouseOfAgentsSection() {
           {/* Editorial Body Text */}
           <div className="space-y-1.5 sm:space-y-3 md:space-y-3.5 text-[11.5px] sm:text-sm md:text-base lg:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
             <p>
-              There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is kinda over.
+              There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is over.
             </p>
             <p className="font-serif italic text-xs sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
               Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
             </p>
             <p>
-              Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, transact, and pay on their own
+              Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, and transact.
             </p>
           </div>
 
