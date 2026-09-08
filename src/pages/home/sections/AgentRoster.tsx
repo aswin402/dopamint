@@ -4,9 +4,10 @@ import { ChevronDown } from 'lucide-react';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
 import iconDope from '@/assets/Icondope.webp';
 
-// Split 72 agents evenly into 2 horizontal marquee lanes (36 in each)
-const LANE_1 = ALL_72_AGENTS.slice(0, 36);
-const LANE_2 = ALL_72_AGENTS.slice(36, 72);
+// Split agents evenly into 2 horizontal marquee lanes
+const half = Math.ceil(ALL_72_AGENTS.length / 2);
+const LANE_1 = ALL_72_AGENTS.slice(0, half);
+const LANE_2 = ALL_72_AGENTS.slice(half);
 
 interface AgentCardProps {
   agent: AgentCardData;
