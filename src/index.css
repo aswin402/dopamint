@@ -329,6 +329,7 @@ body::-webkit-scrollbar {
   border-radius: var(--radius);
   text-wrap: pretty;
   overflow-wrap: anywhere;
+  white-space: pre-line;
   user-select: none;
 }
 

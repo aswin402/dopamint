@@ -100,8 +100,8 @@ export const ASK_CARDS: AskCardData[] = [
       { name: 'Hyperliquid', iconSrc: hyperliquidLogo, domain: 'hyperliquid.xyz' },
     ],
     bubbles: [
-      { text: '6 wallets that called SOL’s last two pumps just bought $340K of CASHCAT. Already up 34%. Want in? 😌', side: 'left' },
-      { text: 'yeah get me $3000', side: 'right' },
+      { text: 'Yo, what are the biggest whale moments on $CASHCAT? 👀', side: 'right' },
+      { text: 'Found 7 wallets worth watching. 🐋\n3 are actively accumulating.\nI can track their next moves.', side: 'left' },
     ],
     rotation: 1.8,
   },

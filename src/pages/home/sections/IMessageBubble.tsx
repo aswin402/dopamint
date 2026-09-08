@@ -20,7 +20,7 @@ export const IMessageBubble: React.FC<IMessageBubbleProps> = ({
 
   return (
     <div className={`imsg-turn ${isRight ? 'imsg-turn--out' : 'imsg-turn--in'} ${className}`}>
-      <p className={`imsg-msg ${colorClass}`}>
+      <p className={`imsg-msg whitespace-pre-line ${colorClass}`}>
         {text}
       </p>
     </div>
