@@ -89,7 +89,7 @@ export const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-[1400px] mx-auto flex items-center justify-between w-full">
-        {/* Brand with logo_dope.webp (Switches from White to Black on scroll or when hero dissolves) */}
+        {/* Brand with logo_dope.webp (White in Hero, switches to green on section 2 / scroll) */}
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, 'hero')}
@@ -100,7 +100,7 @@ export const Navbar: React.FC = () => {
             src={logoDope}
             alt="Dope"
             className={`h-5 sm:h-6 w-auto object-contain transition-all duration-500 group-hover:scale-105 ${
-              isSolidNav ? 'brightness-0 opacity-100' : 'brightness-100 drop-shadow-md'
+              isSolidNav ? 'filter-none opacity-100' : 'brightness-0 invert drop-shadow-md'
             }`}
           />
         </a>
