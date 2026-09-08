@@ -4,6 +4,7 @@ export interface ChatMessage {
   text?: string;
   time: string;
   isCard?: 'trade' | 'take-profit';
+  delivered?: boolean;
   tradeDetails?: {
     symbol: string;
     entryPrice: string;
@@ -29,6 +30,7 @@ export const CHAT_MESSAGES: ChatMessage[] = [
     sender: 'user',
     text: "haha nice! what's the entry?",
     time: '9:41 AM',
+    delivered: true,
   },
   {
     stage: 3,
@@ -44,25 +46,27 @@ export const CHAT_MESSAGES: ChatMessage[] = [
   {
     stage: 4,
     sender: 'user',
-    text: "looks good. what's the plan?",
+    text: "looks good — here's the plan: ride the momentum, take profit at 2x first 🎯",
     time: '9:41 AM',
+    delivered: true,
   },
   {
     stage: 5,
     sender: 'agent',
-    text: 'riding the momentum. will take profit at 2x first 🎯',
+    text: 'got it, will do. keep you posted 👍',
     time: '9:41 AM',
   },
   {
     stage: 6,
     sender: 'user',
-    text: 'sounds good. keep me posted.',
+    text: 'sounds good',
     time: '9:41 AM',
+    delivered: true,
   },
   {
     stage: 7,
     sender: 'agent',
-    text: 'we hit the target! 🎯\ntaking profit now...',
+    text: 'we hit the target 🎯 taking profit now...',
     time: '10:14 AM',
   },
   {
@@ -74,13 +78,14 @@ export const CHAT_MESSAGES: ChatMessage[] = [
   {
     stage: 9,
     sender: 'agent',
-    text: 'profit locked in! 💰\nlet it run with the remaining bag?',
+    text: 'profit locked in! 💰',
     time: '10:14 AM',
   },
   {
     stage: 10,
     sender: 'user',
-    text: 'perfect. let it run. 🙌',
-    time: '10:15 AM',
+    text: 'perfect. 🎉',
+    time: '10:14 AM',
+    delivered: true,
   },
 ];

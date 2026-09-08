@@ -119,9 +119,8 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                 className="max-w-[78%] bg-[#eae3d5] border border-[#d8cfbe]/60 rounded-[16px] rounded-tl-xs p-2.5 text-[#1c1917] shadow-2xs space-y-2"
               >
                 <div className="flex items-center gap-1.5">
-                  <div className="w-4 h-4 rounded-full bg-[#007aff] flex items-center justify-center gap-[1px]">
-                    <span className="w-0.5 h-0.5 rounded-full bg-white" />
-                    <span className="w-0.5 h-0.5 rounded-full bg-white" />
+                  <div className="w-4.5 h-4.5 rounded-full bg-gradient-to-br from-[#0b84ff] to-[#5ec8ff] flex items-center justify-center text-[9px] text-white font-bold">
+                    X
                   </div>
                   <span className="font-bold text-xs text-[#1c1917]">{msg.tradeDetails.symbol}</span>
                 </div>
@@ -157,7 +156,7 @@ export const ChatScreen: React.FC<ChatScreenProps> = ({
                   {msg.text}
                 </p>
                 <div className="text-[8px] text-white/85 text-right flex items-center justify-end gap-1 font-mono">
-                  <span>{msg.time}</span>
+                  <span>{msg.time}{msg.delivered ? ' · Delivered' : ''}</span>
                   <CheckCheck className="w-3 h-3 text-white" />
                 </div>
               </motion.div>

@@ -13,11 +13,8 @@ export const TakeProfitCard: React.FC = () => {
       {/* Card Header: $XX + +142.36% */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5">
-          <div className="w-4.5 h-4.5 rounded-full bg-[#1c1917] flex items-center justify-center">
-            <div className="w-3 h-3 rounded-full bg-[#38bdf8] flex items-center justify-center gap-[1px]">
-              <span className="w-0.5 h-0.5 rounded-full bg-black" />
-              <span className="w-0.5 h-0.5 rounded-full bg-black" />
-            </div>
+          <div className="w-4.5 h-4.5 rounded-full bg-gradient-to-br from-[#0b84ff] to-[#5ec8ff] flex items-center justify-center text-[9px] text-white font-bold">
+            X
           </div>
           <span className="font-bold text-xs text-[#1c1917] tracking-tight">$XX</span>
         </div>
