@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenWebm from '../../../assets/Chat_Screen.webm';
-import crownImg from '../../../assets/Crown.webp';
+import iconDopeImg from '../../../assets/Icondope.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
 
@@ -52,20 +52,20 @@ function HeroOverlay({
       {/* Subtle Bottom Ambient Vignette to ensure text readability */}
       <div className="absolute inset-x-0 bottom-0 h-80 bg-gradient-to-t from-black/85 via-black/35 to-transparent pointer-events-none -z-10" />
 
-      {/* CENTER INTERACTIVE SECTION: Crown + Ask Dope + Input Bar + 4 Badges */}
+      {/* CENTER INTERACTIVE SECTION: DOPE Icon + Ask Dope + Input Bar + 4 Badges */}
       <div className="relative z-20 w-full max-w-3xl mx-auto px-2 sm:px-6 flex flex-col items-center text-center my-0 sm:my-auto">
         
-        {/* Small Regal Crown */}
+        {/* DOPE Emblem */}
         <motion.div
           initial={{ opacity: 0, y: -10, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-1 sm:mb-1.5"
+          className="mb-1.5 sm:mb-2"
         >
           <img
-            src={crownImg}
-            alt="Renaissance Crown"
-            className="w-9 sm:w-12 md:w-14 h-auto object-contain drop-shadow-[0_2px_14px_rgba(255,255,255,0.7)] filter brightness-0 invert opacity-95 select-none pointer-events-none"
+            src={iconDopeImg}
+            alt="Dopamint Icon"
+            className="w-8 sm:w-10 md:w-12 h-auto object-contain brightness-0 invert opacity-95 drop-shadow-[0_2px_14px_rgba(255,255,255,0.6)] select-none pointer-events-none"
           />
         </motion.div>
 

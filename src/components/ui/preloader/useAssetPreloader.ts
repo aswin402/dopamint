@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import crownImg from '../../../assets/Crown.webp';
+import iconDopeImg from '../../../assets/Icondope.webp';
 import heroBgVid from '../../../assets/herosectionbgvid.webm';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
 
-const CRITICAL_IMAGES = [crownImg];
+const CRITICAL_IMAGES = [iconDopeImg];
 const CRITICAL_VIDEOS = [heroBgVid];
 
 export const PRELOADER_STAGES = [

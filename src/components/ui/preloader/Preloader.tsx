@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import crownImg from '../../../assets/Crown.webp';
+import iconDopeImg from '../../../assets/Icondope.webp';
 import { useAssetPreloader } from './useAssetPreloader';
 import { PRELOADER_EXIT_MS, PRELOADER_MIN_DURATION_MS } from './config';
 import { lockPageScroll, unlockPageScroll } from '../scroll-dissolve-reveal/scrollLock';
@@ -105,7 +105,7 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
               CENTER REGAL EMBLEM & LOGO
               ========================================================================= */}
           <main className="relative z-10 flex flex-col items-center justify-center my-auto text-center px-4">
-            {/* Crown + Celestial Orbit Rings */}
+            {/* DOPE Icon + Celestial Orbit Rings */}
             <div className="relative flex items-center justify-center w-28 h-28 sm:w-36 sm:h-36 mb-4 sm:mb-6">
               {/* Outer Rotating Dotted Orbital Ring */}
               <motion.div
@@ -131,16 +131,16 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
                 className="absolute w-16 h-16 rounded-full bg-[#7a382e]/15 blur-xl pointer-events-none"
               />
 
-              {/* Levitating Crown Image */}
+              {/* Levitating DOPE Icon Image */}
               <motion.div
                 animate={{ y: [-3, 3, -3] }}
                 transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
                 className="relative z-10"
               >
                 <img
-                  src={crownImg}
-                  alt="Dopamint Crown"
-                  className="w-12 sm:w-16 h-auto object-contain filter drop-shadow-[0_4px_16px_rgba(122,56,46,0.25)] select-none pointer-events-none"
+                  src={iconDopeImg}
+                  alt="Dopamint Icon"
+                  className="w-12 sm:w-16 h-auto object-contain filter drop-shadow-[0_4px_16px_rgba(30,40,30,0.2)] select-none pointer-events-none"
                 />
               </motion.div>
             </div>

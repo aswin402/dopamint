@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { AnimatePresence, useInView } from 'framer-motion';
-import crownImg from '../../../../assets/Crown.webp';
+import iconDopeImg from '../../../../assets/Icondope.webp';
 import { PhoneFrame } from './PhoneFrame';
 import { LockScreen } from './LockScreen';
 import { ChatScreen } from './ChatScreen';
@@ -157,7 +157,7 @@ export const MemoryWalletSection: React.FC = () => {
             
             {/* Eyebrow badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f3f2e6] backdrop-blur-md border border-[#c4a978]/40 text-[11px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-xs">
-              <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
+              <img src={iconDopeImg} alt="Dopamint" className="w-3.5 h-3.5 object-contain" />
               <span className="text-[#37312c]">OUR SPECIALISED AGENT</span>
             </div>
 

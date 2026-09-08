@@ -14,7 +14,7 @@ import {
   CreditCard, 
   BarChart2 
 } from 'lucide-react';
-import crownImg from '../../../../assets/Crown.webp';
+import iconDopeImg from '../../../../assets/Icondope.webp';
 import { AgentNode } from './AgentNode';
 import { PIPELINE_MILESTONES, PIPELINE_STEPS, CAPABILITY_PILLS } from '@/data/architecture';
 
@@ -86,7 +86,7 @@ export const EvidenceSection: React.FC = () => {
       {/* Mobile Section Header (Normal scroll flow before sticky container so it's fully visible and never cut off) */}
       <div className="md:hidden text-center px-4 pt-36 sm:pt-44 pb-6 space-y-2 max-w-sm mx-auto">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[10px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
-          <img src={crownImg} alt="Crown" className="w-3 h-3 object-contain" />
+          <img src={iconDopeImg} alt="Dopamint" className="w-3 h-3 object-contain" />
           <span>ARCHITECTURE</span>
         </div>
         <h2 className="text-3xl font-serif text-[#ffffff] tracking-tight leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
@@ -255,7 +255,7 @@ export const EvidenceSection: React.FC = () => {
         {/* Section Header (Desktop) */}
         <div className="max-w-4xl mb-8 sm:mb-10 text-center mx-auto space-y-2.5">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[11px] font-mono tracking-widest text-[#37312c] uppercase font-bold shadow-md">
-            <img src={crownImg} alt="Crown" className="w-3.5 h-3.5 object-contain" />
+            <img src={iconDopeImg} alt="Dopamint" className="w-3.5 h-3.5 object-contain" />
             <span>ARCHITECTURE</span>
           </div>
 
