@@ -17,7 +17,7 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.36] -translate-x-16 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.36] -translate-x-20 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
           />
         </div>
 
