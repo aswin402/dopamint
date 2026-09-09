@@ -331,7 +331,7 @@ function HouseOfAgentsSection() {
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
         <div className="order-2 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end mt-4 min-[390px]:mt-6 sm:mt-8 lg:mt-0 mb-2 sm:mb-4 lg:mb-0 overflow-visible">
-          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-3 min-[390px]:translate-x-5 sm:translate-x-6 lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
+          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[116%] xl:w-[124%] 2xl:w-[130%] lg:-mr-[1vw] xl:-mr-[2vw] 2xl:-mr-[3vw] translate-x-3 min-[390px]:translate-x-5 sm:translate-x-6 lg:translate-x-4 xl:translate-x-6 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
             <video
               key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
@@ -344,7 +344,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-full h-auto max-w-full max-h-[78vh] min-[390px]:max-h-[82vh] min-[430px]:max-h-[86vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-center lg:object-bottom scale-[1.12] min-[360px]:scale-[1.15] min-[390px]:scale-[1.18] sm:scale-[1.10] lg:scale-[1.05] xl:scale-[1.08] origin-top lg:origin-bottom-right transition-transform duration-500 block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
+              className="w-full h-auto max-w-full max-h-[78vh] min-[390px]:max-h-[82vh] min-[430px]:max-h-[86vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[86vh] xl:max-h-[90vh] object-contain object-center lg:object-bottom scale-[1.12] min-[360px]:scale-[1.15] min-[390px]:scale-[1.18] sm:scale-[1.10] lg:scale-[0.96] xl:scale-[0.98] origin-top lg:origin-bottom-right transition-transform duration-500 block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             />
           </div>
         </div>
