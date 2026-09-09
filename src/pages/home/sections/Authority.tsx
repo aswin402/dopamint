@@ -4,9 +4,6 @@ import companionVideo from '../../../assets/Companion_Video_1.webm';
 export const Authority: React.FC = () => {
   return (
     <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-4 sm:pb-6 lg:pb-8 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
-      {/* Soft gradient transition from RealAsks parchment into Authority white */}
-      <div className="absolute top-0 inset-x-0 h-16 sm:h-20 bg-gradient-to-b from-[#f3f2e6] to-transparent pointer-events-none" />
-
       <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
         
         {/* =========================================================================
