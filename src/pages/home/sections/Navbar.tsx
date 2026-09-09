@@ -82,7 +82,7 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-4 px-6 sm:px-10 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 left-0 right-0 z-50 py-3 min-[390px]:py-3.5 sm:py-4 px-3.5 min-[390px]:px-5 sm:px-10 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
         isSolidNav
           ? 'bg-[#f3f2e6]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
@@ -93,7 +93,7 @@ export const Navbar: React.FC = () => {
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, 'hero')}
-          className="flex items-center group cursor-pointer"
+          className="flex items-center group cursor-pointer shrink-0"
           aria-label="Home"
         >
           <img
@@ -124,21 +124,25 @@ export const Navbar: React.FC = () => {
         </nav>
 
         {/* Right Action */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 min-[390px]:gap-2.5 sm:gap-3">
           <Type1Button
             href="#manifesto"
             onClick={(e) => handleNavClick(e, 'manifesto')}
             variant={isSolidNav ? 'dark' : 'light'}
-            className={`!h-9 !w-36 hidden sm:inline-flex ${!isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''}`}
+            className={`!h-8 min-[380px]:!h-8.5 sm:!h-9 !w-28 min-[380px]:!w-32 min-[430px]:!w-36 inline-flex ${
+              !isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''
+            }`}
           >
             {/* Brand casing preserved: .btn-txt CSS forces uppercase — opt out for "iMessage" */}
-            <span className="normal-case tracking-[1px]">Try iMessage</span>
+            <span className="normal-case tracking-[0.5px] min-[380px]:tracking-[1px] text-[11px] min-[380px]:text-xs">
+              Try iMessage
+            </span>
           </Type1Button>
 
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className={`md:hidden p-2 rounded-xl border transition-all cursor-pointer ${
+            className={`md:hidden p-1.5 min-[390px]:p-2 rounded-xl border transition-all cursor-pointer ${
               isSolidNav
                 ? 'bg-white border-neutral-300 text-black'
                 : 'bg-black/40 backdrop-blur-md border-white/30 text-white'
