@@ -12,16 +12,10 @@ import { getCachedVideo } from '@/lib/videoCache';
  * Suspense stall that useVideoTexture causes when it creates a new <video>.
  */
 function useCachedVideoTexture(src: string): THREE.VideoTexture | null {
-  const [texture, setTexture] = useState<THREE.VideoTexture | null>(null);
-
-  useEffect(() => {
+  const [texture, setTexture] = useState<THREE.VideoTexture | null>(() => {
     const vid = getCachedVideo(src);
-    if (!vid) {
-      setTexture(null);
-      return;
-    }
+    if (!vid) return null;
 
-    // Ensure the cached video is configured for playback
     vid.loop = true;
     vid.muted = true;
     vid.playsInline = true;
@@ -33,7 +27,31 @@ function useCachedVideoTexture(src: string): THREE.VideoTexture | null {
     tex.magFilter = THREE.LinearFilter;
     tex.format = THREE.RGBAFormat;
     tex.colorSpace = THREE.SRGBColorSpace;
-    setTexture(tex);
+    return tex;
+  });
+
+  useEffect(() => {
+    let currentTex = texture;
+    const vid = getCachedVideo(src);
+    if (!vid) {
+      setTexture(null);
+      return;
+    }
+
+    if (!currentTex) {
+      vid.loop = true;
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('playsinline', '');
+      vid.setAttribute('webkit-playsinline', '');
+
+      currentTex = new THREE.VideoTexture(vid);
+      currentTex.minFilter = THREE.LinearFilter;
+      currentTex.magFilter = THREE.LinearFilter;
+      currentTex.format = THREE.RGBAFormat;
+      currentTex.colorSpace = THREE.SRGBColorSpace;
+      setTexture(currentTex);
+    }
 
     // Start playback (may have been paused during preload)
     const playPromise = vid.play();
@@ -52,7 +70,7 @@ function useCachedVideoTexture(src: string): THREE.VideoTexture | null {
     }
 
     return () => {
-      tex.dispose();
+      currentTex?.dispose();
     };
   }, [src]);
 

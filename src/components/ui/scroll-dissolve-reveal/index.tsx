@@ -8,7 +8,6 @@ import { lockPageScroll, unlockPageScroll } from "./scrollLock";
 import { normalizeRevealTarget, MAGNETIC_COMPLETION_AT, NAVBAR_REVEAL_AT, resolveMagneticCompletionTarget } from "./progress";
 import { SECTION_HANDOFF_DURATION, getScrollBoundaryState, smoothSectionHandoffProgress } from "./handoff";
 import { getLenisInstance } from "@/lib/lenis";
-import { getCachedVideo } from "@/lib/videoCache";
 
 const HERO_SCROLL_LOCK_OWNER = 'hero-reveal';
 
@@ -82,84 +81,6 @@ function CSSDissolveFallback({
     );
   }
   return null;
-}
-
-/**
- * CSS Video Fallback Layer — renders underneath the WebGL Canvas (z-5).
- *
- * Uses the preloader's globally cached <video> element directly (already
- * buffered and ready to play). This guarantees the user always sees the
- * hero video — even if the Three.js Canvas hasn't mounted or if
- * useVideoTexture is still suspending.
- *
- * Once the WebGL Canvas is ready (z-10 on top), it naturally covers this
- * layer. When the Canvas renders transparent pixels during dissolve, this
- * layer peeks through — but since both show the same video, the visual
- * result is seamless.
- */
-function CSSVideoFallbackLayer({
-  videoSrc,
-  smoothProgress,
-}: {
-  videoSrc: string;
-  smoothProgress: number;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoAttachedRef = useRef(false);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const cachedVid = getCachedVideo(videoSrc);
-    if (cachedVid && !videoAttachedRef.current) {
-      // Style the cached video to fill the container
-      cachedVid.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;display:block;';
-      cachedVid.loop = true;
-      cachedVid.muted = true;
-      cachedVid.playsInline = true;
-
-      // Append the actual cached element into the DOM
-      container.appendChild(cachedVid);
-      videoAttachedRef.current = true;
-
-      // Ensure it's playing
-      cachedVid.play().catch(() => {});
-    } else if (!cachedVid && !videoAttachedRef.current) {
-      // No cached video — create a fresh one as fallback
-      const freshVid = document.createElement('video');
-      freshVid.src = videoSrc;
-      freshVid.autoplay = true;
-      freshVid.muted = true;
-      freshVid.loop = true;
-      freshVid.playsInline = true;
-      freshVid.setAttribute('playsinline', '');
-      freshVid.setAttribute('webkit-playsinline', '');
-      freshVid.style.cssText = 'width:100%;height:100%;object-fit:cover;pointer-events:none;display:block;';
-      container.appendChild(freshVid);
-      videoAttachedRef.current = true;
-      freshVid.play().catch(() => {});
-    }
-
-    return () => {
-      // On unmount, detach the video from this container but DON'T destroy it —
-      // it still lives in the global cache for potential reuse
-      if (container && videoAttachedRef.current) {
-        while (container.firstChild) {
-          container.removeChild(container.firstChild);
-        }
-        videoAttachedRef.current = false;
-      }
-    };
-  }, [videoSrc]);
-
-  return (
-    <div
-      ref={containerRef}
-      className="absolute inset-0 z-5 w-full h-full pointer-events-none overflow-hidden"
-      style={{ opacity: Math.max(0, 1 - smoothProgress) }}
-    />
-  );
 }
 
 export interface ScrollDissolveRevealProps {
@@ -596,15 +517,6 @@ export function ScrollDissolveReveal({
           >
             {backgroundContent}
           </div>
-        )}
-
-
-        {/* Layer 1.5: CSS Video Fallback (visible underneath Canvas while WebGL loads) */}
-        {!prefersReducedMotion && isVideo && activeVideo && smoothProgress < 0.999 && (
-          <CSSVideoFallbackLayer
-            videoSrc={activeVideo}
-            smoothProgress={smoothProgress}
-          />
         )}
 
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
