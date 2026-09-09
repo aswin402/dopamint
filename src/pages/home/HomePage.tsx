@@ -7,6 +7,7 @@ import divBurnImg from '../../assets/div_burn.webp';
 
 // Lazy load below-the-fold sections to optimize initial JavaScript execution
 const AgentRoster = lazy(() => import('./sections/AgentRoster').then((m) => ({ default: m.AgentRoster })));
+const Authority = lazy(() => import('./sections/Authority').then((m) => ({ default: m.Authority })));
 const EvidenceSection = lazy(() => import('./sections/Evidence/EvidenceSection').then((m) => ({ default: m.EvidenceSection })));
 const MemoryWalletSection = lazy(() => import('./sections/MemoryWallet/MemoryWalletSection').then((m) => ({ default: m.MemoryWalletSection })));
 const EcosystemSection = lazy(() => import('./sections/EcosystemSection').then((m) => ({ default: m.EcosystemSection })));
@@ -32,13 +33,18 @@ export function HomePage() {
           <AgentRoster />
         </Suspense>
 
-        {/* 4. Long Section with div_burn.webp Background (Evidence + Memory Wallet / The Floor) */}
+        {/* 4. The Future of Agents */}
+        <Suspense fallback={null}>
+          <Authority />
+        </Suspense>
+
+        {/* 5. Long Section with div_burn.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-clip bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-44 lg:h-48 pointer-events-none z-20">
             <BurnTransition
-              color="#f3f2e6"
-              transitionColor="#f3f2e6"
+              color="#ffffff"
+              transitionColor="#FFFFFF"
               noiseScale={2.5}
               noiseIntensity={0.52}
               scrollSensitivity={0.015}
