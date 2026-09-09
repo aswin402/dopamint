@@ -3,6 +3,7 @@ import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
+import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
@@ -200,10 +201,28 @@ function HeroOverlay({
   );
 }
 
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return window.innerWidth >= 1024;
+  });
+
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1024px)');
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    setIsDesktop(mql.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  return isDesktop;
+}
+
 {/* =========================================================================
     2. SECOND SECTION COMPONENT: House of AI Agents ("what is dopamint? House of Sovereign Agents")
     ========================================================================= */}
 function HouseOfAgentsSection() {
+  const isDesktop = useIsDesktop();
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -232,12 +251,12 @@ function HouseOfAgentsSection() {
     };
 
     tryPlay();
-  }, []);
+  }, [isDesktop]);
 
   return (
     <div
       id="manifesto"
-      className="w-full min-h-[100dvh] h-auto lg:h-full relative flex flex-col justify-start lg:justify-center bg-[#f3f2e6] pt-14 min-[390px]:pt-16 sm:pt-24 lg:pt-20 pb-20 min-[390px]:pb-24 lg:pb-0 overflow-x-clip overflow-y-visible lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text"
+      className="w-full min-h-[100dvh] h-auto lg:h-full relative flex flex-col justify-start lg:justify-center bg-[#f3f2e6] pt-24 min-[390px]:pt-28 min-[430px]:pt-32 sm:pt-36 lg:pt-20 pb-20 min-[390px]:pb-24 lg:pb-0 overflow-x-clip overflow-y-visible lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text"
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-0 lg:gap-6 items-center lg:items-end flex-1">
 
@@ -250,7 +269,7 @@ function HouseOfAgentsSection() {
           {/* Block 1: Header (Eyebrow + Large Title + Built on Base) */}
           <div className="order-1 w-full space-y-2 min-[390px]:space-y-2.5 sm:space-y-3 text-left z-20">
             {/* Small Eyebrow */}
-            <div>
+            <div className="pt-2 min-[390px]:pt-3 lg:pt-0">
               <span className="font-mono text-xs min-[375px]:text-[13px] min-[410px]:text-[14px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
                 what is dopamint?
               </span>
@@ -302,9 +321,10 @@ function HouseOfAgentsSection() {
         </div>
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
-        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-end lg:items-end lg:justify-end z-10 self-end my-1 min-[390px]:my-2 sm:my-4 lg:my-0 overflow-visible">
-          <div className="relative w-full max-w-[400px] min-[375px]:max-w-[460px] min-[410px]:max-w-[520px] min-[440px]:max-w-[580px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-5 min-[375px]:translate-x-7 min-[410px]:translate-x-9 sm:translate-x-12 lg:translate-x-8 xl:translate-x-12 flex items-center justify-end lg:items-end lg:justify-end border-0 shadow-none">
+        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0 overflow-visible">
+          <div className="relative w-full max-w-[340px] min-[360px]:max-w-[370px] min-[390px]:max-w-[420px] min-[430px]:max-w-[460px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none">
             <video
+              key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
               autoPlay
               muted
@@ -314,9 +334,9 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-full sm:w-auto max-w-full max-h-[66vh] min-[390px]:max-h-[72vh] min-[430px]:max-h-[78vh] sm:max-h-[84vh] md:max-h-[88vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-right lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
+              className="w-full sm:w-auto max-w-full max-h-[66vh] min-[390px]:max-h-[72vh] min-[430px]:max-h-[78vh] sm:max-h-[84vh] md:max-h-[88vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-center lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             >
-              <source src={chatScreenMp4} type="video/mp4" />
+              <source src={isDesktop ? chatScreenMp4 : chatScreenMobileMp4} type="video/mp4" />
             </video>
           </div>
         </div>
