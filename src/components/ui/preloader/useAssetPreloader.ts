@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import logoDopeImg from '../../../assets/logo_dope.webp';
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
-import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
+import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
@@ -11,7 +11,7 @@ import divBurnImg from '../../../assets/div_burn.webp';
 import footerImg from '../../../assets/Footer.webp';
 import footerMobImg from '../../../assets/Footer_mob.png';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
-import { cacheVideo } from '@/lib/videoCache';
+import { getOrCreateCachedVideo } from '@/lib/videoCache';
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -39,30 +39,19 @@ function preloadImage(src: string): Promise<void> {
 }
 
 /**
- * Preload a video by creating a <video> element with preload="auto",
- * waiting until it has buffered enough data for continuous playback
- * (canplaythrough), and then KEEPING IT ALIVE in the global video cache
- * so that downstream consumers (Three.js, CSS fallback) can reuse the
- * already-buffered element directly.
- *
- * The previous implementation destroyed the element after loadedmetadata,
- * which forced the browser to re-download the entire stream when the Hero
- * component mounted its own <video>.
+ * Preload a video by obtaining or creating a persistent <video> element
+ * that is attached to a hidden DOM holder. This guarantees the browser
+ * allocates a hardware decoder, enables autoplay, and keeps frames ready
+ * for WebGL VideoTexture.
  */
 function preloadVideo(src: string, timeoutMs: number): Promise<void> {
   return new Promise((resolve) => {
     try {
-      const vid = document.createElement('video');
-      vid.preload = 'auto';
-      vid.muted = true;
-      vid.defaultMuted = true;
-      vid.playsInline = true;
-      vid.setAttribute('playsinline', '');
-      vid.setAttribute('webkit-playsinline', '');
-      vid.setAttribute('muted', '');
-      // Prevent video from appearing in PiP or casting UIs
-      vid.disablePictureInPicture = true;
-      vid.disableRemotePlayback = true;
+      const vid = getOrCreateCachedVideo(src);
+      if (vid.readyState >= 3) {
+        resolve();
+        return;
+      }
 
       let finished = false;
       const done = () => {
@@ -72,28 +61,16 @@ function preloadVideo(src: string, timeoutMs: number): Promise<void> {
           vid.removeEventListener('canplay', done);
           vid.removeEventListener('loadeddata', done);
           vid.removeEventListener('error', done);
-
-          // *** KEY FIX: Keep the video alive in the global cache ***
-          // Do NOT remove src or call vid.load() — that would evict the
-          // buffered data from the browser's media pipeline.
-          cacheVideo(src, vid);
           resolve();
         }
       };
 
-      // Prefer canplaythrough (enough data for continuous playback) but
-      // also accept canplay / loadeddata as fallbacks for slower networks.
       vid.addEventListener('canplaythrough', done, { once: true });
       vid.addEventListener('canplay', done, { once: true });
       vid.addEventListener('loadeddata', done, { once: true });
       vid.addEventListener('error', done, { once: true });
 
-      // Safety timeout so slow cellular / unsupported codecs don't stall
-      // the entire preloader pipeline forever.
       setTimeout(done, timeoutMs);
-
-      vid.src = src;
-      vid.load();
     } catch {
       resolve();
     }
@@ -138,7 +115,7 @@ export function useAssetPreloader({
     let isCancelled = false;
 
     const isMob = typeof window !== 'undefined' && window.innerWidth < 1024;
-    const heroVid = isMob ? heroBgVidMobWebm : heroBgVidMp4;
+    const heroVid = isMob ? heroBgVidMobMp4 : heroBgVidMp4;
 
     // Per-video timeout: more generous on mobile (cellular networks are slower)
     const videoTimeout = isMob ? 4000 : 2500;

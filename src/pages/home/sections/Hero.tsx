@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
-import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
+import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iconDopeImg from '../../../assets/Icondope.webp';
@@ -400,7 +400,7 @@ export const Hero: React.FC = () => {
           ========================================================================= */}
       <ScrollDissolveReveal
         key={isDesktop ? 'hero-desktop' : 'hero-mobile'}
-        videoFront={isDesktop ? heroBgVidMp4 : heroBgVidMobWebm}
+        videoFront={isDesktop ? heroBgVidMp4 : heroBgVidMobMp4}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (

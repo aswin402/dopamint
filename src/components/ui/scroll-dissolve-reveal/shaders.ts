@@ -103,7 +103,7 @@ export const coverFragmentShader = `
     // Resting state: dissolve hasn't started, all edge/noise terms are inert.
     // Early-out skips sobel + fbm per-pixel cost while the hero idles.
     if (uDissolve <= 0.001) {
-      gl_FragColor = vec4(texColor.rgb, texColor.a);
+      gl_FragColor = vec4(texColor.rgb, 1.0);
       return;
     }
 
@@ -159,7 +159,7 @@ export const coverFragmentShader = `
     float edgeBrightness = (1.0 - uDissolve) * uEdgeBrightness * (1.0 + uGrayscale * 2.0);
     finalColor += vec3(sparkle * 3.0 * edgeBrightness);
     
-    float alpha = dissolveMask * texColor.a;
+    float alpha = dissolveMask;
 
     gl_FragColor = vec4(finalColor, alpha);
   }
