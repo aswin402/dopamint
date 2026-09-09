@@ -46,6 +46,43 @@ class CanvasErrorBoundary extends React.Component<
   }
 }
 
+function CSSDissolveFallback({
+  isVideo,
+  activeVideo,
+  imageFront,
+  smoothProgress,
+}: {
+  isVideo: boolean;
+  activeVideo: string;
+  imageFront?: string;
+  smoothProgress: number;
+}) {
+  if (isVideo && activeVideo) {
+    return (
+      <video
+        src={activeVideo}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-full h-full object-cover pointer-events-none"
+        style={{ opacity: Math.max(0, 1 - smoothProgress) }}
+      />
+    );
+  }
+  if (imageFront) {
+    return (
+      <img
+        src={imageFront}
+        alt=""
+        className="w-full h-full object-cover pointer-events-none"
+        style={{ opacity: Math.max(0, 1 - smoothProgress) }}
+      />
+    );
+  }
+  return null;
+}
+
 export interface ScrollDissolveRevealProps {
   imageFront?: string;
   videoFront?: string;
@@ -488,24 +525,12 @@ export function ScrollDissolveReveal({
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
             <CanvasErrorBoundary
               fallback={
-                isVideo && activeVideo ? (
-                  <video
-                    src={activeVideo}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    className="w-full h-full object-cover pointer-events-none"
-                    style={{ opacity: Math.max(0, 1 - smoothProgress) }}
-                  />
-                ) : imageFront ? (
-                  <img
-                    src={imageFront}
-                    alt=""
-                    className="w-full h-full object-cover pointer-events-none"
-                    style={{ opacity: Math.max(0, 1 - smoothProgress) }}
-                  />
-                ) : null
+                <CSSDissolveFallback
+                  isVideo={isVideo}
+                  activeVideo={activeVideo}
+                  imageFront={imageFront}
+                  smoothProgress={smoothProgress}
+                />
               }
             >
               <Canvas

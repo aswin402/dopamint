@@ -3,7 +3,6 @@ import iconDopeImg from '../../../assets/Icondope.webp';
 import logoDopeImg from '../../../assets/logo_dope.webp';
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
-import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
@@ -12,7 +11,6 @@ import divBurnImg from '../../../assets/div_burn.webp';
 import footerImg from '../../../assets/Footer.webp';
 import footerMobImg from '../../../assets/Footer_mob.png';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
-import { getOptimalVideo } from '@/lib/videoCompat';
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -43,7 +41,7 @@ function preloadVideo(src: string): Promise<void> {
   return new Promise((resolve) => {
     try {
       const vid = document.createElement('video');
-      vid.preload = 'auto';
+      vid.preload = 'metadata';
       vid.muted = true;
       vid.playsInline = true;
       vid.setAttribute('playsinline', '');
@@ -54,17 +52,18 @@ function preloadVideo(src: string): Promise<void> {
       const done = () => {
         if (!finished) {
           finished = true;
+          vid.removeEventListener('loadedmetadata', done);
           vid.removeEventListener('canplay', done);
-          vid.removeEventListener('canplaythrough', done);
-          vid.removeEventListener('loadeddata', done);
           vid.removeEventListener('error', done);
+          // Crucial: Release hardware decoder and stop network stream immediately!
+          vid.removeAttribute('src');
+          vid.load();
           resolve();
         }
       };
 
+      vid.addEventListener('loadedmetadata', done, { once: true });
       vid.addEventListener('canplay', done, { once: true });
-      vid.addEventListener('canplaythrough', done, { once: true });
-      vid.addEventListener('loadeddata', done, { once: true });
       vid.addEventListener('error', done, { once: true });
 
       // Safety timeout per video so slow cellular/mobile networks don't stall the pipeline
@@ -116,8 +115,7 @@ export function useAssetPreloader({
     let isCancelled = false;
 
     const isMob = typeof window !== 'undefined' && window.innerWidth < 1024;
-    const mobileHeroVid = getOptimalVideo(heroBgVidMobWebm, heroBgVidMobMp4);
-    const heroVid = isMob ? mobileHeroVid : heroBgVidMp4;
+    const heroVid = isMob ? heroBgVidMobWebm : heroBgVidMp4;
 
     // Ordered sequence of critical assets to load in the background
     const ASSET_PIPELINE: QueuedAsset[] = [

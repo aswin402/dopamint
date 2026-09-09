@@ -63,16 +63,12 @@ export function VideoShaderScene({
     tryPlay();
   }, [texture1]);
 
-  const videoEl = texture1?.image as HTMLVideoElement | undefined;
-  const initialWidth = (videoEl?.videoWidth || videoEl?.width || 1920);
-  const initialHeight = (videoEl?.videoHeight || videoEl?.height || 1080);
-
   const uniforms1 = useMemo(
     () => ({
       uTexture: { value: texture1 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
       uImageResolution: {
-        value: new THREE.Vector2(initialWidth, initialHeight),
+        value: new THREE.Vector2(1920, 1080),
       },
       uDissolve: { value: 0.0 },
       uCenter: { value: new THREE.Vector2(0.5, 0.5) },
@@ -81,7 +77,7 @@ export function VideoShaderScene({
       uEdgeIntensity: { value: 0.0 },
       uEdgeBrightness: { value: 1.0 },
     }),
-    [texture1, size, initialWidth, initialHeight]
+    [texture1]
   );
 
   useFrame((state) => {

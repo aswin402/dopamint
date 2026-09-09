@@ -3,13 +3,11 @@ import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
-import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
-import { getOptimalVideo } from '@/lib/videoCompat';
 
 const ACTION_WORDS = ['Trade', 'Swap', 'Book', 'Buy', 'Research', 'Schedule'];
 
@@ -337,18 +335,17 @@ function HouseOfAgentsSection() {
             <video
               key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
+              src={isDesktop ? chatScreenMp4 : chatScreenMobileMp4}
               autoPlay
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
               className="w-full h-auto max-w-full max-h-[78vh] min-[390px]:max-h-[82vh] min-[430px]:max-h-[86vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-center lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
-            >
-              <source src={isDesktop ? chatScreenMp4 : chatScreenMobileMp4} type="video/mp4" />
-            </video>
+            />
           </div>
         </div>
 
@@ -389,11 +386,6 @@ export const Hero: React.FC = () => {
     }
   };
 
-  const mobileHeroVid = useMemo(
-    () => getOptimalVideo(heroBgVidMobWebm, heroBgVidMobMp4),
-    []
-  );
-
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start bg-[#f3f2e6]">
       
@@ -405,7 +397,7 @@ export const Hero: React.FC = () => {
           ========================================================================= */}
       <ScrollDissolveReveal
         key={isDesktop ? 'hero-desktop' : 'hero-mobile'}
-        videoFront={isDesktop ? heroBgVidMp4 : mobileHeroVid}
+        videoFront={isDesktop ? heroBgVidMp4 : heroBgVidMobWebm}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (

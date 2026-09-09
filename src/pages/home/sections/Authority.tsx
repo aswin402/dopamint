@@ -2,6 +2,17 @@ import React, { useRef, useEffect } from 'react';
 import companionVideoWebm from '../../../assets/Companion_Video_1.webm';
 import companionVideoMp4 from '../../../assets/Companion_Video_1.mp4';
 
+const companionVideoSrc = (() => {
+  if (typeof document === 'undefined') return companionVideoWebm;
+  try {
+    const v = document.createElement('video');
+    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
+    return (canWebm === 'probably' || canWebm === 'maybe') ? companionVideoWebm : companionVideoMp4;
+  } catch {
+    return companionVideoMp4;
+  }
+})();
+
 export const Authority: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -50,16 +61,14 @@ export const Authority: React.FC = () => {
         <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
           <video
             ref={videoRef}
+            src={companionVideoSrc}
             autoPlay
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 origin-center lg:origin-left"
-          >
-            <source src={companionVideoWebm} type="video/webm" />
-            <source src={companionVideoMp4} type="video/mp4" />
-          </video>
+          />
         </div>
 
         {/* =========================================================================
