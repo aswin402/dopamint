@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
 import iconDope from '@/assets/Icondope.webp';
 
@@ -11,21 +10,34 @@ const LANE_2 = ALL_72_AGENTS.slice(half);
 
 interface AgentCardProps {
   agent: AgentCardData;
+  isFocused?: boolean;
   onHover?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onLeave?: () => void;
+  onCardClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const AgentCard: React.FC<AgentCardProps> = ({ agent, onHover, onLeave }) => {
+const AgentCard: React.FC<AgentCardProps> = ({
+  agent,
+  isFocused,
+  onHover,
+  onLeave,
+  onCardClick,
+}) => {
   const parts = agent.role.split(' ');
   const mainRole = parts.slice(0, -1).join(' ');
   const suffix = parts[parts.length - 1];
 
   return (
     <div
+      onClick={onCardClick}
       onMouseEnter={onHover}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
-      className="w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5.5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20"
+      className={`w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] p-5.5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative hover:z-20 ${
+        isFocused
+          ? 'bg-[#e5ede0] border-2 border-[#1e2e22] shadow-[0_12px_32px_rgba(30,46,34,0.18)] scale-[1.02] ring-2 ring-[#3e4f42]/40 z-30'
+          : 'bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 shadow-[0_4px_18px_rgba(40,48,40,0.04)] hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5'
+      }`}
     >
       {/* Top Header */}
       <div>
@@ -59,6 +71,8 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, onHover, onLeave }) => {
 
 export const AgentRoster: React.FC = () => {
   const [hoveredCol, setHoveredCol] = useState<number | null>(null);
+  const [focusedCardKey, setFocusedCardKey] = useState<string | null>(null);
+  const [focusedLane, setFocusedLane] = useState<1 | 2 | null>(null);
   const railRef = useRef<HTMLDivElement>(null);
 
   const handleCardHover = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -73,6 +87,17 @@ export const AgentRoster: React.FC = () => {
 
   const handleCardLeave = () => {
     setHoveredCol(null);
+  };
+
+  const handleCardClick = (cardKey: string, lane: 1 | 2) => {
+    if (focusedCardKey === cardKey) {
+      // Toggle off / resume
+      setFocusedCardKey(null);
+      setFocusedLane(null);
+    } else {
+      setFocusedCardKey(cardKey);
+      setFocusedLane(lane);
+    }
   };
 
   const isSegActive = (seg: 'A' | 'B' | 'C' | 'D') => {
@@ -139,12 +164,30 @@ export const AgentRoster: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. ARCHITECTURAL BRANCHING DISTRIBUTION RAIL (ANIMATED DASHED LINES)
+          2. ARCHITECTURAL DISTRIBUTION RAIL / LINES (DASHED FLOW)
+             - Mobile: Single centered vertical straight dashed line (like Image 2, no dots, no ticks)
+             - Desktop: 5-column branching bus (pure dashed lines, no dots, no ticks)
           ========================================================================= */}
       <div className="w-full flex flex-col items-center relative z-10 -mt-[1px]">
-        {/* Vertical feeder stem: directly touches card bottom edge with zero gap */}
-        <div className="flex flex-col items-center w-full">
-          <svg width="6" height="30" className="overflow-visible">
+        {/* MOBILE ONLY: Single Centered Straight Dashed Line */}
+        <div className="flex sm:hidden flex-col items-center w-full py-1">
+          <svg width="6" height="38" className="overflow-visible pointer-events-none">
+            <line
+              x1="3"
+              y1="0"
+              x2="3"
+              y2="38"
+              stroke={focusedCardKey ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={focusedCardKey ? 2.5 : 2}
+              className="animate-dash-down transition-branch"
+            />
+          </svg>
+        </div>
+
+        {/* DESKTOP ONLY: 5-Branching Distribution Bus (Pure dashed lines, no dots, no ticks) */}
+        <div className="hidden sm:flex flex-col items-center w-full">
+          {/* Vertical feeder stem: directly touches card bottom edge with zero gap */}
+          <svg width="6" height="30" className="overflow-visible pointer-events-none">
             <line
               x1="3"
               y1="0"
@@ -155,137 +198,105 @@ export const AgentRoster: React.FC = () => {
               className="animate-dash-down transition-branch"
             />
           </svg>
-        </div>
 
-        {/* Crisp Horizontal Bus & 5 Drops Structure */}
-        <div
-          ref={railRef}
-          className="w-full max-w-[650px] sm:max-w-[720px] md:max-w-[780px] px-4 sm:px-0 relative h-[58px]"
-        >
-          {/* SVG Dashed Infrastructure: 4 Rail Segments + 5 Vertical Drops */}
-          <svg
-            className="w-full h-full overflow-visible pointer-events-none"
-            viewBox="0 0 1000 58"
-            preserveAspectRatio="none"
+          {/* Crisp Horizontal Bus & 5 Drops Structure */}
+          <div
+            ref={railRef}
+            className="w-full max-w-[650px] sm:max-w-[720px] md:max-w-[780px] px-4 sm:px-0 relative h-[44px]"
           >
-            {/* Segment A: 0 to 250 (Leftmost to Col 1, flows left) */}
-            <line
-              x1="0"
-              y1="2"
-              x2="250"
-              y2="2"
-              vectorEffect="non-scaling-stroke"
-              stroke={hoveredCol !== null && isSegActive('A') ? '#1b2a1e' : '#3e4f42'}
-              strokeWidth={hoveredCol !== null && isSegActive('A') ? 2.5 : 2}
-              opacity={isSegActive('A') ? 1 : 0}
-              className="animate-dash-left transition-branch"
-            />
+            {/* SVG Dashed Infrastructure: 4 Rail Segments + 5 Vertical Drops */}
+            <svg
+              className="w-full h-full overflow-visible pointer-events-none"
+              viewBox="0 0 1000 44"
+              preserveAspectRatio="none"
+            >
+              {/* Segment A: 0 to 250 (Leftmost to Col 1, flows left) */}
+              <line
+                x1="0"
+                y1="2"
+                x2="250"
+                y2="2"
+                vectorEffect="non-scaling-stroke"
+                stroke={hoveredCol !== null && isSegActive('A') ? '#1b2a1e' : '#3e4f42'}
+                strokeWidth={hoveredCol !== null && isSegActive('A') ? 2.5 : 2}
+                opacity={isSegActive('A') ? 1 : 0}
+                className="animate-dash-left transition-branch"
+              />
 
-            {/* Segment B: 250 to 500 (Col 1 to Center, flows left) */}
-            <line
-              x1="250"
-              y1="2"
-              x2="500"
-              y2="2"
-              vectorEffect="non-scaling-stroke"
-              stroke={hoveredCol !== null && isSegActive('B') ? '#1b2a1e' : '#3e4f42'}
-              strokeWidth={hoveredCol !== null && isSegActive('B') ? 2.5 : 2}
-              opacity={isSegActive('B') ? 1 : 0}
-              className="animate-dash-left transition-branch"
-            />
+              {/* Segment B: 250 to 500 (Col 1 to Center, flows left) */}
+              <line
+                x1="250"
+                y1="2"
+                x2="500"
+                y2="2"
+                vectorEffect="non-scaling-stroke"
+                stroke={hoveredCol !== null && isSegActive('B') ? '#1b2a1e' : '#3e4f42'}
+                strokeWidth={hoveredCol !== null && isSegActive('B') ? 2.5 : 2}
+                opacity={isSegActive('B') ? 1 : 0}
+                className="animate-dash-left transition-branch"
+              />
 
-            {/* Segment C: 500 to 750 (Center to Col 3, flows right) */}
-            <line
-              x1="500"
-              y1="2"
-              x2="750"
-              y2="2"
-              vectorEffect="non-scaling-stroke"
-              stroke={hoveredCol !== null && isSegActive('C') ? '#1b2a1e' : '#3e4f42'}
-              strokeWidth={hoveredCol !== null && isSegActive('C') ? 2.5 : 2}
-              opacity={isSegActive('C') ? 1 : 0}
-              className="animate-dash-right transition-branch"
-            />
+              {/* Segment C: 500 to 750 (Center to Col 3, flows right) */}
+              <line
+                x1="500"
+                y1="2"
+                x2="750"
+                y2="2"
+                vectorEffect="non-scaling-stroke"
+                stroke={hoveredCol !== null && isSegActive('C') ? '#1b2a1e' : '#3e4f42'}
+                strokeWidth={hoveredCol !== null && isSegActive('C') ? 2.5 : 2}
+                opacity={isSegActive('C') ? 1 : 0}
+                className="animate-dash-right transition-branch"
+              />
 
-            {/* Segment D: 750 to 1000 (Col 3 to Col 4, flows right) */}
-            <line
-              x1="750"
-              y1="2"
-              x2="1000"
-              y2="2"
-              vectorEffect="non-scaling-stroke"
-              stroke={hoveredCol !== null && isSegActive('D') ? '#1b2a1e' : '#3e4f42'}
-              strokeWidth={hoveredCol !== null && isSegActive('D') ? 2.5 : 2}
-              opacity={isSegActive('D') ? 1 : 0}
-              className="animate-dash-right transition-branch"
-            />
+              {/* Segment D: 750 to 1000 (Col 3 to Col 4, flows right) */}
+              <line
+                x1="750"
+                y1="2"
+                x2="1000"
+                y2="2"
+                vectorEffect="non-scaling-stroke"
+                stroke={hoveredCol !== null && isSegActive('D') ? '#1b2a1e' : '#3e4f42'}
+                strokeWidth={hoveredCol !== null && isSegActive('D') ? 2.5 : 2}
+                opacity={isSegActive('D') ? 1 : 0}
+                className="animate-dash-right transition-branch"
+              />
 
-            {/* 5 Vertical Drop Lines (0%, 25%, 50%, 75%, 100%) */}
-            {[0, 250, 500, 750, 1000].map((x, idx) => {
-              const active = isDropActive(idx);
-              return (
-                <line
-                  key={`drop-${idx}`}
-                  x1={x}
-                  y1="2"
-                  x2={x}
-                  y2="34"
-                  vectorEffect="non-scaling-stroke"
-                  stroke={hoveredCol !== null && active ? '#1b2a1e' : '#3e4f42'}
-                  strokeWidth={hoveredCol !== null && active ? 2.5 : 2}
-                  opacity={active ? 1 : 0}
-                  className="animate-dash-down transition-branch"
-                />
-              );
-            })}
-          </svg>
+              {/* 5 Vertical Drop Lines (0%, 25%, 50%, 75%, 100%) */}
+              {[0, 250, 500, 750, 1000].map((x, idx) => {
+                const active = isDropActive(idx);
+                return (
+                  <line
+                    key={`drop-${idx}`}
+                    x1={x}
+                    y1="2"
+                    x2={x}
+                    y2="44"
+                    vectorEffect="non-scaling-stroke"
+                    stroke={hoveredCol !== null && active ? '#1b2a1e' : '#3e4f42'}
+                    strokeWidth={hoveredCol !== null && active ? 2.5 : 2}
+                    opacity={active ? 1 : 0}
+                    className="animate-dash-down transition-branch"
+                  />
+                );
+              })}
+            </svg>
 
-          {/* 5 Drops: Rail Junction Dots & Directional Medallions */}
-          {[0, 25, 50, 75, 100].map((pct, idx) => {
-            const active = isDropActive(idx);
-            const isHovered = hoveredCol === idx;
-
-            return (
+            {/* Invisible interactive hover guides at drops */}
+            {[0, 25, 50, 75, 100].map((pct, idx) => (
               <div
-                key={`col-node-${idx}`}
+                key={`hit-${idx}`}
                 style={{ left: `${pct}%` }}
                 onMouseEnter={() => setHoveredCol(idx)}
                 onMouseLeave={() => setHoveredCol(null)}
-                className={`absolute top-0 -translate-x-1/2 flex flex-col items-center cursor-pointer transition-branch ${
-                  active ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                } ${isHovered ? 'scale-110' : 'scale-100'}`}
-              >
-                {/* Rail Junction Dot */}
-                <div
-                  className={`rounded-full bg-[#f3f2e6] shadow-xs z-10 transition-transform ${
-                    pct === 50
-                      ? 'w-3.5 h-3.5 border-2 border-[#c4a978] shadow-[0_0_10px_rgba(196,169,120,0.8)] -mt-[5px] flex items-center justify-center'
-                      : 'w-2.5 h-2.5 border-[1.5px] border-[#3e4f42] -mt-[3.5px]'
-                  } ${isHovered ? 'ring-2 ring-[#c4a978]/60' : ''}`}
-                >
-                  {pct === 50 && <span className="w-1.5 h-1.5 rounded-full bg-[#25362a]" />}
-                </div>
+                className="absolute top-0 bottom-0 w-12 -translate-x-1/2 cursor-pointer z-10"
+              />
+            ))}
+          </div>
 
-                {/* Drop line conduit spacer */}
-                <div className="h-[27px]" />
-
-                {/* Directional Jewelry Medallion with Chevron */}
-                <div
-                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#ffffff] border-[1.5px] transition-all shadow-[0_4px_12px_rgba(45,62,50,0.14)] flex items-center justify-center text-[#2d3e32] relative z-10 ${
-                    isHovered
-                      ? 'border-[#7a382e] shadow-[0_0_16px_rgba(223,194,141,0.9)] text-[#7a382e]'
-                      : 'border-[#c4a978]'
-                  }`}
-                >
-                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] transition-colors" />
-                </div>
-              </div>
-            );
-          })}
+          {/* Clearance spacing before marquee */}
+          <div className="h-4 sm:h-5" />
         </div>
-
-        {/* Clearance spacing before marquee */}
-        <div className="h-4 sm:h-5" />
       </div>
 
       {/* =========================================================================
@@ -299,49 +310,83 @@ export const AgentRoster: React.FC = () => {
 
         {/* --- LANE 1: MOVES LEFT (36 Agents) --- */}
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1">
-            {LANE_1.map((agent) => (
-              <AgentCard
-                key={`lane1-${agent.id}`}
-                agent={agent}
-                onHover={handleCardHover}
-                onLeave={handleCardLeave}
-              />
-            ))}
+          <div
+            style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
+            className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
+          >
+            {LANE_1.map((agent) => {
+              const key = `lane1-${agent.id}`;
+              return (
+                <AgentCard
+                  key={key}
+                  agent={agent}
+                  isFocused={focusedCardKey === key}
+                  onHover={handleCardHover}
+                  onLeave={handleCardLeave}
+                  onCardClick={() => handleCardClick(key, 1)}
+                />
+              );
+            })}
           </div>
-          <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1" aria-hidden="true">
-            {LANE_1.map((agent) => (
-              <AgentCard
-                key={`lane1-dup-${agent.id}`}
-                agent={agent}
-                onHover={handleCardHover}
-                onLeave={handleCardLeave}
-              />
-            ))}
+          <div
+            style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
+            className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
+            aria-hidden="true"
+          >
+            {LANE_1.map((agent) => {
+              const key = `lane1-dup-${agent.id}`;
+              return (
+                <AgentCard
+                  key={key}
+                  agent={agent}
+                  isFocused={focusedCardKey === key}
+                  onHover={handleCardHover}
+                  onLeave={handleCardLeave}
+                  onCardClick={() => handleCardClick(key, 1)}
+                />
+              );
+            })}
           </div>
         </div>
 
         {/* --- LANE 2: MOVES RIGHT (36 Agents) --- */}
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1">
-            {LANE_2.map((agent) => (
-              <AgentCard
-                key={`lane2-${agent.id}`}
-                agent={agent}
-                onHover={handleCardHover}
-                onLeave={handleCardLeave}
-              />
-            ))}
+          <div
+            style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
+            className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
+          >
+            {LANE_2.map((agent) => {
+              const key = `lane2-${agent.id}`;
+              return (
+                <AgentCard
+                  key={key}
+                  agent={agent}
+                  isFocused={focusedCardKey === key}
+                  onHover={handleCardHover}
+                  onLeave={handleCardLeave}
+                  onCardClick={() => handleCardClick(key, 2)}
+                />
+              );
+            })}
           </div>
-          <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1" aria-hidden="true">
-            {LANE_2.map((agent) => (
-              <AgentCard
-                key={`lane2-dup-${agent.id}`}
-                agent={agent}
-                onHover={handleCardHover}
-                onLeave={handleCardLeave}
-              />
-            ))}
+          <div
+            style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
+            className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
+            aria-hidden="true"
+          >
+            {LANE_2.map((agent) => {
+              const key = `lane2-dup-${agent.id}`;
+              return (
+                <AgentCard
+                  key={key}
+                  agent={agent}
+                  isFocused={focusedCardKey === key}
+                  onHover={handleCardHover}
+                  onLeave={handleCardLeave}
+                  onCardClick={() => handleCardClick(key, 2)}
+                />
+              );
+            })}
           </div>
         </div>
 
@@ -357,3 +402,4 @@ export const AgentRoster: React.FC = () => {
     </section>
   );
 };
+
