@@ -49,8 +49,8 @@ export function HomePage() {
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-44 lg:h-48 pointer-events-none z-20">
             <BurnTransition
-              color="#ffffff"
-              transitionColor="#FFFFFF"
+              color="#f3f2e6"
+              transitionColor="#f3f2e6"
               noiseScale={2.5}
               noiseIntensity={0.52}
               scrollSensitivity={0.015}
