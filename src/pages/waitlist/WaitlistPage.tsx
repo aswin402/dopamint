@@ -245,14 +245,14 @@ export function WaitlistPage() {
                   )}
                 </div>
 
-                {/* Submit Button (Pill with Iridescent Metallic Gradient matching reference) */}
+                {/* Submit Button (Solid Brand Theme Color) */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-3.5 sm:py-4 px-6 rounded-full bg-gradient-to-r from-[#d0e0d5] via-[#f4eee6] to-[#d6c7b2] hover:brightness-105 active:scale-[0.98] text-[#25362a] border border-[#3e4f42]/25 font-mono text-xs sm:text-sm uppercase tracking-[0.24em] font-bold shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 select-none"
+                  className="w-full py-3.5 sm:py-4 px-6 rounded-full bg-[#25362a] hover:bg-[#1a281e] active:scale-[0.98] text-[#f7f5f0] border border-[#3e4f42] font-mono text-xs sm:text-sm uppercase tracking-[0.24em] font-bold shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 select-none"
                 >
                   {isSubmitting ? (
-                    <div className="w-4 h-4 border-2 border-[#25362a]/30 border-t-[#25362a] rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <span>JOIN WAITLIST</span>
                   )}
