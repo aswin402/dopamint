@@ -222,11 +222,8 @@ function HouseOfAgentsSection() {
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // If iOS Low Power Mode or Safari policy pauses it, resume on first interaction
           const resume = () => {
             video.play().catch(() => {});
-            window.removeEventListener('touchstart', resume);
-            window.removeEventListener('click', resume);
           };
           window.addEventListener('touchstart', resume, { once: true });
           window.addEventListener('click', resume, { once: true });
@@ -238,63 +235,75 @@ function HouseOfAgentsSection() {
   }, []);
 
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-12 min-[390px]:pt-14 min-[430px]:pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 min-[390px]:px-5 sm:px-8 md:px-10 lg:px-16 select-text">
-      <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-6 items-center lg:items-end flex-1">
+    <div
+      id="manifesto"
+      className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-14 min-[390px]:pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-y-auto lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-0 lg:gap-6 items-center lg:items-end flex-1">
 
-        {/* Left Column: Editorial Information (Exact styling matching reference image) */}
-        <div className="lg:col-span-6 space-y-2.5 min-[390px]:space-y-3 min-[430px]:space-y-4 sm:space-y-4 md:space-y-5 text-left self-center pb-1 sm:pb-6 lg:pb-12 z-20">
+        {/* Editorial Information Wrapper:
+            On mobile (<lg), 'contents' dissolves this box so Header (order-1) and Body (order-3) 
+            wrap cleanly around the Video (order-2).
+            On desktop (lg:), becomes a unified col-span-6 column on the left. */}
+        <div className="contents lg:block lg:col-span-6 lg:space-y-5 lg:text-left lg:self-center lg:pb-12 lg:z-20">
 
-          {/* Small Eyebrow */}
-          <div>
-            <span className="font-mono text-[11px] min-[390px]:text-xs min-[430px]:text-[13px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
-              what is dopamint?
-            </span>
-          </div>
-
-          {/* Editorial Title (Responsive 2-line layout: House of / Intent-Based Agents) */}
-          <div>
-            <h2 className="text-[27px] min-[375px]:text-[29px] min-[400px]:text-[33px] min-[430px]:text-[36px] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.04] text-[#55604e]">
-              <span className="block font-serif font-normal text-[#55604e]">
-                House of
+          {/* Block 1: Header (Eyebrow + Large Title + Built on Base) */}
+          <div className="order-1 w-full space-y-2 min-[390px]:space-y-2.5 sm:space-y-3 text-left z-20">
+            {/* Small Eyebrow */}
+            <div>
+              <span className="font-mono text-xs min-[375px]:text-[13px] min-[410px]:text-[14px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
+                what is dopamint?
               </span>
-              <IntentBaseHeadline />
-            </h2>
-            <p className="font-serif italic font-bold text-xs min-[390px]:text-[13.5px] min-[430px]:text-[15px] sm:text-base md:text-lg text-[#7a382e] mt-0.5 sm:mt-1.5">
-              Built on Base
-            </p>
+            </div>
+
+            {/* Editorial Title (Responsive 2-line layout: House of / Intent-Based Agents) */}
+            <div>
+              <h2 className="text-[34px] min-[360px]:text-[37px] min-[390px]:text-[41px] min-[420px]:text-[45px] min-[460px]:text-[48px] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.06] text-[#55604e]">
+                <span className="block font-serif font-normal text-[#55604e]">
+                  House of
+                </span>
+                <IntentBaseHeadline />
+              </h2>
+              <p className="font-serif italic font-bold text-[15px] min-[375px]:text-[16px] min-[410px]:text-[17.5px] sm:text-lg md:text-xl text-[#7a382e] mt-1 sm:mt-2">
+                Built on Base
+              </p>
+            </div>
           </div>
 
-          {/* Editorial Body Text */}
-          <div className="space-y-1.5 min-[390px]:space-y-2.5 sm:space-y-3 md:space-y-3.5 text-[12.5px] min-[375px]:text-[13px] min-[400px]:text-[14.5px] min-[430px]:text-[15.5px] sm:text-[15px] md:text-base lg:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
-            <p>
-              There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is over.
-            </p>
-            <p className="font-serif italic text-[13.5px] min-[375px]:text-[14.5px] min-[400px]:text-[15.5px] min-[430px]:text-[17px] sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
-              Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
-            </p>
-            <p>
-              Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, and transact.
-            </p>
-          </div>
+          {/* Block 3: Editorial Body Text + Badges */}
+          <div className="order-3 w-full space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 pt-2 lg:pt-0 pb-16 lg:pb-0">
+            {/* Editorial Body Text */}
+            <div className="space-y-2.5 min-[390px]:space-y-3 sm:space-y-3.5 text-[15px] min-[375px]:text-[16px] min-[410px]:text-[17px] sm:text-base lg:text-[16.5px] text-[#3d4837] font-sans font-normal leading-relaxed max-w-xl">
+              <p>
+                There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is over.
+              </p>
+              <p className="font-serif italic text-[17px] min-[375px]:text-[18.5px] min-[410px]:text-[20px] sm:text-xl lg:text-[19px] text-[#20291c] leading-snug">
+                Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
+              </p>
+              <p>
+                Dopamint is a network of agents running on the <span className="font-bold text-[#20291c]">Agent Harness</span>, with a continuous <span className="font-bold text-[#20291c]">Agent Loop</span> working behind the scenes. They reason, act, and transact.
+              </p>
+            </div>
 
-          {/* Trust Badges */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2.5 pt-0.5 sm:pt-2">
-            {['AiFi', 'Verifiability', 'x402'].map((badge) => (
-              <span
-                key={badge}
-                className="inline-flex items-center gap-1 px-2.5 py-1 min-[400px]:px-3 min-[400px]:py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[10px] min-[400px]:text-[11px] min-[430px]:text-xs sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-[#7a382e]/80" />
-                {badge}
-              </span>
-            ))}
+            {/* Trust Badges */}
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1 sm:pt-2">
+              {['AiFi', 'Verifiability', 'x402'].map((badge) => (
+                <span
+                  key={badge}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 min-[390px]:px-3.5 min-[390px]:py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/80 backdrop-blur-sm border border-[#55604e]/25 text-[11px] min-[390px]:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none shadow-xs"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#7a382e]/80" />
+                  {badge}
+                </span>
+              ))}
+            </div>
           </div>
 
         </div>
 
-        {/* Right Column: Chat Screen Video Fully Responsive & Bottom Aligned */}
-        <div className="lg:col-span-6 relative flex items-end justify-end z-10 self-end w-full">
-          <div className="relative w-full max-w-sm sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-4 sm:translate-x-8 lg:translate-x-8 xl:translate-x-12 flex items-end justify-end">
+        {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
+        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0">
+          <div className="relative w-full max-w-[320px] min-[360px]:max-w-[350px] min-[390px]:max-w-[390px] min-[420px]:max-w-[430px] min-[460px]:max-w-[480px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end">
             <video
               ref={videoRef}
               autoPlay
@@ -305,7 +314,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-auto max-w-full max-h-[38vh] min-[390px]:max-h-[42vh] min-[430px]:max-h-[47vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none"
+              className="w-auto max-w-full max-h-[50vh] min-[390px]:max-h-[56vh] min-[430px]:max-h-[62vh] sm:max-h-[70vh] md:max-h-[78vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none drop-shadow-md lg:drop-shadow-none"
             >
               <source src={chatScreenMp4} type="video/mp4" />
             </video>
