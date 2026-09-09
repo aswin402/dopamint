@@ -19,28 +19,28 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
   const suffix = parts[parts.length - 1];
 
   return (
-    <div className="w-[340px] sm:w-[380px] md:w-[410px] h-[200px] sm:h-[215px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20">
+    <div className="w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5.5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20">
       {/* Top Header */}
       <div>
         <div className="flex items-baseline justify-between gap-2">
-          <h3 className="text-2xl sm:text-[26px] font-serif text-[#25362a] tracking-tight leading-tight">
+          <h3 className="text-[25px] min-[390px]:text-[27px] sm:text-[28px] font-serif text-[#25362a] tracking-tight leading-tight">
             <span className="font-serif italic font-bold">{mainRole}</span>{' '}
             <span className="font-serif italic font-normal text-[#38493d]">{suffix}</span>
           </h3>
         </div>
 
         {/* Description / One-liner */}
-        <p className="text-sm sm:text-base md:text-[15px] text-[#3e5042] font-sans leading-relaxed mt-2 sm:mt-2.5 font-normal line-clamp-2">
+        <p className="text-[14.5px] min-[390px]:text-[15.5px] sm:text-[16px] text-[#3e5042] font-sans leading-relaxed mt-2 sm:mt-2.5 font-normal line-clamp-2">
           {agent.does}
         </p>
       </div>
 
       {/* Skills Badges */}
-      <div className="flex flex-wrap gap-1.5 pt-1">
+      <div className="flex flex-wrap gap-1.5 min-[390px]:gap-2 pt-1">
         {agent.skills.map((skill) => (
           <span
             key={skill}
-            className="px-2.5 py-0.5 rounded-full border border-[#445648]/35 bg-[#e0e8dc]/70 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-[#314234] font-medium"
+            className="px-3 py-1 sm:px-3 sm:py-0.5 rounded-full border border-[#445648]/35 bg-[#e0e8dc]/70 text-[11px] min-[390px]:text-[12px] sm:text-[11.5px] font-mono uppercase tracking-wider text-[#314234] font-medium"
           >
             {skill}
           </span>
@@ -277,12 +277,12 @@ export const AgentRoster: React.FC = () => {
           ========================================================================= */}
       <div className="relative w-full space-y-2 sm:space-y-3 overflow-hidden py-2">
         
-        {/* Soft edge gradient masks */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
+        {/* Soft edge gradient masks (hidden on mobile, visible on sm+) */}
+        <div className="hidden sm:block pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
+        <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
 
         {/* --- LANE 1: MOVES LEFT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1">
             {LANE_1.map((agent) => (
               <AgentCard key={`lane1-${agent.id}`} agent={agent} />
@@ -296,7 +296,7 @@ export const AgentRoster: React.FC = () => {
         </div>
 
         {/* --- LANE 2: MOVES RIGHT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-3 sm:py-4 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1">
             {LANE_2.map((agent) => (
               <AgentCard key={`lane2-${agent.id}`} agent={agent} />
