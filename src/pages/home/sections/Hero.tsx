@@ -321,8 +321,8 @@ function HouseOfAgentsSection() {
         </div>
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
-        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0 overflow-visible">
-          <div className="relative w-full max-w-[340px] min-[360px]:max-w-[370px] min-[390px]:max-w-[420px] min-[430px]:max-w-[460px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none">
+        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-end lg:items-end lg:justify-end z-10 self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0 overflow-visible">
+          <div className="relative w-full max-w-[380px] min-[360px]:max-w-[410px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] min-[480px]:max-w-[540px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] translate-x-4 min-[360px]:translate-x-6 min-[390px]:translate-x-8 min-[430px]:translate-x-10 sm:translate-x-12 lg:translate-x-8 xl:translate-x-12 flex items-center justify-end lg:items-end lg:justify-end border-0 shadow-none">
             <video
               key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
@@ -334,7 +334,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-full sm:w-auto max-w-full max-h-[66vh] min-[390px]:max-h-[72vh] min-[430px]:max-h-[78vh] sm:max-h-[84vh] md:max-h-[88vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-center lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
+              className="w-full sm:w-auto max-w-full max-h-[72vh] min-[390px]:max-h-[78vh] min-[430px]:max-h-[84vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[92vh] xl:max-h-[98vh] object-contain object-right lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             >
               <source src={isDesktop ? chatScreenMp4 : chatScreenMobileMp4} type="video/mp4" />
             </video>
