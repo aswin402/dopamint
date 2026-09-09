@@ -33,7 +33,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
       onMouseEnter={onHover}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
-      className={`w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] p-5.5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative hover:z-20 ${
+      className={`w-[310px] min-[390px]:w-[330px] sm:w-[395px] md:w-[415px] h-[188px] min-[390px]:h-[196px] sm:h-[225px] shrink-0 rounded-[24px] sm:rounded-[32px] p-4 min-[390px]:p-4.5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative hover:z-20 ${
         isFocused
           ? 'bg-[#e5ede0] border-2 border-[#1e2e22] shadow-[0_12px_32px_rgba(30,46,34,0.18)] scale-[1.02] ring-2 ring-[#3e4f42]/40 z-30'
           : 'bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 shadow-[0_4px_18px_rgba(40,48,40,0.04)] hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5'
@@ -49,7 +49,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
         </div>
 
         {/* Description / One-liner */}
-        <p className="text-[14.5px] min-[390px]:text-[15.5px] sm:text-[16px] text-[#3e5042] font-sans leading-relaxed mt-2 sm:mt-2.5 font-normal line-clamp-2">
+        <p className="text-[14.5px] min-[390px]:text-[15.5px] sm:text-[16px] text-[#3e5042] font-sans leading-snug sm:leading-relaxed mt-1.5 sm:mt-2.5 font-normal line-clamp-2">
           {agent.does}
         </p>
       </div>
@@ -59,7 +59,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
         {agent.skills.map((skill) => (
           <span
             key={skill}
-            className="px-3 py-1 sm:px-3 sm:py-0.5 rounded-full border border-[#445648]/35 bg-[#e0e8dc]/70 text-[11px] min-[390px]:text-[12px] sm:text-[11.5px] font-mono uppercase tracking-wider text-[#314234] font-medium"
+            className="px-2.5 py-0.5 min-[390px]:px-3 min-[390px]:py-1 sm:px-3 sm:py-0.5 rounded-full border border-[#445648]/35 bg-[#e0e8dc]/70 text-[11px] min-[390px]:text-[12px] sm:text-[11.5px] font-mono uppercase tracking-wider text-[#314234] font-medium"
           >
             {skill}
           </span>
@@ -312,7 +312,7 @@ export const AgentRoster: React.FC = () => {
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
-            className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
+            className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
           >
             {LANE_1.map((agent) => {
               const key = `lane1-${agent.id}`;
@@ -330,7 +330,7 @@ export const AgentRoster: React.FC = () => {
           </div>
           <div
             style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
-            className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
+            className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
             aria-hidden="true"
           >
             {LANE_1.map((agent) => {
@@ -353,7 +353,7 @@ export const AgentRoster: React.FC = () => {
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
-            className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
+            className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
           >
             {LANE_2.map((agent) => {
               const key = `lane2-${agent.id}`;
@@ -371,7 +371,7 @@ export const AgentRoster: React.FC = () => {
           </div>
           <div
             style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
-            className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
+            className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
             aria-hidden="true"
           >
             {LANE_2.map((agent) => {
