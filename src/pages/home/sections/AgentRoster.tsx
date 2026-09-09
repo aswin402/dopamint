@@ -170,13 +170,13 @@ export const AgentRoster: React.FC = () => {
           ========================================================================= */}
       <div className="w-full flex flex-col items-center relative z-10 -mt-[1px]">
         {/* MOBILE ONLY: Single Centered Straight Dashed Line */}
-        <div className="flex sm:hidden flex-col items-center w-full py-1">
-          <svg width="6" height="38" className="overflow-visible pointer-events-none">
+        <div className="flex sm:hidden flex-col items-center w-full my-0.5">
+          <svg width="6" height="22" className="overflow-visible pointer-events-none">
             <line
               x1="3"
               y1="0"
               x2="3"
-              y2="38"
+              y2="22"
               stroke={focusedCardKey ? '#1b2a1e' : '#3e4f42'}
               strokeWidth={focusedCardKey ? 2.5 : 2}
               className="animate-dash-down transition-branch"
@@ -302,14 +302,14 @@ export const AgentRoster: React.FC = () => {
       {/* =========================================================================
           3. TWO MARQUEE LANES (72 SPECIALIZED AGENTS)
           ========================================================================= */}
-      <div className="relative w-full space-y-2 sm:space-y-3 overflow-hidden py-2">
+      <div className="relative w-full space-y-1.5 sm:space-y-3 overflow-hidden py-0.5 sm:py-2">
         
         {/* Soft edge gradient masks (hidden on mobile, visible on sm+) */}
         <div className="hidden sm:block pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
         <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
 
         {/* --- LANE 1: MOVES LEFT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
@@ -350,7 +350,7 @@ export const AgentRoster: React.FC = () => {
         </div>
 
         {/* --- LANE 2: MOVES RIGHT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
