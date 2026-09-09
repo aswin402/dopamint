@@ -140,6 +140,41 @@
   animation-play-state: paused;
 }
 
+/* Dashed flow keyframes for DOPE distribution lines */
+@keyframes dashStreamDown {
+  from { stroke-dashoffset: 20; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes dashStreamLeft {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: 20; }
+}
+
+@keyframes dashStreamRight {
+  from { stroke-dashoffset: 20; }
+  to { stroke-dashoffset: 0; }
+}
+
+.animate-dash-down {
+  stroke-dasharray: 6 5;
+  animation: dashStreamDown 0.9s linear infinite;
+}
+
+.animate-dash-left {
+  stroke-dasharray: 6 5;
+  animation: dashStreamLeft 0.9s linear infinite;
+}
+
+.animate-dash-right {
+  stroke-dasharray: 6 5;
+  animation: dashStreamRight 0.9s linear infinite;
+}
+
+.transition-branch {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.35s ease, stroke-width 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 @keyframes border-beam {
   100% {
     offset-distance: 100%;

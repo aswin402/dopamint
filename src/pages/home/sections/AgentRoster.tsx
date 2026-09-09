@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
@@ -11,15 +11,22 @@ const LANE_2 = ALL_72_AGENTS.slice(half);
 
 interface AgentCardProps {
   agent: AgentCardData;
+  onHover?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onLeave?: () => void;
 }
 
-const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
+const AgentCard: React.FC<AgentCardProps> = ({ agent, onHover, onLeave }) => {
   const parts = agent.role.split(' ');
   const mainRole = parts.slice(0, -1).join(' ');
   const suffix = parts[parts.length - 1];
 
   return (
-    <div className="w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5.5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20">
+    <div
+      onMouseEnter={onHover}
+      onMouseMove={onHover}
+      onMouseLeave={onLeave}
+      className="w-[365px] min-[390px]:w-[385px] sm:w-[395px] md:w-[415px] h-[218px] min-[390px]:h-[226px] sm:h-[225px] shrink-0 rounded-[28px] sm:rounded-[32px] bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 p-5.5 sm:p-6 flex flex-col justify-between shadow-[0_4px_18px_rgba(40,48,40,0.04)] transition-all duration-300 hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5 cursor-pointer relative hover:z-20"
+    >
       {/* Top Header */}
       <div>
         <div className="flex items-baseline justify-between gap-2">
@@ -51,6 +58,37 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent }) => {
 };
 
 export const AgentRoster: React.FC = () => {
+  const [hoveredCol, setHoveredCol] = useState<number | null>(null);
+  const railRef = useRef<HTMLDivElement>(null);
+
+  const handleCardHover = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!railRef.current) return;
+    const railRect = railRef.current.getBoundingClientRect();
+    const cardRect = e.currentTarget.getBoundingClientRect();
+    const cardCenterX = cardRect.left + cardRect.width / 2;
+    const rel = (cardCenterX - railRect.left) / railRect.width;
+    const closestIndex = Math.min(4, Math.max(0, Math.round(rel * 4)));
+    setHoveredCol(closestIndex);
+  };
+
+  const handleCardLeave = () => {
+    setHoveredCol(null);
+  };
+
+  const isSegActive = (seg: 'A' | 'B' | 'C' | 'D') => {
+    if (hoveredCol === null) return true;
+    if (seg === 'A') return hoveredCol === 0;
+    if (seg === 'B') return hoveredCol === 0 || hoveredCol === 1;
+    if (seg === 'C') return hoveredCol === 3 || hoveredCol === 4;
+    if (seg === 'D') return hoveredCol === 4;
+    return false;
+  };
+
+  const isDropActive = (colIndex: number) => {
+    if (hoveredCol === null) return true;
+    return hoveredCol === colIndex;
+  };
+
   return (
     <section id="agents" className="w-full bg-[#f3f2e6] pt-8 sm:pt-12 lg:pt-14 pb-12 sm:pb-16 lg:pb-20 overflow-hidden relative z-20">
       
@@ -101,175 +139,153 @@ export const AgentRoster: React.FC = () => {
       </div>
 
       {/* =========================================================================
-          2. ARCHITECTURAL BRANCHING DISTRIBUTION RAIL (BOUNDED EXACTLY BETWEEN DROPS)
+          2. ARCHITECTURAL BRANCHING DISTRIBUTION RAIL (ANIMATED DASHED LINES)
           ========================================================================= */}
       <div className="w-full flex flex-col items-center relative z-10 -mt-[1px]">
-        {/* Vertical feeder stem: directly touches card bottom edge with zero gap and no circle */}
-        <div className="w-[2px] h-7 sm:h-8 bg-[#3e4f42]/85 relative overflow-hidden">
-          {/* Top-to-down glow energy pulse originating from DOPE card */}
-          <motion.div
-            animate={{
-              y: ['-100%', '-100%', '200%', '200%', '-100%'],
-              opacity: [0, 1, 1, 0, 0],
-            }}
-            transition={{
-              duration: 2.8,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              times: [0, 0.04, 0.20, 0.24, 1],
-            }}
-            className="w-full h-5 bg-gradient-to-b from-transparent via-[#dfc28d] to-transparent shadow-[0_0_10px_#dfc28d]"
-          />
+        {/* Vertical feeder stem: directly touches card bottom edge with zero gap */}
+        <div className="flex flex-col items-center w-full">
+          <svg width="6" height="30" className="overflow-visible">
+            <line
+              x1="3"
+              y1="0"
+              x2="3"
+              y2="30"
+              stroke={hoveredCol !== null ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={hoveredCol !== null ? 2.5 : 2}
+              className="animate-dash-down transition-branch"
+            />
+          </svg>
         </div>
 
-        {/* Crisp Horizontal Base Line: ONLY spans from 0% (Drop 1) to 100% (Drop 5) */}
-        <div className="w-full max-w-[650px] sm:max-w-[720px] md:max-w-[780px] px-4 sm:px-0 relative -mt-0.5">
-          <div className="relative w-full">
-            {/* Horizontal Rail */}
-            <div className="relative w-full h-[2px] bg-[#3e4f42]/80 rounded-full overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.1)]">
-              {/* Ambient Gold Glow Underlay */}
-              <div className="absolute inset-0 bg-[#c4a978]/25 blur-[0.5px]" />
+        {/* Crisp Horizontal Bus & 5 Drops Structure */}
+        <div
+          ref={railRef}
+          className="w-full max-w-[650px] sm:max-w-[720px] md:max-w-[780px] px-4 sm:px-0 relative h-[58px]"
+        >
+          {/* SVG Dashed Infrastructure: 4 Rail Segments + 5 Vertical Drops */}
+          <svg
+            className="w-full h-full overflow-visible pointer-events-none"
+            viewBox="0 0 1000 58"
+            preserveAspectRatio="none"
+          >
+            {/* Segment A: 0 to 250 (Leftmost to Col 1, flows left) */}
+            <line
+              x1="0"
+              y1="2"
+              x2="250"
+              y2="2"
+              vectorEffect="non-scaling-stroke"
+              stroke={hoveredCol !== null && isSegActive('A') ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={hoveredCol !== null && isSegActive('A') ? 2.5 : 2}
+              opacity={isSegActive('A') ? 1 : 0}
+              className="animate-dash-left transition-branch"
+            />
 
-              {/* LEFT BRANCH FLOW: Originates at center (50%), flows parallel to LEFT (0%) */}
-              <div className="absolute left-0 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none">
-                <motion.div
-                  animate={{
-                    x: ['0%', '0%', '-350%', '-350%', '0%'],
-                    opacity: [0, 1, 1, 0, 0],
-                  }}
-                  transition={{
-                    duration: 2.8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    times: [0, 0.21, 0.49, 0.52, 1],
-                  }}
-                  className="absolute right-0 inset-y-0 w-28 sm:w-36 bg-gradient-to-l from-transparent via-[#dfc28d] to-transparent shadow-[0_0_12px_#dfc28d]"
+            {/* Segment B: 250 to 500 (Col 1 to Center, flows left) */}
+            <line
+              x1="250"
+              y1="2"
+              x2="500"
+              y2="2"
+              vectorEffect="non-scaling-stroke"
+              stroke={hoveredCol !== null && isSegActive('B') ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={hoveredCol !== null && isSegActive('B') ? 2.5 : 2}
+              opacity={isSegActive('B') ? 1 : 0}
+              className="animate-dash-left transition-branch"
+            />
+
+            {/* Segment C: 500 to 750 (Center to Col 3, flows right) */}
+            <line
+              x1="500"
+              y1="2"
+              x2="750"
+              y2="2"
+              vectorEffect="non-scaling-stroke"
+              stroke={hoveredCol !== null && isSegActive('C') ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={hoveredCol !== null && isSegActive('C') ? 2.5 : 2}
+              opacity={isSegActive('C') ? 1 : 0}
+              className="animate-dash-right transition-branch"
+            />
+
+            {/* Segment D: 750 to 1000 (Col 3 to Col 4, flows right) */}
+            <line
+              x1="750"
+              y1="2"
+              x2="1000"
+              y2="2"
+              vectorEffect="non-scaling-stroke"
+              stroke={hoveredCol !== null && isSegActive('D') ? '#1b2a1e' : '#3e4f42'}
+              strokeWidth={hoveredCol !== null && isSegActive('D') ? 2.5 : 2}
+              opacity={isSegActive('D') ? 1 : 0}
+              className="animate-dash-right transition-branch"
+            />
+
+            {/* 5 Vertical Drop Lines (0%, 25%, 50%, 75%, 100%) */}
+            {[0, 250, 500, 750, 1000].map((x, idx) => {
+              const active = isDropActive(idx);
+              return (
+                <line
+                  key={`drop-${idx}`}
+                  x1={x}
+                  y1="2"
+                  x2={x}
+                  y2="34"
+                  vectorEffect="non-scaling-stroke"
+                  stroke={hoveredCol !== null && active ? '#1b2a1e' : '#3e4f42'}
+                  strokeWidth={hoveredCol !== null && active ? 2.5 : 2}
+                  opacity={active ? 1 : 0}
+                  className="animate-dash-down transition-branch"
                 />
-              </div>
+              );
+            })}
+          </svg>
 
-              {/* RIGHT BRANCH FLOW: Originates at center (50%), flows parallel to RIGHT (100%) */}
-              <div className="absolute left-1/2 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none">
-                <motion.div
-                  animate={{
-                    x: ['0%', '0%', '350%', '350%', '0%'],
-                    opacity: [0, 1, 1, 0, 0],
-                  }}
-                  transition={{
-                    duration: 2.8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    times: [0, 0.21, 0.49, 0.52, 1],
-                  }}
-                  className="absolute left-0 inset-y-0 w-28 sm:w-36 bg-gradient-to-r from-transparent via-[#dfc28d] to-transparent shadow-[0_0_12px_#dfc28d]"
-                />
-              </div>
-            </div>
+          {/* 5 Drops: Rail Junction Dots & Directional Medallions */}
+          {[0, 25, 50, 75, 100].map((pct, idx) => {
+            const active = isDropActive(idx);
+            const isHovered = hoveredCol === idx;
 
-            {/* 5 Distribution Drops - Exactly 0%, 25%, 50%, 75%, 100% (Zero overhangs) */}
-            {[
-              {
-                pct: 0,
-                dotTimes: [0, 0.47, 0.51, 0.57, 1],
-                dropTimes: [0, 0.49, 0.64, 0.67, 1],
-                medallionTimes: [0, 0.62, 0.66, 0.72, 1],
-              },
-              {
-                pct: 25,
-                dotTimes: [0, 0.33, 0.37, 0.43, 1],
-                dropTimes: [0, 0.35, 0.50, 0.53, 1],
-                medallionTimes: [0, 0.48, 0.52, 0.58, 1],
-              },
-              {
-                pct: 50,
-                dotTimes: [0, 0.18, 0.23, 0.30, 1],
-                dropTimes: [0, 0.21, 0.36, 0.39, 1],
-                medallionTimes: [0, 0.34, 0.38, 0.44, 1],
-              },
-              {
-                pct: 75,
-                dotTimes: [0, 0.33, 0.37, 0.43, 1],
-                dropTimes: [0, 0.35, 0.50, 0.53, 1],
-                medallionTimes: [0, 0.48, 0.52, 0.58, 1],
-              },
-              {
-                pct: 100,
-                dotTimes: [0, 0.47, 0.51, 0.57, 1],
-                dropTimes: [0, 0.49, 0.64, 0.67, 1],
-                medallionTimes: [0, 0.62, 0.66, 0.72, 1],
-              },
-            ].map(({ pct, dotTimes, dropTimes, medallionTimes }, idx) => (
+            return (
               <div
-                key={idx}
+                key={`col-node-${idx}`}
                 style={{ left: `${pct}%` }}
-                className="absolute top-0 -translate-x-1/2 flex flex-col items-center"
+                onMouseEnter={() => setHoveredCol(idx)}
+                onMouseLeave={() => setHoveredCol(null)}
+                className={`absolute top-0 -translate-x-1/2 flex flex-col items-center cursor-pointer transition-branch ${
+                  active ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                } ${isHovered ? 'scale-110' : 'scale-100'}`}
               >
                 {/* Rail Junction Dot */}
-                <motion.div
-                  animate={{
-                    scale: [1, 1, 1.3, 1, 1],
-                  }}
-                  transition={{
-                    duration: 2.8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    times: dotTimes,
-                  }}
-                  className={`rounded-full bg-[#f3f2e6] shadow-xs z-10 ${
+                <div
+                  className={`rounded-full bg-[#f3f2e6] shadow-xs z-10 transition-transform ${
                     pct === 50
                       ? 'w-3.5 h-3.5 border-2 border-[#c4a978] shadow-[0_0_10px_rgba(196,169,120,0.8)] -mt-[5px] flex items-center justify-center'
                       : 'w-2.5 h-2.5 border-[1.5px] border-[#3e4f42] -mt-[3.5px]'
-                  }`}
+                  } ${isHovered ? 'ring-2 ring-[#c4a978]/60' : ''}`}
                 >
                   {pct === 50 && <span className="w-1.5 h-1.5 rounded-full bg-[#25362a]" />}
-                </motion.div>
-
-                {/* Vertical Drop Conduit */}
-                <div className="w-[1.5px] h-6 sm:h-7 bg-gradient-to-b from-[#3e4f42]/90 via-[#3e4f42]/60 to-[#c4a978] relative overflow-hidden">
-                  <motion.div
-                    animate={{
-                      y: ['-100%', '-100%', '200%', '200%', '-100%'],
-                      opacity: [0, 1, 1, 0, 0],
-                    }}
-                    transition={{
-                      duration: 2.8,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      times: dropTimes,
-                    }}
-                    className="w-full h-3.5 bg-gradient-to-b from-transparent via-[#dfc28d] to-[#c4a978] shadow-[0_0_6px_#dfc28d]"
-                  />
                 </div>
 
-                {/* Directional Jewelry Medallion with Animated Chevron */}
-                <motion.div
-                  animate={{
-                    y: [0, 0, 2.5, 0, 0],
-                    boxShadow: [
-                      '0 4px 12px rgba(45,62,50,0.14)',
-                      '0 4px 12px rgba(45,62,50,0.14)',
-                      '0 0 16px rgba(223,194,141,0.9)',
-                      '0 4px 12px rgba(45,62,50,0.14)',
-                      '0 4px 12px rgba(45,62,50,0.14)',
-                    ],
-                  }}
-                  transition={{
-                    duration: 2.8,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                    times: medallionTimes,
-                  }}
-                  whileHover={{ scale: 1.15, y: 2 }}
-                  className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#ffffff] border-[1.5px] border-[#c4a978] shadow-[0_4px_12px_rgba(45,62,50,0.14)] flex items-center justify-center text-[#25362a] relative z-10 transition-transform cursor-pointer group"
-                >
-                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] text-[#2d3e32] group-hover:text-[#7a382e] transition-colors" />
-                </motion.div>
-              </div>
-            ))}
-          </div>
+                {/* Drop line conduit spacer */}
+                <div className="h-[27px]" />
 
-          {/* Clearance spacing for the 24px medallions */}
-          <div className="h-8 sm:h-9" />
+                {/* Directional Jewelry Medallion with Chevron */}
+                <div
+                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#ffffff] border-[1.5px] transition-all shadow-[0_4px_12px_rgba(45,62,50,0.14)] flex items-center justify-center text-[#2d3e32] relative z-10 ${
+                    isHovered
+                      ? 'border-[#7a382e] shadow-[0_0_16px_rgba(223,194,141,0.9)] text-[#7a382e]'
+                      : 'border-[#c4a978]'
+                  }`}
+                >
+                  <ChevronDown className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2.5] transition-colors" />
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Clearance spacing before marquee */}
+        <div className="h-4 sm:h-5" />
       </div>
 
       {/* =========================================================================
@@ -285,12 +301,22 @@ export const AgentRoster: React.FC = () => {
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1">
             {LANE_1.map((agent) => (
-              <AgentCard key={`lane1-${agent.id}`} agent={agent} />
+              <AgentCard
+                key={`lane1-${agent.id}`}
+                agent={agent}
+                onHover={handleCardHover}
+                onLeave={handleCardLeave}
+              />
             ))}
           </div>
           <div className="flex gap-4 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1" aria-hidden="true">
             {LANE_1.map((agent) => (
-              <AgentCard key={`lane1-dup-${agent.id}`} agent={agent} />
+              <AgentCard
+                key={`lane1-dup-${agent.id}`}
+                agent={agent}
+                onHover={handleCardHover}
+                onLeave={handleCardLeave}
+              />
             ))}
           </div>
         </div>
@@ -299,12 +325,22 @@ export const AgentRoster: React.FC = () => {
         <div className="flex w-full overflow-hidden py-3 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1">
             {LANE_2.map((agent) => (
-              <AgentCard key={`lane2-${agent.id}`} agent={agent} />
+              <AgentCard
+                key={`lane2-${agent.id}`}
+                agent={agent}
+                onHover={handleCardHover}
+                onLeave={handleCardLeave}
+              />
             ))}
           </div>
           <div className="flex gap-4 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1" aria-hidden="true">
             {LANE_2.map((agent) => (
-              <AgentCard key={`lane2-dup-${agent.id}`} agent={agent} />
+              <AgentCard
+                key={`lane2-dup-${agent.id}`}
+                agent={agent}
+                onHover={handleCardHover}
+                onLeave={handleCardLeave}
+              />
             ))}
           </div>
         </div>
