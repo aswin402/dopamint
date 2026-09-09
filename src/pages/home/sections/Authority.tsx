@@ -9,7 +9,7 @@ export const Authority: React.FC = () => {
         {/* =========================================================================
             1. LEFT — COMPANION VIDEO (BIGGER & SHIFTED SLIGHTLY LEFT ON MOBILE)
             ========================================================================= */}
-        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible">
+        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-4 sm:py-0 mb-2 sm:mb-0">
           <video
             src={companionVideo}
             autoPlay
@@ -17,14 +17,14 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.18] -translate-x-4 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.36] -translate-x-9 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
           />
         </div>
 
         {/* =========================================================================
             2. RIGHT — EDITORIAL HEADLINE + CTA (CENTER ALIGNED ON MOBILE)
             ========================================================================= */}
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-16 xl:-ml-26 pt-2 sm:pt-0">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-16 xl:-ml-26 pt-6 sm:pt-0">
           
           {/* Category Tag */}
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">
