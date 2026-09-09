@@ -98,7 +98,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
           src={item.iconSrc || `https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
           alt={item.name}
           className="w-full h-full rounded-full object-contain"
-          loading="lazy"
+          decoding="async"
           onError={(e) => {
             (e.currentTarget as HTMLElement).style.display = 'none';
           }}
@@ -113,6 +113,11 @@ const cardBase =
 const cardSm =
   'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.08)] hover:shadow-[0_24px_50px_rgba(50,35,20,0.16)] p-3.5 min-[390px]:p-4.5 sm:p-5 cursor-pointer transition-colors duration-300';
 
+const mobileCardBase =
+  'imsg-card overflow-hidden rounded-[1.35rem] min-[390px]:rounded-[1.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-4 min-[390px]:p-5 select-none shadow-[0_10px_28px_rgba(40,30,20,0.09),0_2px_6px_rgba(40,30,20,0.04)]';
+const mobileCardSm =
+  'imsg-card overflow-hidden rounded-[1.35rem] min-[390px]:rounded-[1.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-3.5 min-[390px]:p-4.5 select-none shadow-[0_10px_28px_rgba(40,30,20,0.09),0_2px_6px_rgba(40,30,20,0.04)]';
+
 // =========================================================================
 // MOBILE PINNED STACKING CARDS (PINNED VIEWPORT + SCROLL PROGRESS STACK)
 // =========================================================================
@@ -123,7 +128,66 @@ interface MobilePinnedCardProps {
   total: number;
 }
 
-const STEP_THRESHOLDS = [0.0, 0.18, 0.35, 0.52, 0.69, 0.86];
+function getCardTransforms(i: number, total: number = 6) {
+  const pList: number[] = [];
+  const yList: number[] = [];
+  const sList: number[] = [];
+  const oList: number[] = [];
+  const stepSize = 1 / (total - 1); // 0.20 per card transition
+
+  if (i === 0) {
+    pList.push(0);
+    yList.push(0);
+    sList.push(1.0);
+    oList.push(1.0);
+
+    for (let k = 1; k < total; k++) {
+      const p = parseFloat((k * stepSize).toFixed(3));
+      const depth = k;
+      pList.push(p);
+      yList.push(-Math.min(42, depth * 9));
+      sList.push(parseFloat(Math.max(0.82, 1.0 - depth * 0.035).toFixed(3)));
+      oList.push(parseFloat(Math.max(0.72, 1.0 - depth * 0.055).toFixed(3)));
+    }
+  } else {
+    const entryStart = parseFloat(((i - 1) * stepSize).toFixed(3));
+    const entryMid = parseFloat((entryStart + stepSize * 0.35).toFixed(3));
+    const entryEnd = parseFloat((i * stepSize).toFixed(3));
+
+    pList.push(0);
+    yList.push(160);
+    sList.push(0.94);
+    oList.push(0);
+
+    if (entryStart > 0.001) {
+      pList.push(entryStart);
+      yList.push(160);
+      sList.push(0.94);
+      oList.push(0);
+    }
+
+    pList.push(entryMid);
+    yList.push(56);
+    sList.push(0.97);
+    oList.push(1.0);
+
+    pList.push(entryEnd);
+    yList.push(0);
+    sList.push(1.0);
+    oList.push(1.0);
+
+    for (let k = i + 1; k < total; k++) {
+      const p = parseFloat((k * stepSize).toFixed(3));
+      const depth = k - i;
+      pList.push(p);
+      yList.push(-Math.min(42, depth * 9));
+      sList.push(parseFloat(Math.max(0.82, 1.0 - depth * 0.035).toFixed(3)));
+      oList.push(parseFloat(Math.max(0.72, 1.0 - depth * 0.055).toFixed(3)));
+    }
+  }
+
+  return { pList, yList, sList, oList };
+}
 
 const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   i,
@@ -132,66 +196,7 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   total,
 }) => {
   const { pList, yList, sList, oList } = useMemo(() => {
-    const pList: number[] = [];
-    const yList: number[] = [];
-    const sList: number[] = [];
-    const oList: number[] = [];
-
-    if (i === 0) {
-      pList.push(0);
-      yList.push(0);
-      sList.push(1.0);
-      oList.push(1.0);
-
-      for (let k = 1; k < total; k++) {
-        const p = STEP_THRESHOLDS[k];
-        const depth = k;
-        pList.push(p);
-        yList.push(-Math.min(38, depth * 8));
-        sList.push(Math.max(0.85, 1.0 - depth * 0.03));
-        oList.push(Math.max(0.75, 1.0 - depth * 0.05));
-      }
-      pList.push(1.0);
-      yList.push(yList[yList.length - 1]);
-      sList.push(sList[sList.length - 1]);
-      oList.push(oList[oList.length - 1]);
-    } else {
-      const targetP = STEP_THRESHOLDS[i];
-      const startP = Math.max(0.01, targetP - 0.13);
-
-      pList.push(0);
-      yList.push(150);
-      sList.push(0.95);
-      oList.push(0);
-
-      if (startP > 0.01) {
-        pList.push(startP);
-        yList.push(150);
-        sList.push(0.95);
-        oList.push(0);
-      }
-
-      pList.push(targetP);
-      yList.push(0);
-      sList.push(1.0);
-      oList.push(1.0);
-
-      for (let k = i + 1; k < total; k++) {
-        const p = STEP_THRESHOLDS[k];
-        const depth = k - i;
-        pList.push(p);
-        yList.push(-Math.min(38, depth * 8));
-        sList.push(Math.max(0.85, 1.0 - depth * 0.03));
-        oList.push(Math.max(0.75, 1.0 - depth * 0.05));
-      }
-
-      pList.push(1.0);
-      yList.push(yList[yList.length - 1]);
-      sList.push(sList[sList.length - 1]);
-      oList.push(oList[oList.length - 1]);
-    }
-
-    return { pList, yList, sList, oList };
+    return getCardTransforms(i, total);
   }, [i, total]);
 
   const opacity = useTransform(progress, pList, oList);
@@ -208,9 +213,11 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
         zIndex: 10 + i,
         rotate: card.rotation,
         willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
       }}
-      className={`absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] transform-gpu shadow-[0_16px_36px_rgba(40,30,20,0.12)] hover:shadow-[0_24px_45px_rgba(40,30,20,0.18)] select-none transition-shadow duration-300 ${
-        card.isSm ? cardSm : cardBase
+      className={`absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] transform-gpu select-none ${
+        card.isSm ? mobileCardSm : mobileCardBase
       }`}
     >
       <LogosHeader items={card.logos} />
@@ -227,23 +234,27 @@ const StackDot: React.FC<{
   i: number;
   progress: MotionValue<number>;
 }> = ({ i, progress }) => {
-  const current = STEP_THRESHOLDS[i];
-  const prev = i > 0 ? STEP_THRESHOLDS[i - 1] : 0;
-  const next = i < STEP_THRESHOLDS.length - 1 ? STEP_THRESHOLDS[i + 1] : 1.0;
-
-  const activeStart = i === 0 ? 0 : (prev + current) / 2;
-  const activeEnd = i === STEP_THRESHOLDS.length - 1 ? 1.0 : (current + next) / 2;
+  const intervals: [number, number][] = [
+    [0.0, 0.15],
+    [0.15, 0.35],
+    [0.35, 0.55],
+    [0.55, 0.75],
+    [0.75, 0.90],
+    [0.90, 1.0],
+  ];
+  const [start, end] = intervals[i] || [0, 1];
+  const fadeMargin = 0.03;
 
   const width = useTransform(
     progress,
-    [Math.max(0, activeStart - 0.04), activeStart, activeEnd, Math.min(1, activeEnd + 0.04)],
+    [Math.max(0, start - fadeMargin), start, end, Math.min(1, end + fadeMargin)],
     [6, 22, 22, 6]
   );
 
   const opacity = useTransform(
     progress,
-    [Math.max(0, activeStart - 0.04), activeStart, activeEnd, Math.min(1, activeEnd + 0.04)],
-    [0.3, 1, 1, 0.3]
+    [Math.max(0, start - fadeMargin), start, end, Math.min(1, end + fadeMargin)],
+    [0.25, 1, 1, 0.25]
   );
 
   return (
@@ -263,24 +274,27 @@ const MobileStickyStack: React.FC = () => {
 
   return (
     <div ref={containerRef} className="relative w-full h-[280vh]">
-      {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center pt-8 pb-12 px-4 overflow-hidden">
+      {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100dvh */}
+      <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-5 min-[390px]:pb-7 px-4 overflow-hidden">
         
-        {/* Section Header */}
-        <div className="text-center w-full max-w-md mx-auto mb-5 min-[390px]:mb-7 relative z-20">
-          <h2 className="text-3xl min-[390px]:text-[36px] min-[430px]:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
+        {/* Section Header: Clear of navbar, bold enlarged editorial typography */}
+        <div className="text-center w-full max-w-md mx-auto relative z-20 shrink-0">
+          <h2 className="text-[34px] min-[360px]:text-[38px] min-[390px]:text-[42px] min-[430px]:text-[46px] tracking-tight text-[#2d3e32] font-serif font-normal leading-[1.06]">
             Just state what you{' '}
             <span className="font-serif italic font-bold text-[#253b2b]">
               want.
             </span>
           </h2>
-          <p className="text-xs min-[390px]:text-sm text-[#55604e]/70 font-sans mt-1.5">
+          <p className="text-xs min-[390px]:text-sm text-[#55604e]/75 font-sans mt-2 tracking-normal">
             Real asks, handled autonomously in seconds.
           </p>
         </div>
 
-        {/* Card Stacking Stage */}
-        <div className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[320px] min-[390px]:h-[350px] min-[430px]:h-[380px] flex items-center justify-center my-auto z-20">
+        {/* Card Stacking Stage: Centered with 3D perspective and GPU acceleration */}
+        <div
+          style={{ perspective: 1000, WebkitPerspective: 1000 }}
+          className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[310px] min-[390px]:h-[340px] min-[430px]:h-[370px] flex items-center justify-center my-auto z-20"
+        >
           {ASK_CARDS.map((card, i) => (
             <MobilePinnedCard
               key={`m_${card.id}`}
@@ -293,7 +307,7 @@ const MobileStickyStack: React.FC = () => {
         </div>
 
         {/* Stack Progress Dots */}
-        <div className="flex items-center justify-center gap-1.5 mt-6 mb-2 z-20">
+        <div className="flex items-center justify-center gap-1.5 shrink-0 z-20 pb-2">
           {ASK_CARDS.map((_, idx) => (
             <StackDot
               key={idx}
