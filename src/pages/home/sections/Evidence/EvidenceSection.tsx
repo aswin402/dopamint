@@ -34,26 +34,26 @@ const CAPABILITY_ICONS: Record<string, React.ReactNode> = {
 
 const CARD_VARIANTS = {
   enter: (direction: number) => ({
-    y: direction > 0 ? 32 : -32,
-    scale: 0.95,
-    rotateX: direction > 0 ? -3 : 3,
+    x: direction > 0 ? '60%' : '-60%',
+    scale: 0.94,
+    rotateY: direction > 0 ? 5 : -5,
     opacity: 0,
-    filter: 'blur(6px)',
+    filter: 'blur(5px)',
   }),
   center: {
-    y: 0,
+    x: '0%',
     scale: 1,
-    rotateX: 0,
+    rotateY: 0,
     opacity: 1,
     filter: 'blur(0px)',
     zIndex: 10,
   },
   exit: (direction: number) => ({
-    y: direction > 0 ? -26 : 26,
-    scale: 0.95,
-    rotateX: direction > 0 ? 3 : -3,
+    x: direction > 0 ? '-60%' : '60%',
+    scale: 0.94,
+    rotateY: direction > 0 ? -5 : 5,
     opacity: 0,
-    filter: 'blur(6px)',
+    filter: 'blur(5px)',
     zIndex: 1,
   }),
 };
@@ -169,11 +169,11 @@ export const EvidenceSection: React.FC = () => {
                 animate="center"
                 exit="exit"
                 transition={{
-                  y: { type: 'spring', stiffness: 320, damping: 32, mass: 0.75 },
+                  x: { type: 'spring', stiffness: 290, damping: 30, mass: 0.8 },
                   scale: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
-                  rotateX: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                  rotateY: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
                   opacity: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
-                  filter: { duration: 0.3 },
+                  filter: { duration: 0.28 },
                 }}
                 style={{ gridArea: '1 / 1', transformOrigin: 'center center' }}
                 className="w-full transform-gpu will-change-transform"
