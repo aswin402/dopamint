@@ -125,7 +125,7 @@ export const AiFiSection: React.FC = () => {
   const mobileTrackX = useTransform(smoothProgress, (p: number) => -p * (cardStep * 3));
 
   return (
-    <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-hidden">
+    <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-x-clip lg:overflow-hidden">
       
       {/* Seamless Soft Top Gradient from White (Authority) into Parchment */}
       <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-[#ffffff] to-transparent pointer-events-none z-10" />
@@ -135,8 +135,8 @@ export const AiFiSection: React.FC = () => {
           - No manual <> click arrows needed: scrolling down smoothly slides the cards!
           - Cards pop into focus one by one with spring physics, scale elevation, and indicator dots.
           ========================================================================= */}
-      <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[260vh]">
-        <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
+      <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[280vh]">
+        <div className="sticky top-0 z-20 h-screen h-[100dvh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
           
           {/* Header */}
           <div className="text-center max-w-sm mx-auto shrink-0 space-y-1.5 pt-1">
