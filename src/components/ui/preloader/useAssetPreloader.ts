@@ -11,6 +11,7 @@ import divBurnImg from '../../../assets/div_burn.webp';
 import footerImg from '../../../assets/Footer.webp';
 import footerMobImg from '../../../assets/Footer_mob.png';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
+import { cacheVideo } from '@/lib/videoCache';
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -37,37 +38,59 @@ function preloadImage(src: string): Promise<void> {
   });
 }
 
-function preloadVideo(src: string): Promise<void> {
+/**
+ * Preload a video by creating a <video> element with preload="auto",
+ * waiting until it has buffered enough data for continuous playback
+ * (canplaythrough), and then KEEPING IT ALIVE in the global video cache
+ * so that downstream consumers (Three.js, CSS fallback) can reuse the
+ * already-buffered element directly.
+ *
+ * The previous implementation destroyed the element after loadedmetadata,
+ * which forced the browser to re-download the entire stream when the Hero
+ * component mounted its own <video>.
+ */
+function preloadVideo(src: string, timeoutMs: number): Promise<void> {
   return new Promise((resolve) => {
     try {
       const vid = document.createElement('video');
-      vid.preload = 'metadata';
+      vid.preload = 'auto';
       vid.muted = true;
+      vid.defaultMuted = true;
       vid.playsInline = true;
       vid.setAttribute('playsinline', '');
       vid.setAttribute('webkit-playsinline', '');
       vid.setAttribute('muted', '');
+      // Prevent video from appearing in PiP or casting UIs
+      vid.disablePictureInPicture = true;
+      vid.disableRemotePlayback = true;
 
       let finished = false;
       const done = () => {
         if (!finished) {
           finished = true;
-          vid.removeEventListener('loadedmetadata', done);
+          vid.removeEventListener('canplaythrough', done);
           vid.removeEventListener('canplay', done);
+          vid.removeEventListener('loadeddata', done);
           vid.removeEventListener('error', done);
-          // Crucial: Release hardware decoder and stop network stream immediately!
-          vid.removeAttribute('src');
-          vid.load();
+
+          // *** KEY FIX: Keep the video alive in the global cache ***
+          // Do NOT remove src or call vid.load() — that would evict the
+          // buffered data from the browser's media pipeline.
+          cacheVideo(src, vid);
           resolve();
         }
       };
 
-      vid.addEventListener('loadedmetadata', done, { once: true });
+      // Prefer canplaythrough (enough data for continuous playback) but
+      // also accept canplay / loadeddata as fallbacks for slower networks.
+      vid.addEventListener('canplaythrough', done, { once: true });
       vid.addEventListener('canplay', done, { once: true });
+      vid.addEventListener('loadeddata', done, { once: true });
       vid.addEventListener('error', done, { once: true });
 
-      // Safety timeout per video so slow cellular/mobile networks don't stall the pipeline
-      setTimeout(done, 1200);
+      // Safety timeout so slow cellular / unsupported codecs don't stall
+      // the entire preloader pipeline forever.
+      setTimeout(done, timeoutMs);
 
       vid.src = src;
       vid.load();
@@ -81,7 +104,7 @@ function preloadFonts(): Promise<void> {
   if (typeof document !== 'undefined' && document.fonts?.ready) {
     return Promise.race([
       document.fonts.ready.then(() => {}),
-      new Promise<void>((r) => setTimeout(r, 1200)),
+      new Promise<void>((r) => setTimeout(r, 1500)),
     ]);
   }
   return Promise.resolve();
@@ -117,13 +140,16 @@ export function useAssetPreloader({
     const isMob = typeof window !== 'undefined' && window.innerWidth < 1024;
     const heroVid = isMob ? heroBgVidMobWebm : heroBgVidMp4;
 
+    // Per-video timeout: more generous on mobile (cellular networks are slower)
+    const videoTimeout = isMob ? 4000 : 2500;
+
     // Ordered sequence of critical assets to load in the background
     const ASSET_PIPELINE: QueuedAsset[] = [
       { name: 'Fonts', load: preloadFonts },
       { name: 'Dope Icon', load: () => preloadImage(iconDopeImg) },
       { name: 'Dope Logo', load: () => preloadImage(logoDopeImg) },
-      { name: 'Hero Background Video', load: () => preloadVideo(heroVid) },
-      { name: 'Chat Screen Video', load: () => preloadVideo(isMob ? chatScreenMobileMp4 : chatScreenMp4) },
+      { name: 'Hero Background Video', load: () => preloadVideo(heroVid, videoTimeout) },
+      { name: 'Chat Screen Video', load: () => preloadVideo(isMob ? chatScreenMobileMp4 : chatScreenMp4, videoTimeout) },
       { name: 'iMessage Podium', load: () => preloadImage(iMessagePodiumImg) },
       { name: 'Candle Stand', load: () => preloadImage(candleStandImg) },
       { name: 'Burn Div Texture', load: () => preloadImage(divBurnImg) },
