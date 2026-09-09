@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
+import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
+import { getOptimalVideo } from '@/lib/videoCompat';
 
 const ACTION_WORDS = ['Trade', 'Swap', 'Book', 'Buy', 'Research', 'Schedule'];
 
@@ -245,8 +247,16 @@ function HouseOfAgentsSection() {
           const resume = () => {
             video.play().catch(() => {});
           };
-          window.addEventListener('touchstart', resume, { once: true });
-          window.addEventListener('click', resume, { once: true });
+          window.addEventListener('touchstart', resume, { once: true, passive: true });
+          window.addEventListener('pointerdown', resume, { once: true, passive: true });
+          window.addEventListener('click', resume, { once: true, passive: true });
+          window.addEventListener('scroll', resume, { once: true, passive: true });
+          window.addEventListener('wheel', resume, { once: true, passive: true });
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              video.play().catch(() => {});
+            }
+          });
         });
       }
     };
@@ -379,6 +389,11 @@ export const Hero: React.FC = () => {
     }
   };
 
+  const mobileHeroVid = useMemo(
+    () => getOptimalVideo(heroBgVidMobWebm, heroBgVidMobMp4),
+    []
+  );
+
   return (
     <section id="hero" className="relative w-full flex flex-col justify-start bg-[#f3f2e6]">
       
@@ -390,7 +405,7 @@ export const Hero: React.FC = () => {
           ========================================================================= */}
       <ScrollDissolveReveal
         key={isDesktop ? 'hero-desktop' : 'hero-mobile'}
-        videoFront={isDesktop ? heroBgVidMp4 : heroBgVidMobWebm}
+        videoFront={isDesktop ? heroBgVidMp4 : mobileHeroVid}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (

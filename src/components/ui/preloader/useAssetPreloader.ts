@@ -3,6 +3,7 @@ import iconDopeImg from '../../../assets/Icondope.webp';
 import logoDopeImg from '../../../assets/logo_dope.webp';
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
+import heroBgVidMobMp4 from '../../../assets/herosection_bg_mob.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
@@ -11,6 +12,7 @@ import divBurnImg from '../../../assets/div_burn.webp';
 import footerImg from '../../../assets/Footer.webp';
 import footerMobImg from '../../../assets/Footer_mob.png';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
+import { getOptimalVideo } from '@/lib/videoCompat';
 
 export const PRELOADER_STAGES = [
   'Calibrating neural harnesses',
@@ -39,36 +41,40 @@ function preloadImage(src: string): Promise<void> {
 
 function preloadVideo(src: string): Promise<void> {
   return new Promise((resolve) => {
-    const vid = document.createElement('video');
-    vid.preload = 'auto';
-    vid.muted = true;
-    vid.playsInline = true;
-    vid.setAttribute('playsinline', '');
-    vid.setAttribute('webkit-playsinline', '');
-    vid.setAttribute('muted', '');
+    try {
+      const vid = document.createElement('video');
+      vid.preload = 'auto';
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.setAttribute('playsinline', '');
+      vid.setAttribute('webkit-playsinline', '');
+      vid.setAttribute('muted', '');
 
-    let finished = false;
-    const done = () => {
-      if (!finished) {
-        finished = true;
-        vid.removeEventListener('canplay', done);
-        vid.removeEventListener('canplaythrough', done);
-        vid.removeEventListener('loadeddata', done);
-        vid.removeEventListener('error', done);
-        resolve();
-      }
-    };
+      let finished = false;
+      const done = () => {
+        if (!finished) {
+          finished = true;
+          vid.removeEventListener('canplay', done);
+          vid.removeEventListener('canplaythrough', done);
+          vid.removeEventListener('loadeddata', done);
+          vid.removeEventListener('error', done);
+          resolve();
+        }
+      };
 
-    vid.addEventListener('canplay', done, { once: true });
-    vid.addEventListener('canplaythrough', done, { once: true });
-    vid.addEventListener('loadeddata', done, { once: true });
-    vid.addEventListener('error', done, { once: true });
+      vid.addEventListener('canplay', done, { once: true });
+      vid.addEventListener('canplaythrough', done, { once: true });
+      vid.addEventListener('loadeddata', done, { once: true });
+      vid.addEventListener('error', done, { once: true });
 
-    // Safety timeout per video so slow cellular/mobile networks don't stall the pipeline
-    setTimeout(done, 2200);
+      // Safety timeout per video so slow cellular/mobile networks don't stall the pipeline
+      setTimeout(done, 1200);
 
-    vid.src = src;
-    vid.load();
+      vid.src = src;
+      vid.load();
+    } catch {
+      resolve();
+    }
   });
 }
 
@@ -110,13 +116,15 @@ export function useAssetPreloader({
     let isCancelled = false;
 
     const isMob = typeof window !== 'undefined' && window.innerWidth < 1024;
+    const mobileHeroVid = getOptimalVideo(heroBgVidMobWebm, heroBgVidMobMp4);
+    const heroVid = isMob ? mobileHeroVid : heroBgVidMp4;
 
-    // Ordered sequence of critical assets to load one by one in the background
+    // Ordered sequence of critical assets to load in the background
     const ASSET_PIPELINE: QueuedAsset[] = [
       { name: 'Fonts', load: preloadFonts },
       { name: 'Dope Icon', load: () => preloadImage(iconDopeImg) },
       { name: 'Dope Logo', load: () => preloadImage(logoDopeImg) },
-      { name: 'Hero Background Video', load: () => preloadVideo(isMob ? heroBgVidMobWebm : heroBgVidMp4) },
+      { name: 'Hero Background Video', load: () => preloadVideo(heroVid) },
       { name: 'Chat Screen Video', load: () => preloadVideo(isMob ? chatScreenMobileMp4 : chatScreenMp4) },
       { name: 'iMessage Podium', load: () => preloadImage(iMessagePodiumImg) },
       { name: 'Candle Stand', load: () => preloadImage(candleStandImg) },
@@ -126,19 +134,19 @@ export function useAssetPreloader({
 
     const totalCount = ASSET_PIPELINE.length;
 
-    // Load assets strictly one by one in sequence
-    (async () => {
-      for (let i = 0; i < totalCount; i++) {
-        if (isCancelled) break;
+    // Concurrently preload assets so slow networks or unsupported codecs never cause cumulative stalls
+    Promise.allSettled(
+      ASSET_PIPELINE.map(async (item) => {
         try {
-          await ASSET_PIPELINE[i].load();
+          await item.load();
         } catch {
           // Continue to next asset so nothing blocks
         }
-        if (isCancelled) break;
-        realLoadedRef.current = i + 1;
-      }
-    })();
+        if (!isCancelled) {
+          realLoadedRef.current += 1;
+        }
+      })
+    );
 
     // Animation Loop for fluid, organic progress
     const updateProgress = (now: number) => {

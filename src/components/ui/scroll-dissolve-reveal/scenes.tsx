@@ -41,14 +41,21 @@ export function VideoShaderScene({
           const resume = () => {
             video.play().catch(() => {});
             window.removeEventListener('touchstart', resume);
+            window.removeEventListener('pointerdown', resume);
             window.removeEventListener('scroll', resume);
             window.removeEventListener('click', resume);
             window.removeEventListener('wheel', resume);
           };
           window.addEventListener('touchstart', resume, { once: true, passive: true });
+          window.addEventListener('pointerdown', resume, { once: true, passive: true });
           window.addEventListener('scroll', resume, { once: true, passive: true });
           window.addEventListener('click', resume, { once: true, passive: true });
           window.addEventListener('wheel', resume, { once: true, passive: true });
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              video.play().catch(() => {});
+            }
+          });
         });
       }
     };

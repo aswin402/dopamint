@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import companionVideo from '../../../assets/Companion_Video_1.webm';
+import companionVideoWebm from '../../../assets/Companion_Video_1.webm';
+import companionVideoMp4 from '../../../assets/Companion_Video_1.mp4';
 
 export const Authority: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -23,7 +24,15 @@ export const Authority: React.FC = () => {
             video.play().catch(() => {});
           };
           window.addEventListener('touchstart', resume, { once: true, passive: true });
+          window.addEventListener('pointerdown', resume, { once: true, passive: true });
           window.addEventListener('click', resume, { once: true, passive: true });
+          window.addEventListener('scroll', resume, { once: true, passive: true });
+          window.addEventListener('wheel', resume, { once: true, passive: true });
+          document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+              video.play().catch(() => {});
+            }
+          });
         });
       }
     };
@@ -41,14 +50,16 @@ export const Authority: React.FC = () => {
         <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
           <video
             ref={videoRef}
-            src={companionVideo}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
             className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 origin-center lg:origin-left"
-          />
+          >
+            <source src={companionVideoWebm} type="video/webm" />
+            <source src={companionVideoMp4} type="video/mp4" />
+          </video>
         </div>
 
         {/* =========================================================================

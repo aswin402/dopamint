@@ -486,7 +486,28 @@ export function ScrollDissolveReveal({
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
         {!prefersReducedMotion && smoothProgress < 0.999 && (
           <div className="absolute inset-0 z-10 w-full h-full pointer-events-none">
-            <CanvasErrorBoundary>
+            <CanvasErrorBoundary
+              fallback={
+                isVideo && activeVideo ? (
+                  <video
+                    src={activeVideo}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="w-full h-full object-cover pointer-events-none"
+                    style={{ opacity: Math.max(0, 1 - smoothProgress) }}
+                  />
+                ) : imageFront ? (
+                  <img
+                    src={imageFront}
+                    alt=""
+                    className="w-full h-full object-cover pointer-events-none"
+                    style={{ opacity: Math.max(0, 1 - smoothProgress) }}
+                  />
+                ) : null
+              }
+            >
               <Canvas
                 dpr={[1, 1.5]}
                 gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
