@@ -60,7 +60,7 @@ export function RootLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#EBEAE5] text-[#141820] font-sans antialiased">
+    <div className="min-h-screen flex flex-col bg-[#f3f2e6] text-[#141820] font-sans antialiased">
       {/* Fullscreen Initial Asset & Theme Preloader */}
       {location.pathname === '/' && <Preloader />}
       

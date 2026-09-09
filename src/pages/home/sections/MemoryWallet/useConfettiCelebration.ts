@@ -57,7 +57,14 @@ export function useConfettiCelebration(
         });
       }, 160);
 
-      return () => clearTimeout(sparkleTimer);
+      return () => {
+        clearTimeout(sparkleTimer);
+        try {
+          myConfetti.reset();
+        } catch {
+          // Ignore if already reset or torn down
+        }
+      };
     }
   }, [messageStage, screenMode, canvasRef]);
 }
