@@ -36,8 +36,8 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       onMouseLeave={onMouseLeave}
       animate={
         isActive
-          ? { scale: 1.02, y: -4, opacity: 1 }
-          : { scale: 1, y: 0, opacity: 0.78 }
+          ? { scale: 1, opacity: 1 }
+          : { scale: 1, opacity: 0.78 }
       }
       whileHover={{ scale: 1.015, y: -2, opacity: 1 }}
       whileTap={{ scale: 0.98 }}

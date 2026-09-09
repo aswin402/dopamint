@@ -32,10 +32,38 @@ const CAPABILITY_ICONS: Record<string, React.ReactNode> = {
   chart: <BarChart2 className="w-full h-full stroke-[2.2]" />,
 };
 
+const CARD_VARIANTS = {
+  enter: (direction: number) => ({
+    y: direction > 0 ? 32 : -32,
+    scale: 0.95,
+    rotateX: direction > 0 ? -3 : 3,
+    opacity: 0,
+    filter: 'blur(6px)',
+  }),
+  center: {
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    zIndex: 10,
+  },
+  exit: (direction: number) => ({
+    y: direction > 0 ? -26 : 26,
+    scale: 0.95,
+    rotateX: direction > 0 ? 3 : -3,
+    opacity: 0,
+    filter: 'blur(6px)',
+    zIndex: 1,
+  }),
+};
+
 export const EvidenceSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.15 });
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [direction, setDirection] = useState<number>(1);
+  const prevStepRef = useRef<number>(0);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isManual, setIsManual] = useState<boolean>(false);
@@ -46,14 +74,18 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Sync active step with scroll progress on mobile ONLY (< 768px)
+  // Sync active step and direction with scroll progress on mobile ONLY (< 768px)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
     if (!isManual) {
       const stepIndex = Math.min(3, Math.floor(latest * 4));
-      setActiveStep(stepIndex);
+      if (stepIndex !== prevStepRef.current) {
+        setDirection(stepIndex > prevStepRef.current ? 1 : -1);
+        prevStepRef.current = stepIndex;
+        setActiveStep(stepIndex);
+      }
     }
   });
 
@@ -65,7 +97,12 @@ export const EvidenceSection: React.FC = () => {
       return;
     }
     const interval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % 4);
+      setActiveStep((prev) => {
+        const next = (prev + 1) % 4;
+        setDirection(1);
+        prevStepRef.current = next;
+        return next;
+      });
     }, 2600);
     return () => clearInterval(interval);
   }, [isPlaying, isInView, hoveredStep]);
@@ -118,16 +155,28 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Active Card Container with Smooth Slide Transitions */}
-          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-2 min-h-0">
-            <AnimatePresence mode="wait">
+          {/* Active Card Container with Smooth 3D Stack Transitions */}
+          <div 
+            className="relative flex-1 w-full my-auto grid grid-cols-1 items-center py-2 min-h-0 overflow-hidden" 
+            style={{ perspective: 1200 }}
+          >
+            <AnimatePresence custom={direction} initial={false}>
               <motion.div
                 key={`mob-card-${currentStep}`}
-                initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full"
+                custom={direction}
+                variants={CARD_VARIANTS}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  y: { type: 'spring', stiffness: 320, damping: 32, mass: 0.75 },
+                  scale: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                  rotateX: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
+                  opacity: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
+                  filter: { duration: 0.3 },
+                }}
+                style={{ gridArea: '1 / 1', transformOrigin: 'center center' }}
+                className="w-full transform-gpu will-change-transform"
               >
                 <AgentNode
                   title={steps[currentStep].title}
