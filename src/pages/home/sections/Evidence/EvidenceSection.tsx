@@ -8,15 +8,11 @@ import {
   RefreshCw, 
   Play, 
   Pause, 
-  ChevronRight, 
-  Infinity as InfinityIcon, 
-  Brain, 
-  CreditCard, 
-  BarChart2 
+  ChevronRight 
 } from 'lucide-react';
 import iconDopeImg from '../../../../assets/Icondope.webp';
 import { AgentNode } from './AgentNode';
-import { PIPELINE_MILESTONES, PIPELINE_STEPS, CAPABILITY_PILLS } from '@/data/architecture';
+import { PIPELINE_MILESTONES, PIPELINE_STEPS } from '@/data/architecture';
 
 const STEP_ICONS = [
   <Target key="target" className="w-4 h-4 text-[#141820]" />,
@@ -24,13 +20,6 @@ const STEP_ICONS = [
   <Settings key="settings" className="w-4 h-4 text-[#141820]" />,
   <Zap key="zap" className="w-4 h-4 text-[#141820]" />,
 ];
-
-const CAPABILITY_ICONS: Record<string, React.ReactNode> = {
-  infinity: <InfinityIcon className="w-full h-full stroke-[2.2]" />,
-  brain: <Brain className="w-full h-full stroke-[2.2]" />,
-  card: <CreditCard className="w-full h-full stroke-[2.2]" />,
-  chart: <BarChart2 className="w-full h-full stroke-[2.2]" />,
-};
 
 export const EvidenceSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -188,30 +177,6 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-        </div>
-      </div>
-
-      {/* Mobile Capability Capsule Pills (Normal scroll flow after sticky animation) */}
-      <div className="md:hidden px-4 sm:px-6 pb-14 pt-8 max-w-md mx-auto">
-        <div className="flex flex-col gap-3 min-[390px]:gap-3.5">
-          {CAPABILITY_PILLS.map((pill) => (
-            <div
-              key={pill.id}
-              className="rounded-2xl bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/70 hover:border-[#c4a978] py-3.5 min-[390px]:py-4 px-4 min-[390px]:px-5 flex items-center gap-3.5 min-[390px]:gap-4 shadow-[0_6px_20px_rgba(0,0,0,0.2)] transition-all duration-300"
-            >
-              <div className="w-10 h-10 min-[390px]:w-11 min-[390px]:h-11 rounded-full bg-[#f4ece0] border border-[#c4a978]/50 p-2.5 flex items-center justify-center text-[#7a382e] shrink-0 shadow-xs">
-                {CAPABILITY_ICONS[pill.icon]}
-              </div>
-              <div className="flex flex-col text-left min-w-0 flex-1">
-                <span className="font-bold text-[#141820] text-[15px] min-[390px]:text-[16px] leading-tight">
-                  {pill.title}
-                </span>
-                <span className="text-[#5a544b] font-serif italic text-[12.5px] min-[390px]:text-[13.5px] leading-snug mt-1">
-                  {pill.description}
-                </span>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -432,24 +397,6 @@ export const EvidenceSection: React.FC = () => {
                 );
               })}
             </div>
-          </div>
-
-          {/* ── Capability Pill Cards (Desktop) ── */}
-          <div className="mt-8 sm:mt-12 grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4 max-w-5xl mx-auto">
-            {CAPABILITY_PILLS.map((pill) => (
-              <div
-                key={pill.id}
-                className="rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 px-4 sm:px-5 flex items-center gap-3.5 shadow-[0_10px_28px_rgba(0,0,0,0.3)] hover:shadow-[0_16px_36px_rgba(196,169,120,0.35)] hover:scale-105 transition-all duration-300"
-              >
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-2 sm:p-2.5 flex items-center justify-center text-[#7a382e] shrink-0 shadow-inner">
-                  {CAPABILITY_ICONS[pill.icon]}
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="font-bold text-[#141820] text-sm sm:text-[14.5px] leading-tight">{pill.title}</span>
-                  <span className="text-[#5a544b] font-serif italic text-[11px] sm:text-xs leading-tight mt-0.5">{pill.description}</span>
-                </div>
-              </div>
-            ))}
           </div>
 
         </div>
