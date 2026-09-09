@@ -7,7 +7,7 @@ export const Authority: React.FC = () => {
       <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
         
         {/* =========================================================================
-            1. LEFT — COMPANION VIDEO (BIGGER & SHIFTED SLIGHTLY LEFT ON MOBILE)
+            1. LEFT — COMPANION VIDEO (BIGGER & SHIFTED LEFT ON MOBILE)
             ========================================================================= */}
         <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-4 sm:py-0 mb-2 sm:mb-0">
           <video
@@ -17,7 +17,7 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.36] -translate-x-9 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain max-h-[560px] sm:max-h-[700px] lg:max-h-[820px] scale-[1.36] -translate-x-16 sm:scale-100 sm:translate-x-0 origin-center lg:origin-left"
           />
         </div>
 
