@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useSpring, useTransform } from 'framer-motion';
 import { 
   Target, 
   Command, 
@@ -46,13 +46,21 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
+  // Buttery-smooth spring-interpolated progress for continuous horizontal tracking
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 24,
+    mass: 0.2,
+  });
+  const mobileTrackX = useTransform(smoothProgress, [0, 1], ['0%', '-300%']);
+
   // Sync active step with scroll progress on mobile ONLY (< 768px)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
     if (!isManual) {
-      const stepIndex = Math.min(3, Math.floor(latest * 4));
+      const stepIndex = Math.min(3, Math.max(0, Math.round(latest * 3)));
       setActiveStep(stepIndex);
     }
   });
@@ -119,17 +127,13 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Active Card Horizontal Scroll Track */}
-          <div className="relative flex-1 w-full my-auto overflow-hidden py-2 min-h-0 flex items-center">
+          <div className="relative w-full flex-1 min-h-0 my-2 min-[390px]:my-2.5 overflow-hidden flex items-center">
             <motion.div
-              className="flex w-full h-full items-center"
-              animate={{ x: `-${currentStep * 100}%` }}
-              transition={{
-                duration: 0.42,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+              className="flex w-full h-full items-center will-change-transform"
+              style={{ x: mobileTrackX }}
             >
               {steps.map((item, idx) => (
-                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-0.5 h-full">
+                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center">
                   <AgentNode
                     title={item.title}
                     subtitle={item.subtitle}
