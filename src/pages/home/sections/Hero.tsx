@@ -8,7 +8,7 @@ import iconDopeImg from '../../../assets/Icondope.webp';
 import { ScrollDissolveReveal } from '@/components/ui/scroll-dissolve-reveal';
 import { IntentBaseHeadline } from './IntentBaseHeadline';
 
-const ACTION_WORDS = ['Trade', 'Book', 'Buy', 'Research', 'Schedule'];
+const ACTION_WORDS = ['Trade', 'Swap', 'Book', 'Buy', 'Research', 'Schedule'];
 
 const SUGGESTION_BADGES = [
   'Long SPCX',
