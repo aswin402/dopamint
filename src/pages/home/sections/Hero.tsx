@@ -256,7 +256,7 @@ function HouseOfAgentsSection() {
   return (
     <div
       id="manifesto"
-      className="w-full min-h-[100dvh] h-auto lg:h-full relative flex flex-col justify-start lg:justify-center bg-[#f3f2e6] pt-24 min-[390px]:pt-28 min-[430px]:pt-32 sm:pt-36 lg:pt-20 pb-20 min-[390px]:pb-24 lg:pb-0 overflow-x-clip overflow-y-visible lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text"
+      className="w-full min-h-[100dvh] h-auto lg:h-full relative flex flex-col justify-start lg:justify-center bg-[#f3f2e6] pt-24 min-[390px]:pt-28 min-[430px]:pt-32 sm:pt-36 lg:pt-20 pb-0 lg:pb-0 overflow-x-clip overflow-y-visible lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text"
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-0 lg:gap-6 items-center lg:items-end flex-1">
 
@@ -289,8 +289,8 @@ function HouseOfAgentsSection() {
             </div>
           </div>
 
-          {/* Block 3: Editorial Body Text + Badges */}
-          <div className="order-3 w-full space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 pt-2 lg:pt-0 pb-10 lg:pb-0">
+          {/* Block 3: Editorial Body Text + Badges (On mobile: white surface with rounded top corners at bottom of video) */}
+          <div className="order-3 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full bg-[#ffffff] lg:bg-transparent rounded-t-[28px] min-[390px]:rounded-t-[32px] sm:rounded-t-[36px] lg:rounded-t-none px-4 min-[390px]:px-6 sm:px-8 lg:px-0 pt-7 min-[390px]:pt-8 sm:pt-10 lg:pt-0 pb-14 min-[390px]:pb-16 sm:pb-20 lg:pb-0 space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 -mt-6 sm:-mt-8 lg:mt-0 relative shadow-xs lg:shadow-none">
             {/* Editorial Body Text */}
             <div className="space-y-2.5 min-[390px]:space-y-3 sm:space-y-3.5 text-[15px] min-[375px]:text-[16px] min-[410px]:text-[17px] sm:text-base lg:text-[16.5px] text-[#3d4837] font-sans font-normal leading-relaxed max-w-xl">
               <p>
@@ -309,7 +309,7 @@ function HouseOfAgentsSection() {
               {['AiFi', 'Verifiability', 'x402'].map((badge) => (
                 <span
                   key={badge}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 min-[390px]:px-3.5 min-[390px]:py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/80 backdrop-blur-sm border border-[#55604e]/25 text-[11px] min-[390px]:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none shadow-xs"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 min-[390px]:px-3.5 min-[390px]:py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#f3f2e6]/70 lg:bg-white/80 backdrop-blur-sm border border-[#55604e]/25 text-[11px] min-[390px]:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none shadow-xs"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-[#7a382e]/80" />
                   {badge}
@@ -343,8 +343,8 @@ function HouseOfAgentsSection() {
 
       </div>
 
-      {/* Plain solid div with 3rd section color (#ffffff) and distinct rounded top corners */}
-      <div className="absolute inset-x-0 -bottom-[1px] h-6 sm:h-8 md:h-10 lg:h-12 bg-[#ffffff] rounded-t-[28px] sm:rounded-t-[36px] lg:rounded-t-[44px] pointer-events-none z-30" />
+      {/* Plain solid div with 3rd section color (#ffffff) and distinct rounded top corners (Desktop only; on mobile the rounded transition is at the bottom of the video) */}
+      <div className="hidden lg:block absolute inset-x-0 -bottom-[1px] h-6 sm:h-8 md:h-10 lg:h-12 bg-[#ffffff] rounded-t-[28px] sm:rounded-t-[36px] lg:rounded-t-[44px] pointer-events-none z-30" />
     </div>
   );
 }
