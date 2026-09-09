@@ -129,8 +129,6 @@ const cardSm =
 
 const mobileCardBase =
   'imsg-card overflow-hidden rounded-[1.35rem] min-[390px]:rounded-[1.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-4 min-[390px]:p-5 select-none shadow-[0_10px_28px_rgba(40,30,20,0.09),0_2px_6px_rgba(40,30,20,0.04)]';
-const mobileCardSm =
-  'imsg-card overflow-hidden rounded-[1.35rem] min-[390px]:rounded-[1.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-3.5 min-[390px]:p-4.5 select-none shadow-[0_10px_28px_rgba(40,30,20,0.09),0_2px_6px_rgba(40,30,20,0.04)]';
 
 // =========================================================================
 // MOBILE GENIE STACK SECTION (SCROLL-DRIVEN ONE-BY-ONE MACBOOK GENIE POPUP & DOWN)
@@ -290,7 +288,7 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
         willChange: 'transform, opacity',
       }}
       onClick={() => onCardTap(i)}
-      className="absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] transform-gpu cursor-pointer"
+      className="absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] h-[255px] min-[360px]:h-[265px] min-[390px]:h-[280px] min-[430px]:h-[295px] transform-gpu cursor-pointer"
     >
       <div
         ref={innerRef}
@@ -300,10 +298,10 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
           backfaceVisibility: 'hidden',
           WebkitBackfaceVisibility: 'hidden',
         }}
-        className={`transform-gpu ${card.isSm ? mobileCardSm : mobileCardBase}`}
+        className={`w-full h-full transform-gpu flex flex-col justify-between ${mobileCardBase}`}
       >
         <LogosHeader items={card.logos} />
-        <div className={`flex flex-col ${card.isSm ? 'pt-0.5' : 'gap-2 sm:gap-3 pt-0.5'}`}>
+        <div className="flex-1 flex flex-col justify-center gap-2 min-[390px]:gap-2.5 pt-0.5 pb-0.5">
           {card.bubbles.map((bubble, bIdx) => (
             <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
           ))}
