@@ -14,7 +14,12 @@ const SOCIAL_ICONS: Record<string, React.FC<{ className?: string }>> = {
 
 export const FooterSection: React.FC = () => {
   return (
-    <footer className="relative w-full min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden px-6 sm:px-10 lg:px-16">
+    <footer
+      style={{
+        paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 1.5rem)',
+      }}
+      className="relative w-full min-h-[600px] min-[390px]:min-h-[700px] sm:min-h-[850px] lg:min-h-[960px] bg-black text-white flex flex-col justify-between overflow-hidden px-4 min-[390px]:px-6 sm:px-10 lg:px-16"
+    >
       
       {/* =========================================================================
           BACKGROUND ARTWORK (FOOTER.PNG - RENAISSANCE PAINTING)
@@ -49,7 +54,7 @@ export const FooterSection: React.FC = () => {
         </div>
 
         {/* Headline: Your last App */}
-        <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
+        <h2 className="font-serif text-3xl min-[360px]:text-4xl sm:text-6xl md:text-7xl lg:text-[76px] text-white tracking-tight leading-[1.08] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
           Your last App.
         </h2>
 
@@ -57,7 +62,7 @@ export const FooterSection: React.FC = () => {
         <div className="pt-2">
           <a
             href="#access"
-            className="inline-flex items-center justify-center rounded-full bg-[#ffffff] text-[#141820] px-8 sm:px-10 py-3.5 sm:py-4 text-xs sm:text-[13px] font-sans font-bold uppercase tracking-[0.2em] shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:bg-[#f3f2e6] hover:scale-105 transition-all duration-200 cursor-pointer"
+            className="inline-flex items-center justify-center rounded-full bg-[#ffffff] text-[#141820] px-8 sm:px-10 py-3.5 sm:py-4 min-h-[44px] text-xs sm:text-[13px] font-sans font-bold uppercase tracking-[0.2em] shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:bg-[#f3f2e6] hover:scale-105 transition-all duration-200 cursor-pointer"
           >
             Join Waitlist
           </a>

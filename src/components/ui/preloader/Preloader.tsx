@@ -51,8 +51,14 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
               ease: [0.76, 0, 0.24, 1], // Luxury cubic-bezier curtain wipe
             },
           }}
-          className="fixed inset-0 z-[99999] w-screen h-screen bg-[#f3f2e6] text-[#141820] flex flex-col justify-between p-4 sm:p-7 md:p-10 select-none overflow-hidden"
-          style={{ willChange: 'clip-path, transform' }}
+          className="fixed inset-0 z-[99999] w-full h-full min-h-[100dvh] bg-[#f3f2e6] text-[#141820] flex flex-col justify-between p-4 sm:p-7 md:p-10 select-none overflow-hidden"
+          style={{
+            willChange: 'clip-path, transform',
+            paddingTop: 'max(env(safe-area-inset-top, 0px), 1rem)',
+            paddingBottom: 'max(env(safe-area-inset-bottom, 0px), 1rem)',
+            paddingLeft: 'max(env(safe-area-inset-left, 0px), 1rem)',
+            paddingRight: 'max(env(safe-area-inset-right, 0px), 1rem)',
+          }}
         >
           {/* Subtle Ambient Vignette & Radial Parchment Glow */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(122,56,46,0.06)_0%,rgba(85,96,78,0.05)_50%,transparent_75%)] pointer-events-none" />

@@ -33,7 +33,7 @@ const AgentCard: React.FC<AgentCardProps> = ({
       onMouseEnter={onHover}
       onMouseMove={onHover}
       onMouseLeave={onLeave}
-      className={`w-[310px] min-[390px]:w-[330px] sm:w-[395px] md:w-[415px] h-[188px] min-[390px]:h-[196px] sm:h-[225px] shrink-0 rounded-[24px] sm:rounded-[32px] p-4 min-[390px]:p-4.5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative hover:z-20 ${
+      className={`w-[285px] min-[360px]:w-[310px] min-[390px]:w-[330px] sm:w-[395px] md:w-[415px] h-[188px] min-[390px]:h-[196px] sm:h-[225px] shrink-0 rounded-[24px] sm:rounded-[32px] p-4 min-[390px]:p-4.5 sm:p-6 flex flex-col justify-between transition-all duration-300 cursor-pointer relative hover:z-20 ${
         isFocused
           ? 'bg-[#e5ede0] border-2 border-[#1e2e22] shadow-[0_12px_32px_rgba(30,46,34,0.18)] scale-[1.02] ring-2 ring-[#3e4f42]/40 z-30'
           : 'bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/50 hover:border-[#3e4f42]/90 shadow-[0_4px_18px_rgba(40,48,40,0.04)] hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5'
@@ -309,7 +309,7 @@ export const AgentRoster: React.FC = () => {
         <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
 
         {/* --- LANE 1: MOVES LEFT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
@@ -350,7 +350,7 @@ export const AgentRoster: React.FC = () => {
         </div>
 
         {/* --- LANE 2: MOVES RIGHT (36 Agents) --- */}
-        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"

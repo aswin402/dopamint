@@ -82,7 +82,12 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 py-3 min-[390px]:py-3.5 sm:py-4 px-3.5 min-[390px]:px-5 sm:px-10 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
+      style={{
+        paddingTop: 'max(env(safe-area-inset-top, 0px), 0.75rem)',
+        paddingLeft: 'max(env(safe-area-inset-left, 0px), 0.875rem)',
+        paddingRight: 'max(env(safe-area-inset-right, 0px), 0.875rem)',
+      }}
+      className={`fixed top-0 left-0 right-0 z-50 pb-3 min-[390px]:pb-3.5 sm:pb-4 px-3.5 min-[390px]:px-5 sm:px-10 lg:px-16 text-xs font-sans transition-all duration-500 ease-in-out ${
         isSolidNav
           ? 'bg-[#f3f2e6]/90 backdrop-blur-md border-b border-neutral-400/30 shadow-xs'
           : 'bg-transparent border-b border-transparent'
@@ -93,7 +98,7 @@ export const Navbar: React.FC = () => {
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, 'hero')}
-          className="flex items-center group cursor-pointer shrink-0"
+          className="flex items-center min-h-[40px] group cursor-pointer shrink-0"
           aria-label="Home"
         >
           <img
@@ -142,7 +147,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile menu trigger */}
           <button
             onClick={() => setMobileNavOpen(!mobileNavOpen)}
-            className={`md:hidden p-1.5 min-[390px]:p-2 rounded-xl border transition-all cursor-pointer ${
+            className={`md:hidden p-2 min-w-[40px] min-h-[40px] flex items-center justify-center rounded-xl border transition-all cursor-pointer ${
               isSolidNav
                 ? 'bg-white border-neutral-300 text-black'
                 : 'bg-black/40 backdrop-blur-md border-white/30 text-white'

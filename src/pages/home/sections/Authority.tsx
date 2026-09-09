@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import companionVideo from '../../../assets/Companion_Video_1.webm';
 
 export const Authority: React.FC = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    const tryPlay = () => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          const resume = () => {
+            video.play().catch(() => {});
+          };
+          window.addEventListener('touchstart', resume, { once: true, passive: true });
+          window.addEventListener('click', resume, { once: true, passive: true });
+        });
+      }
+    };
+
+    tryPlay();
+  }, []);
+
   return (
     <section id="control" className="relative w-full bg-[#ffffff] pt-8 sm:pt-12 lg:pt-14 pb-4 sm:pb-6 lg:pb-8 px-4 sm:px-8 lg:px-12 xl:px-16 overflow-hidden">
       <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
@@ -11,6 +40,7 @@ export const Authority: React.FC = () => {
             ========================================================================= */}
         <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
           <video
+            ref={videoRef}
             src={companionVideo}
             autoPlay
             muted
@@ -33,7 +63,7 @@ export const Authority: React.FC = () => {
           </div>
 
           {/* Editorial Headline */}
-          <h2 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[84px] text-[#3d4a3a] tracking-tight leading-[1.02] text-center sm:text-left">
+          <h2 className="font-serif text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[84px] text-[#3d4a3a] tracking-tight leading-[1.02] text-center sm:text-left">
             The <span className="italic font-bold">Future</span>
             <br />
             of <span className="italic font-bold">Agents</span>
@@ -69,7 +99,7 @@ export const Authority: React.FC = () => {
             </span>
             <a
               href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#55604e] px-8 py-3.5 text-xs sm:text-[13px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md mx-auto sm:mx-0 cursor-pointer"
+              className="inline-flex items-center justify-center rounded-full bg-[#55604e] px-8 py-3.5 text-xs sm:text-[13px] min-h-[44px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md mx-auto sm:mx-0 cursor-pointer"
             >
               Get API
             </a>

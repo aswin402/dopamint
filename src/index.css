@@ -32,6 +32,10 @@
     color-scheme: light;
     background-color: #f3f2e6;
     color: #141820;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
   }
 
   html {
@@ -41,15 +45,29 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
   }
 
   body {
     background-color: #f3f2e6;
     color: #141820;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
     selection-background-color: #e5ddd4;
     selection-color: #141820;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Prevent iOS Safari auto-zoom on inputs */
+  @media screen and (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
   }
 
   ::selection {
@@ -206,6 +224,33 @@ body::-webkit-scrollbar {
   display: none;
   width: 0;
   height: 0;
+}
+
+/* Universal cross-browser scrollbar hiding for horizontal carousels */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Safe area inset helpers for mobile notches, dynamic islands, and home indicators */
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.pl-safe {
+  padding-left: env(safe-area-inset-left, 0px);
+}
+.pr-safe {
+  padding-right: env(safe-area-inset-right, 0px);
 }
 
 /* Custom Type 1 Expanding Button */

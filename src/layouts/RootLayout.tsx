@@ -30,6 +30,7 @@ export function RootLayout() {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      syncTouch: false,
     });
 
     // Synchronize ScrollTrigger with Lenis
@@ -62,7 +63,7 @@ export function RootLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f3f2e6] text-[#141820] font-sans antialiased">
+    <div className="min-h-screen min-h-[100dvh] flex flex-col bg-[#f3f2e6] text-[#141820] font-sans antialiased w-full max-w-full overflow-x-hidden">
       {/* Fullscreen Initial Asset & Theme Preloader */}
       {location.pathname === '/' && <Preloader />}
       

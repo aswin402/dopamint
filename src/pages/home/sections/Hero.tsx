@@ -94,7 +94,7 @@ function HeroOverlay({
               value={promptValue}
               onChange={(e) => setPromptValue(e.target.value)}
               placeholder="Ask anything"
-              className="w-full bg-transparent border-none outline-none text-[#fafafa] text-xs sm:text-sm font-sans placeholder:text-[#fafafa]/80 placeholder:font-sans font-medium caret-[#fafafa]"
+              className="w-full bg-transparent border-none outline-none text-[#fafafa] text-base sm:text-sm font-sans placeholder:text-[#fafafa]/80 placeholder:font-sans font-medium caret-[#fafafa]"
             />
             {promptValue && (
               <button
@@ -109,7 +109,7 @@ function HeroOverlay({
             <button
               type="submit"
               disabled={!promptValue.trim()}
-              className={`flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all duration-200 shrink-0 cursor-pointer ${
+              className={`flex items-center justify-center w-8 h-8 sm:w-8 sm:h-8 min-w-[32px] min-h-[32px] rounded-full transition-all duration-200 shrink-0 cursor-pointer ${
                 promptValue.trim()
                   ? 'bg-white text-[#141820] shadow-[0_2px_10px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95'
                   : 'bg-white/20 text-[#fafafa]/50 hover:bg-white/30 hover:text-[#fafafa]'
@@ -146,7 +146,7 @@ function HeroOverlay({
                 key={badge}
                 type="button"
                 onClick={() => handleBadgeClick(badge)}
-                className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[11px] sm:text-xs font-normal tracking-normal transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
+                className={`px-3 sm:px-3.5 py-1.5 sm:py-1.5 min-h-[32px] sm:min-h-[34px] flex items-center justify-center rounded-full font-sans text-[11px] sm:text-xs font-normal tracking-normal transition-all duration-200 cursor-pointer shadow-xs active:scale-95 ${
                   isSelected
                     ? 'bg-white/50 text-[#fafafa] border border-white/90 scale-105 shadow-sm font-medium'
                     : 'bg-white/20 hover:bg-white/35 text-[#fafafa] hover:text-white border border-white/40 hover:border-white/70 backdrop-blur-md hover:scale-105'
@@ -162,11 +162,11 @@ function HeroOverlay({
 
       {/* BOTTOM: Animated Hero Headline ("Your Agents can [Trade...]") moved up on mobile */}
       <div className="relative z-20 text-center w-full px-2 sm:px-4 pt-4 sm:pt-4 pb-2 sm:pb-4 flex flex-col items-center mt-3 sm:mt-0">
-        <div className="flex items-center justify-center text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] max-w-full">
+        <div className="flex items-center justify-center text-xl min-[360px]:text-2xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-serif text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] max-w-full">
           <span className="whitespace-nowrap font-serif font-normal text-white mr-2 sm:mr-3 md:mr-4 shrink-0">
             Your Agents can
           </span>
-          <div className="w-[90px] sm:w-[170px] md:w-[220px] lg:w-[280px] xl:w-[350px] text-left shrink-0 relative h-[1.15em] flex items-center overflow-visible">
+          <div className="w-[80px] min-[360px]:w-[90px] sm:w-[170px] md:w-[220px] lg:w-[280px] xl:w-[350px] text-left shrink-0 relative h-[1.15em] flex items-center overflow-visible">
             <AnimatePresence mode="wait">
               <motion.span
                 key={ACTION_WORDS[actionIndex]}
@@ -193,7 +193,7 @@ function HeroOverlay({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-3 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-5 sm:px-7 py-1.5 sm:py-2.5 font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+          className="mt-3 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-8 py-2.5 sm:py-3 min-h-[42px] font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
         >
           Get App
         </motion.a>
@@ -278,7 +278,7 @@ function HouseOfAgentsSection() {
 
             {/* Editorial Title (Responsive 2-line layout: House of / Intent-Based Agents) */}
             <div>
-              <h2 className="text-[34px] min-[360px]:text-[37px] min-[390px]:text-[41px] min-[420px]:text-[45px] min-[460px]:text-[48px] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.06] text-[#55604e]">
+              <h2 className="text-[30px] min-[340px]:text-[33px] min-[360px]:text-[37px] min-[390px]:text-[41px] min-[420px]:text-[45px] min-[460px]:text-[48px] sm:text-5xl md:text-6xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.06] text-[#55604e]">
                 <span className="block font-serif font-normal text-[#55604e]">
                   House of
                 </span>

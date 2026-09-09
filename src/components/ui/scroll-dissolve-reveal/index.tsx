@@ -306,14 +306,24 @@ export function ScrollDissolveReveal({
     };
 
     let touchStartY = 0;
+    let touchStartX = 0;
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
     };
 
     const onTouchMove = (e: TouchEvent) => {
       const currentY = e.touches[0].clientY;
+      const currentX = e.touches[0].clientX;
       const deltaY = touchStartY - currentY;
+      const deltaX = touchStartX - currentX;
       touchStartY = currentY;
+      touchStartX = currentX;
+
+      // If user is swiping horizontally (like iOS back/forward gesture), don't intercept
+      if (Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+        return;
+      }
 
       if (!isUnlockedRef.current) {
         e.preventDefault();

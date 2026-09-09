@@ -121,7 +121,7 @@ export const AiFiSection: React.FC = () => {
               <line x1="6" y1="18" x2="11" y2="15" />
             </svg>
 
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-[54px] xl:text-6xl text-[#25362a] tracking-tight leading-[1.12]">
+            <h2 className="font-serif text-2xl min-[360px]:text-3xl sm:text-5xl lg:text-[54px] xl:text-6xl text-[#25362a] tracking-tight leading-[1.12]">
               AiFi Powered Agents That Act With{' '}
               <span className="italic font-bold relative inline-block text-[#25362a]">
                 Trust.
@@ -153,7 +153,7 @@ export const AiFiSection: React.FC = () => {
           <button
             onClick={() => handleScroll('left')}
             aria-label="Previous cards"
-            className="lg:hidden absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#25362a] text-[#f7f5f0] border border-[#3e4f42]/40 hover:bg-[#1e2e22] flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 active:scale-95"
+            className="lg:hidden absolute -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#25362a] text-[#f7f5f0] border border-[#3e4f42]/40 hover:bg-[#1e2e22] flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 active:scale-95 cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15 18l-6-6 6-6" />
@@ -163,7 +163,7 @@ export const AiFiSection: React.FC = () => {
           <button
             onClick={() => handleScroll('right')}
             aria-label="Next cards"
-            className="lg:hidden absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#25362a] text-[#f7f5f0] border border-[#3e4f42]/40 hover:bg-[#1e2e22] flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 active:scale-95"
+            className="lg:hidden absolute -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#25362a] text-[#f7f5f0] border border-[#3e4f42]/40 hover:bg-[#1e2e22] flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-200 active:scale-95 cursor-pointer"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 18l6-6-6-6" />
@@ -174,12 +174,12 @@ export const AiFiSection: React.FC = () => {
           <div
             ref={scrollRef}
             className="flex lg:grid lg:grid-cols-4 gap-5 sm:gap-6 overflow-x-auto lg:overflow-x-visible pb-4 lg:pb-0 scroll-smooth snap-x snap-mandatory no-scrollbar"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
           >
             {CARDS_DATA.map((card) => (
               <div
                 key={card.id}
-                className="flex-shrink-0 w-[285px] sm:w-[320px] lg:w-auto snap-center group relative bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/40 hover:border-[#3e4f42]/90 rounded-[26px] sm:rounded-[30px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_18px_rgba(40,48,40,0.04)] hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5"
+                className="flex-shrink-0 w-[270px] min-[360px]:w-[285px] sm:w-[320px] lg:w-auto snap-center group relative bg-[#eef2ea] hover:bg-[#e7eee1] border-[1.5px] border-[#3e4f42]/40 hover:border-[#3e4f42]/90 rounded-[26px] sm:rounded-[30px] p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 shadow-[0_4px_18px_rgba(40,48,40,0.04)] hover:shadow-[0_14px_35px_rgba(40,48,40,0.12)] hover:-translate-y-1.5"
               >
                 <div>
                   {/* Icon */}

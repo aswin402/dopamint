@@ -162,7 +162,7 @@ export const MemoryWalletSection: React.FC = () => {
             </div>
 
             {/* Editorial Title */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.06]">
+            <h2 className="text-3xl min-[360px]:text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif text-[#ffffff] tracking-tight leading-[1.06]">
               Agent hunts the signal. <br />
               <span className="font-serif italic font-bold text-[#ffffff]">
                 So You Don't Have To.
