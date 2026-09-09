@@ -231,16 +231,23 @@ export const EvidenceSection: React.FC = () => {
       </div>
 
       {/* Mobile Capability Capsule Pills (Normal scroll flow after sticky animation) */}
-      <div className="md:hidden px-4 pb-12 pt-6 max-w-md mx-auto">
-        <div className="grid grid-cols-2 gap-2">
+      <div className="md:hidden px-3.5 min-[390px]:px-4 sm:px-6 pb-12 pt-6 max-w-lg min-[540px]:max-w-xl mx-auto">
+        <div className="grid grid-cols-2 gap-2 min-[380px]:gap-2.5 min-[440px]:gap-3">
           {CAPABILITY_PILLS.map((pill) => (
-            <div key={pill.id} className="rounded-xl bg-[#fdfbf7]/95 border border-[#c4a978]/50 py-2 px-2.5 flex items-center gap-2 shadow-sm">
-              <div className="w-6 h-6 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-1.5 flex items-center justify-center text-[#7a382e] shrink-0">
+            <div
+              key={pill.id}
+              className="rounded-2xl min-[420px]:rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 min-[380px]:py-3 px-2.5 min-[380px]:px-3.5 min-[440px]:px-4 flex items-center gap-2 min-[380px]:gap-2.5 min-[440px]:gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.18)] transition-all duration-300"
+            >
+              <div className="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 min-[440px]:w-9 min-[440px]:h-9 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-1.5 min-[380px]:p-2 flex items-center justify-center text-[#7a382e] shrink-0 shadow-xs">
                 {CAPABILITY_ICONS[pill.icon]}
               </div>
-              <div className="flex flex-col text-left">
-                <span className="font-bold text-[#141820] text-[10.5px] leading-tight">{pill.title}</span>
-                <span className="text-[#5a544b] font-serif italic text-[8.5px] leading-tight">{pill.description}</span>
+              <div className="flex flex-col text-left min-w-0 flex-1">
+                <span className="font-bold text-[#141820] text-[11px] min-[375px]:text-[12px] min-[420px]:text-[13px] min-[480px]:text-sm leading-tight truncate">
+                  {pill.title}
+                </span>
+                <span className="text-[#5a544b] font-serif italic text-[9px] min-[375px]:text-[10px] min-[420px]:text-[10.5px] min-[480px]:text-[11.5px] leading-tight mt-0.5 truncate">
+                  {pill.description}
+                </span>
               </div>
             </div>
           ))}
