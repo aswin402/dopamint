@@ -79,9 +79,9 @@ export const FooterSection: React.FC = () => {
           </div>
 
           {/* Socials Container */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
+          <div className="w-full sm:w-auto">
             {/* Social Icons with text labels */}
-            <div className="flex items-center gap-5 text-white/90 text-xs sm:text-[13px] font-medium tracking-wide">
+            <div className="flex flex-wrap items-center justify-start sm:justify-end gap-x-3.5 min-[375px]:gap-x-4.5 min-[430px]:gap-x-6 sm:gap-x-7 gap-y-2 text-white/90 text-xs min-[380px]:text-[12.5px] sm:text-[13px] font-medium tracking-wide">
               {SITE_CONFIG.socials.map((social) => {
                 const Icon = SOCIAL_ICONS[social.name] || FaTwitter;
                 return (
@@ -90,15 +90,14 @@ export const FooterSection: React.FC = () => {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1.5 py-1 px-0.5 hover:text-white transition-colors select-none"
                   >
-                    <Icon className="w-3.5 h-3.5" />
+                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
                     <span>{social.label}</span>
                   </a>
                 );
               })}
             </div>
-
           </div>
 
         </div>
