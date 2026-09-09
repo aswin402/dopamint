@@ -29,19 +29,19 @@ export function HomePage() {
         {/* 2. Real asks, real people */}
         <RealAsks />
 
-        {/* 3. the Dope App: 8 Agent Crew */}
-        <Suspense fallback={null}>
-          <AgentRoster />
-        </Suspense>
-
-        {/* 4. The Future of Agents */}
+        {/* 3. The Future of Agents */}
         <Suspense fallback={null}>
           <Authority />
         </Suspense>
 
-        {/* 5. AiFi Powered Agents That Act With Trust */}
+        {/* 4. AiFi Powered Agents That Act With Trust */}
         <Suspense fallback={null}>
           <AiFiSection />
+        </Suspense>
+
+        {/* 5. the Dope App: 8 Agent Crew */}
+        <Suspense fallback={null}>
+          <AgentRoster />
         </Suspense>
 
         {/* 6. Long Section with div_burn.webp Background (Evidence + Memory Wallet / The Floor) */}
