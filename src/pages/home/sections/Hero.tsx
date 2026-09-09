@@ -331,7 +331,7 @@ function HouseOfAgentsSection() {
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
         <div className="order-2 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end mt-4 min-[390px]:mt-6 sm:mt-8 lg:mt-0 mb-2 sm:mb-4 lg:mb-0 overflow-visible">
-          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[116%] xl:w-[124%] 2xl:w-[130%] lg:-mr-[1vw] xl:-mr-[2vw] 2xl:-mr-[3vw] translate-x-3 min-[390px]:translate-x-5 sm:translate-x-6 lg:translate-x-4 xl:translate-x-6 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
+          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[116%] xl:w-[124%] 2xl:w-[130%] lg:-mr-[3vw] xl:-mr-[5vw] 2xl:-mr-[7vw] translate-x-4 min-[390px]:translate-x-6 sm:translate-x-8 lg:translate-x-12 xl:translate-x-20 2xl:translate-x-28 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
             <video
               key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
