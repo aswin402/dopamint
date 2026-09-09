@@ -105,66 +105,21 @@ export const EvidenceSection: React.FC = () => {
         <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100dvh-60px)] min-[390px]:h-[calc(100dvh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
           
           {/* Continuous Loop Pill & Step Counter Header */}
-          <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-0.5">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
-              <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] min-[400px]:text-[10.5px] text-[#141820]">
+          <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-0.5 mb-1 min-[390px]:mb-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
+              <RefreshCw className="w-3.5 h-3.5 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
+              <span className="font-sans font-bold uppercase tracking-[0.14em] text-[10px] min-[400px]:text-[11px] text-[#141820]">
                 FEEDBACK LOOP
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 font-mono text-[10px] min-[400px]:text-[11px] text-[#141820] font-bold tracking-wider shadow-md">
+            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-3 py-1.5 rounded-full border border-[#c4a978]/60 font-mono text-[10.5px] min-[400px]:text-[11.5px] text-[#141820] font-bold tracking-wider shadow-md">
               <span>STEP 0{currentStep + 1} / 04</span>
             </div>
           </div>
 
-          {/* Top 4 Step Pill Scrubber without bottom line - fully responsive for small to big mobile */}
-          <div className="relative shrink-0 mt-1.5 min-[390px]:mt-2">
-            <div className="grid grid-cols-4 gap-1.5 min-[390px]:gap-2 min-[430px]:gap-2.5 relative z-10">
-              {steps.map((item, idx) => {
-                const isCur = currentStep === idx;
-                const isDone = idx <= currentStep;
-                return (
-                  <button
-                    key={`mob-step-${idx}`}
-                    onClick={() => {
-                      setIsManual(true);
-                      setActiveStep(idx);
-                      setIsPlaying(false);
-                      setTimeout(() => setIsManual(false), 4000);
-                    }}
-                    aria-label={`Step ${idx + 1}: ${item.timelineLabel}`}
-                    aria-current={isCur ? 'step' : undefined}
-                    className={`py-1.5 min-[390px]:py-2 px-1 min-[390px]:px-1.5 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer min-h-[52px] min-[380px]:min-h-[56px] min-[420px]:min-h-[62px] ${
-                      isCur
-                        ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.02]'
-                        : isDone
-                        ? 'bg-[#f3f2e6] border-[#c4a978]/40 text-[#25362a]'
-                        : 'bg-[#f3f2e6]/75 border-[#dcd6c8] text-[#7a746a]'
-                    }`}
-                  >
-                    <div className="flex items-center gap-1 leading-none mb-0.5">
-                      <span className="font-sans text-[10px] min-[380px]:text-[11px] min-[420px]:text-[12.5px] font-bold">0{idx + 1}</span>
-                      {isCur && <span className="w-1.5 h-1.5 min-[400px]:w-2 min-[400px]:h-2 rounded-full bg-[#16a34a] animate-pulse" />}
-                    </div>
-                    <span className="text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9.5px] min-[420px]:text-[10.5px] font-sans uppercase tracking-[0.05em] text-center leading-[1.15] font-semibold">
-                      {idx === 2 ? (
-                        <>
-                          <span className="block">AGENT</span>
-                          <span className="block">HARNESS</span>
-                        </>
-                      ) : (
-                        item.timelineLabel
-                      )}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* Active Card Container with Smooth Slide Transitions */}
-          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-0.5 min-h-0">
+          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-2 min-h-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`mob-card-${currentStep}`}
@@ -189,29 +144,29 @@ export const EvidenceSection: React.FC = () => {
           {/* Dynamic Pipeline State Console - Always fully visible at bottom without clipping */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-2 min-[390px]:p-2.5 min-[430px]:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1 min-[390px]:mb-1.5 relative z-20"
+            className="p-3 min-[390px]:p-3.5 min-[430px]:p-4 rounded-2xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1.5 min-[390px]:mb-2 relative z-20"
           >
-            <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
-                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10px] min-[390px]:text-[10.5px] min-[420px]:text-[11.5px]">
-                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[9.5px] min-[390px]:text-[10px] min-[420px]:text-[11px]">[BUY NVDAc]</span>
+            <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
+                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[11px] min-[390px]:text-[12px] min-[420px]:text-[12.5px]">
+                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[10.5px] min-[390px]:text-[11.5px] min-[420px]:text-[12px]">[BUY NVDAc]</span>
                 </span>
               </div>
-              <div className="font-sans text-[9px] min-[390px]:text-[9.5px] min-[420px]:text-[10.5px] text-[#37312c]">
+              <div className="font-sans text-[10px] min-[390px]:text-[11px] min-[420px]:text-[12px] text-[#37312c]">
                 Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-mono font-bold text-[#1a140f]">Base</span>
               </div>
             </div>
             
-            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-serif text-[10px] min-[390px]:text-[10.5px] min-[420px]:text-[11.5px] text-[#1a140f] leading-snug font-medium">
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-serif text-[11px] min-[390px]:text-[12px] min-[420px]:text-[12.5px] text-[#1a140f] leading-snug font-medium pt-0.5">
               {PIPELINE_MILESTONES.map((milestone, idx) => {
                 const isCur = currentStep === idx;
                 const isPassed = currentStep > idx;
                 return (
                   <React.Fragment key={idx}>
-                    {idx > 0 && <span className="text-[#7a382e]/60 font-mono text-[9px] select-none">→</span>}
+                    {idx > 0 && <span className="text-[#7a382e]/60 font-mono text-[10px] min-[390px]:text-[11px] select-none">→</span>}
                     <span
-                      className={`transition-all duration-300 rounded px-1.5 py-0.5 ${
+                      className={`transition-all duration-300 rounded-md px-2 py-0.5 min-[390px]:px-2.5 min-[390px]:py-1 ${
                         isCur
                           ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs scale-105'
                           : isPassed
@@ -231,21 +186,21 @@ export const EvidenceSection: React.FC = () => {
       </div>
 
       {/* Mobile Capability Capsule Pills (Normal scroll flow after sticky animation) */}
-      <div className="md:hidden px-3.5 min-[390px]:px-4 sm:px-6 pb-12 pt-6 max-w-lg min-[540px]:max-w-xl mx-auto">
-        <div className="grid grid-cols-2 gap-2 min-[380px]:gap-2.5 min-[440px]:gap-3">
+      <div className="md:hidden px-4 sm:px-6 pb-14 pt-8 max-w-md mx-auto">
+        <div className="flex flex-col gap-3 min-[390px]:gap-3.5">
           {CAPABILITY_PILLS.map((pill) => (
             <div
               key={pill.id}
-              className="rounded-2xl min-[420px]:rounded-full bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/60 hover:border-[#c4a978] py-2.5 min-[380px]:py-3 px-2.5 min-[380px]:px-3.5 min-[440px]:px-4 flex items-center gap-2 min-[380px]:gap-2.5 min-[440px]:gap-3 shadow-[0_4px_16px_rgba(0,0,0,0.18)] transition-all duration-300"
+              className="rounded-2xl bg-[#fdfbf7]/95 hover:bg-[#ffffff] border border-[#c4a978]/70 hover:border-[#c4a978] py-3.5 min-[390px]:py-4 px-4 min-[390px]:px-5 flex items-center gap-3.5 min-[390px]:gap-4 shadow-[0_6px_20px_rgba(0,0,0,0.2)] transition-all duration-300"
             >
-              <div className="w-7 h-7 min-[380px]:w-8 min-[380px]:h-8 min-[440px]:w-9 min-[440px]:h-9 rounded-full bg-[#f4ece0] border border-[#c4a978]/40 p-1.5 min-[380px]:p-2 flex items-center justify-center text-[#7a382e] shrink-0 shadow-xs">
+              <div className="w-10 h-10 min-[390px]:w-11 min-[390px]:h-11 rounded-full bg-[#f4ece0] border border-[#c4a978]/50 p-2.5 flex items-center justify-center text-[#7a382e] shrink-0 shadow-xs">
                 {CAPABILITY_ICONS[pill.icon]}
               </div>
               <div className="flex flex-col text-left min-w-0 flex-1">
-                <span className="font-bold text-[#141820] text-[11px] min-[375px]:text-[12px] min-[420px]:text-[13px] min-[480px]:text-sm leading-tight truncate">
+                <span className="font-bold text-[#141820] text-[15px] min-[390px]:text-[16px] leading-tight">
                   {pill.title}
                 </span>
-                <span className="text-[#5a544b] font-serif italic text-[9px] min-[375px]:text-[10px] min-[420px]:text-[10.5px] min-[480px]:text-[11.5px] leading-tight mt-0.5 truncate">
+                <span className="text-[#5a544b] font-serif italic text-[12.5px] min-[390px]:text-[13.5px] leading-snug mt-1">
                   {pill.description}
                 </span>
               </div>
