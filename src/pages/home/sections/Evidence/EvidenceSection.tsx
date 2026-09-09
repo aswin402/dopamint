@@ -32,38 +32,10 @@ const CAPABILITY_ICONS: Record<string, React.ReactNode> = {
   chart: <BarChart2 className="w-full h-full stroke-[2.2]" />,
 };
 
-const CARD_VARIANTS = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? '60%' : '-60%',
-    scale: 0.94,
-    rotateY: direction > 0 ? 5 : -5,
-    opacity: 0,
-    filter: 'blur(5px)',
-  }),
-  center: {
-    x: '0%',
-    scale: 1,
-    rotateY: 0,
-    opacity: 1,
-    filter: 'blur(0px)',
-    zIndex: 10,
-  },
-  exit: (direction: number) => ({
-    x: direction > 0 ? '-60%' : '60%',
-    scale: 0.94,
-    rotateY: direction > 0 ? -5 : 5,
-    opacity: 0,
-    filter: 'blur(5px)',
-    zIndex: 1,
-  }),
-};
-
 export const EvidenceSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.15 });
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [direction, setDirection] = useState<number>(1);
-  const prevStepRef = useRef<number>(0);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isManual, setIsManual] = useState<boolean>(false);
@@ -74,18 +46,14 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Sync active step and direction with scroll progress on mobile ONLY (< 768px)
+  // Sync active step with scroll progress on mobile ONLY (< 768px)
   useMotionValueEvent(scrollYProgress, 'change', (latest) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
     if (!isManual) {
       const stepIndex = Math.min(3, Math.floor(latest * 4));
-      if (stepIndex !== prevStepRef.current) {
-        setDirection(stepIndex > prevStepRef.current ? 1 : -1);
-        prevStepRef.current = stepIndex;
-        setActiveStep(stepIndex);
-      }
+      setActiveStep(stepIndex);
     }
   });
 
@@ -97,12 +65,7 @@ export const EvidenceSection: React.FC = () => {
       return;
     }
     const interval = setInterval(() => {
-      setActiveStep((prev) => {
-        const next = (prev + 1) % 4;
-        setDirection(1);
-        prevStepRef.current = next;
-        return next;
-      });
+      setActiveStep((prev) => (prev + 1) % 4);
     }, 2600);
     return () => clearInterval(interval);
   }, [isPlaying, isInView, hoveredStep]);
@@ -155,39 +118,29 @@ export const EvidenceSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Active Card Container with Smooth 3D Stack Transitions */}
-          <div 
-            className="relative flex-1 w-full my-auto grid grid-cols-1 items-center py-2 min-h-0 overflow-hidden" 
-            style={{ perspective: 1200 }}
-          >
-            <AnimatePresence custom={direction} initial={false}>
-              <motion.div
-                key={`mob-card-${currentStep}`}
-                custom={direction}
-                variants={CARD_VARIANTS}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: 'spring', stiffness: 290, damping: 30, mass: 0.8 },
-                  scale: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
-                  rotateY: { duration: 0.38, ease: [0.16, 1, 0.3, 1] },
-                  opacity: { duration: 0.28, ease: [0.16, 1, 0.3, 1] },
-                  filter: { duration: 0.28 },
-                }}
-                style={{ gridArea: '1 / 1', transformOrigin: 'center center' }}
-                className="w-full transform-gpu will-change-transform"
-              >
-                <AgentNode
-                  title={steps[currentStep].title}
-                  subtitle={steps[currentStep].subtitle}
-                  tags={steps[currentStep].tags}
-                  icon={steps[currentStep].icon}
-                  isActive={true}
-                  stepIndex={currentStep}
-                />
-              </motion.div>
-            </AnimatePresence>
+          {/* Active Card Horizontal Scroll Track */}
+          <div className="relative flex-1 w-full my-auto overflow-hidden py-2 min-h-0 flex items-center">
+            <motion.div
+              className="flex w-full h-full items-center"
+              animate={{ x: `-${currentStep * 100}%` }}
+              transition={{
+                duration: 0.42,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              {steps.map((item, idx) => (
+                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-0.5 h-full">
+                  <AgentNode
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    tags={item.tags}
+                    icon={item.icon}
+                    isActive={currentStep === idx}
+                    stepIndex={idx}
+                  />
+                </div>
+              ))}
+            </motion.div>
           </div>
 
           {/* Dynamic Pipeline State Console - Always fully visible at bottom without clipping */}
