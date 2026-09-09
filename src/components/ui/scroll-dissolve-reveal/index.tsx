@@ -49,7 +49,6 @@ class CanvasErrorBoundary extends React.Component<
 export interface ScrollDissolveRevealProps {
   imageFront?: string;
   videoFront?: string;
-  posterImage?: string;
   className?: string;
   containerClassName?: string;
   backgroundContent?: React.ReactNode;
@@ -60,7 +59,6 @@ export interface ScrollDissolveRevealProps {
 export function ScrollDissolveReveal({
   imageFront,
   videoFront,
-  posterImage,
   className,
   containerClassName,
   backgroundContent,
@@ -464,16 +462,6 @@ export function ScrollDissolveReveal({
           </div>
         )}
 
-        {/* Layer 1.5: Immediate Poster / CSS Dissolve Fallback */}
-        {posterImage && smoothProgress < 0.999 && (
-          <div
-            className="absolute inset-0 z-[5] w-full h-full bg-cover bg-center pointer-events-none"
-            style={{
-              backgroundImage: `url(${posterImage})`,
-              opacity: smoothProgress > 0.02 ? Math.max(0, 1 - smoothProgress * 1.5) : 1,
-            }}
-          />
-        )}
 
         {/* Layer 2: WebGL GPU Dissolve Shader Canvas */}
         {!prefersReducedMotion && smoothProgress < 0.999 && (

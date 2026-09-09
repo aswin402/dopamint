@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import logoDopeImg from '../../../assets/logo_dope.webp';
-import heroPosterImg from '../../../assets/herosectionbg_poster.webp';
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
@@ -110,7 +109,6 @@ export function useAssetPreloader({
     // Ordered sequence of critical assets to load one by one in the background
     const ASSET_PIPELINE: QueuedAsset[] = [
       { name: 'Fonts', load: preloadFonts },
-      { name: 'Hero Poster', load: () => preloadImage(heroPosterImg) },
       { name: 'Dope Icon', load: () => preloadImage(iconDopeImg) },
       { name: 'Dope Logo', load: () => preloadImage(logoDopeImg) },
       { name: 'Hero Background Video', load: () => preloadVideo(heroBgVidMp4) },

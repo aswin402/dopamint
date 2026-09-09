@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
-import heroPosterImg from '../../../assets/herosectionbg_poster.webp';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenWebm from '../../../assets/Chat_Screen.webm';
 import iconDopeImg from '../../../assets/Icondope.webp';
@@ -362,7 +361,6 @@ export const Hero: React.FC = () => {
           ========================================================================= */}
       <ScrollDissolveReveal
         videoFront={heroBgVidMp4}
-        posterImage={heroPosterImg}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (
