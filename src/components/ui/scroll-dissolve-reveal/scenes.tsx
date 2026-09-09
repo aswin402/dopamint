@@ -56,12 +56,16 @@ export function VideoShaderScene({
     tryPlay();
   }, [texture1]);
 
+  const videoEl = texture1?.image as HTMLVideoElement | undefined;
+  const initialWidth = (videoEl?.videoWidth || videoEl?.width || 1920);
+  const initialHeight = (videoEl?.videoHeight || videoEl?.height || 1080);
+
   const uniforms1 = useMemo(
     () => ({
       uTexture: { value: texture1 },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
       uImageResolution: {
-        value: new THREE.Vector2(1920, 1080),
+        value: new THREE.Vector2(initialWidth, initialHeight),
       },
       uDissolve: { value: 0.0 },
       uCenter: { value: new THREE.Vector2(0.5, 0.5) },
@@ -70,13 +74,23 @@ export function VideoShaderScene({
       uEdgeIntensity: { value: 0.0 },
       uEdgeBrightness: { value: 1.0 },
     }),
-    [texture1, size]
+    [texture1, size, initialWidth, initialHeight]
   );
 
   useFrame((state) => {
     const timeInSeconds = state.clock.getElapsedTime();
 
     if (material1Ref.current) {
+      const video = texture1?.image as HTMLVideoElement | undefined;
+      if (video && video.videoWidth > 0 && video.videoHeight > 0) {
+        if (
+          material1Ref.current.uniforms.uImageResolution.value.x !== video.videoWidth ||
+          material1Ref.current.uniforms.uImageResolution.value.y !== video.videoHeight
+        ) {
+          material1Ref.current.uniforms.uImageResolution.value.set(video.videoWidth, video.videoHeight);
+        }
+      }
+
       material1Ref.current.uniforms.uTime.value = timeInSeconds;
       material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
       

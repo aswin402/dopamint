@@ -1,5 +1,6 @@
 import React from 'react';
 import footerBgImg from '../../../assets/Footer.webp';
+import footerMobImg from '../../../assets/Footer_mob.png';
 import logoDope from '../../../assets/logo_dope.webp';
 import { FaTwitter, FaDiscord, FaInstagram, FaTelegramPlane } from 'react-icons/fa';
 import { SITE_CONFIG } from '@/data/siteConfig';
@@ -19,13 +20,16 @@ export const FooterSection: React.FC = () => {
           BACKGROUND ARTWORK (FOOTER.PNG - RENAISSANCE PAINTING)
           ========================================================================= */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        <img
-          src={footerBgImg}
-          alt="Dopamint Renaissance The Last Supper"
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover object-center select-none"
-        />
+        <picture className="w-full h-full block">
+          <source media="(max-width: 1023px)" srcSet={footerMobImg} />
+          <img
+            src={footerBgImg}
+            alt="Dopamint Renaissance The Last Supper"
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover object-center select-none"
+          />
+        </picture>
         {/* Subtle dark gradient overlay for crystal clear text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80" />
       </div>

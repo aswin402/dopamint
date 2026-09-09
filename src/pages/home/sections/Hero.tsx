@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
+import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
 import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iconDopeImg from '../../../assets/Icondope.webp';
@@ -350,6 +351,7 @@ function HouseOfAgentsSection() {
 }
 
 export const Hero: React.FC = () => {
+  const isDesktop = useIsDesktop();
   const [actionIndex, setActionIndex] = useState(0);
   const [promptValue, setPromptValue] = useState('');
   const [activeBadge, setActiveBadge] = useState<string | null>(null);
@@ -387,7 +389,8 @@ export const Hero: React.FC = () => {
           - Scrolling back UP to the top cleanly reverses the animation.
           ========================================================================= */}
       <ScrollDissolveReveal
-        videoFront={heroBgVidMp4}
+        key={isDesktop ? 'hero-desktop' : 'hero-mobile'}
+        videoFront={isDesktop ? heroBgVidMp4 : heroBgVidMobWebm}
         backgroundContent={<HouseOfAgentsSection />}
       >
         {(scrollYProgress) => (

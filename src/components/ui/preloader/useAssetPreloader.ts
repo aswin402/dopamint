@@ -2,11 +2,14 @@ import { useState, useEffect, useRef } from 'react';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import logoDopeImg from '../../../assets/logo_dope.webp';
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
+import heroBgVidMobWebm from '../../../assets/herosection_bg_mob.webm';
 import chatScreenMp4 from '../../../assets/Chat_Screen.mp4';
+import chatScreenMobileMp4 from '../../../assets/Chat_Screen_Mobile.mp4';
 import iMessagePodiumImg from '../../../assets/iMessage_Podium.webp';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import divBurnImg from '../../../assets/div_burn.webp';
 import footerImg from '../../../assets/Footer.webp';
+import footerMobImg from '../../../assets/Footer_mob.png';
 import { PRELOADER_COMPLETE_HOLD_MS, PRELOADER_MIN_DURATION_MS, PRELOADER_TIMEOUT_MS } from './config';
 
 export const PRELOADER_STAGES = [
@@ -106,17 +109,19 @@ export function useAssetPreloader({
     startTimeRef.current = performance.now();
     let isCancelled = false;
 
+    const isMob = typeof window !== 'undefined' && window.innerWidth < 1024;
+
     // Ordered sequence of critical assets to load one by one in the background
     const ASSET_PIPELINE: QueuedAsset[] = [
       { name: 'Fonts', load: preloadFonts },
       { name: 'Dope Icon', load: () => preloadImage(iconDopeImg) },
       { name: 'Dope Logo', load: () => preloadImage(logoDopeImg) },
-      { name: 'Hero Background Video', load: () => preloadVideo(heroBgVidMp4) },
-      { name: 'Chat Screen Video', load: () => preloadVideo(chatScreenMp4) },
+      { name: 'Hero Background Video', load: () => preloadVideo(isMob ? heroBgVidMobWebm : heroBgVidMp4) },
+      { name: 'Chat Screen Video', load: () => preloadVideo(isMob ? chatScreenMobileMp4 : chatScreenMp4) },
       { name: 'iMessage Podium', load: () => preloadImage(iMessagePodiumImg) },
       { name: 'Candle Stand', load: () => preloadImage(candleStandImg) },
       { name: 'Burn Div Texture', load: () => preloadImage(divBurnImg) },
-      { name: 'Footer Art', load: () => preloadImage(footerImg) },
+      { name: 'Footer Art', load: () => preloadImage(isMob ? footerMobImg : footerImg) },
     ];
 
     const totalCount = ASSET_PIPELINE.length;
