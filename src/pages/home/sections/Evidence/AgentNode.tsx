@@ -42,7 +42,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       whileHover={{ scale: 1.015, y: -2, opacity: 1 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative h-full flex flex-col justify-between p-3.5 sm:p-5 rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden ${
+      className={`relative h-full flex flex-col justify-between p-3 min-[390px]:p-3.5 sm:p-5 rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden ${
         isActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_24px_50px_rgba(196,169,120,0.28)] ring-1.5 ring-[#c4a978]/80 z-20'
           : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_8px_24px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10'
@@ -82,7 +82,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         </div>
 
         {/* Subtitle */}
-        <p className="text-[11px] sm:text-xs text-[#5a544b] font-serif italic leading-snug mb-2 sm:mb-3">
+        <p className="text-[11px] sm:text-xs text-[#5a544b] font-serif italic leading-snug mb-1.5 min-[390px]:mb-2 sm:mb-3">
           {subtitle}
         </p>
 

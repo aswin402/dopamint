@@ -321,10 +321,10 @@ body::-webkit-scrollbar {
 .imsg-msg {
   position: relative;
   margin: 0;
-  max-inline-size: min(22rem, 90%);
-  padding: 0.6rem 1rem;
-  font-size: 0.95rem;
-  line-height: 1.32;
+  max-inline-size: min(25rem, 94%);
+  padding: 0.72rem 1.12rem;
+  font-size: 1.02rem;
+  line-height: 1.34;
   letter-spacing: -0.01em;
   border-radius: var(--radius);
   text-wrap: pretty;
@@ -333,10 +333,17 @@ body::-webkit-scrollbar {
   user-select: none;
 }
 
+@media (min-width: 400px) {
+  .imsg-msg {
+    padding: 0.78rem 1.22rem;
+    font-size: 1.06rem;
+  }
+}
+
 @media (min-width: 640px) {
   .imsg-msg {
-    padding: 0.65rem 1.05rem;
-    font-size: 1.02rem;
+    padding: 0.8rem 1.25rem;
+    font-size: 1.08rem;
   }
 }
 

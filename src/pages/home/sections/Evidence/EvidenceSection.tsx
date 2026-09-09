@@ -101,26 +101,26 @@ export const EvidenceSection: React.FC = () => {
       </div>
 
       <div ref={mobileContainerRef} className="md:hidden relative w-full h-[280vh]">
-        {/* Pinned Screen Viewport: Pins cleanly below the 60px fixed Navbar */}
-        <div className="sticky top-[68px] sm:top-[76px] h-[calc(100dvh-76px)] sm:h-[calc(100dvh-84px)] w-full flex flex-col justify-between pt-3 pb-7 px-3 sm:px-4 overflow-hidden bg-transparent">
+        {/* Pinned Screen Viewport: Pins cleanly below the fixed Navbar with generous bottom room */}
+        <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100dvh-60px)] min-[390px]:h-[calc(100dvh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
           
           {/* Continuous Loop Pill & Step Counter Header */}
-          <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-1">
+          <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-0.5">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#f3f2e6] border border-[#c4a978]/60 text-[#141820] shadow-md">
               <RefreshCw className="w-3 h-3 text-[#7a382e] animate-spin" style={{ animationDuration: '6s' }} />
-              <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] text-[#141820]">
+              <span className="font-sans font-bold uppercase tracking-[0.14em] text-[9.5px] min-[400px]:text-[10.5px] text-[#141820]">
                 FEEDBACK LOOP
               </span>
             </div>
 
-            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 font-mono text-[10px] text-[#141820] font-bold tracking-wider shadow-md">
+            <div className="flex items-center gap-1.5 bg-[#f3f2e6] px-2.5 py-1 rounded-full border border-[#c4a978]/60 font-mono text-[10px] min-[400px]:text-[11px] text-[#141820] font-bold tracking-wider shadow-md">
               <span>STEP 0{currentStep + 1} / 04</span>
             </div>
           </div>
 
-          {/* Top 4 Step Pill Scrubber without bottom line */}
-          <div className="relative shrink-0 mt-2">
-            <div className="grid grid-cols-4 gap-1.5 relative z-10">
+          {/* Top 4 Step Pill Scrubber without bottom line - fully responsive for small to big mobile */}
+          <div className="relative shrink-0 mt-1.5 min-[390px]:mt-2">
+            <div className="grid grid-cols-4 gap-1.5 min-[390px]:gap-2 min-[430px]:gap-2.5 relative z-10">
               {steps.map((item, idx) => {
                 const isCur = currentStep === idx;
                 const isDone = idx <= currentStep;
@@ -135,7 +135,7 @@ export const EvidenceSection: React.FC = () => {
                     }}
                     aria-label={`Step ${idx + 1}: ${item.timelineLabel}`}
                     aria-current={isCur ? 'step' : undefined}
-                    className={`py-1.5 px-1 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer min-h-[50px] ${
+                    className={`py-1.5 min-[390px]:py-2 px-1 min-[390px]:px-1.5 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 cursor-pointer min-h-[52px] min-[380px]:min-h-[56px] min-[420px]:min-h-[62px] ${
                       isCur
                         ? 'bg-[#ffffff] border-[#c4a978] text-[#25362a] shadow-[0_4px_16px_rgba(0,0,0,0.25)] ring-2 ring-[#c4a978]/60 scale-[1.02]'
                         : isDone
@@ -144,10 +144,10 @@ export const EvidenceSection: React.FC = () => {
                     }`}
                   >
                     <div className="flex items-center gap-1 leading-none mb-0.5">
-                      <span className="font-sans text-[10px] font-bold">0{idx + 1}</span>
-                      {isCur && <span className="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse" />}
+                      <span className="font-sans text-[10px] min-[380px]:text-[11px] min-[420px]:text-[12.5px] font-bold">0{idx + 1}</span>
+                      {isCur && <span className="w-1.5 h-1.5 min-[400px]:w-2 min-[400px]:h-2 rounded-full bg-[#16a34a] animate-pulse" />}
                     </div>
-                    <span className="text-[7.5px] min-[360px]:text-[8px] sm:text-[9px] font-sans uppercase tracking-[0.05em] text-center leading-[1.15] font-semibold">
+                    <span className="text-[8px] min-[360px]:text-[8.5px] min-[390px]:text-[9.5px] min-[420px]:text-[10.5px] font-sans uppercase tracking-[0.05em] text-center leading-[1.15] font-semibold">
                       {idx === 2 ? (
                         <>
                           <span className="block">AGENT</span>
@@ -164,7 +164,7 @@ export const EvidenceSection: React.FC = () => {
           </div>
 
           {/* Active Card Container with Smooth Slide Transitions */}
-          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-1 min-h-0">
+          <div className="relative flex-1 w-full my-auto flex flex-col justify-center py-0.5 min-h-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={`mob-card-${currentStep}`}
@@ -186,24 +186,24 @@ export const EvidenceSection: React.FC = () => {
             </AnimatePresence>
           </div>
 
-          {/* Dynamic Pipeline State Console (Moved up with bottom margin) */}
+          {/* Dynamic Pipeline State Console - Always fully visible at bottom without clipping */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-2.5 sm:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-3"
+            className="p-2 min-[390px]:p-2.5 min-[430px]:p-3 rounded-xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1 min-[390px]:mb-1.5 relative z-20"
           >
             <div className="flex items-center justify-between pb-1 mb-1 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-[#7a382e] shadow-[0_0_6px_rgba(122,56,46,0.6)]" />
-                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10px] sm:text-[10.5px]">
-                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[9.5px] sm:text-[10px]">[BUY NVDAc]</span>
+                <span className="font-sans font-bold uppercase tracking-[0.14em] text-[#1a140f] text-[10px] min-[390px]:text-[10.5px] min-[420px]:text-[11.5px]">
+                  PIPELINE STATE: <span className="font-mono font-bold text-[#7a382e] tracking-normal text-[9.5px] min-[390px]:text-[10px] min-[420px]:text-[11px]">[BUY NVDAc]</span>
                 </span>
               </div>
-              <div className="font-sans text-[9px] sm:text-[9.5px] text-[#37312c]">
+              <div className="font-sans text-[9px] min-[390px]:text-[9.5px] min-[420px]:text-[10.5px] text-[#37312c]">
                 Latency: <span className="text-[#15803d] font-bold font-mono">18ms</span> · <span className="font-mono font-bold text-[#1a140f]">Base</span>
               </div>
             </div>
             
-            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-serif text-[10px] sm:text-[10.5px] text-[#1a140f] leading-snug font-medium">
+            <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 font-serif text-[10px] min-[390px]:text-[10.5px] min-[420px]:text-[11.5px] text-[#1a140f] leading-snug font-medium">
               {PIPELINE_MILESTONES.map((milestone, idx) => {
                 const isCur = currentStep === idx;
                 const isPassed = currentStep > idx;

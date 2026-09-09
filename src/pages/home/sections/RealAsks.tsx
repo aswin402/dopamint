@@ -92,7 +92,7 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
       <div
         key={item.name}
         title={item.name}
-        className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
+        className="w-5.5 h-5.5 min-[390px]:w-6.5 min-[390px]:h-6.5 sm:w-7 sm:h-7 rounded-full bg-[#f4ede4] border border-[#e3d0bb] shadow-[0_1px_3px_rgba(0,0,0,0.06)] flex items-center justify-center p-0.5 sm:p-1 select-none transition-transform hover:scale-110"
       >
         <img
           src={item.iconSrc || `https://www.google.com/s2/favicons?domain=${item.domain}&sz=64`}
@@ -109,9 +109,9 @@ const LogosHeader: React.FC<{ items: IntegrationItem[] }> = ({ items }) => (
 );
 
 const cardBase =
-  'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.08)] hover:shadow-[0_24px_50px_rgba(50,35,20,0.16)] p-3.5 sm:p-5 cursor-pointer transition-colors duration-300';
+  'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.4rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.08)] hover:shadow-[0_24px_50px_rgba(50,35,20,0.16)] p-4 min-[390px]:p-5 sm:p-6 cursor-pointer transition-colors duration-300';
 const cardSm =
-  'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.08)] hover:shadow-[0_24px_50px_rgba(50,35,20,0.16)] p-3 sm:p-4 cursor-pointer transition-colors duration-300';
+  'imsg-card overflow-hidden rounded-2xl sm:rounded-[1.3rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] hover:border-[#dfc2a2] shadow-[0_16px_40px_rgba(50,35,20,0.08)] hover:shadow-[0_24px_50px_rgba(50,35,20,0.16)] p-3.5 min-[390px]:p-4.5 sm:p-5 cursor-pointer transition-colors duration-300';
 
 // =========================================================================
 // MOBILE PINNED STACKING CARDS (PINNED VIEWPORT + SCROLL PROGRESS STACK)
@@ -177,7 +177,9 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
         willChange: 'transform, opacity',
       }}
       className={`absolute inset-x-0 mx-auto w-[92vw] transform-gpu shadow-[0_16px_36px_rgba(40,30,20,0.12)] ${
-        card.isSm ? 'max-w-[270px] ' + cardSm : 'max-w-[340px] ' + cardBase
+        card.isSm
+          ? 'max-w-[325px] min-[390px]:max-w-[360px] min-[430px]:max-w-[395px] ' + cardSm
+          : 'max-w-[350px] min-[390px]:max-w-[385px] min-[430px]:max-w-[430px] ' + cardBase
       }`}
     >
       <LogosHeader items={card.logos} />
@@ -225,8 +227,8 @@ const MobileStickyStack: React.FC = () => {
         </div>
 
         {/* Section Header */}
-        <div className="text-center w-full max-w-sm mx-auto mb-2 relative z-20">
-          <h2 className="text-3xl sm:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
+        <div className="text-center w-full max-w-md mx-auto mb-2 sm:mb-3 relative z-20">
+          <h2 className="text-3xl min-[390px]:text-[34px] min-[430px]:text-4xl sm:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
             Just state what you{' '}
             <span className="font-serif italic font-bold text-[#253b2b]">
               want.
@@ -235,7 +237,7 @@ const MobileStickyStack: React.FC = () => {
         </div>
 
         {/* Card Stacking Stage */}
-        <div className="relative w-full max-w-sm mx-auto h-[340px] flex items-center justify-center my-auto z-20">
+        <div className="relative w-full max-w-md min-[430px]:max-w-lg mx-auto h-[350px] min-[390px]:h-[385px] min-[430px]:h-[420px] flex items-center justify-center my-auto z-20">
           {ASK_CARDS.map((card, i) => (
             <MobilePinnedCard
               key={`m_${card.id}`}

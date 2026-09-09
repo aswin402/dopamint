@@ -238,38 +238,38 @@ function HouseOfAgentsSection() {
   }, []);
 
   return (
-    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 sm:px-8 md:px-10 lg:px-16 select-text">
+    <div id="manifesto" className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-12 min-[390px]:pt-14 min-[430px]:pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-hidden px-4 min-[390px]:px-5 sm:px-8 md:px-10 lg:px-16 select-text">
       <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-6 items-center lg:items-end flex-1">
 
         {/* Left Column: Editorial Information (Exact styling matching reference image) */}
-        <div className="lg:col-span-6 space-y-2 sm:space-y-4 md:space-y-5 text-left self-center pb-1 sm:pb-6 lg:pb-12 z-20">
+        <div className="lg:col-span-6 space-y-2.5 min-[390px]:space-y-3 min-[430px]:space-y-4 sm:space-y-4 md:space-y-5 text-left self-center pb-1 sm:pb-6 lg:pb-12 z-20">
 
           {/* Small Eyebrow */}
           <div>
-            <span className="font-mono text-[10.5px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
+            <span className="font-mono text-[11px] min-[390px]:text-xs min-[430px]:text-[13px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
               what is dopamint?
             </span>
           </div>
 
           {/* Editorial Title (Responsive 2-line layout: House of / Intent-Based Agents) */}
           <div>
-            <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.02] text-[#55604e]">
+            <h2 className="text-[27px] min-[375px]:text-[29px] min-[400px]:text-[33px] min-[430px]:text-[36px] sm:text-4xl md:text-5xl lg:text-[56px] xl:text-[70px] 2xl:text-[78px] tracking-tight leading-[1.04] text-[#55604e]">
               <span className="block font-serif font-normal text-[#55604e]">
                 House of
               </span>
               <IntentBaseHeadline />
             </h2>
-            <p className="font-serif italic font-bold text-xs sm:text-base md:text-lg text-[#7a382e] mt-0.5 sm:mt-1.5">
+            <p className="font-serif italic font-bold text-xs min-[390px]:text-[13.5px] min-[430px]:text-[15px] sm:text-base md:text-lg text-[#7a382e] mt-0.5 sm:mt-1.5">
               Built on Base
             </p>
           </div>
 
           {/* Editorial Body Text */}
-          <div className="space-y-1.5 sm:space-y-3 md:space-y-3.5 text-[11.5px] sm:text-sm md:text-base lg:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
+          <div className="space-y-1.5 min-[390px]:space-y-2.5 sm:space-y-3 md:space-y-3.5 text-[12.5px] min-[375px]:text-[13px] min-[400px]:text-[14.5px] min-[430px]:text-[15.5px] sm:text-[15px] md:text-base lg:text-[16.5px] text-[#4e4e4e] font-sans font-normal leading-relaxed max-w-xl">
             <p>
               There was a time you needed a different app for everything — one to trade, one to pay, one to plan. That era is over.
             </p>
-            <p className="font-serif italic text-xs sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
+            <p className="font-serif italic text-[13.5px] min-[375px]:text-[14.5px] min-[400px]:text-[15.5px] min-[430px]:text-[17px] sm:text-base md:text-lg lg:text-[19px] text-[#3d4837] leading-snug">
               Now, you just ask <span className="font-serif italic font-bold text-[#20291c]">Dope</span>. It handles the rest.
             </p>
             <p>
@@ -282,7 +282,7 @@ function HouseOfAgentsSection() {
             {['AiFi', 'Verifiability', 'x402'].map((badge) => (
               <span
                 key={badge}
-                className="inline-flex items-center gap-1 px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
+                className="inline-flex items-center gap-1 px-2.5 py-1 min-[400px]:px-3 min-[400px]:py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-white/70 backdrop-blur-sm border border-[#55604e]/30 text-[10px] min-[400px]:text-[11px] min-[430px]:text-xs sm:text-xs font-mono uppercase tracking-widest text-[#55604e] font-semibold select-none"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-[#7a382e]/80" />
                 {badge}
@@ -305,7 +305,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-auto max-w-full max-h-[46vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none"
+              className="w-auto max-w-full max-h-[38vh] min-[390px]:max-h-[42vh] min-[430px]:max-h-[47vh] sm:max-h-[55vh] md:max-h-[68vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none"
             >
               <source src={chatScreenMp4} type="video/mp4" />
             </video>
