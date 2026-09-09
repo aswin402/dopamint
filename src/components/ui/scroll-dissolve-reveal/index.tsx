@@ -275,8 +275,9 @@ export function ScrollDissolveReveal({
       const manifestoState = getManifestoBoundaryState(manifesto);
 
       // 2. One intentional downward gesture moves the full viewport from the
-      //    revealed second section to section three.
-      if (window.scrollY <= 6 && e.deltaY > 0 && manifestoState.atEnd) {
+      //    revealed second section to section three on desktop screens.
+      const isDesktop = window.innerWidth >= 1024;
+      if (isDesktop && window.scrollY <= 6 && e.deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
         scrollToNextSection();
@@ -331,7 +332,8 @@ export function ScrollDissolveReveal({
       const manifesto = document.getElementById('manifesto');
       const manifestoState = getManifestoBoundaryState(manifesto);
 
-      if (window.scrollY <= 6 && deltaY > 0 && manifestoState.atEnd) {
+      const isDesktop = window.innerWidth >= 1024;
+      if (isDesktop && window.scrollY <= 6 && deltaY > 0 && manifestoState.atEnd) {
         e.preventDefault();
         e.stopImmediatePropagation();
         scrollToNextSection();
@@ -371,7 +373,8 @@ export function ScrollDissolveReveal({
         const manifestoState = getManifestoBoundaryState(manifesto);
 
         if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
-          if (!manifestoState.atEnd) return;
+          const isDesktop = window.innerWidth >= 1024;
+          if (!isDesktop || !manifestoState.atEnd) return;
           e.preventDefault();
           scrollToNextSection();
         } else if (['ArrowUp', 'PageUp'].includes(e.key)) {
@@ -441,21 +444,28 @@ export function ScrollDissolveReveal({
   const isLocked = !isUnlocked && !prefersReducedMotion;
 
   return (
-    /* Outer container always stays h-screen / min-h-[100dvh] in document flow so next sections never shift */
-    <div className={cn("relative w-full h-screen min-h-[100dvh] bg-[#f3f2e6]", containerClassName)}>
+    /* Outer container: on mobile (<lg), when unlocked, expands naturally with content height so no content is cut off */
+    <div className={cn("relative w-full min-h-[100dvh] h-auto lg:h-screen lg:min-h-[100dvh] bg-[#f3f2e6]", containerClassName)}>
       
       {/* Inner Viewport: Fixed at top: 0 while dissolving, then seamlessly relative when unlocked */}
       <div
         className={cn(
-          "w-full h-full min-h-[100dvh] overflow-hidden bg-[#f3f2e6]",
-          isLocked ? "fixed inset-0 z-30" : "relative z-10",
+          "w-full bg-[#f3f2e6]",
+          isLocked
+            ? "fixed inset-0 z-30 h-full min-h-[100dvh] overflow-hidden"
+            : "relative z-10 min-h-[100dvh] h-auto lg:h-full lg:overflow-hidden",
           className
         )}
       >
         {/* Layer 1: Inner Section (House of Sovereign Agents) */}
         {backgroundContent && (
           <div 
-            className="absolute inset-0 z-0 w-full h-full pointer-events-auto overflow-hidden"
+            className={cn(
+              "z-0 w-full pointer-events-auto",
+              isUnlocked
+                ? "relative min-h-[100dvh] h-auto lg:absolute lg:inset-0 lg:h-full lg:overflow-hidden"
+                : "absolute inset-0 h-full overflow-hidden"
+            )}
             style={{ opacity: smoothProgress > 0.002 ? 1 : 0, pointerEvents: smoothProgress > 0.05 ? 'auto' : 'none' }}
           >
             {backgroundContent}

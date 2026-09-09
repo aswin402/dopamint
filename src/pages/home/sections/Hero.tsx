@@ -237,7 +237,7 @@ function HouseOfAgentsSection() {
   return (
     <div
       id="manifesto"
-      className="w-full h-full relative flex flex-col justify-between lg:justify-center bg-[#f3f2e6] pt-14 min-[390px]:pt-16 sm:pt-24 lg:pt-20 pb-0 overflow-y-auto lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="w-full min-h-[100dvh] h-auto lg:h-full relative flex flex-col justify-start lg:justify-center bg-[#f3f2e6] pt-14 min-[390px]:pt-16 sm:pt-24 lg:pt-20 pb-20 min-[390px]:pb-24 lg:pb-0 overflow-visible lg:overflow-hidden px-4 min-[390px]:px-6 sm:px-8 md:px-10 lg:px-16 select-text"
     >
       <div className="w-full max-w-[1400px] mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-0 lg:gap-6 items-center lg:items-end flex-1">
 
@@ -271,7 +271,7 @@ function HouseOfAgentsSection() {
           </div>
 
           {/* Block 3: Editorial Body Text + Badges */}
-          <div className="order-3 w-full space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 pt-2 lg:pt-0 pb-16 lg:pb-0">
+          <div className="order-3 w-full space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 pt-2 lg:pt-0 pb-10 lg:pb-0">
             {/* Editorial Body Text */}
             <div className="space-y-2.5 min-[390px]:space-y-3 sm:space-y-3.5 text-[15px] min-[375px]:text-[16px] min-[410px]:text-[17px] sm:text-base lg:text-[16.5px] text-[#3d4837] font-sans font-normal leading-relaxed max-w-xl">
               <p>
@@ -303,7 +303,7 @@ function HouseOfAgentsSection() {
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
         <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0">
-          <div className="relative w-full max-w-[320px] min-[360px]:max-w-[350px] min-[390px]:max-w-[390px] min-[420px]:max-w-[430px] min-[460px]:max-w-[480px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end">
+          <div className="relative w-full max-w-[320px] min-[360px]:max-w-[350px] min-[390px]:max-w-[390px] min-[420px]:max-w-[430px] min-[460px]:max-w-[480px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none">
             <video
               ref={videoRef}
               autoPlay
@@ -314,7 +314,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-auto max-w-full max-h-[50vh] min-[390px]:max-h-[56vh] min-[430px]:max-h-[62vh] sm:max-h-[70vh] md:max-h-[78vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none drop-shadow-md lg:drop-shadow-none"
+              className="w-auto max-w-full max-h-[44vh] min-[390px]:max-h-[48vh] min-[430px]:max-h-[52vh] sm:max-h-[62vh] md:max-h-[72vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             >
               <source src={chatScreenMp4} type="video/mp4" />
             </video>
@@ -324,7 +324,7 @@ function HouseOfAgentsSection() {
       </div>
 
       {/* Plain solid div with 3rd section color (#ffffff) and distinct rounded top corners */}
-      <div className="absolute inset-x-0 -bottom-[1px] h-6 sm:h-8 md:h-10 lg:h-12 bg-[#ffffff] rounded-t-[28px] sm:rounded-t-[36px] lg:rounded-t-[44px] pointer-events-none z-30 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]" />
+      <div className="absolute inset-x-0 -bottom-[1px] h-6 sm:h-8 md:h-10 lg:h-12 bg-[#ffffff] rounded-t-[28px] sm:rounded-t-[36px] lg:rounded-t-[44px] pointer-events-none z-30" />
     </div>
   );
 }
