@@ -36,6 +36,7 @@ export function RootLayout() {
     lenis.on('scroll', ScrollTrigger.update);
 
     setLenisInstance(lenis);
+    (window as unknown as { __lenis?: Lenis | null }).__lenis = lenis;
 
     // Mount-order race guard: child effects run before parent effects, so a
     // scroll lock may already be engaged (hero dissolve animation). Pause
@@ -56,6 +57,7 @@ export function RootLayout() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
       setLenisInstance(null);
+      (window as unknown as { __lenis?: Lenis | null }).__lenis = null;
     };
   }, []);
 
