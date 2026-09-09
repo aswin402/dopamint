@@ -16,12 +16,16 @@ function useIsMobile() {
 
   useEffect(() => {
     const mql = window.matchMedia('(max-width: 767px)');
-    const onChange = (e: MediaQueryListEvent) => {
-      setIsMobile(e.matches);
+    const update = () => {
+      setIsMobile(window.innerWidth < 768);
     };
-    setIsMobile(mql.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
+    update();
+    mql.addEventListener('change', update);
+    window.addEventListener('resize', update);
+    return () => {
+      mql.removeEventListener('change', update);
+      window.removeEventListener('resize', update);
+    };
   }, []);
 
   return isMobile;

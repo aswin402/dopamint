@@ -63,7 +63,7 @@ export function RootLayout() {
   }, []);
 
   return (
-    <div className="min-h-screen min-h-[100dvh] flex flex-col bg-[#f3f2e6] text-[#141820] font-sans antialiased w-full max-w-full overflow-x-hidden">
+    <div className="min-h-screen min-h-[100dvh] flex flex-col bg-[#f3f2e6] text-[#141820] font-sans antialiased w-full max-w-full overflow-x-clip">
       {/* Fullscreen Initial Asset & Theme Preloader */}
       {location.pathname === '/' && <Preloader />}
       
