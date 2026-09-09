@@ -302,8 +302,8 @@ function HouseOfAgentsSection() {
         </div>
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
-        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-3 min-[390px]:my-4 sm:my-6 lg:my-0">
-          <div className="relative w-full max-w-[320px] min-[360px]:max-w-[350px] min-[390px]:max-w-[390px] min-[420px]:max-w-[430px] min-[460px]:max-w-[480px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none">
+        <div className="order-2 w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end my-2 min-[390px]:my-3 sm:my-5 lg:my-0">
+          <div className="relative w-full max-w-[360px] min-[375px]:max-w-[400px] min-[410px]:max-w-[450px] min-[440px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[125%] xl:w-[138%] 2xl:w-[145%] lg:-mr-[2vw] xl:-mr-[4vw] 2xl:-mr-[6vw] lg:translate-x-8 xl:translate-x-12 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none">
             <video
               ref={videoRef}
               autoPlay
@@ -314,7 +314,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-auto max-w-full max-h-[44vh] min-[390px]:max-h-[48vh] min-[430px]:max-h-[52vh] sm:max-h-[62vh] md:max-h-[72vh] lg:max-h-[88vh] xl:max-h-[95vh] object-contain object-bottom transition-transform duration-500 hover:scale-[1.01] block origin-bottom pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
+              className="w-full sm:w-auto max-w-full max-h-[58vh] min-[390px]:max-h-[64vh] min-[430px]:max-h-[70vh] sm:max-h-[78vh] md:max-h-[84vh] lg:max-h-[90vh] xl:max-h-[98vh] object-contain object-center lg:object-bottom transition-transform duration-500 hover:scale-[1.01] block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             >
               <source src={chatScreenMp4} type="video/mp4" />
             </video>
