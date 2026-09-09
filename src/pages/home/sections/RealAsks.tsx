@@ -230,41 +230,6 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   );
 };
 
-const StackDot: React.FC<{
-  i: number;
-  progress: MotionValue<number>;
-}> = ({ i, progress }) => {
-  const intervals: [number, number][] = [
-    [0.0, 0.15],
-    [0.15, 0.35],
-    [0.35, 0.55],
-    [0.55, 0.75],
-    [0.75, 0.90],
-    [0.90, 1.0],
-  ];
-  const [start, end] = intervals[i] || [0, 1];
-  const fadeMargin = 0.03;
-
-  const width = useTransform(
-    progress,
-    [Math.max(0, start - fadeMargin), start, end, Math.min(1, end + fadeMargin)],
-    [6, 22, 22, 6]
-  );
-
-  const opacity = useTransform(
-    progress,
-    [Math.max(0, start - fadeMargin), start, end, Math.min(1, end + fadeMargin)],
-    [0.25, 1, 1, 0.25]
-  );
-
-  return (
-    <motion.div
-      style={{ width, opacity }}
-      className="h-1.5 rounded-full bg-[#253b2b]"
-    />
-  );
-};
-
 const MobileStickyStack: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -275,7 +240,7 @@ const MobileStickyStack: React.FC = () => {
   return (
     <div ref={containerRef} className="relative w-full h-[280vh]">
       {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100dvh */}
-      <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-5 min-[390px]:pb-7 px-4 overflow-hidden">
+      <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-0 px-4 overflow-hidden">
         
         {/* Section Header: Clear of navbar, bold enlarged editorial typography */}
         <div className="text-center w-full max-w-md mx-auto relative z-20 shrink-0">
@@ -293,7 +258,7 @@ const MobileStickyStack: React.FC = () => {
         {/* Card Stacking Stage: Centered with 3D perspective and GPU acceleration */}
         <div
           style={{ perspective: 1000, WebkitPerspective: 1000 }}
-          className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[310px] min-[390px]:h-[340px] min-[430px]:h-[370px] flex items-center justify-center my-auto z-20"
+          className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[290px] min-[390px]:h-[320px] min-[430px]:h-[350px] flex items-center justify-center my-auto z-20"
         >
           {ASK_CARDS.map((card, i) => (
             <MobilePinnedCard
@@ -306,15 +271,20 @@ const MobileStickyStack: React.FC = () => {
           ))}
         </div>
 
-        {/* Stack Progress Dots */}
-        <div className="flex items-center justify-center gap-1.5 shrink-0 z-20 pb-2">
-          {ASK_CARDS.map((_, idx) => (
-            <StackDot
-              key={idx}
-              i={idx}
-              progress={scrollYProgress}
+        {/* Stone carved pedestal — bottom center (replacing dots on mobile like desktop) */}
+        <div className="relative shrink-0 -mb-6 min-[390px]:-mb-8 min-[430px]:-mb-10 w-26 min-[360px]:w-28 min-[390px]:w-32 min-[430px]:w-36 z-20 flex flex-col items-center select-none pointer-events-none transform-gpu">
+          <motion.div
+            animate={{ y: [-2, 2, -2] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-full transform-gpu"
+          >
+            <img
+              src={iMessagePodiumImg}
+              alt="iMessage Stone Carved Podium"
+              decoding="async"
+              className="w-full h-auto object-contain drop-shadow-[0_12px_26px_rgba(40,30,20,0.20)] select-none"
             />
-          ))}
+          </motion.div>
         </div>
 
       </div>
