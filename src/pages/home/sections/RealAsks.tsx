@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, useInView, useScroll, useTransform, type Variants, type MotionValue } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
@@ -123,47 +123,80 @@ interface MobilePinnedCardProps {
   total: number;
 }
 
+const STEP_THRESHOLDS = [0.0, 0.18, 0.35, 0.52, 0.69, 0.86];
+
 const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   i,
   card,
   progress,
   total,
 }) => {
-  // Stagger thresholds across scroll progress 0.0 -> 0.88
-  // Card 0 is already present
-  // Card 1 enters at [0.08, 0.22]
-  // Card 2 enters at [0.24, 0.38]
-  // Card 3 enters at [0.40, 0.54]
-  // Card 4 enters at [0.56, 0.70]
-  // Card 5 enters at [0.72, 0.86]
-  const startEnter = i === 0 ? 0 : (i - 1) * 0.16 + 0.08;
-  const finishEnter = i === 0 ? 0 : startEnter + 0.14;
+  const { pList, yList, sList, oList } = useMemo(() => {
+    const pList: number[] = [];
+    const yList: number[] = [];
+    const sList: number[] = [];
+    const oList: number[] = [];
 
-  const opacity = useTransform(
-    progress,
-    i === 0 ? [0, 1] : [Math.max(0, startEnter - 0.02), startEnter, finishEnter],
-    i === 0 ? [1, 1] : [0, 0.2, 1]
-  );
+    if (i === 0) {
+      pList.push(0);
+      yList.push(0);
+      sList.push(1.0);
+      oList.push(1.0);
 
-  const y = useTransform(
-    progress,
-    i === 0
-      ? [0, 0.25, 0.50, 0.75, 1.0]
-      : [startEnter, finishEnter, 0.88, 1.0],
-    i === 0
-      ? [0, -6, -14, -20, -26]
-      : [160, 0, -(total - i - 1) * 6, -(total - i - 1) * 6]
-  );
+      for (let k = 1; k < total; k++) {
+        const p = STEP_THRESHOLDS[k];
+        const depth = k;
+        pList.push(p);
+        yList.push(-Math.min(38, depth * 8));
+        sList.push(Math.max(0.85, 1.0 - depth * 0.03));
+        oList.push(Math.max(0.75, 1.0 - depth * 0.05));
+      }
+      pList.push(1.0);
+      yList.push(yList[yList.length - 1]);
+      sList.push(sList[sList.length - 1]);
+      oList.push(oList[oList.length - 1]);
+    } else {
+      const targetP = STEP_THRESHOLDS[i];
+      const startP = Math.max(0.01, targetP - 0.13);
 
-  const scale = useTransform(
-    progress,
-    i === 0
-      ? [0, 0.25, 0.50, 0.75, 1.0]
-      : [startEnter, finishEnter, 0.88, 1.0],
-    i === 0
-      ? [1, 0.95, 0.90, 0.86, 0.82]
-      : [0.92, 1, Math.max(0.84, 1 - (total - i - 1) * 0.04), Math.max(0.84, 1 - (total - i - 1) * 0.04)]
-  );
+      pList.push(0);
+      yList.push(150);
+      sList.push(0.95);
+      oList.push(0);
+
+      if (startP > 0.01) {
+        pList.push(startP);
+        yList.push(150);
+        sList.push(0.95);
+        oList.push(0);
+      }
+
+      pList.push(targetP);
+      yList.push(0);
+      sList.push(1.0);
+      oList.push(1.0);
+
+      for (let k = i + 1; k < total; k++) {
+        const p = STEP_THRESHOLDS[k];
+        const depth = k - i;
+        pList.push(p);
+        yList.push(-Math.min(38, depth * 8));
+        sList.push(Math.max(0.85, 1.0 - depth * 0.03));
+        oList.push(Math.max(0.75, 1.0 - depth * 0.05));
+      }
+
+      pList.push(1.0);
+      yList.push(yList[yList.length - 1]);
+      sList.push(sList[sList.length - 1]);
+      oList.push(oList[oList.length - 1]);
+    }
+
+    return { pList, yList, sList, oList };
+  }, [i, total]);
+
+  const opacity = useTransform(progress, pList, oList);
+  const y = useTransform(progress, pList, yList);
+  const scale = useTransform(progress, pList, sList);
 
   return (
     <motion.div
@@ -176,10 +209,8 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
         rotate: card.rotation,
         willChange: 'transform, opacity',
       }}
-      className={`absolute inset-x-0 mx-auto w-[92vw] transform-gpu shadow-[0_16px_36px_rgba(40,30,20,0.12)] ${
-        card.isSm
-          ? 'max-w-[325px] min-[390px]:max-w-[360px] min-[430px]:max-w-[395px] ' + cardSm
-          : 'max-w-[350px] min-[390px]:max-w-[385px] min-[430px]:max-w-[430px] ' + cardBase
+      className={`absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] transform-gpu shadow-[0_16px_36px_rgba(40,30,20,0.12)] hover:shadow-[0_24px_45px_rgba(40,30,20,0.18)] select-none transition-shadow duration-300 ${
+        card.isSm ? cardSm : cardBase
       }`}
     >
       <LogosHeader items={card.logos} />
@@ -189,6 +220,37 @@ const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
         ))}
       </div>
     </motion.div>
+  );
+};
+
+const StackDot: React.FC<{
+  i: number;
+  progress: MotionValue<number>;
+}> = ({ i, progress }) => {
+  const current = STEP_THRESHOLDS[i];
+  const prev = i > 0 ? STEP_THRESHOLDS[i - 1] : 0;
+  const next = i < STEP_THRESHOLDS.length - 1 ? STEP_THRESHOLDS[i + 1] : 1.0;
+
+  const activeStart = i === 0 ? 0 : (prev + current) / 2;
+  const activeEnd = i === STEP_THRESHOLDS.length - 1 ? 1.0 : (current + next) / 2;
+
+  const width = useTransform(
+    progress,
+    [Math.max(0, activeStart - 0.04), activeStart, activeEnd, Math.min(1, activeEnd + 0.04)],
+    [6, 22, 22, 6]
+  );
+
+  const opacity = useTransform(
+    progress,
+    [Math.max(0, activeStart - 0.04), activeStart, activeEnd, Math.min(1, activeEnd + 0.04)],
+    [0.3, 1, 1, 0.3]
+  );
+
+  return (
+    <motion.div
+      style={{ width, opacity }}
+      className="h-1.5 rounded-full bg-[#253b2b]"
+    />
   );
 };
 
@@ -202,42 +264,23 @@ const MobileStickyStack: React.FC = () => {
   return (
     <div ref={containerRef} className="relative w-full h-[280vh]">
       {/* Pinned Screen Viewport: Screen stays in place while user scrolls & cards stack */}
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-between pt-16 sm:pt-20 pb-0 px-4 overflow-hidden">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center pt-8 pb-12 px-4 overflow-hidden">
         
-        {/* Candle Stand Top Right */}
-        <div className="absolute top-28 sm:top-32 -right-8 sm:-right-12 w-44 sm:w-56 pointer-events-none z-10 opacity-90 transform-gpu">
-          <img
-            src={candleStandImg}
-            alt="Antique Candle Stand"
-            className="w-full h-auto object-contain drop-shadow-[0_12px_24px_rgba(40,30,20,0.16)] select-none"
-          />
-        </div>
-
-        {/* Renaissance Scholar Man — Full Height Background on Left Side */}
-        <div
-          className="absolute bottom-0 -left-72 sm:-left-80 h-[84vh] max-h-[800px] w-auto pointer-events-none z-10 opacity-90 flex items-end transform-gpu will-change-transform"
-        >
-          <img
-            src={sideCharImg}
-            alt="Renaissance Scholar"
-            loading="lazy"
-            decoding="async"
-            className="h-full w-auto max-w-none object-contain select-none"
-          />
-        </div>
-
         {/* Section Header */}
-        <div className="text-center w-full max-w-md mx-auto mb-2 sm:mb-3 relative z-20">
-          <h2 className="text-3xl min-[390px]:text-[34px] min-[430px]:text-4xl sm:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
+        <div className="text-center w-full max-w-md mx-auto mb-5 min-[390px]:mb-7 relative z-20">
+          <h2 className="text-3xl min-[390px]:text-[36px] min-[430px]:text-4xl tracking-tight text-[#2d3e32] font-serif font-normal leading-tight">
             Just state what you{' '}
             <span className="font-serif italic font-bold text-[#253b2b]">
               want.
             </span>
           </h2>
+          <p className="text-xs min-[390px]:text-sm text-[#55604e]/70 font-sans mt-1.5">
+            Real asks, handled autonomously in seconds.
+          </p>
         </div>
 
         {/* Card Stacking Stage */}
-        <div className="relative w-full max-w-md min-[430px]:max-w-lg mx-auto h-[350px] min-[390px]:h-[385px] min-[430px]:h-[420px] flex items-center justify-center my-auto z-20">
+        <div className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[320px] min-[390px]:h-[350px] min-[430px]:h-[380px] flex items-center justify-center my-auto z-20">
           {ASK_CARDS.map((card, i) => (
             <MobilePinnedCard
               key={`m_${card.id}`}
@@ -249,17 +292,15 @@ const MobileStickyStack: React.FC = () => {
           ))}
         </div>
 
-        {/* Stone Carved iMessage Podium at bottom right */}
-        <div className="absolute -bottom-6 sm:-bottom-8 right-6 sm:right-10 w-24 sm:w-28 z-30 flex flex-col items-center cursor-pointer transform-gpu">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full transform-gpu">
-            <img
-              src={iMessagePodiumImg}
-              alt="iMessage Stone Carved Podium"
-              loading="lazy"
-              decoding="async"
-              className="w-full h-auto object-contain drop-shadow-[0_10px_20px_rgba(40,30,20,0.16)] select-none"
+        {/* Stack Progress Dots */}
+        <div className="flex items-center justify-center gap-1.5 mt-6 mb-2 z-20">
+          {ASK_CARDS.map((_, idx) => (
+            <StackDot
+              key={idx}
+              i={idx}
+              progress={scrollYProgress}
             />
-          </motion.div>
+          ))}
         </div>
 
       </div>
