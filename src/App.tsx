@@ -5,6 +5,7 @@ import { HomePage } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@/ErrorBoundary';
 
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
+const WaitlistPage = lazy(() => import('@/pages/waitlist/WaitlistPage').then((m) => ({ default: m.WaitlistPage })));
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <HomePage />,
+      },
+      {
+        path: 'waitlist',
+        element: <WaitlistPage />,
       },
       {
         path: '*',

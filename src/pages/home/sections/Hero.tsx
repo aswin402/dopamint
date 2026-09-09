@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
 import heroBgVidMp4 from '../../../assets/herosectionbgvid.mp4';
@@ -188,15 +189,19 @@ function HeroOverlay({
         </p>
 
         {/* Get App CTA */}
-        <motion.a
-          href="#manifesto"
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-3 sm:mt-5 inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-8 py-2.5 sm:py-3 min-h-[42px] font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+          className="mt-3 sm:mt-5"
         >
-          Get App
-        </motion.a>
+          <Link
+            to="/waitlist"
+            className="inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-8 py-2.5 sm:py-3 min-h-[42px] font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+          >
+            Get App
+          </Link>
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -358,6 +363,7 @@ function HouseOfAgentsSection() {
 }
 
 export const Hero: React.FC = () => {
+  const navigate = useNavigate();
   const isDesktop = useIsDesktop();
   const [actionIndex, setActionIndex] = useState(0);
   const [promptValue, setPromptValue] = useState('');
@@ -379,11 +385,8 @@ export const Hero: React.FC = () => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!promptValue.trim()) return;
-    const appEl = document.getElementById('manifesto') || document.getElementById('asks');
-    if (appEl) {
-      appEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    const val = promptValue.trim();
+    navigate('/waitlist', { state: { prompt: val } });
   };
 
   return (
