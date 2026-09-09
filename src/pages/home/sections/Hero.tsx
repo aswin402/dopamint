@@ -299,7 +299,7 @@ function HouseOfAgentsSection() {
           </div>
 
           {/* Block 3: Editorial Body Text + Badges (On mobile: white surface with rounded top corners at bottom of video) */}
-          <div className="order-3 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full bg-[#ffffff] lg:bg-transparent rounded-t-[28px] min-[390px]:rounded-t-[32px] sm:rounded-t-[36px] lg:rounded-t-none px-4 min-[390px]:px-6 sm:px-8 lg:px-0 pt-7 min-[390px]:pt-8 sm:pt-10 lg:pt-0 pb-14 min-[390px]:pb-16 sm:pb-20 lg:pb-0 space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 -mt-6 sm:-mt-8 lg:mt-0 relative shadow-xs lg:shadow-none">
+          <div className="order-3 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full bg-[#ffffff] lg:bg-transparent rounded-t-[28px] min-[390px]:rounded-t-[32px] sm:rounded-t-[36px] lg:rounded-t-none px-4 min-[390px]:px-6 sm:px-8 lg:px-0 pt-7 min-[390px]:pt-8 sm:pt-10 lg:pt-0 pb-14 min-[390px]:pb-16 sm:pb-20 lg:pb-0 space-y-3.5 min-[390px]:space-y-4 sm:space-y-4.5 text-left z-20 mt-4 min-[390px]:mt-5 sm:mt-6 lg:mt-0 relative shadow-xs lg:shadow-none">
             {/* Editorial Body Text */}
             <div className="space-y-2.5 min-[390px]:space-y-3 sm:space-y-3.5 text-[15px] min-[375px]:text-[16px] min-[410px]:text-[17px] sm:text-base lg:text-[16.5px] text-[#3d4837] font-sans font-normal leading-relaxed max-w-xl">
               <p>
