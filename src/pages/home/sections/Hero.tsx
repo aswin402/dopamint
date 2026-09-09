@@ -276,7 +276,7 @@ function HouseOfAgentsSection() {
         <div className="contents lg:block lg:col-span-6 lg:space-y-5 lg:text-left lg:self-center lg:pb-12 lg:z-20">
 
           {/* Block 1: Header (Eyebrow + Large Title + Built on Base) */}
-          <div className="order-1 w-full space-y-2 min-[390px]:space-y-2.5 sm:space-y-3 text-left z-20">
+          <div className="order-1 w-full space-y-2 min-[390px]:space-y-2.5 sm:space-y-3 text-center lg:text-left z-20">
             {/* Small Eyebrow */}
             <div className="pt-2 min-[390px]:pt-3 lg:pt-0">
               <span className="font-mono text-xs min-[375px]:text-[13px] min-[410px]:text-[14px] sm:text-sm uppercase tracking-[0.24em] text-[#55604e] font-semibold">
