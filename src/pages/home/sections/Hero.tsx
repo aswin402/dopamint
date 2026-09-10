@@ -336,7 +336,7 @@ function HouseOfAgentsSection() {
 
         {/* Block 2: Chat Screen Video Placed in the Middle on Mobile, Right Column on Desktop */}
         <div className="order-2 -mx-4 min-[390px]:-mx-6 sm:-mx-8 lg:mx-0 w-[calc(100%+2rem)] min-[390px]:w-[calc(100%+3rem)] sm:w-[calc(100%+4rem)] lg:w-full lg:order-none lg:col-span-6 relative flex items-center justify-center lg:items-end lg:justify-end z-10 self-center lg:self-end mt-4 min-[390px]:mt-6 sm:mt-8 lg:mt-0 mb-2 sm:mb-4 lg:mb-0 overflow-visible">
-          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[112%] xl:w-[120%] 2xl:w-[144%] min-[1750px]:w-[154%] min-[1900px]:w-[162%] lg:-mr-[1vw] xl:-mr-[2.5vw] 2xl:-mr-[8vw] min-[1750px]:-mr-[12vw] min-[1900px]:-mr-[14vw] translate-x-4 min-[390px]:translate-x-6 sm:translate-x-8 lg:translate-x-1 min-[1150px]:translate-x-3 xl:translate-x-8 2xl:translate-x-32 min-[1750px]:translate-x-44 min-[1900px]:translate-x-52 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
+          <div className="relative w-full max-w-[390px] min-[360px]:max-w-[420px] min-[390px]:max-w-[460px] min-[430px]:max-w-[500px] sm:max-w-xl md:max-w-2xl lg:max-w-none lg:w-[112%] xl:w-[120%] 2xl:w-[126%] min-[1700px]:w-[140%] min-[1880px]:w-[152%] lg:-mr-[1.5vw] xl:-mr-[3vw] 2xl:-mr-[4vw] min-[1700px]:-mr-[7vw] min-[1880px]:-mr-[10vw] translate-x-4 min-[390px]:translate-x-6 sm:translate-x-8 lg:translate-x-3 min-[1150px]:translate-x-6 xl:translate-x-12 min-[1400px]:translate-x-13 2xl:translate-x-14 min-[1700px]:translate-x-32 min-[1880px]:translate-x-48 flex items-center justify-center lg:items-end lg:justify-end border-0 shadow-none mx-auto lg:mx-0">
             <video
               key={isDesktop ? 'desktop' : 'mobile'}
               ref={videoRef}
@@ -349,7 +349,7 @@ function HouseOfAgentsSection() {
               controls={false}
               disablePictureInPicture
               disableRemotePlayback
-              className="w-full h-auto max-w-full max-h-[78vh] min-[390px]:max-h-[82vh] min-[430px]:max-h-[86vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[86vh] xl:max-h-[90vh] 2xl:max-h-[96vh] min-[1750px]:max-h-[99vh] object-contain object-center lg:object-bottom scale-[1.12] min-[360px]:scale-[1.15] min-[390px]:scale-[1.18] sm:scale-[1.10] lg:scale-[0.96] xl:scale-[0.98] 2xl:scale-[1.10] min-[1750px]:scale-[1.16] min-[1900px]:scale-[1.20] origin-top lg:origin-bottom-right transition-transform duration-500 block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
+              className="w-full h-auto max-w-full max-h-[78vh] min-[390px]:max-h-[82vh] min-[430px]:max-h-[86vh] sm:max-h-[88vh] md:max-h-[90vh] lg:max-h-[86vh] xl:max-h-[90vh] min-[1700px]:max-h-[94vh] min-[1880px]:max-h-[96vh] object-contain object-center lg:object-bottom scale-[1.12] min-[360px]:scale-[1.15] min-[390px]:scale-[1.18] sm:scale-[1.10] lg:scale-[0.96] xl:scale-[0.98] min-[1700px]:scale-[1.08] min-[1880px]:scale-[1.15] origin-top lg:origin-bottom-right transition-transform duration-500 block pointer-events-none border-0 outline-none shadow-none drop-shadow-none"
             />
           </div>
         </div>
