@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import confetti from 'canvas-confetti';
-import { ArrowLeft, CheckCircle2, Shield, Lock, Zap } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Link2, Shield, Zap } from 'lucide-react';
 import { getLenisInstance } from '@/lib/lenis';
 import iconDopeImg from '@/assets/Icondope.webp';
 import logoDopeImg from '@/assets/logo_dope.webp';
@@ -181,7 +181,7 @@ export function WaitlistPage() {
               {/* Curving Text along Path */}
               <text className="font-serif italic font-bold text-[8.5px] fill-[#25362a] tracking-wider uppercase select-none">
                 <textPath href="#seal-text-path" startOffset="50%" textAnchor="middle">
-                  ★ GET EARLY ACCESS ★ THE NEXT ERA OF AGENTS ★
+                  ★ HOUSE OF INTENT ★ BASED AGENTS ★
                 </textPath>
               </text>
             </svg>
@@ -198,21 +198,21 @@ export function WaitlistPage() {
 
           {/* Subtitle Eyebrow Tag */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#e0e8dc]/80 border border-[#445648]/30 text-[11px] sm:text-xs font-mono uppercase tracking-[0.20em] text-[#25362a] font-semibold mb-3 shadow-xs">
-            <span>Next Era of Autonomous Agents</span>
+            <span>The Next Era of Agents</span>
           </div>
 
-          {/* BIG FONT HEADLINE: JOIN WAITLIST */}
+          {/* BIG FONT HEADLINE: JOIN THE WAITLIST */}
           <h1 className="text-4xl min-[360px]:text-5xl sm:text-6xl md:text-7xl font-serif font-normal uppercase tracking-tight text-[#141820] leading-[1.02] mb-3">
-            Join <span className="font-serif italic font-bold text-[#25362a]">Waitlist</span>
+            Join The <span className="font-serif italic font-bold text-[#25362a]">Waitlist</span>
           </h1>
 
           {/* Subtitle / Teaser */}
           <p className="font-serif italic text-base min-[360px]:text-lg sm:text-xl text-[#7a382e] font-semibold mb-2">
-            Get early access to the next era of agents
+            Your agents. Your intent. Your world.
           </p>
 
           <p className="text-xs min-[360px]:text-sm sm:text-base text-[#4b5546] font-sans leading-relaxed max-w-md mx-auto mb-6 sm:mb-8">
-            Freebies and early agent harnesses will appear soon here. Join the waitlist to be the first to be informed.
+            Dopamint is building a new way to get things done. Tell your agents what you want — they handle the rest.
           </p>
 
           {/* If user entered a prompt in Hero, show intent preview */}
@@ -267,7 +267,7 @@ export function WaitlistPage() {
                   {isSubmitting ? (
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
-                    <span>JOIN WAITLIST</span>
+                    <span>GET EARLY ACCESS →</span>
                   )}
                 </button>
               </form>
@@ -275,15 +275,15 @@ export function WaitlistPage() {
               {/* Trust Micro-Pills */}
               <div className="pt-5 mt-5 border-t border-[#eedbc4]/70 flex items-center justify-center gap-3 sm:gap-4 text-[10.5px] sm:text-[11px] font-mono uppercase tracking-wider text-[#55604e]/80 select-none">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="w-3 h-3 text-[#25362a]" /> Base Network
+                  <Link2 className="w-3 h-3 text-[#25362a]" /> BUILT ON BASE
                 </span>
                 <span>·</span>
                 <span className="flex items-center gap-1.5">
-                  <Lock className="w-3 h-3 text-[#25362a]" /> Non-Custodial
+                  <Shield className="w-3 h-3 text-[#25362a]" /> VERIFIABILITY
                 </span>
                 <span>·</span>
                 <span className="flex items-center gap-1.5">
-                  <Zap className="w-3 h-3 text-[#7a382e]" /> Zero Spam
+                  <Zap className="w-3 h-3 text-[#7a382e]" /> AiFi ECOSYSTEM
                 </span>
               </div>
             </div>
