@@ -70,7 +70,7 @@ export const CryptoLogosMarquee: React.FC = () => {
           </div>
         </div>
 
-        {/* ── ROW 2: Productivity, Social & Market Intel (Moving RIGHT) ── */}
+        {/* ── ROW 2: Major Global Exchanges & Protocols (Moving RIGHT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
           <div className="flex w-max shrink-0 items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}
@@ -104,7 +104,7 @@ export const CryptoLogosMarquee: React.FC = () => {
           </div>
         </div>
 
-        {/* ── ROW 3: Major Global Exchanges & Protocols (Moving LEFT) ── */}
+        {/* ── ROW 3: Productivity, Social & Market Intel (Moving LEFT) ── */}
         <div className="relative w-full overflow-hidden flex items-center group">
           <div className="flex w-max shrink-0 items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
             {/* Sequence 1 */}

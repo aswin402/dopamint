@@ -34,7 +34,6 @@ import logo16 from '../assets/crypto_logos/logo_16.webp';
 import logo17 from '../assets/crypto_logos/logo_17.webp';
 import logo18 from '../assets/crypto_logos/logo_18.webp';
 import logo19 from '../assets/crypto_logos/logo_19.webp';
-import mexcLogo from '../assets/crypto_logos/mexc.webp';
 import krakenLogo from '../assets/crypto_logos/kraken.webp';
 import jupiterLogo from '../assets/crypto_logos/jupiter.webp';
 import rainbowLogo from '../assets/crypto_logos/rainbow.webp';
@@ -62,22 +61,8 @@ export const ROW_1_LOGOS: EcosystemLogo[] = [
   { id: 'app-github', src: githubLogo, alt: 'GitHub' },
 ];
 
-// ── ROW 2: Productivity, Social & Market Intelligence (10 Unique, Moving Right) ──
+// ── ROW 2: Major Global Exchanges & Protocols (10 Unique, Moving Right) ──
 export const ROW_2_LOGOS: EcosystemLogo[] = [
-  { id: 'app-tradingview', src: tradingviewLogo, alt: 'TradingView' },
-  { id: 'app-robinhood', src: robinhoodLogo, alt: 'Robinhood' },
-  { id: 'app-coingecko', src: coingeckoLogo, alt: 'CoinGecko' },
-  { id: 'app-x', src: xLogo, alt: 'X' },
-  { id: 'app-discord', src: discordLogo, alt: 'Discord' },
-  { id: 'ex-binance', src: logo10, alt: 'Binance' },
-  { id: 'ex-coinbase', src: logo11, alt: 'Coinbase' },
-  { id: 'ex-gemini', src: logo19, alt: 'Gemini' },
-  { id: 'ex-kraken', src: krakenLogo, alt: 'Kraken' },
-  { id: 'ex-mexc', src: mexcLogo, alt: 'MEXC' },
-];
-
-// ── ROW 3: Major Global Exchanges & Protocols (10 Unique, Moving Left) ──
-export const ROW_3_LOGOS: EcosystemLogo[] = [
   { id: 'ex-okx', src: logo05, alt: 'OKX' },
   { id: 'ex-bybit', src: logo16, alt: 'Bybit' },
   { id: 'ex-kucoin', src: logo17, alt: 'KuCoin' },
@@ -88,6 +73,19 @@ export const ROW_3_LOGOS: EcosystemLogo[] = [
   { id: 'w-polygon', src: logo14, alt: 'Polygon' },
   { id: 'w-jupiter', src: jupiterLogo, alt: 'Jupiter' },
   { id: 'w-oneinch', src: oneinchLogo, alt: '1inch' },
+];
+
+// ── ROW 3: Productivity, Social & Market Intelligence (Moving Left) ──
+export const ROW_3_LOGOS: EcosystemLogo[] = [
+  { id: 'app-tradingview', src: tradingviewLogo, alt: 'TradingView' },
+  { id: 'app-robinhood', src: robinhoodLogo, alt: 'Robinhood' },
+  { id: 'app-coingecko', src: coingeckoLogo, alt: 'CoinGecko' },
+  { id: 'app-x', src: xLogo, alt: 'X' },
+  { id: 'app-discord', src: discordLogo, alt: 'Discord' },
+  { id: 'ex-binance', src: logo10, alt: 'Binance' },
+  { id: 'ex-coinbase', src: logo11, alt: 'Coinbase' },
+  { id: 'ex-mexc', src: logo19, alt: 'MEXC' },
+  { id: 'ex-kraken', src: krakenLogo, alt: 'Kraken' },
 ];
 
 // ── ROW 4: Web3 Wallets, Hardware & Custody (10 Unique, Moving Right) ──
