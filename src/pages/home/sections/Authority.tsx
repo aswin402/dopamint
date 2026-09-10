@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
-import companionVideoWebm from '../../../assets/Companion_Video_1.webm';
-import companionVideoMp4 from '../../../assets/Companion_Video_1.mp4';
+import companionVideoWebm from '../../../assets/Companion_Video.webm';
+import companionVideoMp4 from '../../../assets/Companion_Video.mp4';
 
 const companionVideoSrc = (() => {
   if (typeof document === 'undefined') return companionVideoWebm;
