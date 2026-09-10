@@ -112,17 +112,11 @@ export const Authority: React.FC = () => {
             </div>
           </div>
 
-          {/* Bottom Bar: Metadata + CTA */}
+          {/* Bottom Bar: Metadata */}
           <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-4 sm:gap-5 pt-3 sm:pt-6 w-full">
             <span className="text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] font-semibold text-[#55604e] text-center sm:text-left">
               Virtual Agents · In the Frame
             </span>
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center rounded-full bg-[#55604e] px-8 py-3.5 text-xs sm:text-[13px] min-h-[44px] font-mono font-bold uppercase tracking-[0.2em] text-[#f7f5f0] transition-all duration-200 hover:bg-[#434d3e] hover:scale-105 shadow-sm hover:shadow-md mx-auto sm:mx-0 cursor-pointer"
-            >
-              Get API
-            </a>
           </div>
 
         </div>

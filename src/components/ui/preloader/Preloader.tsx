@@ -166,7 +166,7 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
               transition={{ duration: 0.7, delay: 0.3 }}
               className="font-serif italic text-xs sm:text-sm md:text-base text-[#55604e] tracking-wider mb-6 sm:mb-8 select-none"
             >
-              House of Sovereign Agents
+              House of Intent based Agents
             </motion.p>
 
             {/* Progress Gauge + Status Log */}

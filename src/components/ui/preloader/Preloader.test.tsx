@@ -7,7 +7,7 @@ describe('Preloader Component', () => {
     const html = renderToStaticMarkup(<Preloader minDurationMs={100} />);
 
     expect(html).toContain('DOPAMINT');
-    expect(html).toContain('House of Sovereign Agents');
+    expect(html).toContain('House of Intent based Agents');
     expect(html).toContain('DOPAMINT PROTOCOL');
     expect(html).toContain('BASE NETWORK');
     expect(html).toContain('HARNESS · MEMORY · PAYMENTS');

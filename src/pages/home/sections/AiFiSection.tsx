@@ -165,11 +165,8 @@ export const AiFiSection: React.FC = () => {
 
               <h2 className="font-serif text-2xl min-[360px]:text-[26px] min-[390px]:text-[28px] text-[#25362a] tracking-tight leading-tight">
                 AiFi Powered Agents That Act With{' '}
-                <span className="italic font-bold relative inline-block text-[#25362a]">
+                <span className="italic font-bold text-[#25362a]">
                   Trust.
-                  <svg className="absolute -bottom-1.5 left-0 w-full h-2.5 text-[#c4a978] pointer-events-none" viewBox="0 0 160 18" fill="none" preserveAspectRatio="none">
-                    <path d="M3 12 C 40 4, 110 5, 157 9 C 120 16, 50 15, 6 14" stroke="#c4a978" strokeWidth="4.5" strokeLinecap="round" fill="#c4a978" fillOpacity="0.25" />
-                  </svg>
                 </span>
               </h2>
 
@@ -288,11 +285,8 @@ export const AiFiSection: React.FC = () => {
 
             <h2 className="font-serif text-2xl min-[360px]:text-3xl sm:text-5xl lg:text-[54px] xl:text-6xl text-[#25362a] tracking-tight leading-[1.12]">
               AiFi Powered Agents That Act With{' '}
-              <span className="italic font-bold relative inline-block text-[#25362a]">
+              <span className="italic font-bold text-[#25362a]">
                 Trust.
-                <svg className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 sm:h-4 text-[#c4a978] pointer-events-none" viewBox="0 0 160 18" fill="none" preserveAspectRatio="none">
-                  <path d="M3 12 C 40 4, 110 5, 157 9 C 120 16, 50 15, 6 14" stroke="#c4a978" strokeWidth="4.5" strokeLinecap="round" fill="#c4a978" fillOpacity="0.25" />
-                </svg>
               </span>
             </h2>
 
