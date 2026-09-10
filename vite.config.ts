@@ -14,9 +14,13 @@ export default defineConfig({
     tailwindcss(),
   ],
   server: {
+    host: true,
     hmr: {
       overlay: true,
     },
+  },
+  preview: {
+    host: true,
   },
   resolve: {
     alias: {

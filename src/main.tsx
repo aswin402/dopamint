@@ -7,10 +7,17 @@ import App from './App.tsx'
 // Handle Vite dynamic import chunk failures when a new deployment invalidates old chunk hashes
 window.addEventListener('vite:preloadError', (event) => {
   event.preventDefault();
-  const hasReloaded = sessionStorage.getItem('vite_preload_retry');
-  if (!hasReloaded) {
-    sessionStorage.setItem('vite_preload_retry', 'true');
-    window.location.reload();
+  try {
+    const key = 'vite_preload_retry_ts';
+    const last = sessionStorage.getItem(key);
+    const now = Date.now();
+    // Only attempt a reload at most once every 30 seconds to prevent any mobile reload loops
+    if (!last || now - Number(last) > 30000) {
+      sessionStorage.setItem(key, String(now));
+      window.location.reload();
+    }
+  } catch {
+    // If storage is disabled/inaccessible (e.g. mobile private mode), ignore to avoid crash
   }
 });
 

@@ -10,11 +10,11 @@ export function lazyWithRetry<T extends ComponentType<any>>(
   componentImport: () => Promise<{ default: T } | any>
 ) {
   return lazy(async () => {
-    const hasForceRefreshed = sessionStorage.getItem('chunk_retry');
-
     try {
       const component = await componentImport();
-      sessionStorage.removeItem('chunk_retry');
+      try {
+        sessionStorage.removeItem('chunk_retry_ts');
+      } catch {}
       return component.default ? component : { default: component };
     } catch (error: any) {
       const isChunkError =
@@ -22,8 +22,17 @@ export function lazyWithRetry<T extends ComponentType<any>>(
         error?.message?.includes('error loading dynamically imported module') ||
         error?.message?.includes('Importing a module script failed');
 
-      if (isChunkError && !hasForceRefreshed) {
-        sessionStorage.setItem('chunk_retry', 'true');
+      let canRetry = false;
+      try {
+        const lastRetry = sessionStorage.getItem('chunk_retry_ts');
+        const now = Date.now();
+        if (!lastRetry || now - Number(lastRetry) > 30000) {
+          sessionStorage.setItem('chunk_retry_ts', String(now));
+          canRetry = true;
+        }
+      } catch {}
+
+      if (isChunkError && canRetry) {
         window.location.reload();
         return { default: (() => null) as unknown as T };
       }

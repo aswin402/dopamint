@@ -16,10 +16,16 @@ export function RouteErrorBoundary() {
 
   useEffect(() => {
     if (isChunkError) {
-      const hasReloaded = sessionStorage.getItem('route_chunk_retry');
-      if (!hasReloaded) {
-        sessionStorage.setItem('route_chunk_retry', 'true');
-        window.location.reload();
+      try {
+        const key = 'route_chunk_retry_ts';
+        const last = sessionStorage.getItem(key);
+        const now = Date.now();
+        if (!last || now - Number(last) > 30000) {
+          sessionStorage.setItem(key, String(now));
+          window.location.reload();
+        }
+      } catch {
+        // Storage restricted (e.g. mobile private mode)
       }
     }
   }, [isChunkError]);
@@ -33,7 +39,9 @@ export function RouteErrorBoundary() {
         </p>
         <button
           onClick={() => {
-            sessionStorage.removeItem('route_chunk_retry');
+            try {
+              sessionStorage.removeItem('route_chunk_retry_ts');
+            } catch {}
             window.location.reload();
           }}
           className="rounded-xl bg-[#141820] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
