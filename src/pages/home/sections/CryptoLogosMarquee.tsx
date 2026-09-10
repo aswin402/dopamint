@@ -112,12 +112,12 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r3-a-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-14 sm:h-[74px] lg:h-[86px] px-2 sm:px-3 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-[42px] sm:h-[52px] lg:h-[60px] w-auto max-w-[170px] sm:max-w-[220px] lg:max-w-[260px] object-contain shrink-0 opacity-100 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
@@ -126,12 +126,12 @@ export const CryptoLogosMarquee: React.FC = () => {
               <div
                 key={`r3-b-${logo.id}`}
                 title={logo.alt}
-                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-14 sm:h-[74px] lg:h-[86px] px-2 sm:px-3 transition-transform duration-300 hover:scale-110 cursor-pointer"
               >
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                  className="h-[42px] sm:h-[52px] lg:h-[60px] w-auto max-w-[170px] sm:max-w-[220px] lg:max-w-[260px] object-contain shrink-0 opacity-100 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}
