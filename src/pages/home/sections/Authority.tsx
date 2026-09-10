@@ -67,7 +67,7 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 min-[1700px]:-translate-x-24 min-[1850px]:-translate-x-36 origin-center lg:origin-left"
           />
         </div>
 
