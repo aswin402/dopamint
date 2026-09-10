@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useSpring, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 
 interface CardItem {
   id: string;
@@ -87,19 +87,13 @@ const CARDS_DATA: CardItem[] = [
 
 export const AiFiSection: React.FC = () => {
   const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const activeIdxRef = useRef(0);
   const [cardStep, setCardStep] = useState(336);
   const [activeCardIndex, setActiveCardIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: mobileContainerRef,
     offset: ['start start', 'end end'],
-  });
-
-  // Spring physics for natural, buttery-smooth horizontal tracking
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 24,
-    mass: 0.2,
   });
 
   useEffect(() => {
@@ -115,14 +109,32 @@ export const AiFiSection: React.FC = () => {
     return () => window.removeEventListener('resize', measure);
   }, []);
 
-  // Update current card index based on scroll progress (0..3)
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+  // Update current card index with hysteresis to completely eliminate boundary flickering/jitter
+  useMotionValueEvent(scrollYProgress, 'change', (p) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 1024) return;
-    const idx = Math.min(3, Math.max(0, Math.round(latest * 3)));
-    setActiveCardIndex(idx);
+    const cur = activeIdxRef.current;
+    let next = cur;
+
+    if (cur === 0 && p > 0.20) next = 1;
+    else if (cur === 1) {
+      if (p < 0.14) next = 0;
+      else if (p > 0.52) next = 2;
+    } else if (cur === 2) {
+      if (p < 0.46) next = 1;
+      else if (p > 0.84) next = 3;
+    } else if (cur === 3 && p < 0.78) next = 2;
+
+    if (next !== cur) {
+      activeIdxRef.current = next;
+      setActiveCardIndex(next);
+    }
   });
 
-  const mobileTrackX = useTransform(smoothProgress, (p: number) => -p * (cardStep * 3));
+  // Direct 1:1 scroll transform without useSpring to eliminate spring oscillation and vibration on iPhone
+  const mobileTrackX = useTransform(scrollYProgress, (p: number) => {
+    const clamped = Math.min(1, Math.max(0, p));
+    return -clamped * (cardStep * 3);
+  });
 
   return (
     <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-x-clip lg:overflow-hidden">
@@ -132,11 +144,10 @@ export const AiFiSection: React.FC = () => {
 
       {/* =========================================================================
           1. MOBILE VIEW: PINNED SCROLL-DRIVEN HORIZONTAL CARD ANIMATION (< 1024px)
-          - No manual <> click arrows needed: scrolling down smoothly slides the cards!
-          - Cards pop into focus one by one with spring physics, scale elevation, and indicator dots.
+          - Scrolling down smoothly slides the cards with rock-solid 1:1 touch response.
           ========================================================================= */}
       <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[280vh]">
-        <div className="sticky top-0 z-20 h-screen h-[100dvh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
+        <div className="sticky top-0 z-20 h-screen h-[100svh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
           
           {/* Header */}
           <div className="text-center max-w-sm mx-auto shrink-0 space-y-1.5 pt-1">
@@ -174,14 +185,17 @@ export const AiFiSection: React.FC = () => {
             </p>
           </div>
 
-          {/* Cards Track: Horizontally scrubbed by vertical scroll with spring physics */}
+          {/* Cards Track: Horizontally scrubbed by vertical scroll with 1:1 direct tracking */}
           <div className="relative w-full flex-1 min-h-0 my-auto flex items-center overflow-hidden">
             <motion.div
-              className="flex gap-4 items-center will-change-transform"
+              className="flex gap-4 items-center"
               style={{
                 x: mobileTrackX,
                 paddingLeft: `calc((100vw - min(84vw, 340px)) / 2)`,
                 paddingRight: `calc((100vw - min(84vw, 340px)) / 2)`,
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                willChange: 'transform',
               }}
             >
               {CARDS_DATA.map((card, idx) => {
@@ -189,10 +203,10 @@ export const AiFiSection: React.FC = () => {
                 return (
                   <div
                     key={`mob-${card.id}`}
-                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between transition-all duration-300 transform-gpu ${
+                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between transition-[opacity,border-color,box-shadow] duration-250 ease-out select-none ${
                       isCentered
-                        ? 'scale-100 opacity-100 border-[1.8px] border-[#3e4f42]/80 shadow-[0_14px_36px_rgba(40,48,40,0.14)]'
-                        : 'scale-[0.93] opacity-60 border-[1.5px] border-[#3e4f42]/30 shadow-[0_4px_16px_rgba(40,48,40,0.04)]'
+                        ? 'opacity-100 border-[1.8px] border-[#3e4f42]/80 shadow-[0_12px_32px_rgba(40,48,40,0.12)]'
+                        : 'opacity-50 border-[1.5px] border-[#3e4f42]/25 shadow-[0_4px_12px_rgba(40,48,40,0.04)]'
                     }`}
                   >
                     <div>

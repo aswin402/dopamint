@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useTransform } from 'framer-motion';
 import { 
   Target, 
   Command, 
@@ -23,6 +23,7 @@ const STEP_ICONS = [
 
 export const EvidenceSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const activeStepRef = useRef<number>(0);
   const isInView = useInView(sectionRef, { amount: 0.15 });
   const [activeStep, setActiveStep] = useState<number>(0);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
@@ -35,22 +36,34 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Buttery-smooth spring-interpolated progress for continuous horizontal tracking
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 24,
-    mass: 0.2,
+  // Direct 1:1 scroll transform without useSpring to eliminate spring oscillation and jitter on iPhone
+  const mobileTrackX = useTransform(scrollYProgress, (p: number) => {
+    const clamped = Math.min(1, Math.max(0, p));
+    return `${-clamped * 300}%`;
   });
-  const mobileTrackX = useTransform(smoothProgress, [0, 1], ['0%', '-300%']);
 
-  // Sync active step with scroll progress on mobile ONLY (< 768px)
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
+  // Sync active step with scroll progress on mobile ONLY (< 768px) with hysteresis deadband
+  useMotionValueEvent(scrollYProgress, 'change', (p) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
     if (!isManual) {
-      const stepIndex = Math.min(3, Math.max(0, Math.round(latest * 3)));
-      setActiveStep(stepIndex);
+      const cur = activeStepRef.current;
+      let next = cur;
+
+      if (cur === 0 && p > 0.20) next = 1;
+      else if (cur === 1) {
+        if (p < 0.14) next = 0;
+        else if (p > 0.52) next = 2;
+      } else if (cur === 2) {
+        if (p < 0.46) next = 1;
+        else if (p > 0.84) next = 3;
+      } else if (cur === 3 && p < 0.78) next = 2;
+
+      if (next !== cur) {
+        activeStepRef.current = next;
+        setActiveStep(next);
+      }
     }
   });
 
@@ -99,7 +112,7 @@ export const EvidenceSection: React.FC = () => {
 
       <div ref={mobileContainerRef} className="md:hidden relative w-full h-[280vh]">
         {/* Pinned Screen Viewport: Pins cleanly below the fixed Navbar with generous bottom room */}
-        <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100dvh-60px)] min-[390px]:h-[calc(100dvh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
+        <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100svh-60px)] min-[390px]:h-[calc(100svh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
           
           {/* Continuous Loop Pill & Step Counter Header */}
           <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-0.5 mb-1 min-[390px]:mb-2">
@@ -118,11 +131,16 @@ export const EvidenceSection: React.FC = () => {
           {/* Active Card Horizontal Scroll Track */}
           <div className="relative w-full flex-1 min-h-0 my-2 min-[390px]:my-2.5 overflow-hidden flex items-center">
             <motion.div
-              className="flex w-full h-full items-center will-change-transform"
-              style={{ x: mobileTrackX }}
+              className="flex w-full h-full items-center"
+              style={{
+                x: mobileTrackX,
+                WebkitBackfaceVisibility: 'hidden',
+                backfaceVisibility: 'hidden',
+                willChange: 'transform',
+              }}
             >
               {steps.map((item, idx) => (
-                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center">
+                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center select-none">
                   <AgentNode
                     title={item.title}
                     subtitle={item.subtitle}
@@ -161,7 +179,7 @@ export const EvidenceSection: React.FC = () => {
                   <React.Fragment key={idx}>
                     {idx > 0 && <span className="text-[#7a382e]/60 font-mono text-[10px] min-[390px]:text-[11px] select-none">→</span>}
                     <span
-                      className={`transition-all duration-300 rounded-md px-2 py-0.5 min-[390px]:px-2.5 min-[390px]:py-1 ${
+                      className={`transition-[background-color,color,box-shadow,transform] duration-200 rounded-md px-2 py-0.5 min-[390px]:px-2.5 min-[390px]:py-1 ${
                         isCur
                           ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs scale-105'
                           : isPassed
