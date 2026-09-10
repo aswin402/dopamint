@@ -144,7 +144,7 @@ export const MemoryWalletSection: React.FC = () => {
   };
 
   return (
-    <section ref={sectionRef} id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-10 sm:pt-14 pb-12 sm:pb-16 relative overflow-hidden">
+    <section ref={sectionRef} id="specialised-agent" className="w-full bg-transparent text-[#f3f2e6] pt-10 sm:pt-14 pb-40 sm:pb-52 md:pb-64 lg:pb-76 xl:pb-84 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 relative z-20">
         
         {/* =========================================================================
