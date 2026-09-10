@@ -563,8 +563,8 @@ video::-webkit-media-controls-play-button {
 @media (min-width: 1700px) {
   .manifesto-chat-container {
     width: 134% !important;
-    margin-right: -4.5vw !important;
-    translate: 70px 0 !important;
+    margin-right: -5.5vw !important;
+    translate: 95px 0 !important;
   }
   .manifesto-chat-video {
     max-height: 92vh !important;
@@ -575,8 +575,8 @@ video::-webkit-media-controls-play-button {
 @media (min-width: 1850px) {
   .manifesto-chat-container {
     width: 142% !important;
-    margin-right: -6.5vw !important;
-    translate: 110px 0 !important;
+    margin-right: -7.5vw !important;
+    translate: 145px 0 !important;
   }
   .manifesto-chat-video {
     max-height: 95vh !important;
