@@ -110,9 +110,9 @@ export const EvidenceSection: React.FC = () => {
         </p>
       </div>
 
-      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[280vh]">
+      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[260vh]">
         {/* Pinned Screen Viewport: Pins cleanly below the fixed Navbar with generous bottom room */}
-        <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100svh-60px)] min-[390px]:h-[calc(100svh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
+        <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100dvh-60px)] min-[390px]:h-[calc(100dvh-64px)] max-h-[calc(100dvh-60px)] min-[390px]:max-h-[calc(100dvh-64px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [contain:paint_layout] touch-pan-y">
           
           {/* Continuous Loop Pill & Step Counter Header */}
           <div className="flex items-center justify-between gap-2 px-1 shrink-0 pt-0.5 mb-1 min-[390px]:mb-2">
@@ -137,10 +137,11 @@ export const EvidenceSection: React.FC = () => {
                 WebkitBackfaceVisibility: 'hidden',
                 backfaceVisibility: 'hidden',
                 willChange: 'transform',
+                transform: 'translateZ(0)',
               }}
             >
               {steps.map((item, idx) => (
-                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center select-none">
+                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center select-none will-change-transform [transform:translateZ(0)]">
                   <AgentNode
                     title={item.title}
                     subtitle={item.subtitle}
@@ -157,7 +158,7 @@ export const EvidenceSection: React.FC = () => {
           {/* Dynamic Pipeline State Console - Always fully visible at bottom without clipping */}
           <div 
             style={{ backgroundColor: '#dfc28d' }}
-            className="p-3 min-[390px]:p-3.5 min-[430px]:p-4 rounded-2xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1.5 min-[390px]:mb-2 relative z-20"
+            className="p-3 min-[390px]:p-3.5 min-[430px]:p-4 rounded-2xl border border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.35)] text-left shrink-0 mb-1.5 min-[390px]:mb-2 relative z-20 will-change-transform [transform:translateZ(0)]"
           >
             <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-[#1a140f]/15">
               <div className="flex items-center gap-2">
@@ -179,9 +180,9 @@ export const EvidenceSection: React.FC = () => {
                   <React.Fragment key={idx}>
                     {idx > 0 && <span className="text-[#7a382e]/60 font-mono text-[10px] min-[390px]:text-[11px] select-none">→</span>}
                     <span
-                      className={`transition-[background-color,color,box-shadow,transform] duration-200 rounded-md px-2 py-0.5 min-[390px]:px-2.5 min-[390px]:py-1 ${
+                      className={`transition-colors duration-150 rounded-md px-2 py-0.5 min-[390px]:px-2.5 min-[390px]:py-1 ${
                         isCur
-                          ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs scale-105'
+                          ? 'bg-[#7a382e] text-[#f3f2e6] font-bold shadow-xs'
                           : isPassed
                           ? 'text-[#1a140f] font-semibold'
                           : 'text-[#1a140f]/45 italic'

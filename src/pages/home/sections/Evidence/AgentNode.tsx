@@ -38,18 +38,18 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       onMouseLeave={onMouseLeave}
       animate={
         isTouch
-          ? { opacity: isActive ? 1 : 0.78 }
+          ? undefined
           : isActive
           ? { scale: 1, opacity: 1 }
           : { scale: 1, opacity: 0.78 }
       }
       whileHover={isTouch ? undefined : { scale: 1.015, y: -2, opacity: 1 }}
       whileTap={isTouch ? undefined : { scale: 0.98 }}
-      transition={{ duration: isTouch ? 0.2 : 0.35, ease: isTouch ? 'easeOut' : [0.22, 1, 0.36, 1] }}
-      className={`relative h-full max-h-[415px] min-[390px]:max-h-[435px] md:max-h-none flex flex-col justify-between p-4 min-[390px]:p-4.5 md:p-4 lg:p-5 rounded-[22px] md:rounded-2xl border transition-colors duration-300 cursor-pointer text-left group overflow-hidden select-none ${
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className={`relative h-full max-h-[415px] min-[390px]:max-h-[435px] md:max-h-none flex flex-col justify-between p-4 min-[390px]:p-4.5 md:p-4 lg:p-5 rounded-[22px] md:rounded-2xl border transition-[opacity,border-color,background-color] duration-200 cursor-pointer text-left group overflow-hidden select-none will-change-transform [transform:translateZ(0)] [backface-visibility:hidden] ${
         isActive
-          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_16px_40px_rgba(196,169,120,0.22)] ring-1.5 ring-[#c4a978]/80 z-20'
-          : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_8px_24px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10'
+          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.18)] md:shadow-[0_16px_40px_rgba(196,169,120,0.22)] md:ring-1.5 md:ring-[#c4a978]/80 z-20 opacity-100'
+          : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_4px_16px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10 opacity-75'
       } ${className}`}
     >
       {/* Top golden accent line when active */}
@@ -59,11 +59,11 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
         }`}
       />
 
-      {/* Top pulsating amber jewel on active */}
+      {/* Top amber jewel on active */}
       {isActive && (
         <span className="absolute top-3.5 right-3.5 md:top-3 md:right-3 flex h-2.5 w-2.5 pointer-events-none z-10">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c4a978] opacity-75" />
-          <span className="relative inline-flex rounded-full h-full w-full bg-[#c4a978]" />
+          <span className="hidden md:inline-flex animate-ping absolute h-full w-full rounded-full bg-[#c4a978] opacity-75" />
+          <span className="relative inline-flex rounded-full h-full w-full bg-[#c4a978] shadow-xs" />
         </span>
       )}
 
