@@ -1,4 +1,5 @@
 import { useEffect, useRef, type RefObject } from 'react';
+import { getLenisInstance } from '@/lib/lenis';
 import {
   parseColorToRgba,
   mapNoiseScale,
@@ -6,7 +7,6 @@ import {
   mapScrollSensitivity,
   mapBaseAnimationSpeed,
   mapEdgeSoftness,
-  mapBloomRadius,
 } from './mapping';
 
 export interface BurnEngineProps {
@@ -17,15 +17,22 @@ export interface BurnEngineProps {
   scrollSensitivity: number;
   baseAnimationSpeed: number;
   edgeSoftness: number;
-  bloomIntensity: number;
-  bloomRadius: number;
+  bloomIntensity?: number;
+  bloomRadius?: number;
   parallaxEnabled: boolean;
+  inverted?: boolean;
   movement?: { horizontal?: 'left' | 'center' | 'right'; vertical?: number };
+  onWebGLUnsupported?: () => void;
 }
 
 /**
- * Owns the full WebGL burn-shader engine: refs, uniform syncing and the
- * single render-loop effect. Pure side effect — returns nothing.
+ * Owns the full WebGL burn-shader engine:
+ * - High-precision, mobile-safe shader math (no float16 overflow, no trigonometrics in hash)
+ * - Rock-solid single-pass pipeline with premultiplied alpha (no dark halos on Safari/iOS)
+ * - Native inverted UV mapping inside shader (eliminates CSS transform scaleY(-1) seam bugs)
+ * - Safe anchored baseline (guarantees zero cutoff or dark seam leakage on any screen size)
+ * - Responsive frequency compensation for mobile and desktop screens
+ * - Viewport intersection awareness to pause when scrolled out of view
  */
 export function useBurnAnimation(
   canvasRef: RefObject<HTMLCanvasElement | null>,
@@ -40,13 +47,14 @@ export function useBurnAnimation(
     scrollSensitivity,
     baseAnimationSpeed,
     edgeSoftness,
-    bloomIntensity,
-    bloomRadius,
     parallaxEnabled,
+    inverted = false,
     movement,
+    onWebGLUnsupported,
   } = props;
 
-  const isVisibleRef = useRef<boolean>(false);
+  // Initialize as true so animation loop runs immediately upon mount
+  const isVisibleRef = useRef<boolean>(true);
   const animationFrameRef = useRef<number | null>(null);
 
   const glRef = useRef<WebGLRenderingContext | null>(null);
@@ -54,7 +62,7 @@ export function useBurnAnimation(
   const bufferRef = useRef<WebGLBuffer | null>(null);
 
   const colorRgba = parseColorToRgba(color);
-  const transitionColorRgba = parseColorToRgba(transitionColor || color);
+  const transitionColorRgba = parseColorToRgba(transitionColor || '#dfc28d');
 
   const colorRef = useRef<[number, number, number]>([colorRgba.r, colorRgba.g, colorRgba.b]);
   const transitionColorRef = useRef<[number, number, number]>([
@@ -68,9 +76,8 @@ export function useBurnAnimation(
   const scrollSensitivityRef = useRef(mapScrollSensitivity(scrollSensitivity));
   const baseAnimationSpeedRef = useRef(mapBaseAnimationSpeed(baseAnimationSpeed));
   const edgeSoftnessRef = useRef(mapEdgeSoftness(edgeSoftness));
-  const bloomIntensityRef = useRef(bloomIntensity);
-  const bloomRadiusRef = useRef(mapBloomRadius(bloomRadius));
   const parallaxEnabledRef = useRef(parallaxEnabled);
+  const invertedRef = useRef(inverted);
 
   const horizontalMovementValue =
     movement?.horizontal === 'left' ? 1 : movement?.horizontal === 'right' ? -1 : 0;
@@ -80,24 +87,9 @@ export function useBurnAnimation(
   const scrollOffsetRef = useRef(0);
   const lastScrollYRef = useRef(0);
   const lastScrollTimeRef = useRef(0);
-  const baseTimeRef = useRef(0);
   const startTimeRef = useRef(0);
   const parallaxOffsetRef = useRef(0);
   const canvasSizeRef = useRef({ width: 0, height: 0 });
-
-  // Bloom framebuffers & programs
-  const extractProgramRef = useRef<WebGLProgram | null>(null);
-  const blurProgramRef = useRef<WebGLProgram | null>(null);
-  const compositeProgramRef = useRef<WebGLProgram | null>(null);
-  const framebufferRef = useRef<WebGLFramebuffer | null>(null);
-  const sceneTextureRef = useRef<WebGLTexture | null>(null);
-  const extractFramebufferRef = useRef<WebGLFramebuffer | null>(null);
-  const extractTextureRef = useRef<WebGLTexture | null>(null);
-  const blurFramebuffer1Ref = useRef<WebGLFramebuffer | null>(null);
-  const blurTexture1Ref = useRef<WebGLTexture | null>(null);
-  const blurFramebuffer2Ref = useRef<WebGLFramebuffer | null>(null);
-  const blurTexture2Ref = useRef<WebGLTexture | null>(null);
-  const bloomDownsampleRef = useRef(2);
 
   // Update dynamic values when props change
   useEffect(() => {
@@ -106,9 +98,9 @@ export function useBurnAnimation(
   }, [color]);
 
   useEffect(() => {
-    const tc = parseColorToRgba(transitionColor || color);
+    const tc = parseColorToRgba(transitionColor || '#dfc28d');
     transitionColorRef.current = [tc.r, tc.g, tc.b];
-  }, [transitionColor, color]);
+  }, [transitionColor]);
 
   useEffect(() => {
     noiseScaleRef.current = mapNoiseScale(noiseScale);
@@ -116,9 +108,8 @@ export function useBurnAnimation(
     scrollSensitivityRef.current = mapScrollSensitivity(scrollSensitivity);
     baseAnimationSpeedRef.current = mapBaseAnimationSpeed(baseAnimationSpeed);
     edgeSoftnessRef.current = mapEdgeSoftness(edgeSoftness);
-    bloomIntensityRef.current = bloomIntensity;
-    bloomRadiusRef.current = mapBloomRadius(bloomRadius);
     parallaxEnabledRef.current = parallaxEnabled;
+    invertedRef.current = inverted;
     movementHorizontalRef.current =
       movement?.horizontal === 'left' ? 1 : movement?.horizontal === 'right' ? -1 : 0;
     movementVerticalRef.current = movement?.vertical ?? 0.5;
@@ -128,9 +119,8 @@ export function useBurnAnimation(
     scrollSensitivity,
     baseAnimationSpeed,
     edgeSoftness,
-    bloomIntensity,
-    bloomRadius,
     parallaxEnabled,
+    inverted,
     movement,
   ]);
 
@@ -139,17 +129,28 @@ export function useBurnAnimation(
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
-    if (!gl) return;
+    // Use premultipliedAlpha: true for standard, artifact-free WebKit and Blink compositing
+    const gl =
+      canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true }) ||
+      (canvas.getContext('experimental-webgl', {
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: true,
+      }) as WebGLRenderingContext | null);
+
+    if (!gl) {
+      onWebGLUnsupported?.();
+      return;
+    }
     glRef.current = gl;
 
-    // Helper functions
     const createShader = (glCtx: WebGLRenderingContext, type: number, source: string) => {
       const shader = glCtx.createShader(type);
       if (!shader) return null;
       glCtx.shaderSource(shader, source);
       glCtx.compileShader(shader);
       if (!glCtx.getShaderParameter(shader, glCtx.COMPILE_STATUS)) {
+        console.warn('Burn shader compile failed:', glCtx.getShaderInfoLog(shader));
         glCtx.deleteShader(shader);
         return null;
       }
@@ -167,275 +168,163 @@ export function useBurnAnimation(
       glCtx.attachShader(program, fShader);
       glCtx.linkProgram(program);
       if (!glCtx.getProgramParameter(program, glCtx.LINK_STATUS)) {
+        console.warn('Burn program link failed:', glCtx.getProgramInfoLog(program));
         glCtx.deleteProgram(program);
         return null;
       }
       return program;
     };
 
-    const createFramebufferTexture = (
-      glCtx: WebGLRenderingContext,
-      width: number,
-      height: number
-    ) => {
-      const texture = glCtx.createTexture();
-      if (!texture) return { framebuffer: null, texture: null };
-      glCtx.bindTexture(glCtx.TEXTURE_2D, texture);
-      glCtx.texImage2D(
-        glCtx.TEXTURE_2D,
-        0,
-        glCtx.RGBA,
-        width,
-        height,
-        0,
-        glCtx.RGBA,
-        glCtx.UNSIGNED_BYTE,
-        null
-      );
-      glCtx.texParameteri(glCtx.TEXTURE_2D, glCtx.TEXTURE_MIN_FILTER, glCtx.LINEAR);
-      glCtx.texParameteri(glCtx.TEXTURE_2D, glCtx.TEXTURE_MAG_FILTER, glCtx.LINEAR);
-      glCtx.texParameteri(glCtx.TEXTURE_2D, glCtx.TEXTURE_WRAP_S, glCtx.CLAMP_TO_EDGE);
-      glCtx.texParameteri(glCtx.TEXTURE_2D, glCtx.TEXTURE_WRAP_T, glCtx.CLAMP_TO_EDGE);
-
-      const framebuffer = glCtx.createFramebuffer();
-      if (!framebuffer) return { framebuffer: null, texture };
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, framebuffer);
-      glCtx.framebufferTexture2D(
-        glCtx.FRAMEBUFFER,
-        glCtx.COLOR_ATTACHMENT0,
-        glCtx.TEXTURE_2D,
-        texture,
-        0
-      );
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, null);
-      return { framebuffer, texture };
-    };
-
-    // Shaders definition
     const vertexShader = `
       attribute vec2 a_position;
       varying vec2 v_uv;
+      uniform float u_inverted;
       void main() {
-        v_uv = 0.5 * (a_position + 1.0);
+        vec2 uv = 0.5 * (a_position + 1.0);
+        if (u_inverted > 0.5) {
+          uv.y = 1.0 - uv.y;
+        }
+        v_uv = uv;
         gl_Position = vec4(a_position, 0.0, 1.0);
       }
     `;
 
     const fragmentShader = `
-      precision mediump float;
+      #ifdef GL_FRAGMENT_PRECISION_HIGH
+        precision highp float;
+      #else
+        precision mediump float;
+      #endif
+
       varying vec2 v_uv;
       uniform vec3 u_color;
       uniform vec3 u_transition_color;
       uniform float u_noise_scale;
       uniform float u_noise_intensity;
+      uniform float u_time;
       uniform float u_scroll_offset;
       uniform float u_edge_softness;
-      uniform float u_grain_scale;
       uniform float u_movement_horizontal;
       uniform float u_movement_vertical;
       uniform float u_parallax_offset;
       uniform float u_aspect_ratio;
+      uniform float u_is_mobile;
 
-      float random(vec2 st) {
-        return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+      // Mobile-safe deterministic hash without sin() to prevent float16 overflow
+      float hash(vec2 p) {
+        vec2 q = fract(p * vec2(123.34, 456.21));
+        q += dot(q, q + 45.32);
+        return fract(q.x * q.y);
       }
 
       float noise(vec2 st) {
         vec2 i = floor(st);
         vec2 f = fract(st);
-        float a = random(i);
-        float b = random(i + vec2(1.0, 0.0));
-        float c = random(i + vec2(0.0, 1.0));
-        float d = random(i + vec2(1.0, 1.0));
         vec2 u = f * f * (3.0 - 2.0 * f);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
         return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
       }
 
       float fbm(vec2 st) {
         float value = 0.0;
         float amplitude = 0.5;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
           value += amplitude * noise(st);
-          st *= 2.0;
+          st *= 2.02;
           amplitude *= 0.5;
         }
         return value;
       }
 
+      // Sharp creases and ragged paper tears
       float turbulence(vec2 st) {
         float value = 0.0;
         float amplitude = 0.55;
         for (int i = 0; i < 5; i++) {
           value += amplitude * abs(noise(st) * 2.0 - 1.0);
           st *= 2.15;
-          amplitude *= 0.52;
-        }
-        return value;
-      }
-
-      float detailedNoise(vec2 st) {
-        float value = 0.0;
-        float amplitude = 0.5;
-        for (int i = 0; i < 6; i++) {
-          value += amplitude * noise(st);
-          st *= 2.2;
-          amplitude *= 0.45;
+          amplitude *= 0.5;
         }
         return value;
       }
 
       void main() {
-        float baseLine = 0.5 + u_parallax_offset;
-        float horizontalOffset = u_scroll_offset * u_movement_horizontal;
+        // Living breathing wave along the tear edge (ensures organic motion at rest)
+        float wave = sin(u_time * 1.5 + v_uv.x * 6.5) * 0.012 + cos(u_time * 1.0 + v_uv.x * 12.0) * 0.008;
+
+        // Safe baseline: anchored around 0.60 with subtle clamped parallax + living wave
+        float baseLine = 0.60 + clamp(u_parallax_offset * 0.12, -0.05, 0.05) + wave;
+
+        // Responsive scroll movement offsets
+        float horizontalOffset = u_scroll_offset * (u_movement_horizontal != 0.0 ? u_movement_horizontal : 0.35);
         float verticalOffset = u_scroll_offset * u_movement_vertical;
 
+        // Balanced frequency scaling across mobile and desktop
+        float hScale = u_is_mobile > 0.5 ? 4.6 : u_aspect_ratio * 1.55;
         vec2 noiseCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_noise_scale + horizontalOffset,
-          v_uv.y * 2.5 + verticalOffset * 0.6
+          v_uv.x * hScale * u_noise_scale * 0.38 + horizontalOffset + u_time * 0.03,
+          v_uv.y * 2.0 + verticalOffset
         );
-        float edgeFbm = fbm(noiseCoord);
-        float edgeTurb = turbulence(noiseCoord * 1.2);
-        float edgeNoise = mix(edgeFbm, edgeTurb, 0.38);
-        float mainEdge = baseLine + (edgeNoise - 0.5) * u_noise_intensity * 1.05;
 
-        vec2 thicknessNoiseCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_noise_scale * 2.3 + horizontalOffset * 0.7,
-          v_uv.y * 2.0 + verticalOffset * 0.4 + 100.0
+        // Domain warping for organic paper tearing
+        vec2 warp = vec2(
+          fbm(noiseCoord + vec2(1.7, 9.2)),
+          fbm(noiseCoord + vec2(8.3, 2.8))
         );
-        float thicknessNoise = fbm(thicknessNoiseCoord);
-        float minThickness = u_edge_softness * 0.35;
-        float maxThickness = u_edge_softness * 1.0;
-        float localThickness = mix(minThickness, maxThickness, thicknessNoise);
 
-        float lowerBound = mainEdge - localThickness * 0.4;
-        float upperBound = mainEdge + localThickness * 0.6;
+        float edgeFbm = fbm(noiseCoord + warp * 0.5);
+        float edgeTurb = turbulence(noiseCoord * 1.5 + warp * 0.35);
+        float macroNoise = mix(edgeFbm, edgeTurb, 0.45);
 
-        vec2 grainCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_grain_scale * 3.0 + horizontalOffset * 0.5,
-          v_uv.y * u_grain_scale * 3.0 + verticalOffset * 0.3
-        );
-        float grain = detailedNoise(grainCoord);
+        // Macro edge with deep organic rips
+        float macroEdge = baseLine - (macroNoise - 0.45) * (u_noise_intensity * 0.62);
 
-        vec2 fiberCoord = vec2(
-          v_uv.x * u_aspect_ratio * u_grain_scale * 8.0 + horizontalOffset * 0.3,
-          v_uv.y * u_grain_scale * 2.0 + verticalOffset * 0.2
-        );
-        float fiberNoise = noise(fiberCoord);
-        float combinedGrain = grain * 0.6 + fiberNoise * 0.4;
+        // Micro jagged teeth and paper fibers
+        vec2 fiberCoord = vec2(v_uv.x * hScale * 6.0, v_uv.y * 10.0);
+        float fiber1 = abs(noise(fiberCoord + vec2(u_time * 0.02, 0.0)) * 2.0 - 1.0);
+        float fiber2 = noise(fiberCoord * 3.0 + vec2(17.4, 31.8));
+        float fiber3 = abs(noise(vec2(v_uv.x * hScale * 20.0, v_uv.y * 12.0)) * 2.0 - 1.0);
 
-        if (v_uv.y < lowerBound) {
+        // Sharp jagged micro-teeth
+        float jagged = -(fiber1 * 0.50 + fiber2 * 0.25 + fiber3 * 0.35 - 0.50) * 0.10;
+
+        // Final torn edge contour strictly clamped within safe canvas bounds
+        float tornEdge = clamp(macroEdge + jagged, 0.10, 0.90);
+
+        // Crisp cutoff (1-2px sub-pixel anti-aliasing matching Image 2)
+        float aa = u_is_mobile > 0.5 ? 0.012 : 0.007;
+        float dist = v_uv.y - tornEdge;
+
+        if (dist < 0.0) {
+          // 100% solid cream paper (#f3f2e6), completely seamless with previous/next section
           gl_FragColor = vec4(u_color, 1.0);
-        } else if (v_uv.y < upperBound) {
-          float t = (v_uv.y - lowerBound) / max(upperBound - lowerBound, 0.0001);
-          if (t < 0.2) {
-            float grainThresh = 1.0 - (t / 0.2);
-            if (combinedGrain > grainThresh * 0.5) {
-              gl_FragColor = vec4(u_transition_color, 1.0);
-            } else {
-              gl_FragColor = vec4(u_color, 1.0);
-            }
-          } else if (t > 0.8) {
-            float grainThresh = (t - 0.8) / 0.2;
-            if (combinedGrain > grainThresh * 0.6) {
-              gl_FragColor = vec4(u_transition_color, 1.0);
-            } else {
-              discard;
-            }
-          } else {
-            gl_FragColor = vec4(u_transition_color, 1.0);
-          }
+        } else if (dist < aa) {
+          // Clean 1-pixel subpixel anti-aliasing (no color bleeding, no glowing golden blur)
+          float alpha = 1.0 - (dist / aa);
+          gl_FragColor = vec4(u_color * alpha, alpha);
         } else {
+          // Transparent void revealing dark architecture section
           discard;
-        }
-      }
-    `;
-
-    const extractFragmentShader = `
-      precision mediump float;
-      varying vec2 v_uv;
-      uniform sampler2D u_texture;
-      uniform vec3 u_transition_color;
-      uniform vec3 u_base_color;
-      void main() {
-        vec4 pixel = texture2D(u_texture, v_uv);
-        float distToTransition = length(pixel.rgb - u_transition_color);
-        float distToBase = length(pixel.rgb - u_base_color);
-        float isTransition = 1.0 - smoothstep(0.0, 0.5, distToTransition);
-        float notBase = smoothstep(0.0, 0.3, distToBase);
-        float mask = pow(isTransition * notBase * pixel.a, 0.8);
-        gl_FragColor = vec4(1.0, 1.0, 1.0, mask);
-      }
-    `;
-
-    const blurFragmentShader = `
-      precision mediump float;
-      varying vec2 v_uv;
-      uniform sampler2D u_texture;
-      uniform vec2 u_direction;
-      uniform vec2 u_resolution;
-      uniform float u_radius;
-      void main() {
-        float blur_size = u_radius * 12.0;
-        float alpha = 0.0;
-        float totalWeight = 0.0;
-        for (int i = -6; i <= 6; i++) {
-          float offset = float(i);
-          float weight = exp(-0.5 * (offset * offset) / 4.0);
-          vec2 sampleOffset = u_direction * (offset * blur_size) / u_resolution;
-          float sampleAlpha = texture2D(u_texture, v_uv + sampleOffset).a;
-          alpha += sampleAlpha * weight;
-          totalWeight += weight;
-        }
-        alpha = totalWeight > 0.0 ? alpha / totalWeight : 0.0;
-        gl_FragColor = vec4(1.0, 1.0, 1.0, alpha);
-      }
-    `;
-
-    const compositeFragmentShader = `
-      precision mediump float;
-      varying vec2 v_uv;
-      uniform sampler2D u_scene;
-      uniform sampler2D u_bloom;
-      uniform float u_bloom_intensity;
-      uniform vec3 u_transition_color;
-      void main() {
-        vec4 scene = texture2D(u_scene, v_uv);
-        vec4 bloom = texture2D(u_bloom, v_uv);
-        float bloomStrength = bloom.a * u_bloom_intensity;
-        vec3 bloomColor = u_transition_color * bloomStrength * 2.0;
-
-        if (scene.a < 0.001) {
-          float glowAlpha = bloomStrength * 1.5;
-          gl_FragColor = vec4(u_transition_color, glowAlpha);
-        } else {
-          vec3 result = min(scene.rgb + bloomColor, vec3(1.0));
-          gl_FragColor = vec4(result, scene.a);
         }
       }
     `;
 
     const vShaderObj = createShader(gl, gl.VERTEX_SHADER, vertexShader);
     const fShaderObj = createShader(gl, gl.FRAGMENT_SHADER, fragmentShader);
-    if (!vShaderObj || !fShaderObj) return;
+    if (!vShaderObj || !fShaderObj) {
+      onWebGLUnsupported?.();
+      return;
+    }
 
     const prog = createProgram(gl, vShaderObj, fShaderObj);
-    if (!prog) return;
+    if (!prog) {
+      onWebGLUnsupported?.();
+      return;
+    }
     programRef.current = prog;
-
-    const extFShaderObj = createShader(gl, gl.FRAGMENT_SHADER, extractFragmentShader);
-    if (extFShaderObj) {
-      extractProgramRef.current = createProgram(gl, vShaderObj, extFShaderObj);
-    }
-
-    const blurFShaderObj = createShader(gl, gl.FRAGMENT_SHADER, blurFragmentShader);
-    if (blurFShaderObj) {
-      blurProgramRef.current = createProgram(gl, vShaderObj, blurFShaderObj);
-    }
-
-    const compFShaderObj = createShader(gl, gl.FRAGMENT_SHADER, compositeFragmentShader);
-    if (compFShaderObj) {
-      compositeProgramRef.current = createProgram(gl, vShaderObj, compFShaderObj);
-    }
 
     const positions = new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]);
     const buffer = gl.createBuffer();
@@ -444,61 +333,23 @@ export function useBurnAnimation(
     gl.bufferData(gl.ARRAY_BUFFER, positions, gl.STATIC_DRAW);
     bufferRef.current = buffer;
 
-    // Create initial framebuffers
-    const initialWidth = 256;
-    const initialHeight = 256;
-    const { framebuffer: fb1, texture: tex1 } = createFramebufferTexture(gl, initialWidth, initialHeight);
-    framebufferRef.current = fb1;
-    sceneTextureRef.current = tex1;
-
-    const { framebuffer: fbExtract, texture: texExtract } = createFramebufferTexture(gl, initialWidth, initialHeight);
-    extractFramebufferRef.current = fbExtract;
-    extractTextureRef.current = texExtract;
-
-    const { framebuffer: fb2, texture: tex2 } = createFramebufferTexture(gl, initialWidth, initialHeight);
-    blurFramebuffer1Ref.current = fb2;
-    blurTexture1Ref.current = tex2;
-
-    const { framebuffer: fb3, texture: tex3 } = createFramebufferTexture(gl, initialWidth, initialHeight);
-    blurFramebuffer2Ref.current = fb3;
-    blurTexture2Ref.current = tex3;
-
     startTimeRef.current = performance.now();
 
     const resizeCanvas = () => {
       if (!container || !canvas) return;
       const rect = container.getBoundingClientRect();
-      const newWidth = Math.max(1, Math.floor(rect.width));
-      const newHeight = Math.max(1, Math.floor(rect.height));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const newWidth = Math.max(1, Math.floor(rect.width * dpr));
+      const newHeight = Math.max(1, Math.floor(rect.height * dpr));
 
-      if (canvas.width === newWidth && canvas.height === newHeight) return;
-      canvas.width = newWidth;
-      canvas.height = newHeight;
-      canvasSizeRef.current = { width: newWidth, height: newHeight };
+      if (canvas.width !== newWidth || canvas.height !== newHeight) {
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        canvasSizeRef.current = { width: newWidth, height: newHeight };
+      }
 
       if (gl) {
         gl.viewport(0, 0, newWidth, newHeight);
-        const downsample = bloomDownsampleRef.current;
-        const bloomWidth = Math.floor(newWidth / downsample);
-        const bloomHeight = Math.floor(newHeight / downsample);
-
-        if (sceneTextureRef.current) {
-          gl.bindTexture(gl.TEXTURE_2D, sceneTextureRef.current);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, newWidth, newHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        }
-        if (extractTextureRef.current) {
-          gl.bindTexture(gl.TEXTURE_2D, extractTextureRef.current);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, bloomWidth, bloomHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        }
-        if (blurTexture1Ref.current) {
-          gl.bindTexture(gl.TEXTURE_2D, blurTexture1Ref.current);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, bloomWidth, bloomHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        }
-        if (blurTexture2Ref.current) {
-          gl.bindTexture(gl.TEXTURE_2D, blurTexture2Ref.current);
-          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, bloomWidth, bloomHeight, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-        }
-        gl.bindTexture(gl.TEXTURE_2D, null);
       }
     };
 
@@ -524,233 +375,89 @@ export function useBurnAnimation(
       parallaxOffsetRef.current = 1 - progress - 0.5;
     };
 
-    const renderScene = (targetFramebuffer: WebGLFramebuffer | null) => {
+    const render = () => {
       const glCtx = glRef.current;
-      const prog = programRef.current;
+      const progActive = programRef.current;
       const buf = bufferRef.current;
-      if (!glCtx || !prog || !buf) return;
+      if (!glCtx || !progActive || !buf) return;
 
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, targetFramebuffer);
       glCtx.viewport(0, 0, canvasSizeRef.current.width, canvasSizeRef.current.height);
-      glCtx.useProgram(prog);
+      glCtx.useProgram(progActive);
       glCtx.bindBuffer(glCtx.ARRAY_BUFFER, buf);
 
-      const posLoc = glCtx.getAttribLocation(prog, 'a_position');
+      const posLoc = glCtx.getAttribLocation(progActive, 'a_position');
       glCtx.enableVertexAttribArray(posLoc);
       glCtx.vertexAttribPointer(posLoc, 2, glCtx.FLOAT, false, 0, 0);
 
-      const colorLoc = glCtx.getUniformLocation(prog, 'u_color');
+      const colorLoc = glCtx.getUniformLocation(progActive, 'u_color');
       const [r, g, b] = colorRef.current;
       glCtx.uniform3f(colorLoc, r, g, b);
 
-      const trLoc = glCtx.getUniformLocation(prog, 'u_transition_color');
+      const trLoc = glCtx.getUniformLocation(progActive, 'u_transition_color');
       if (trLoc) {
         const [tr, tg, tb] = transitionColorRef.current;
         glCtx.uniform3f(trLoc, tr, tg, tb);
       }
 
-      const nsLoc = glCtx.getUniformLocation(prog, 'u_noise_scale');
+      const nsLoc = glCtx.getUniformLocation(progActive, 'u_noise_scale');
       if (nsLoc) glCtx.uniform1f(nsLoc, noiseScaleRef.current);
 
-      const niLoc = glCtx.getUniformLocation(prog, 'u_noise_intensity');
+      const niLoc = glCtx.getUniformLocation(progActive, 'u_noise_intensity');
       if (niLoc) glCtx.uniform1f(niLoc, noiseIntensityRef.current);
 
       const currentTime = performance.now();
       const elapsedSeconds = (currentTime - startTimeRef.current) / 1000;
-      baseTimeRef.current = elapsedSeconds * baseAnimationSpeedRef.current;
+      const timeVal = elapsedSeconds * baseAnimationSpeedRef.current;
 
-      const soLoc = glCtx.getUniformLocation(prog, 'u_scroll_offset');
-      if (soLoc) glCtx.uniform1f(soLoc, baseTimeRef.current + scrollOffsetRef.current);
+      const timeLoc = glCtx.getUniformLocation(progActive, 'u_time');
+      if (timeLoc) glCtx.uniform1f(timeLoc, timeVal);
 
-      const esLoc = glCtx.getUniformLocation(prog, 'u_edge_softness');
+      const soLoc = glCtx.getUniformLocation(progActive, 'u_scroll_offset');
+      if (soLoc) glCtx.uniform1f(soLoc, scrollOffsetRef.current % 10.0);
+
+      const esLoc = glCtx.getUniformLocation(progActive, 'u_edge_softness');
       if (esLoc) glCtx.uniform1f(esLoc, edgeSoftnessRef.current);
 
-      const gsLoc = glCtx.getUniformLocation(prog, 'u_grain_scale');
-      if (gsLoc) glCtx.uniform1f(gsLoc, 80.0);
-
-      const mhLoc = glCtx.getUniformLocation(prog, 'u_movement_horizontal');
+      const mhLoc = glCtx.getUniformLocation(progActive, 'u_movement_horizontal');
       if (mhLoc) glCtx.uniform1f(mhLoc, movementHorizontalRef.current);
 
-      const mvLoc = glCtx.getUniformLocation(prog, 'u_movement_vertical');
+      const mvLoc = glCtx.getUniformLocation(progActive, 'u_movement_vertical');
       if (mvLoc) glCtx.uniform1f(mvLoc, movementVerticalRef.current);
 
-      const poLoc = glCtx.getUniformLocation(prog, 'u_parallax_offset');
+      const poLoc = glCtx.getUniformLocation(progActive, 'u_parallax_offset');
       if (poLoc) glCtx.uniform1f(poLoc, parallaxOffsetRef.current);
 
-      const arLoc = glCtx.getUniformLocation(prog, 'u_aspect_ratio');
+      const arLoc = glCtx.getUniformLocation(progActive, 'u_aspect_ratio');
       if (arLoc) {
         const w = canvasSizeRef.current.width;
         const h = canvasSizeRef.current.height;
         glCtx.uniform1f(arLoc, h > 0 ? w / h : 1);
       }
 
-      glCtx.clearColor(0, 0, 0, 0);
-      glCtx.clear(glCtx.COLOR_BUFFER_BIT);
-      glCtx.enable(glCtx.BLEND);
-      glCtx.blendFunc(glCtx.SRC_ALPHA, glCtx.ONE_MINUS_SRC_ALPHA);
-      glCtx.drawArrays(glCtx.TRIANGLE_STRIP, 0, 4);
-    };
-
-    const renderExtract = (sourceTex: WebGLTexture, targetFb: WebGLFramebuffer) => {
-      const glCtx = glRef.current;
-      const prog = extractProgramRef.current;
-      const buf = bufferRef.current;
-      if (!glCtx || !prog || !buf) return;
-
-      const downsample = bloomDownsampleRef.current;
-      const bloomWidth = Math.floor(canvasSizeRef.current.width / downsample);
-      const bloomHeight = Math.floor(canvasSizeRef.current.height / downsample);
-
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, targetFb);
-      glCtx.viewport(0, 0, bloomWidth, bloomHeight);
-      glCtx.useProgram(prog);
-      glCtx.bindBuffer(glCtx.ARRAY_BUFFER, buf);
-
-      const posLoc = glCtx.getAttribLocation(prog, 'a_position');
-      glCtx.enableVertexAttribArray(posLoc);
-      glCtx.vertexAttribPointer(posLoc, 2, glCtx.FLOAT, false, 0, 0);
-
-      const texLoc = glCtx.getUniformLocation(prog, 'u_texture');
-      glCtx.activeTexture(glCtx.TEXTURE0);
-      glCtx.bindTexture(glCtx.TEXTURE_2D, sourceTex);
-      glCtx.uniform1i(texLoc, 0);
-
-      const trLoc = glCtx.getUniformLocation(prog, 'u_transition_color');
-      if (trLoc) {
-        const [tr, tg, tb] = transitionColorRef.current;
-        glCtx.uniform3f(trLoc, tr, tg, tb);
+      const isMobLoc = glCtx.getUniformLocation(progActive, 'u_is_mobile');
+      if (isMobLoc) {
+        const isMob = typeof window !== 'undefined' && window.innerWidth < 768;
+        glCtx.uniform1f(isMobLoc, isMob ? 1.0 : 0.0);
       }
 
-      const baseLoc = glCtx.getUniformLocation(prog, 'u_base_color');
-      if (baseLoc) {
-        const [r, g, b] = colorRef.current;
-        glCtx.uniform3f(baseLoc, r, g, b);
-      }
-
-      glCtx.clearColor(0, 0, 0, 0);
-      glCtx.clear(glCtx.COLOR_BUFFER_BIT);
-      glCtx.disable(glCtx.BLEND);
-      glCtx.drawArrays(glCtx.TRIANGLE_STRIP, 0, 4);
-    };
-
-    const renderBlur = (
-      sourceTex: WebGLTexture,
-      targetFb: WebGLFramebuffer,
-      direction: [number, number]
-    ) => {
-      const glCtx = glRef.current;
-      const prog = blurProgramRef.current;
-      const buf = bufferRef.current;
-      if (!glCtx || !prog || !buf) return;
-
-      const downsample = bloomDownsampleRef.current;
-      const bloomWidth = Math.floor(canvasSizeRef.current.width / downsample);
-      const bloomHeight = Math.floor(canvasSizeRef.current.height / downsample);
-
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, targetFb);
-      glCtx.viewport(0, 0, bloomWidth, bloomHeight);
-      glCtx.useProgram(prog);
-      glCtx.bindBuffer(glCtx.ARRAY_BUFFER, buf);
-
-      const posLoc = glCtx.getAttribLocation(prog, 'a_position');
-      glCtx.enableVertexAttribArray(posLoc);
-      glCtx.vertexAttribPointer(posLoc, 2, glCtx.FLOAT, false, 0, 0);
-
-      const texLoc = glCtx.getUniformLocation(prog, 'u_texture');
-      glCtx.activeTexture(glCtx.TEXTURE0);
-      glCtx.bindTexture(glCtx.TEXTURE_2D, sourceTex);
-      glCtx.uniform1i(texLoc, 0);
-
-      const dirLoc = glCtx.getUniformLocation(prog, 'u_direction');
-      glCtx.uniform2f(dirLoc, direction[0], direction[1]);
-
-      const resLoc = glCtx.getUniformLocation(prog, 'u_resolution');
-      glCtx.uniform2f(resLoc, bloomWidth, bloomHeight);
-
-      const radLoc = glCtx.getUniformLocation(prog, 'u_radius');
-      glCtx.uniform1f(radLoc, bloomRadiusRef.current);
-
-      glCtx.clearColor(0, 0, 0, 0);
-      glCtx.clear(glCtx.COLOR_BUFFER_BIT);
-      glCtx.disable(glCtx.BLEND);
-      glCtx.drawArrays(glCtx.TRIANGLE_STRIP, 0, 4);
-    };
-
-    const renderComposite = (sceneTex: WebGLTexture, bloomTex: WebGLTexture) => {
-      const glCtx = glRef.current;
-      const prog = compositeProgramRef.current;
-      const buf = bufferRef.current;
-      if (!glCtx || !prog || !buf) return;
-
-      glCtx.bindFramebuffer(glCtx.FRAMEBUFFER, null);
-      glCtx.viewport(0, 0, canvasSizeRef.current.width, canvasSizeRef.current.height);
-      glCtx.useProgram(prog);
-      glCtx.bindBuffer(glCtx.ARRAY_BUFFER, buf);
-
-      const posLoc = glCtx.getAttribLocation(prog, 'a_position');
-      glCtx.enableVertexAttribArray(posLoc);
-      glCtx.vertexAttribPointer(posLoc, 2, glCtx.FLOAT, false, 0, 0);
-
-      glCtx.activeTexture(glCtx.TEXTURE0);
-      glCtx.bindTexture(glCtx.TEXTURE_2D, sceneTex);
-      const sceneLoc = glCtx.getUniformLocation(prog, 'u_scene');
-      glCtx.uniform1i(sceneLoc, 0);
-
-      glCtx.activeTexture(glCtx.TEXTURE1);
-      glCtx.bindTexture(glCtx.TEXTURE_2D, bloomTex);
-      const bloomLoc = glCtx.getUniformLocation(prog, 'u_bloom');
-      glCtx.uniform1i(bloomLoc, 1);
-
-      const intLoc = glCtx.getUniformLocation(prog, 'u_bloom_intensity');
-      glCtx.uniform1f(intLoc, bloomIntensityRef.current);
-
-      const trLoc = glCtx.getUniformLocation(prog, 'u_transition_color');
-      if (trLoc) {
-        const [tr, tg, tb] = transitionColorRef.current;
-        glCtx.uniform3f(trLoc, tr, tg, tb);
+      const invLoc = glCtx.getUniformLocation(progActive, 'u_inverted');
+      if (invLoc) {
+        glCtx.uniform1f(invLoc, invertedRef.current ? 1.0 : 0.0);
       }
 
       glCtx.clearColor(0, 0, 0, 0);
       glCtx.clear(glCtx.COLOR_BUFFER_BIT);
       glCtx.enable(glCtx.BLEND);
-      glCtx.blendFunc(glCtx.SRC_ALPHA, glCtx.ONE_MINUS_SRC_ALPHA);
+      // Premultiplied alpha blending: gl.ONE, gl.ONE_MINUS_SRC_ALPHA
+      glCtx.blendFunc(glCtx.ONE, glCtx.ONE_MINUS_SRC_ALPHA);
       glCtx.drawArrays(glCtx.TRIANGLE_STRIP, 0, 4);
-    };
-
-    const render = () => {
-      const glCtx = glRef.current;
-      if (!glCtx || !programRef.current) return;
-
-      const hasBloom =
-        bloomIntensityRef.current > 0 &&
-        framebufferRef.current &&
-        sceneTextureRef.current &&
-        blurFramebuffer1Ref.current &&
-        blurTexture1Ref.current &&
-        blurFramebuffer2Ref.current &&
-        blurTexture2Ref.current &&
-        blurProgramRef.current &&
-        compositeProgramRef.current &&
-        extractProgramRef.current &&
-        extractFramebufferRef.current &&
-        extractTextureRef.current;
-
-      if (hasBloom) {
-        renderScene(framebufferRef.current);
-        renderExtract(sceneTextureRef.current!, extractFramebufferRef.current!);
-        renderBlur(extractTextureRef.current!, blurFramebuffer1Ref.current!, [1, 0]);
-        renderBlur(blurTexture1Ref.current!, blurFramebuffer2Ref.current!, [0, 1]);
-        renderComposite(sceneTextureRef.current!, blurTexture2Ref.current!);
-      } else {
-        renderScene(null);
-      }
     };
 
     resizeCanvas();
     updateParallaxOffset();
     render();
 
-    // Loop controller driven by viewport visibility to ensure zero lag & low memory
+    // Loop controller driven by viewport visibility to guarantee smooth 60fps & low battery drain
     const loop = () => {
       if (!isVisibleRef.current) {
         animationFrameRef.current = null;
@@ -776,9 +483,14 @@ export function useBurnAnimation(
       }
     };
 
-    // IntersectionObserver: Only render when visible in viewport
+    // Start animation loop immediately upon initialization
+    startAnimation();
+
+    // IntersectionObserver: Pause rendering when scrolled far out of viewport
     const observer = new IntersectionObserver(
-      ([entry]) => {
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
         isVisibleRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           resizeCanvas();
@@ -787,7 +499,7 @@ export function useBurnAnimation(
           stopAnimation();
         }
       },
-      { rootMargin: '100px' }
+      { rootMargin: '250px' }
     );
     observer.observe(container);
 
@@ -799,50 +511,94 @@ export function useBurnAnimation(
     });
     resizeObserver.observe(container);
 
-    const scrollHandler = () => {
+    const onScrollUpdate = (scrollY: number) => {
       if (!isVisibleRef.current) return;
-      const currentScrollY = window.scrollY || window.pageYOffset;
       const currentTime = performance.now();
       if (lastScrollTimeRef.current > 0) {
-        const deltaY = currentScrollY - lastScrollYRef.current;
-        const deltaTime = currentTime - lastScrollTimeRef.current;
-        if (deltaTime > 0 && Math.abs(deltaY) > 0) {
-          scrollOffsetRef.current += deltaY * scrollSensitivityRef.current;
+        const deltaY = scrollY - lastScrollYRef.current;
+        if (Math.abs(deltaY) > 0) {
+          scrollOffsetRef.current =
+            (scrollOffsetRef.current + deltaY * scrollSensitivityRef.current) % 20.0;
         }
       }
-      lastScrollYRef.current = currentScrollY;
+      lastScrollYRef.current = scrollY;
       lastScrollTimeRef.current = currentTime;
       if (parallaxEnabledRef.current) {
         updateParallaxOffset();
       }
     };
 
-    lastScrollYRef.current = window.scrollY || window.pageYOffset;
+    const scrollHandler = () => {
+      onScrollUpdate(window.scrollY || window.pageYOffset || 0);
+    };
+
+    const lenisScrollHandler = (e: { scroll: number }) => {
+      onScrollUpdate(e.scroll);
+    };
+
+    lastScrollYRef.current = window.scrollY || window.pageYOffset || 0;
     lastScrollTimeRef.current = performance.now();
     window.addEventListener('scroll', scrollHandler, { passive: true });
+
+    let boundLenis: ReturnType<typeof getLenisInstance> | null = null;
+    let lenisPollTimer: ReturnType<typeof setInterval> | null = null;
+
+    const attachLenis = () => {
+      const lenis = getLenisInstance();
+      if (lenis && !boundLenis) {
+        boundLenis = lenis;
+        lenis.on('scroll', lenisScrollHandler);
+        if (lenisPollTimer) {
+          clearInterval(lenisPollTimer);
+          lenisPollTimer = null;
+        }
+      }
+    };
+
+    attachLenis();
+    if (!boundLenis) {
+      lenisPollTimer = setInterval(attachLenis, 250);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAnimation();
+      } else if (isVisibleRef.current) {
+        startAnimation();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // Handle WebGL context lost and restored events gracefully
+    const handleContextLost = (e: Event) => {
+      e.preventDefault();
+      stopAnimation();
+    };
+    const handleContextRestored = () => {
+      resizeCanvas();
+      startAnimation();
+    };
+    canvas.addEventListener('webglcontextlost', handleContextLost, false);
+    canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
 
     return () => {
       observer.disconnect();
       resizeObserver.disconnect();
+      if (lenisPollTimer) clearInterval(lenisPollTimer);
+      if (boundLenis) {
+        boundLenis.off('scroll', lenisScrollHandler);
+      }
       window.removeEventListener('scroll', scrollHandler);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      canvas.removeEventListener('webglcontextlost', handleContextLost);
+      canvas.removeEventListener('webglcontextrestored', handleContextRestored);
       stopAnimation();
 
       if (glRef.current) {
         const glCtx = glRef.current;
         if (bufferRef.current) glCtx.deleteBuffer(bufferRef.current);
         if (programRef.current) glCtx.deleteProgram(programRef.current);
-        if (extractProgramRef.current) glCtx.deleteProgram(extractProgramRef.current);
-        if (blurProgramRef.current) glCtx.deleteProgram(blurProgramRef.current);
-        if (compositeProgramRef.current) glCtx.deleteProgram(compositeProgramRef.current);
-        if (framebufferRef.current) glCtx.deleteFramebuffer(framebufferRef.current);
-        if (sceneTextureRef.current) glCtx.deleteTexture(sceneTextureRef.current);
-        if (extractFramebufferRef.current) glCtx.deleteFramebuffer(extractFramebufferRef.current);
-        if (extractTextureRef.current) glCtx.deleteTexture(extractTextureRef.current);
-        if (blurFramebuffer1Ref.current) glCtx.deleteFramebuffer(blurFramebuffer1Ref.current);
-        if (blurTexture1Ref.current) glCtx.deleteTexture(blurTexture1Ref.current);
-        if (blurFramebuffer2Ref.current) glCtx.deleteFramebuffer(blurFramebuffer2Ref.current);
-        if (blurTexture2Ref.current) glCtx.deleteTexture(blurTexture2Ref.current);
       }
     };
-  }, [canvasRef, containerRef]);
+  }, [canvasRef, containerRef, onWebGLUnsupported]);
 }

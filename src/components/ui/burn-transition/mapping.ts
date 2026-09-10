@@ -65,13 +65,15 @@ export function mapNoiseIntensity(ui: number) {
   return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.85);
 }
 export function mapScrollSensitivity(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.01);
+  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.0005, 0.02);
 }
 export function mapBaseAnimationSpeed(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0, 0.1);
+  if (!ui || ui <= 0) return 1.0;
+  // Normalized around default 0.08 => 1.0
+  return ui / 0.08;
 }
 export function mapEdgeSoftness(ui: number) {
-  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.015, 0.08);
+  return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.02, 0.14);
 }
 export function mapBloomRadius(ui: number) {
   return mapLinear(Math.max(0, Math.min(1, ui)), 0, 1, 0.02, 0.18);
