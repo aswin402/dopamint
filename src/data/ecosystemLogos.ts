@@ -14,6 +14,7 @@ import robinhoodLogo from '../assets/app_logos/robinhood.svg';
 import coingeckoLogo from '../assets/app_logos/coingecko.svg';
 import githubLogo from '../assets/app_logos/github.svg';
 import canvaLogo from '../assets/app_logos/canva.svg';
+import baseAppLogo from '../assets/app_logos/base_app.svg';
 
 // Crypto wallet and exchange logos
 import logo01 from '../assets/crypto_logos/logo_01.webp';
@@ -84,6 +85,7 @@ export const ROW_3_LOGOS: EcosystemLogo[] = [
   { id: 'app-discord', src: discordLogo, alt: 'Discord' },
   { id: 'ex-binance', src: logo10, alt: 'Binance' },
   { id: 'ex-coinbase', src: logo11, alt: 'Coinbase' },
+  { id: 'app-base', src: baseAppLogo, alt: 'Base App' },
   { id: 'ex-mexc', src: logo19, alt: 'MEXC' },
   { id: 'ex-kraken', src: krakenLogo, alt: 'Kraken' },
 ];
