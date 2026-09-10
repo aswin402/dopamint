@@ -553,3 +553,34 @@ video::-webkit-media-controls-play-button {
   display: none !important;
   -webkit-appearance: none;
 }
+
+/* =========================================================================
+   Desktop 1920x1080 and Ultra-Wide Screen Overrides:
+   Ensures the "What is DopaMint" chat screen video is prominently sized
+   and positioned flush right on 1920x1080 desktop displays without being
+   overridden by 2xl cascade order.
+   ========================================================================= */
+@media (min-width: 1700px) {
+  .manifesto-chat-container {
+    width: 134% !important;
+    margin-right: -4.5vw !important;
+    translate: 70px 0 !important;
+  }
+  .manifesto-chat-video {
+    max-height: 92vh !important;
+    scale: 1.04 !important;
+  }
+}
+
+@media (min-width: 1850px) {
+  .manifesto-chat-container {
+    width: 142% !important;
+    margin-right: -6.5vw !important;
+    translate: 110px 0 !important;
+  }
+  .manifesto-chat-video {
+    max-height: 95vh !important;
+    scale: 1.10 !important;
+  }
+}
+
