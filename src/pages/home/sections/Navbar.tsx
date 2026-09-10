@@ -131,8 +131,7 @@ export const Navbar: React.FC = () => {
         {/* Right Action */}
         <div className="flex items-center gap-2 min-[390px]:gap-2.5 sm:gap-3">
           <Type1Button
-            href="#manifesto"
-            onClick={(e) => handleNavClick(e, 'manifesto')}
+            to="/waitlist"
             variant={isSolidNav ? 'dark' : 'light'}
             className={`!h-8 min-[380px]:!h-8.5 sm:!h-9 !w-28 min-[380px]:!w-32 min-[430px]:!w-36 inline-flex ${
               !isSolidNav ? 'border-white/80 text-white hover:border-white shadow-md' : ''
@@ -174,8 +173,8 @@ export const Navbar: React.FC = () => {
           ))}
           <div className="pt-2">
             <Type1Button
-              href="#manifesto"
-              onClick={(e) => handleNavClick(e, 'manifesto')}
+              to="/waitlist"
+              onClick={() => setMobileNavOpen(false)}
               className="!w-full !h-11"
             >
               <span className="normal-case tracking-[1px]">Try iMessage</span>

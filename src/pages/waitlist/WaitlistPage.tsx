@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { ArrowLeft, CheckCircle2, Shield, Lock, Zap } from 'lucide-react';
+import { getLenisInstance } from '@/lib/lenis';
 import iconDopeImg from '@/assets/Icondope.webp';
 import logoDopeImg from '@/assets/logo_dope.webp';
 
@@ -17,6 +18,18 @@ export function WaitlistPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [queueNumber, setQueueNumber] = useState<number>(1402);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const lenis = getLenisInstance();
+    if (lenis) {
+      lenis.start();
+      lenis.scrollTo(0, { immediate: true });
+    }
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+    delete document.documentElement.dataset.scrollLocked;
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

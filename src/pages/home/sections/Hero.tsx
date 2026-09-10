@@ -188,18 +188,24 @@ function HeroOverlay({
           Powered by <span className="font-serif italic font-bold text-white">$DOPE</span>
         </p>
 
-        {/* Get App CTA */}
+        {/* CTAs: Get App & Join Waitlist */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-3 sm:mt-5"
+          className="mt-3 sm:mt-5 flex items-center justify-center gap-2.5 sm:gap-3.5 flex-wrap"
         >
           <Link
             to="/waitlist"
             className="inline-flex items-center justify-center rounded-full bg-white text-[#141820] px-6 sm:px-8 py-2.5 sm:py-3 min-h-[42px] font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.45)] hover:bg-[#f3f2e6] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
           >
             Get App
+          </Link>
+          <Link
+            to="/waitlist"
+            className="inline-flex items-center justify-center rounded-full bg-white/20 hover:bg-white/35 text-white border border-white/50 hover:border-white/80 backdrop-blur-md px-6 sm:px-8 py-2.5 sm:py-3 min-h-[42px] font-serif font-bold text-xs sm:text-sm tracking-wide shadow-[0_6px_24px_rgba(0,0,0,0.3)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none"
+          >
+            Join Waitlist
           </Link>
         </motion.div>
       </div>
