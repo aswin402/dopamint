@@ -1,19 +1,17 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import { Navbar } from './sections/Navbar';
 import { Hero } from './sections/Hero';
 import { RealAsks } from './sections/RealAsks';
 import { BurnTransition } from '../../components/ui/burn-transition';
 import divBurnImg from '../../assets/div_burn.webp';
 
-// Lazy load below-the-fold sections to optimize initial JavaScript execution
-const AgentRoster = lazy(() => import('./sections/AgentRoster').then((m) => ({ default: m.AgentRoster })));
-const Authority = lazy(() => import('./sections/Authority').then((m) => ({ default: m.Authority })));
-const AiFiSection = lazy(() => import('./sections/AiFiSection').then((m) => ({ default: m.AiFiSection })));
-const EvidenceSection = lazy(() => import('./sections/Evidence/EvidenceSection').then((m) => ({ default: m.EvidenceSection })));
-const MemoryWalletSection = lazy(() => import('./sections/MemoryWallet/MemoryWalletSection').then((m) => ({ default: m.MemoryWalletSection })));
-const EcosystemSection = lazy(() => import('./sections/EcosystemSection').then((m) => ({ default: m.EcosystemSection })));
-const FooterSection = lazy(() => import('./sections/Footer').then((m) => ({ default: m.FooterSection })));
-
+import { AgentRoster } from './sections/AgentRoster';
+import { Authority } from './sections/Authority';
+import { AiFiSection } from './sections/AiFiSection';
+import { EvidenceSection } from './sections/Evidence/EvidenceSection';
+import { MemoryWalletSection } from './sections/MemoryWallet/MemoryWalletSection';
+import { EcosystemSection } from './sections/EcosystemSection';
+import { FooterSection } from './sections/Footer';
 
 export function HomePage() {
   return (
@@ -30,19 +28,13 @@ export function HomePage() {
         <RealAsks />
 
         {/* 3. The Future of Agents */}
-        <Suspense fallback={null}>
-          <Authority />
-        </Suspense>
+        <Authority />
 
         {/* 4. AiFi Powered Agents That Act With Trust */}
-        <Suspense fallback={null}>
-          <AiFiSection />
-        </Suspense>
+        <AiFiSection />
 
         {/* 5. the Dope App: 8 Agent Crew */}
-        <Suspense fallback={null}>
-          <AgentRoster />
-        </Suspense>
+        <AgentRoster />
 
         {/* 6. Long Section with div_burn.webp Background (Evidence + Memory Wallet / The Floor) */}
         <div className="relative w-full overflow-x-clip bg-[#282a2d]">
@@ -77,13 +69,11 @@ export function HomePage() {
           </div>
 
           <div className="relative z-10">
-            <Suspense fallback={null}>
-              {/* Part 1: Cryptographic Evidence Log */}
-              <EvidenceSection />
+            {/* Part 1: Cryptographic Evidence Log */}
+            <EvidenceSection />
 
-              {/* Part 2: The Floor & Memory Wallet */}
-              <MemoryWalletSection />
-            </Suspense>
+            {/* Part 2: The Floor & Memory Wallet */}
+            <MemoryWalletSection />
           </div>
 
           {/* Bottom Burn Transition Effect */}
@@ -105,14 +95,10 @@ export function HomePage() {
         </div>
 
         {/* 7. Ecosystem (Everyday Apps, Markets, Exchanges & Wallets Marquee) */}
-        <Suspense fallback={null}>
-          <EcosystemSection />
-        </Suspense>
+        <EcosystemSection />
 
         {/* 8. Footer Section (Give your AI some agency + The Last Supper background) */}
-        <Suspense fallback={null}>
-          <FooterSection />
-        </Suspense>
+        <FooterSection />
       </main>
     </div>
   );
