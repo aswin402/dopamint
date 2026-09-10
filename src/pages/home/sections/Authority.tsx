@@ -67,14 +67,14 @@ export const Authority: React.FC = () => {
             loop
             playsInline
             preload="metadata"
-            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 min-[1700px]:-translate-x-24 min-[1850px]:-translate-x-36 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 lg:-translate-x-12 xl:-translate-x-24 2xl:-translate-x-36 min-[1700px]:-translate-x-48 min-[1850px]:-translate-x-56 origin-center lg:origin-left"
           />
         </div>
 
         {/* =========================================================================
             2. RIGHT — EDITORIAL HEADLINE + CTA (CENTER ALIGNED ON MOBILE)
             ========================================================================= */}
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-16 xl:-ml-26 pt-8 sm:pt-0">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 pt-8 sm:pt-0">
           
           {/* Category Tag */}
           <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">
