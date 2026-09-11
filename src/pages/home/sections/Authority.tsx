@@ -79,7 +79,7 @@ export const Authority: React.FC = () => {
         {/* =========================================================================
             1. LEFT — COMPANION VIDEO (BIGGER & SHIFTED LEFT ON MOBILE)
             ========================================================================= */}
-        <div className="authority-video-col flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-4 xl:-ml-8 2xl:-ml-12 overflow-visible py-8 sm:py-0 mb-6 sm:mb-0">
+        <div className="authority-video-col flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-4 xl:-ml-8 2xl:-ml-12 overflow-visible py-8 sm:py-0 mb-8 sm:mb-0">
           <video
             ref={videoRef}
             poster={companionPosterWebp}
@@ -91,7 +91,7 @@ export const Authority: React.FC = () => {
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
-            className="authority-video-el pointer-events-none w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[740px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.85] -translate-x-32 sm:scale-105 sm:translate-x-0 lg:translate-x-0 xl:-translate-x-6 2xl:-translate-x-12 origin-center lg:origin-left"
+            className="authority-video-el pointer-events-none w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[840px] sm:max-h-[750px] lg:max-h-[860px] scale-[2.15] -translate-x-[135px] sm:scale-105 sm:translate-x-0 lg:translate-x-0 xl:-translate-x-6 2xl:-translate-x-12 origin-center lg:origin-left"
           >
             <source src={companionVideoMp4} type="video/mp4" />
             <source src={companionVideoWebm} type="video/webm" />
