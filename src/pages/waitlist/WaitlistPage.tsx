@@ -340,13 +340,6 @@ export function WaitlistPage() {
         </div>
       </main>
 
-      {/* =========================================================================
-          4. FOOTER SIGNATURE
-          ========================================================================= */}
-      <footer className="w-full max-w-6xl mx-auto px-4 sm:px-8 py-5 text-center text-xs font-mono text-[#55604e]/70 tracking-wider z-10">
-        <span>DOPAMINT PROTOCOL</span> · <span>BUILT ON BASE</span> · <span>AiFi ECOSYSTEM</span>
-      </footer>
-
     </div>
   );
 }
