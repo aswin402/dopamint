@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useTransform, useSpring } from 'framer-motion';
 import { 
   Target, 
   Command, 
@@ -36,14 +36,23 @@ export const EvidenceSection: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // Direct 1:1 scroll transform without useSpring to eliminate spring oscillation and jitter on iPhone
-  const mobileTrackX = useTransform(scrollYProgress, (p: number) => {
-    const clamped = Math.min(1, Math.max(0, p));
-    return `${-clamped * 300}%`;
+  // Smooth spring physics for silky momentum and touch dampening
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 26,
+    stiffness: 85,
+    mass: 0.45,
+    restDelta: 0.0001,
   });
 
+  // Smooth scroll transform with rest/dwell window at each card center
+  const mobileTrackX = useTransform(
+    smoothProgress,
+    [0.0, 0.23, 0.333, 0.566, 0.667, 0.90, 1.0],
+    ['0%', '-100%', '-100%', '-200%', '-200%', '-300%', '-300%']
+  );
+
   // Sync active step with scroll progress on mobile ONLY (< 768px) with hysteresis deadband
-  useMotionValueEvent(scrollYProgress, 'change', (p) => {
+  useMotionValueEvent(smoothProgress, 'change', (p) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
@@ -51,14 +60,14 @@ export const EvidenceSection: React.FC = () => {
       const cur = activeStepRef.current;
       let next = cur;
 
-      if (cur === 0 && p > 0.20) next = 1;
+      if (cur === 0 && p > 0.16) next = 1;
       else if (cur === 1) {
-        if (p < 0.14) next = 0;
-        else if (p > 0.52) next = 2;
+        if (p < 0.10) next = 0;
+        else if (p > 0.48) next = 2;
       } else if (cur === 2) {
-        if (p < 0.46) next = 1;
-        else if (p > 0.84) next = 3;
-      } else if (cur === 3 && p < 0.78) next = 2;
+        if (p < 0.42) next = 1;
+        else if (p > 0.80) next = 3;
+      } else if (cur === 3 && p < 0.74) next = 2;
 
       if (next !== cur) {
         activeStepRef.current = next;
@@ -110,7 +119,7 @@ export const EvidenceSection: React.FC = () => {
         </p>
       </div>
 
-      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[260vh]">
+      <div ref={mobileContainerRef} className="md:hidden relative w-full h-[400vh]">
         {/* Pinned Screen Viewport: Pins cleanly below the fixed Navbar with generous bottom room */}
         <div className="sticky top-[58px] min-[390px]:top-[62px] h-[calc(100svh-62px)] max-h-[calc(100svh-62px)] w-full flex flex-col justify-between pt-2 pb-2.5 sm:pb-4 px-3 min-[390px]:px-4 max-w-md min-[430px]:max-w-lg mx-auto overflow-hidden bg-transparent">
           
@@ -136,18 +145,25 @@ export const EvidenceSection: React.FC = () => {
                 x: mobileTrackX,
               }}
             >
-              {steps.map((item, idx) => (
-                <div key={`mob-card-${idx}`} className="w-full shrink-0 px-1 h-full flex flex-col justify-center select-none">
-                  <AgentNode
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    tags={item.tags}
-                    icon={item.icon}
-                    isActive={currentStep === idx}
-                    stepIndex={idx}
-                  />
-                </div>
-              ))}
+              {steps.map((item, idx) => {
+                const isCur = currentStep === idx;
+                return (
+                  <div
+                    key={`mob-card-${idx}`}
+                    className="w-full shrink-0 px-1 h-full flex flex-col justify-center select-none"
+                  >
+                    <AgentNode
+                      title={item.title}
+                      subtitle={item.subtitle}
+                      tags={item.tags}
+                      icon={item.icon}
+                      isActive={isCur}
+                      isMobile={true}
+                      stepIndex={idx}
+                    />
+                  </div>
+                );
+              })}
             </motion.div>
           </div>
 

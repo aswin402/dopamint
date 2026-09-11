@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from 'framer-motion';
 
 interface CardItem {
   id: string;
@@ -113,20 +113,28 @@ export const AiFiSection: React.FC = () => {
     };
   }, []);
 
+  // Smooth spring physics for silky momentum and touch dampening
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 26,
+    stiffness: 85,
+    mass: 0.45,
+    restDelta: 0.0001,
+  });
+
   // Update current card index with hysteresis to completely eliminate boundary flickering/jitter
-  useMotionValueEvent(scrollYProgress, 'change', (p) => {
+  useMotionValueEvent(smoothProgress, 'change', (p) => {
     if (typeof window !== 'undefined' && window.innerWidth >= 1024) return;
     const cur = activeIdxRef.current;
     let next = cur;
 
-    if (cur === 0 && p > 0.20) next = 1;
+    if (cur === 0 && p > 0.16) next = 1;
     else if (cur === 1) {
-      if (p < 0.14) next = 0;
-      else if (p > 0.52) next = 2;
+      if (p < 0.10) next = 0;
+      else if (p > 0.48) next = 2;
     } else if (cur === 2) {
-      if (p < 0.46) next = 1;
-      else if (p > 0.84) next = 3;
-    } else if (cur === 3 && p < 0.78) next = 2;
+      if (p < 0.42) next = 1;
+      else if (p > 0.80) next = 3;
+    } else if (cur === 3 && p < 0.74) next = 2;
 
     if (next !== cur) {
       activeIdxRef.current = next;
@@ -134,11 +142,20 @@ export const AiFiSection: React.FC = () => {
     }
   });
 
-  // Direct 1:1 scroll transform without useSpring to eliminate spring oscillation and vibration on iPhone
-  const mobileTrackX = useTransform(scrollYProgress, (p: number) => {
-    const clamped = Math.min(1, Math.max(0, p));
-    return -clamped * (cardStep * 3);
-  });
+  // Smooth scroll transform with rest/dwell window at each card center
+  const mobileTrackX = useTransform(
+    smoothProgress,
+    [0.0, 0.23, 0.333, 0.566, 0.667, 0.90, 1.0],
+    [
+      0,
+      -cardStep,
+      -cardStep,
+      -cardStep * 2,
+      -cardStep * 2,
+      -cardStep * 3,
+      -cardStep * 3,
+    ]
+  );
 
   return (
     <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-visible lg:overflow-hidden">
@@ -148,9 +165,9 @@ export const AiFiSection: React.FC = () => {
 
       {/* =========================================================================
           1. MOBILE VIEW: PINNED SCROLL-DRIVEN HORIZONTAL CARD ANIMATION (< 1024px)
-          - Scrolling down smoothly slides the cards with rock-solid 1:1 touch response.
+          - Scrolling down smoothly slides the cards with deliberate, silky physics.
           ========================================================================= */}
-      <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[260vh]">
+      <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[400vh]">
         <div className="sticky top-0 z-20 h-[100svh] max-h-[100svh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
           
           {/* Header */}
@@ -186,7 +203,7 @@ export const AiFiSection: React.FC = () => {
             </p>
           </div>
 
-          {/* Cards Track: Horizontally scrubbed by vertical scroll with 1:1 direct tracking */}
+          {/* Cards Track: Horizontally scrubbed by vertical scroll with fluid spring momentum */}
           <div className="relative w-full flex-1 min-h-0 my-auto flex items-center overflow-hidden">
             <motion.div
               className="flex gap-4 items-center"
@@ -201,10 +218,10 @@ export const AiFiSection: React.FC = () => {
                 return (
                   <div
                     key={`mob-${card.id}`}
-                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between border-[1.5px] transition-[opacity,border-color] duration-150 ease-out select-none shadow-[0_8px_24px_rgba(40,48,40,0.08)] ${
+                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between border-[1.5px] transition-[opacity,border-color,transform,box-shadow] duration-300 ease-out select-none ${
                       isCentered
-                        ? 'opacity-100 border-[#3e4f42]/80'
-                        : 'opacity-40 border-[#3e4f42]/20'
+                        ? 'opacity-100 scale-100 border-[#3e4f42]/80 shadow-[0_12px_32px_rgba(40,48,40,0.12)]'
+                        : 'opacity-40 scale-[0.94] border-[#3e4f42]/20 shadow-[0_4px_16px_rgba(40,48,40,0.04)]'
                     }`}
                   >
                     <div>

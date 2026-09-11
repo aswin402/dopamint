@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
-import { motion, useInView, useScroll, useTransform, useMotionValueEvent, type Variants, type MotionValue } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, useSpring, type Variants, type MotionValue } from 'framer-motion';
 import { interpolate as flubberInterpolate } from 'flubber';
 import candleStandImg from '../../../assets/Candle_Stand.webp';
 import sideCharImg from '../../../assets/side_char.webp';
@@ -40,16 +40,6 @@ const STEP0 = 'M 0.00 0.00 L 1.00 0.00 L 1.00 1.00 L 0.00 1.00 Z';
 // while maintaining silky-smooth bezier curve fidelity without CPU stutter.
 const morph3to2 = flubberInterpolate(STEP3, STEP2, { maxSegmentLength: 0.18 });
 const morph2to0 = flubberInterpolate(STEP2, STEP0, { maxSegmentLength: 0.18 });
-
-// 51 precomputed morph frames for mobile scroll-driven genie effect (0.0001ms O(1) table lookup)
-const GENIE_PATH_FRAMES: string[] = (() => {
-  const frames: string[] = [];
-  for (let i = 0; i <= 50; i++) {
-    const t = i / 50;
-    frames.push(t <= 0.42 ? morph3to2(t / 0.42) : morph2to0((t - 0.42) / 0.58));
-  }
-  return frames;
-})();
 
 function useGenieMorph(isOpen: boolean, delayMs: number) {
   const pathRef = useRef<SVGPathElement>(null);
@@ -130,27 +120,32 @@ const cardSm =
 const mobileCardBase =
   'imsg-card overflow-hidden rounded-[1.35rem] min-[390px]:rounded-[1.5rem] bg-[#fdfbf7] border-[1.5px] border-[#eedbc4] p-4 min-[390px]:p-5 select-none shadow-[0_10px_28px_rgba(40,30,20,0.09),0_2px_6px_rgba(40,30,20,0.04)]';
 
+const SINK_POLY =
+  'polygon(38% 85%, 50% 85%, 62% 85%, 62% 88%, 62% 91%, 62% 94%, 62% 97%, 62% 100%, 50% 100%, 38% 100%, 38% 97%, 38% 94%, 38% 91%, 38% 88%)';
+const GENIE_POLY =
+  'polygon(0% 0%, 50% 0%, 100% 0%, 98% 18%, 88% 36%, 74% 56%, 64% 78%, 60% 100%, 50% 100%, 40% 100%, 36% 78%, 26% 56%, 12% 36%, 2% 18%)';
+const FULL_POLY =
+  'polygon(0% 0%, 50% 0%, 100% 0%, 100% 18%, 100% 36%, 100% 56%, 100% 78%, 100% 100%, 50% 100%, 0% 100%, 0% 78%, 0% 56%, 0% 36%, 0% 18%)';
+
 // =========================================================================
-// MOBILE GENIE STACK SECTION (SCROLL-DRIVEN ONE-BY-ONE MACBOOK GENIE POPUP & DOWN)
+// MOBILE PINNED STACKING CARDS (STICKY VIEWPORT + SCROLL PROGRESS PARALLAX + GENIE)
 // =========================================================================
-interface MobileGenieCardProps {
+interface MobilePinnedCardProps {
   i: number;
   card: AskCardData;
   progress: MotionValue<number>;
   total: number;
-  sinkY: number;
   activeTopIndex: number | null;
   onCardTap: (idx: number) => void;
-  pathRef: { current: SVGPathElement | null };
 }
 
-function getGenieTransforms(i: number, cardRot: number, total: number = 6, sinkY: number = 240) {
+function getCardTransforms(i: number, cardRot: number, total: number = 6) {
   const pList: number[] = [];
   const yList: number[] = [];
   const sList: number[] = [];
   const oList: number[] = [];
   const rList: number[] = [];
-
+  const cList: string[] = [];
   const stepSize = 1 / (total - 1); // 0.20 per card transition
 
   if (i === 0) {
@@ -159,136 +154,142 @@ function getGenieTransforms(i: number, cardRot: number, total: number = 6, sinkY
     sList.push(1.0);
     oList.push(1.0);
     rList.push(cardRot);
+    cList.push(FULL_POLY);
 
     for (let k = 1; k < total; k++) {
-      const p = parseFloat((k * stepSize).toFixed(3));
+      const prevEnd = (k - 1) * stepSize;
+      const settleP = parseFloat((prevEnd + stepSize * 0.72).toFixed(3));
+      const dwellEndP = parseFloat((k * stepSize).toFixed(3));
       const depth = k;
-      pList.push(p);
-      yList.push(-Math.min(35, depth * 7));
-      sList.push(parseFloat(Math.max(0.85, 1.0 - depth * 0.03).toFixed(3)));
-      oList.push(parseFloat(Math.max(0.75, 1.0 - depth * 0.05).toFixed(3)));
+      const targetY = -Math.min(42, depth * 8);
+      const targetS = parseFloat(Math.max(0.84, 1.0 - depth * 0.032).toFixed(3));
+      const targetO = parseFloat(Math.max(0.72, 1.0 - depth * 0.055).toFixed(3));
+
+      pList.push(settleP);
+      yList.push(targetY);
+      sList.push(targetS);
+      oList.push(targetO);
       rList.push(cardRot);
+      cList.push(FULL_POLY);
+
+      if (dwellEndP > settleP + 0.001) {
+        pList.push(dwellEndP);
+        yList.push(targetY);
+        sList.push(targetS);
+        oList.push(targetO);
+        rList.push(cardRot);
+        cList.push(FULL_POLY);
+      }
     }
   } else {
     const entryStart = parseFloat(((i - 1) * stepSize).toFixed(3));
-    const entryLift = parseFloat((entryStart + stepSize * 0.18).toFixed(3));
-    const entryPeak = parseFloat((entryStart + stepSize * 0.65).toFixed(3));
+    const entryLift = parseFloat((entryStart + stepSize * 0.15).toFixed(3));
+    const entryMid = parseFloat((entryStart + stepSize * 0.38).toFixed(3));
+    const entryCrest = parseFloat((entryStart + stepSize * 0.56).toFixed(3));
+    const entrySettle = parseFloat((entryStart + stepSize * 0.72).toFixed(3));
     const entryEnd = parseFloat((i * stepSize).toFixed(3));
 
     pList.push(0);
-    yList.push(sinkY);
-    sList.push(0.08);
+    yList.push(200);
+    sList.push(0.10);
     oList.push(0);
     rList.push(0);
+    cList.push(SINK_POLY);
 
     if (entryStart > 0.001) {
       pList.push(entryStart);
-      yList.push(sinkY);
-      sList.push(0.08);
+      yList.push(200);
+      sList.push(0.10);
       oList.push(0);
       rList.push(0);
+      cList.push(SINK_POLY);
     }
 
     pList.push(entryLift);
-    yList.push(Math.round(sinkY * 0.55));
-    sList.push(0.42);
+    yList.push(140);
+    sList.push(0.46);
     oList.push(1.0);
-    rList.push(parseFloat((cardRot * 0.25).toFixed(2)));
+    rList.push(parseFloat((cardRot * 0.15).toFixed(2)));
+    cList.push(GENIE_POLY);
 
-    pList.push(entryPeak);
-    yList.push(-12);
-    sList.push(0.96);
+    pList.push(entryMid);
+    yList.push(50);
+    sList.push(0.86);
     oList.push(1.0);
-    rList.push(parseFloat((cardRot * 0.75).toFixed(2)));
+    rList.push(parseFloat((cardRot * 0.45).toFixed(2)));
+    cList.push(GENIE_POLY);
 
-    pList.push(entryEnd);
+    pList.push(entryCrest);
+    yList.push(-8);
+    sList.push(0.98);
+    oList.push(1.0);
+    rList.push(parseFloat((cardRot * 0.85).toFixed(2)));
+    cList.push(FULL_POLY);
+
+    pList.push(entrySettle);
     yList.push(0);
     sList.push(1.0);
     oList.push(1.0);
     rList.push(cardRot);
+    cList.push(FULL_POLY);
+
+    // Dwell window at full resting position before next card starts
+    if (entryEnd > entrySettle + 0.001) {
+      pList.push(entryEnd);
+      yList.push(0);
+      sList.push(1.0);
+      oList.push(1.0);
+      rList.push(cardRot);
+      cList.push(FULL_POLY);
+    }
 
     for (let k = i + 1; k < total; k++) {
-      const p = parseFloat((k * stepSize).toFixed(3));
+      const prevEnd = (k - 1) * stepSize;
+      const settleP = parseFloat((prevEnd + stepSize * 0.72).toFixed(3));
+      const dwellEndP = parseFloat((k * stepSize).toFixed(3));
       const depth = k - i;
-      pList.push(p);
-      yList.push(-Math.min(35, depth * 7));
-      sList.push(parseFloat(Math.max(0.85, 1.0 - depth * 0.03).toFixed(3)));
-      oList.push(parseFloat(Math.max(0.75, 1.0 - depth * 0.05).toFixed(3)));
+      const targetY = -Math.min(42, depth * 8);
+      const targetS = parseFloat(Math.max(0.84, 1.0 - depth * 0.032).toFixed(3));
+      const targetO = parseFloat(Math.max(0.72, 1.0 - depth * 0.055).toFixed(3));
+
+      pList.push(settleP);
+      yList.push(targetY);
+      sList.push(targetS);
+      oList.push(targetO);
       rList.push(cardRot);
+      cList.push(FULL_POLY);
+
+      if (dwellEndP > settleP + 0.001) {
+        pList.push(dwellEndP);
+        yList.push(targetY);
+        sList.push(targetS);
+        oList.push(targetO);
+        rList.push(cardRot);
+        cList.push(FULL_POLY);
+      }
     }
   }
 
-  return { pList, yList, sList, oList, rList };
+  return { pList, yList, sList, oList, rList, cList };
 }
 
-const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
+const MobilePinnedCard: React.FC<MobilePinnedCardProps> = ({
   i,
   card,
   progress,
   total,
-  sinkY,
   activeTopIndex,
   onCardTap,
-  pathRef,
 }) => {
-  const { pList, yList, sList, oList, rList } = useMemo(() => {
-    return getGenieTransforms(i, card.rotation, total, sinkY);
-  }, [i, card.rotation, total, sinkY]);
+  const { pList, yList, sList, oList, rList, cList } = useMemo(() => {
+    return getCardTransforms(i, card.rotation, total);
+  }, [i, card.rotation, total]);
 
   const y = useTransform(progress, pList, yList);
   const scale = useTransform(progress, pList, sList);
   const opacity = useTransform(progress, pList, oList);
   const rotate = useTransform(progress, pList, rList);
-
-  const innerRef = useRef<HTMLDivElement>(null);
-  const lastStateRef = useRef<'before' | 'active' | 'after' | ''>('');
-  const lastFrameIdxRef = useRef<number>(-1);
-  const stepSize = 1 / (total - 1);
-  const entryStart = parseFloat(((i - 1) * stepSize).toFixed(3));
-  const entryEnd = parseFloat((i * stepSize).toFixed(3));
-
-  const updateGenieClip = useCallback(
-    (latest: number) => {
-      if (i === 0) return;
-      const path = pathRef.current;
-      const cardInner = innerRef.current;
-      if (!path) return;
-
-      if (latest <= entryStart) {
-        if (lastStateRef.current !== 'before') {
-          lastStateRef.current = 'before';
-          lastFrameIdxRef.current = 0;
-          path.setAttribute('d', GENIE_PATH_FRAMES[0]);
-          if (cardInner) cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
-        }
-      } else if (latest >= entryEnd) {
-        if (lastStateRef.current !== 'after') {
-          lastStateRef.current = 'after';
-          lastFrameIdxRef.current = 50;
-          path.setAttribute('d', GENIE_PATH_FRAMES[50]);
-          if (cardInner) cardInner.style.clipPath = 'none';
-        }
-      } else {
-        lastStateRef.current = 'active';
-        const localT = (latest - entryStart) / (entryEnd - entryStart);
-        const frameIdx = Math.min(50, Math.max(0, Math.round(localT * 50)));
-        if (frameIdx !== lastFrameIdxRef.current) {
-          lastFrameIdxRef.current = frameIdx;
-          path.setAttribute('d', GENIE_PATH_FRAMES[frameIdx]);
-          if (cardInner && cardInner.style.clipPath !== `url(#mobile-genie-clip-${i})`) {
-            cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
-          }
-        }
-      }
-    },
-    [entryStart, entryEnd, i, pathRef]
-  );
-
-  useMotionValueEvent(progress, 'change', updateGenieClip);
-
-  useEffect(() => {
-    updateGenieClip(progress.get());
-  }, [updateGenieClip, progress]);
+  const clipPath = useTransform(progress, pList, cList);
 
   const isActive = activeTopIndex === i;
 
@@ -300,21 +301,23 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
         opacity,
         rotate,
         transformOrigin: 'bottom center',
-        zIndex: isActive ? 35 : 10 + i,
+        zIndex: isActive ? 40 : 10 + i,
         willChange: 'transform, opacity',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
       }}
+      whileTap={{ scale: 0.98 }}
       onClick={() => onCardTap(i)}
-      className="absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] h-[255px] min-[360px]:h-[265px] min-[390px]:h-[280px] min-[430px]:h-[295px] transform-gpu cursor-pointer"
+      className="absolute inset-x-0 mx-auto w-[90vw] max-w-[340px] min-[390px]:max-w-[370px] min-[430px]:max-w-[400px] h-[255px] min-[360px]:h-[265px] min-[390px]:h-[280px] min-[430px]:h-[295px] transform-gpu cursor-pointer select-none drop-shadow-[0_12px_28px_rgba(40,30,20,0.11)]"
     >
-      <div
-        ref={innerRef}
+      <motion.div
         style={{
-          clipPath: i === 0 ? 'none' : `url(#mobile-genie-clip-${i})`,
-          willChange: 'transform',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
+          clipPath: i === 0 ? 'none' : clipPath,
+          willChange: 'clip-path',
         }}
-        className={`w-full h-full transform-gpu flex flex-col justify-between ${mobileCardBase}`}
+        className={`w-full h-full transform-gpu flex flex-col justify-between ${mobileCardBase} ${
+          isActive ? 'border-[#c2a688] shadow-[0_16px_36px_rgba(40,30,20,0.18)]' : ''
+        }`}
       >
         <LogosHeader items={card.logos} />
         <div className="flex-1 flex flex-col justify-center gap-2 min-[390px]:gap-2.5 pt-0.5 pb-0.5">
@@ -322,84 +325,36 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
             <IMessageBubble key={bIdx} text={bubble.text} side={bubble.side} />
           ))}
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
 
-const MobileGenieStackSection: React.FC = () => {
+const MobileStickyStack: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
+  const smoothProgress = useSpring(scrollYProgress, {
+    damping: 24,
+    stiffness: 80,
+    mass: 0.45,
+    restDelta: 0.0001,
+  });
+
   const [activeTopIndex, setActiveTopIndex] = useState<number | null>(null);
-  const pedestalRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
-  const [sinkY, setSinkY] = useState(250);
-
-  const path0Ref = useRef<SVGPathElement>(null);
-  const path1Ref = useRef<SVGPathElement>(null);
-  const path2Ref = useRef<SVGPathElement>(null);
-  const path3Ref = useRef<SVGPathElement>(null);
-  const path4Ref = useRef<SVGPathElement>(null);
-  const path5Ref = useRef<SVGPathElement>(null);
-  const pathRefs = useMemo(
-    () => [path0Ref, path1Ref, path2Ref, path3Ref, path4Ref, path5Ref],
-    []
-  );
-
-  useEffect(() => {
-    const measure = () => {
-      const ped = pedestalRef.current;
-      const stage = stageRef.current;
-      if (!ped || !stage) return;
-      const pedRect = ped.getBoundingClientRect();
-      const stageRect = stage.getBoundingClientRect();
-      const targetY = (pedRect.top + pedRect.height * 0.35) - (stageRect.top + stageRect.height * 0.5);
-      if (targetY > 80) {
-        setSinkY(targetY);
-      }
-    };
-    const raf = requestAnimationFrame(measure);
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const onResize = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(measure, 150);
-    };
-    window.addEventListener('resize', onResize);
-    return () => {
-      cancelAnimationFrame(raf);
-      if (resizeTimer) clearTimeout(resizeTimer);
-      window.removeEventListener('resize', onResize);
-    };
-  }, []);
 
   const handleCardTap = (idx: number) => {
     setActiveTopIndex((prev) => (prev === idx ? null : idx));
   };
 
   return (
-    <div ref={containerRef} className="relative w-full h-[280vh]">
-      {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100svh */}
-      <div className="sticky top-0 h-[100svh] max-h-[100svh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-4 min-[390px]:pb-6 px-4 overflow-hidden">
-        {/* SVG clip defs — 6 mobile genie morph paths */}
-        <svg
-          width="0"
-          height="0"
-          className="absolute pointer-events-none"
-          style={{ position: 'absolute', width: 0, height: 0 }}
-        >
-          <defs>
-            {pathRefs.map((ref, idx) => (
-              <clipPath key={idx} id={`mobile-genie-clip-${idx}`} clipPathUnits="objectBoundingBox">
-                <path ref={ref} d={idx === 0 ? STEP0 : STEP3} />
-              </clipPath>
-            ))}
-          </defs>
-        </svg>
-
+    <div ref={containerRef} className="relative w-full h-[450vh]">
+      {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100dvh */}
+      <div className="sticky top-0 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+4.75rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.5rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6rem)] pb-3 min-[390px]:pb-5 px-4 overflow-hidden">
+        
         {/* Section Header: Clear of navbar, bold enlarged editorial typography */}
         <div className="text-center w-full max-w-md mx-auto relative z-20 shrink-0">
           <h2 className="text-[34px] min-[360px]:text-[38px] min-[390px]:text-[42px] min-[430px]:text-[46px] tracking-tight text-[#2d3e32] font-serif font-normal leading-[1.06]">
@@ -415,30 +370,24 @@ const MobileGenieStackSection: React.FC = () => {
 
         {/* Card Stacking Stage: Centered with 3D perspective and GPU acceleration */}
         <div
-          ref={stageRef}
           style={{ perspective: 1000, WebkitPerspective: 1000 }}
           className="relative w-full max-w-[360px] min-[390px]:max-w-[385px] min-[430px]:max-w-[420px] mx-auto h-[290px] min-[390px]:h-[320px] min-[430px]:h-[350px] flex items-center justify-center my-auto z-20"
         >
           {ASK_CARDS.map((card, i) => (
-            <MobileGenieCard
+            <MobilePinnedCard
               key={`m_${card.id}`}
               i={i}
               card={card}
-              progress={scrollYProgress}
+              progress={smoothProgress}
               total={ASK_CARDS.length}
-              sinkY={sinkY}
               activeTopIndex={activeTopIndex}
               onCardTap={handleCardTap}
-              pathRef={pathRefs[i]}
             />
           ))}
         </div>
 
-        {/* Stone carved pedestal — bottom center (Cards physically emerge from / sink into this podium) */}
-        <div
-          ref={pedestalRef}
-          className="relative shrink-0 -mb-5 min-[390px]:-mb-7 min-[430px]:-mb-9 w-28 min-[360px]:w-30 min-[390px]:w-34 min-[430px]:w-38 z-30 flex flex-col items-center select-none transform-gpu"
-        >
+        {/* Stone carved pedestal — bottom center */}
+        <div className="relative shrink-0 -mb-5 min-[390px]:-mb-7 min-[430px]:-mb-9 w-28 min-[360px]:w-30 min-[390px]:w-34 min-[430px]:w-38 z-30 flex flex-col items-center select-none pointer-events-none transform-gpu">
           <motion.div
             animate={{ y: [-2, 2, -2] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -837,7 +786,7 @@ export const RealAsks: React.FC = () => {
 
   return (
     <section id="asks" className="w-full bg-[#ffffff] relative z-20">
-      {isMobile ? <MobileGenieStackSection /> : <DesktopGenieSection />}
+      {isMobile ? <MobileStickyStack /> : <DesktopGenieSection />}
     </section>
   );
 };

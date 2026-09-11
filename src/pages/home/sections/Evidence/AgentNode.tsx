@@ -10,6 +10,7 @@ interface AgentNodeProps {
   tags?: string[];
   icon?: React.ReactNode;
   isActive?: boolean;
+  isMobile?: boolean;
   stepIndex: number;
   onClick?: () => void;
   onMouseEnter?: () => void;
@@ -23,6 +24,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
   tags,
   icon,
   isActive = false,
+  isMobile = false,
   stepIndex,
   onClick,
   onMouseEnter,
@@ -37,25 +39,29 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       animate={
-        isTouch
+        isMobile
+          ? undefined
+          : isTouch
           ? undefined
           : isActive
           ? { scale: 1, opacity: 1 }
           : { scale: 1, opacity: 0.78 }
       }
-      whileHover={isTouch ? undefined : { scale: 1.015, y: -2, opacity: 1 }}
-      whileTap={isTouch ? undefined : { scale: 0.98 }}
+      whileHover={isMobile || isTouch ? undefined : { scale: 1.015, y: -2, opacity: 1 }}
+      whileTap={isMobile || isTouch ? undefined : { scale: 0.98 }}
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       className={`relative h-full max-h-[415px] min-[390px]:max-h-[435px] md:max-h-none flex flex-col justify-between p-4 min-[390px]:p-4.5 md:p-4 lg:p-5 rounded-[22px] md:rounded-2xl border transition-[opacity,border-color,background-color] duration-200 cursor-pointer text-left group overflow-hidden select-none ${
-        isActive
+        isMobile
+          ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.18)] z-20 opacity-100'
+          : isActive
           ? 'bg-[#ffffff] border-[#c4a978] shadow-[0_8px_24px_rgba(0,0,0,0.18)] md:shadow-[0_16px_40px_rgba(196,169,120,0.22)] md:ring-1.5 md:ring-[#c4a978]/80 z-20 opacity-100'
           : 'bg-[#fbf9f4] hover:bg-[#ffffff] border-[#ded5c5] hover:border-[#c4a978]/60 shadow-[0_4px_16px_rgba(20,24,32,0.06)] hover:shadow-[0_18px_40px_rgba(20,24,32,0.14)] z-10 opacity-75'
       } ${className}`}
     >
-      {/* Top golden accent line when active */}
+      {/* Top golden accent line */}
       <div
         className={`absolute top-0 inset-x-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#c4a978] to-transparent transition-opacity duration-300 ${
-          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+          isMobile || isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
         }`}
       />
 
@@ -76,7 +82,7 @@ export const AgentNode: React.FC<AgentNodeProps> = ({
 
           <div
             className={`w-7.5 h-7.5 min-[390px]:w-8 min-[390px]:h-8 md:w-7 md:h-7 lg:w-8 lg:h-8 rounded-full flex items-center justify-center border transition-all duration-300 shrink-0 ${
-              isActive
+              isMobile || isActive
                 ? 'bg-[#ffffff] border-[#c4a978] text-[#a66522] shadow-xs'
                 : 'bg-[#ffffff] border-[#ded5c5] text-[#37312c]'
             }`}
