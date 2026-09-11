@@ -1,17 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import companionVideoWebm from '../../../assets/Companion_Video.webm';
 import companionVideoMp4 from '../../../assets/Companion_Video.mp4';
-
-const companionVideoSrc = (() => {
-  if (typeof document === 'undefined') return companionVideoWebm;
-  try {
-    const v = document.createElement('video');
-    const canWebm = v.canPlayType('video/webm; codecs="vp9"');
-    return (canWebm === 'probably' || canWebm === 'maybe') ? companionVideoWebm : companionVideoMp4;
-  } catch {
-    return companionVideoMp4;
-  }
-})();
+import companionPosterWebp from '../../../assets/Companion_Video_poster.webp';
 
 export const Authority: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -20,6 +10,7 @@ export const Authority: React.FC = () => {
     const video = videoRef.current;
     if (!video) return;
 
+    // Enforce muted & playsinline directly on DOM to comply with iOS/Mac Safari autoplay policy
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
@@ -27,28 +18,58 @@ export const Authority: React.FC = () => {
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
 
-    const tryPlay = () => {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          const resume = () => {
-            video.play().catch(() => {});
-          };
-          window.addEventListener('touchstart', resume, { once: true, passive: true });
-          window.addEventListener('pointerdown', resume, { once: true, passive: true });
-          window.addEventListener('click', resume, { once: true, passive: true });
-          window.addEventListener('scroll', resume, { once: true, passive: true });
-          window.addEventListener('wheel', resume, { once: true, passive: true });
-          document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible') {
-              video.play().catch(() => {});
-            }
-          });
-        });
+    const playSafe = () => {
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {});
+        }
       }
     };
 
-    tryPlay();
+    // 1. Initial play attempt
+    playSafe();
+
+    // 2. IntersectionObserver: guarantees play trigger when user scrolls into section
+    // (Crucial for iOS Safari & macOS Safari which pause off-screen videos on page load)
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== 'undefined') {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              playSafe();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      observer.observe(video);
+    }
+
+    // 3. User interaction fallback: iOS Safari unblocks video on touch or scroll
+    const handleInteraction = () => {
+      playSafe();
+    };
+
+    window.addEventListener('touchstart', handleInteraction, { passive: true });
+    window.addEventListener('pointerdown', handleInteraction, { passive: true });
+    window.addEventListener('scroll', handleInteraction, { passive: true });
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        playSafe();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('pointerdown', handleInteraction);
+      window.removeEventListener('scroll', handleInteraction);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
   }, []);
 
   return (
@@ -61,14 +82,20 @@ export const Authority: React.FC = () => {
         <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
           <video
             ref={videoRef}
-            src={companionVideoSrc}
+            poster={companionPosterWebp}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
+            controls={false}
+            disablePictureInPicture
+            disableRemotePlayback
             className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 lg:-translate-x-12 xl:-translate-x-24 2xl:-translate-x-36 min-[1700px]:-translate-x-48 min-[1850px]:-translate-x-56 origin-center lg:origin-left"
-          />
+          >
+            <source src={companionVideoMp4} type="video/mp4" />
+            <source src={companionVideoWebm} type="video/webm" />
+          </video>
         </div>
 
         {/* =========================================================================
