@@ -241,6 +241,8 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
   const rotate = useTransform(progress, pList, rList);
 
   const innerRef = useRef<HTMLDivElement>(null);
+  const lastStateRef = useRef<'before' | 'active' | 'after' | ''>('');
+  const lastFrameIdxRef = useRef<number>(-1);
   const stepSize = 1 / (total - 1);
   const entryStart = parseFloat(((i - 1) * stepSize).toFixed(3));
   const entryEnd = parseFloat((i * stepSize).toFixed(3));
@@ -253,16 +255,30 @@ const MobileGenieCard: React.FC<MobileGenieCardProps> = ({
       if (!path) return;
 
       if (latest <= entryStart) {
-        path.setAttribute('d', GENIE_PATH_FRAMES[0]);
-        if (cardInner) cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
+        if (lastStateRef.current !== 'before') {
+          lastStateRef.current = 'before';
+          lastFrameIdxRef.current = 0;
+          path.setAttribute('d', GENIE_PATH_FRAMES[0]);
+          if (cardInner) cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
+        }
       } else if (latest >= entryEnd) {
-        path.setAttribute('d', GENIE_PATH_FRAMES[50]);
-        if (cardInner) cardInner.style.clipPath = 'none';
+        if (lastStateRef.current !== 'after') {
+          lastStateRef.current = 'after';
+          lastFrameIdxRef.current = 50;
+          path.setAttribute('d', GENIE_PATH_FRAMES[50]);
+          if (cardInner) cardInner.style.clipPath = 'none';
+        }
       } else {
+        lastStateRef.current = 'active';
         const localT = (latest - entryStart) / (entryEnd - entryStart);
         const frameIdx = Math.min(50, Math.max(0, Math.round(localT * 50)));
-        path.setAttribute('d', GENIE_PATH_FRAMES[frameIdx]);
-        if (cardInner) cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
+        if (frameIdx !== lastFrameIdxRef.current) {
+          lastFrameIdxRef.current = frameIdx;
+          path.setAttribute('d', GENIE_PATH_FRAMES[frameIdx]);
+          if (cardInner && cardInner.style.clipPath !== `url(#mobile-genie-clip-${i})`) {
+            cardInner.style.clipPath = `url(#mobile-genie-clip-${i})`;
+          }
+        }
       }
     },
     [entryStart, entryEnd, i, pathRef]
@@ -366,8 +382,8 @@ const MobileGenieStackSection: React.FC = () => {
 
   return (
     <div ref={containerRef} className="relative w-full h-[280vh]">
-      {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100dvh */}
-      <div className="sticky top-0 h-screen h-[100dvh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-4 min-[390px]:pb-6 px-4 overflow-hidden">
+      {/* Pinned Screen Viewport: Safely padded below floating navbar, consistent 100svh */}
+      <div className="sticky top-0 h-[100svh] max-h-[100svh] w-full flex flex-col justify-between items-center pt-[calc(env(safe-area-inset-top,0px)+5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5.75rem)] min-[430px]:pt-[calc(env(safe-area-inset-top,0px)+6.25rem)] pb-4 min-[390px]:pb-6 px-4 overflow-hidden">
         {/* SVG clip defs — 6 mobile genie morph paths */}
         <svg
           width="0"

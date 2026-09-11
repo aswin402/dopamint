@@ -344,9 +344,16 @@ export function ScrollDissolveReveal({
 
     let touchStartY = 0;
     let touchStartX = 0;
+    let touchStartTime = 0;
+    let totalDragY = 0;
+    let pullDownAtTop = 0;
+
     const onTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
       touchStartX = e.touches[0].clientX;
+      touchStartTime = performance.now();
+      totalDragY = 0;
+      pullDownAtTop = 0;
     };
 
     const onTouchMove = (e: TouchEvent) => {
@@ -365,6 +372,7 @@ export function ScrollDissolveReveal({
       if (!isUnlockedRef.current) {
         e.preventDefault();
         e.stopImmediatePropagation();
+        totalDragY += deltaY;
         // Responsive mobile sensitivity so a normal swipe smoothly dissolves without requiring 20+ drags
         const delta = Math.min(Math.abs(deltaY) * 0.0055, 0.08);
         if (deltaY > 0) {
@@ -387,7 +395,17 @@ export function ScrollDissolveReveal({
         return;
       }
 
-      if (window.scrollY <= 6 && deltaY < 0 && manifestoState.atStart) {
+      // Reverse transition back to hero:
+      // On desktop: first upward wheel gesture at top initiates reverse.
+      // On mobile: require an intentional pull-down (> 45px) at the very top of page
+      // to avoid accidental triggers from iOS Safari rubber-band bounce and inertia flicking.
+      if (window.scrollY <= 2 && deltaY < 0 && manifestoState.atStart) {
+        if (!isDesktop) {
+          pullDownAtTop += Math.abs(deltaY);
+          if (pullDownAtTop < 45) {
+            return;
+          }
+        }
         e.preventDefault();
         e.stopImmediatePropagation();
         resetSectionHandoff();
@@ -401,12 +419,19 @@ export function ScrollDissolveReveal({
     };
 
     const onTouchEnd = () => {
+      pullDownAtTop = 0;
       if (!isUnlockedRef.current) {
-        // Mobile gesture snap: if user dragged past 55%, snap forward to complete reveal
-        if (targetProgressRef.current >= 0.55) {
+        const cur = targetProgressRef.current;
+        const dt = performance.now() - touchStartTime;
+        const velocity = dt > 0 ? (totalDragY / dt) : 0;
+
+        // Clean binary snap without dead zones:
+        // If dragged past 28% or swiped with upward flick velocity, commit to 100% reveal!
+        if (cur >= 0.28 || (velocity > 0.35 && cur > 0.10)) {
           updateTarget(1.0, true);
           armSectionHandoff();
-        } else if (targetProgressRef.current < 0.2) {
+        } else {
+          // If barely dragged or pulled backward, cleanly return to hero video
           updateTarget(0.0, false);
         }
       } else {

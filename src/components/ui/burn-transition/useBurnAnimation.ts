@@ -463,9 +463,6 @@ export function useBurnAnimation(
         animationFrameRef.current = null;
         return;
       }
-      if (parallaxEnabledRef.current) {
-        updateParallaxOffset();
-      }
       render();
       animationFrameRef.current = requestAnimationFrame(loop);
     };

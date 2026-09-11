@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ALL_72_AGENTS, type AgentCardData } from '@/data/agents';
 import iconDope from '@/assets/Icondope.webp';
@@ -7,6 +7,11 @@ import iconDope from '@/assets/Icondope.webp';
 const half = Math.ceil(ALL_72_AGENTS.length / 2);
 const LANE_1 = ALL_72_AGENTS.slice(0, half);
 const LANE_2 = ALL_72_AGENTS.slice(half);
+
+// Mobile lean slice (14 agents per lane = ~4,500px track instead of 12,500px)
+// Keeps continuous infinite illusion while slashing mobile GPU texture size and VRAM by 60%
+const LANE_1_MOBILE = LANE_1.slice(0, 14);
+const LANE_2_MOBILE = LANE_2.slice(0, 14);
 
 interface AgentCardProps {
   agent: AgentCardData;
@@ -73,7 +78,21 @@ export const AgentRoster: React.FC = () => {
   const [hoveredCol, setHoveredCol] = useState<number | null>(null);
   const [focusedCardKey, setFocusedCardKey] = useState<string | null>(null);
   const [focusedLane, setFocusedLane] = useState<1 | 2 | null>(null);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth < 768;
+  });
   const railRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mql = window.matchMedia('(max-width: 767px)');
+    const update = () => setIsMobile(mql.matches);
+    mql.addEventListener('change', update);
+    return () => mql.removeEventListener('change', update);
+  }, []);
+
+  const lane1Data = isMobile ? LANE_1_MOBILE : LANE_1;
+  const lane2Data = isMobile ? LANE_2_MOBILE : LANE_2;
 
   const handleCardHover = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!railRef.current) return;
@@ -308,13 +327,13 @@ export const AgentRoster: React.FC = () => {
         <div className="hidden sm:block pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 md:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
         <div className="hidden sm:block pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 md:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/80 to-transparent z-10" />
 
-        {/* --- LANE 1: MOVES LEFT (36 Agents) --- */}
+        {/* --- LANE 1: MOVES LEFT (Responsive: 14 on mobile, 36 on desktop) --- */}
         <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 1 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
           >
-            {LANE_1.map((agent) => {
+            {lane1Data.map((agent) => {
               const key = `lane1-${agent.id}`;
               return (
                 <AgentCard
@@ -333,7 +352,7 @@ export const AgentRoster: React.FC = () => {
             className="flex gap-3.5 sm:gap-5 animate-marquee-left shrink-0 hover:[animation-play-state:paused] py-1"
             aria-hidden="true"
           >
-            {LANE_1.map((agent) => {
+            {lane1Data.map((agent) => {
               const key = `lane1-dup-${agent.id}`;
               return (
                 <AgentCard
@@ -349,13 +368,13 @@ export const AgentRoster: React.FC = () => {
           </div>
         </div>
 
-        {/* --- LANE 2: MOVES RIGHT (36 Agents) --- */}
+        {/* --- LANE 2: MOVES RIGHT (Responsive: 14 on mobile, 36 on desktop) --- */}
         <div className="flex w-full overflow-hidden py-1 sm:py-4 sm:[mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:[-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div
             style={focusedLane === 2 ? { animationPlayState: 'paused' } : undefined}
             className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
           >
-            {LANE_2.map((agent) => {
+            {lane2Data.map((agent) => {
               const key = `lane2-${agent.id}`;
               return (
                 <AgentCard
@@ -374,7 +393,7 @@ export const AgentRoster: React.FC = () => {
             className="flex gap-3.5 sm:gap-5 animate-marquee-right shrink-0 hover:[animation-play-state:paused] py-1"
             aria-hidden="true"
           >
-            {LANE_2.map((agent) => {
+            {lane2Data.map((agent) => {
               const key = `lane2-dup-${agent.id}`;
               return (
                 <AgentCard

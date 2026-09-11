@@ -10,7 +10,7 @@ export function clampRevealProgress(value: number): number {
  * commits the reveal instead of leaving a visually finished transition stuck
  * one gesture short of the snap threshold (page locked, navbar theme stale).
  */
-export const MAGNETIC_COMPLETION_AT = 0.5;
+export const MAGNETIC_COMPLETION_AT = 0.35;
 
 export function resolveMagneticCompletionTarget(
   target: number,

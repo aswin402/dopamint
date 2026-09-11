@@ -106,7 +106,11 @@ export const AiFiSection: React.FC = () => {
     };
     measure();
     window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    window.addEventListener('orientationchange', measure);
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('orientationchange', measure);
+    };
   }, []);
 
   // Update current card index with hysteresis to completely eliminate boundary flickering/jitter
