@@ -137,7 +137,7 @@ export const AiFiSection: React.FC = () => {
   });
 
   return (
-    <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-x-clip lg:overflow-hidden">
+    <section id="aifi" className="relative w-full bg-[#f3f2e6] overflow-visible lg:overflow-hidden">
       
       {/* Seamless Soft Top Gradient from White (Authority) into Parchment */}
       <div className="absolute top-0 inset-x-0 h-24 bg-gradient-to-b from-[#ffffff] to-transparent pointer-events-none z-10" />
@@ -147,7 +147,7 @@ export const AiFiSection: React.FC = () => {
           - Scrolling down smoothly slides the cards with rock-solid 1:1 touch response.
           ========================================================================= */}
       <div ref={mobileContainerRef} className="lg:hidden relative w-full h-[260vh]">
-        <div className="sticky top-0 z-20 h-[100dvh] max-h-[100dvh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6] will-change-transform [transform:translate3d(0,0,0)] [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [contain:paint_layout] touch-pan-y">
+        <div className="sticky top-0 z-20 h-[100svh] max-h-[100svh] w-full flex flex-col justify-between pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] min-[390px]:pt-[calc(env(safe-area-inset-top,0px)+5rem)] pb-4 min-[390px]:pb-6 px-3 min-[390px]:px-4 overflow-hidden bg-[#f3f2e6]">
           
           {/* Header */}
           <div className="text-center max-w-sm mx-auto shrink-0 space-y-1.5 pt-1">
@@ -190,10 +190,6 @@ export const AiFiSection: React.FC = () => {
                 x: mobileTrackX,
                 paddingLeft: `calc((100% - min(84vw, 340px)) / 2)`,
                 paddingRight: `calc((100% - min(84vw, 340px)) / 2)`,
-                WebkitBackfaceVisibility: 'hidden',
-                backfaceVisibility: 'hidden',
-                willChange: 'transform',
-                transform: 'translateZ(0)',
               }}
             >
               {CARDS_DATA.map((card, idx) => {
@@ -201,7 +197,7 @@ export const AiFiSection: React.FC = () => {
                 return (
                   <div
                     key={`mob-${card.id}`}
-                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between border-[1.5px] transition-[opacity,border-color] duration-200 ease-out select-none shadow-[0_8px_24px_rgba(40,48,40,0.08)] will-change-transform [transform:translateZ(0)] [backface-visibility:hidden] ${
+                    className={`shrink-0 w-[84vw] max-w-[325px] min-[390px]:max-w-[340px] h-[335px] min-[390px]:h-[355px] bg-[#eef2ea] rounded-[26px] min-[390px]:rounded-[30px] p-5 min-[390px]:p-6 flex flex-col justify-between border-[1.5px] transition-[opacity,border-color] duration-150 ease-out select-none shadow-[0_8px_24px_rgba(40,48,40,0.08)] ${
                       isCentered
                         ? 'opacity-100 border-[#3e4f42]/80'
                         : 'opacity-40 border-[#3e4f42]/20'

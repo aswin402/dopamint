@@ -37,7 +37,7 @@ export function HomePage() {
         <AgentRoster />
 
         {/* 6. Long Section with div_burn.webp Background (Evidence + Memory Wallet / The Floor) */}
-        <div className="relative w-full overflow-x-clip bg-[#282a2d]">
+        <div className="relative w-full overflow-visible bg-[#282a2d]">
           {/* Top Burn Transition Effect */}
           <div className="absolute top-0 inset-x-0 h-28 sm:h-36 md:h-44 lg:h-48 pointer-events-none z-20">
             <BurnTransition
