@@ -80,7 +80,7 @@ export const FooterSection: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pb-6 border-b border-white/25 text-xs sm:text-sm">
           
           {/* Brand Logo */}
-          <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             <img
               src={logoDope}
               alt="Dopamint"
