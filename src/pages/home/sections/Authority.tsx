@@ -101,7 +101,7 @@ export const Authority: React.FC = () => {
         {/* =========================================================================
             2. RIGHT — EDITORIAL HEADLINE + CTA (CENTER ALIGNED ON MOBILE)
             ========================================================================= */}
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-8 xl:-ml-12 2xl:-ml-16 min-[1850px]:-ml-20 pt-10 min-[390px]:pt-14 sm:pt-0">
+        <div className="authority-text-col flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-4 xl:-ml-6 2xl:-ml-7 pt-10 min-[390px]:pt-14 sm:pt-0">
           
           {/* Category Tag */}
           <div className="mt-2 min-[390px]:mt-3 sm:mt-0 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">

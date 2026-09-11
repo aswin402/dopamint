@@ -590,8 +590,15 @@ video::-webkit-media-controls-play-button {
    Authority Section ("The Future of Agents") Desktop Overrides:
    Ensures the companion video is scaled up and shifted left on 100% and 110%
    zoom desktop screens without being overridden by Tailwind 2xl cascade order.
-   Leaves 120% zoom (width <= 1650px), laptops, and mobile screens untouched.
+   Shifts the right-side text column slightly right for 100%, 110%, and 120% zoom.
    ========================================================================= */
+@media (min-width: 1536px) and (max-width: 1679px) {
+  /* 120% Zoom on 1080p (Viewport ~1600px) */
+  .authority-text-col {
+    margin-left: -24px !important;
+  }
+}
+
 @media (min-width: 1680px) and (max-width: 1819px) {
   /* 110% Zoom on 1080p (Viewport ~1745px) */
   .authority-video-col {
@@ -604,6 +611,9 @@ video::-webkit-media-controls-play-button {
     scale: 1.04 !important;
     transform-origin: left center !important;
     translate: -100px 0 !important;
+  }
+  .authority-text-col {
+    margin-left: -24px !important;
   }
 }
 
@@ -619,6 +629,9 @@ video::-webkit-media-controls-play-button {
     scale: 1.05 !important;
     transform-origin: left center !important;
     translate: -140px 0 !important;
+  }
+  .authority-text-col {
+    margin-left: -28px !important;
   }
 }
 
