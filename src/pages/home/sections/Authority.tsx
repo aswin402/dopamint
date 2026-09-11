@@ -79,7 +79,7 @@ export const Authority: React.FC = () => {
         {/* =========================================================================
             1. LEFT — COMPANION VIDEO (BIGGER & SHIFTED LEFT ON MOBILE)
             ========================================================================= */}
-        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-16 xl:-ml-24 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
+        <div className="flex items-center justify-center lg:justify-start w-full lg:col-span-7 -ml-0 lg:-ml-4 xl:-ml-8 2xl:-ml-12 min-[1700px]:-ml-48 min-[1850px]:-ml-64 overflow-visible py-6 sm:py-0 mb-3 sm:mb-0">
           <video
             ref={videoRef}
             poster={companionPosterWebp}
@@ -91,7 +91,7 @@ export const Authority: React.FC = () => {
             controls={false}
             disablePictureInPicture
             disableRemotePlayback
-            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 lg:-translate-x-12 xl:-translate-x-24 2xl:-translate-x-36 min-[1700px]:-translate-x-48 min-[1850px]:-translate-x-56 origin-center lg:origin-left"
+            className="w-full max-w-none sm:max-w-2xl lg:max-w-3xl xl:max-w-4xl h-auto object-contain max-h-[580px] sm:max-h-[750px] lg:max-h-[860px] scale-[1.50] -translate-x-24 sm:scale-105 sm:translate-x-0 lg:translate-x-0 xl:-translate-x-6 2xl:-translate-x-12 min-[1700px]:-translate-x-72 min-[1850px]:-translate-x-96 origin-center lg:origin-left"
           >
             <source src={companionVideoMp4} type="video/mp4" />
             <source src={companionVideoWebm} type="video/webm" />
@@ -101,7 +101,7 @@ export const Authority: React.FC = () => {
         {/* =========================================================================
             2. RIGHT — EDITORIAL HEADLINE + CTA (CENTER ALIGNED ON MOBILE)
             ========================================================================= */}
-        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 pt-10 min-[390px]:pt-14 sm:pt-0">
+        <div className="flex flex-col items-center sm:items-start text-center sm:text-left gap-5 sm:gap-7 lg:col-span-5 -ml-0 lg:-ml-8 xl:-ml-12 2xl:-ml-16 min-[1850px]:-ml-20 pt-10 min-[390px]:pt-14 sm:pt-0">
           
           {/* Category Tag */}
           <div className="mt-2 min-[390px]:mt-3 sm:mt-0 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#f3f0e8] border border-[#e2ddd3] text-xs sm:text-[13px] font-mono uppercase tracking-[0.22em] text-[#3d4a3a]">
