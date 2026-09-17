@@ -31,7 +31,7 @@ export const SITE_CONFIG = {
     { name: 'Telegram', href: 'https://t.me/dopamint_labs', label: 'Telegram' },
   ] as SocialLink[],
   legal: [
-    { name: 'Privacy Policy', href: '#privacy' },
-    { name: 'Terms & Conditions', href: '#terms' },
+    { name: 'Privacy Policy', href: '/privacy' },
+    { name: 'Terms & Conditions', href: '/terms' },
   ] as LegalLink[],
 };

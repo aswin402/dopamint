@@ -122,9 +122,9 @@ export const FooterSection: React.FC = () => {
 
           <div className="flex items-center gap-6 font-serif italic text-white/80">
             {SITE_CONFIG.legal.map((item) => (
-              <a key={item.name} href={item.href} className="hover:text-white transition-colors">
+              <Link key={item.name} to={item.href} className="hover:text-white transition-colors">
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

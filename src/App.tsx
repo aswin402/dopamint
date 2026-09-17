@@ -8,6 +8,8 @@ import { lazyWithRetry } from '@/lib/lazyWithRetry';
 
 const NotFoundPage = lazyWithRetry(() => import('@/pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 const WaitlistPage = lazyWithRetry(() => import('@/pages/waitlist/WaitlistPage').then((m) => ({ default: m.WaitlistPage })));
+const TermsPage = lazyWithRetry(() => import('@/pages/legal/TermsPage').then((m) => ({ default: m.TermsPage })));
+const PrivacyPage = lazyWithRetry(() => import('@/pages/legal/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
 
 const router = createBrowserRouter([
   {
@@ -22,6 +24,22 @@ const router = createBrowserRouter([
       {
         path: 'waitlist',
         element: <WaitlistPage />,
+      },
+      {
+        path: 'terms',
+        element: <TermsPage />,
+      },
+      {
+        path: 'terms-and-conditions',
+        element: <TermsPage />,
+      },
+      {
+        path: 'privacy',
+        element: <PrivacyPage />,
+      },
+      {
+        path: 'privacy-policy',
+        element: <PrivacyPage />,
       },
       {
         path: '*',
