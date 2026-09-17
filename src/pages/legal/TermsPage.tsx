@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, ArrowRight, ArrowUp, AlertTriangle, FileText, ChevronDown } from 'lucide-react';
 import { LegalHeader } from '@/components/legal/LegalHeader';
@@ -9,6 +9,7 @@ import { getLenisInstance } from '@/lib/lenis';
 export const TermsPage: React.FC = () => {
   const [activeSectionId, setActiveSectionId] = useState<string>('section-1');
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
+  const tocListRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -26,20 +27,52 @@ export const TermsPage: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 160;
-      for (let i = TERMS_DATA.sections.length - 1; i >= 0; i--) {
+      const threshold = 220;
+      let currentId = TERMS_DATA.sections[0].id;
+
+      for (let i = 0; i < TERMS_DATA.sections.length; i++) {
         const sec = TERMS_DATA.sections[i];
         const el = document.getElementById(sec.id);
-        if (el && el.offsetTop <= scrollPosition) {
-          setActiveSectionId(sec.id);
-          break;
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= threshold) {
+            currentId = sec.id;
+          } else {
+            break;
+          }
         }
       }
+
+      setActiveSectionId(currentId);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Automatically scroll the Table of Contents container so the active button remains in view
+  useEffect(() => {
+    const list = tocListRef.current;
+    if (!list || !activeSectionId) return;
+
+    const activeBtn = list.querySelector<HTMLElement>(`[data-section-id="${activeSectionId}"]`);
+    if (!activeBtn) return;
+
+    const listRect = list.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+
+    const isAbove = btnRect.top < listRect.top + 8;
+    const isBelow = btnRect.bottom > listRect.bottom - 8;
+
+    if (isAbove || isBelow) {
+      const targetScrollTop = activeBtn.offsetTop - list.clientHeight / 2 + activeBtn.clientHeight / 2;
+      list.scrollTo({
+        top: Math.max(0, targetScrollTop),
+        behavior: 'smooth',
+      });
+    }
+  }, [activeSectionId]);
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -155,19 +188,24 @@ export const TermsPage: React.FC = () => {
           {/* Desktop Sticky Table of Contents */}
           <aside className="hidden lg:block lg:col-span-4 xl:col-span-3">
             <div className="sticky top-28 max-h-[calc(100vh-8.5rem)] flex flex-col p-4 rounded-2xl bg-white/50 border border-[#141820]/10 backdrop-blur-xs">
-              <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#141820]/10">
+              <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#141820]/10 shrink-0">
                 <span className="text-xs font-mono uppercase tracking-[0.16em] font-bold text-[#141820]">
                   Table of Contents
                 </span>
                 <span className="text-[11px] font-mono text-[#55604e]">50 sections</span>
               </div>
 
-              <div className="overflow-y-auto pr-2 space-y-1 custom-scrollbar text-xs font-mono">
+              <div
+                ref={tocListRef}
+                className="relative flex-1 overflow-y-auto pr-2 space-y-1 text-xs font-mono scroll-smooth"
+                style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(20, 24, 32, 0.25) transparent' }}
+              >
                 {TERMS_DATA.sections.map((sec) => {
                   const isActive = activeSectionId === sec.id;
                   return (
                     <button
                       key={sec.id}
+                      data-section-id={sec.id}
                       onClick={() => scrollToSection(sec.id)}
                       className={`w-full text-left px-2.5 py-1.5 rounded-lg flex items-center gap-2 transition-all cursor-pointer ${
                         isActive
@@ -184,7 +222,7 @@ export const TermsPage: React.FC = () => {
                 })}
               </div>
 
-              <div className="pt-3 mt-3 border-t border-[#141820]/10 flex justify-between items-center text-[11px] font-mono text-[#55604e]">
+              <div className="pt-3 mt-3 border-t border-[#141820]/10 flex justify-between items-center text-[11px] font-mono text-[#55604e] shrink-0">
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                   className="inline-flex items-center gap-1 hover:text-[#141820] transition-colors cursor-pointer"
