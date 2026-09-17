@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, ArrowRight, ArrowUp, Lock, CheckCircle2, ChevronDown } from 'lucide-react';
 import { LegalHeader } from '@/components/legal/LegalHeader';
-import { LegalFooter } from '@/components/legal/LegalFooter';
+import { FooterSection } from '@/pages/home/sections/Footer';
 import { PRIVACY_DATA } from '@/data/privacyContent';
 import { getLenisInstance } from '@/lib/lenis';
 
@@ -336,7 +336,7 @@ export const PrivacyPage: React.FC = () => {
 
       </main>
 
-      <LegalFooter />
+      <FooterSection />
     </div>
   );
 };

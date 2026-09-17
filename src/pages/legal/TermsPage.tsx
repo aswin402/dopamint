@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, ArrowRight, ArrowUp, AlertTriangle, FileText, ChevronDown } from 'lucide-react';
 import { LegalHeader } from '@/components/legal/LegalHeader';
-import { LegalFooter } from '@/components/legal/LegalFooter';
+import { FooterSection } from '@/pages/home/sections/Footer';
 import { TERMS_DATA } from '@/data/termsContent';
 import { getLenisInstance } from '@/lib/lenis';
 
@@ -316,7 +316,7 @@ export const TermsPage: React.FC = () => {
 
       </main>
 
-      <LegalFooter />
+      <FooterSection />
     </div>
   );
 };
