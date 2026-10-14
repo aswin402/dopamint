@@ -6,7 +6,7 @@ import { BurnTransition } from '../../components/ui/burn-transition';
 import divBurnImg from '../../assets/div_burn.webp';
 
 import { AgentRoster } from './sections/AgentRoster';
-import { Authority } from './sections/Authority';
+// import { Authority } from './sections/Authority';
 import { AiFiSection } from './sections/AiFiSection';
 import { EvidenceSection } from './sections/Evidence/EvidenceSection';
 import { MemoryWalletSection } from './sections/MemoryWallet/MemoryWalletSection';
@@ -27,8 +27,8 @@ export function HomePage() {
         {/* 2. Real asks, real people */}
         <RealAsks />
 
-        {/* 3. The Future of Agents */}
-        <Authority />
+        {/* 3. The Future of Agents (Hidden) */}
+        {/* <Authority /> */}
 
         {/* 4. AiFi Powered Agents That Act With Trust */}
         <AiFiSection />
