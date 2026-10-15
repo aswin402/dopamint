@@ -4,7 +4,12 @@ import {
   ROW_2_LOGOS,
   ROW_3_LOGOS,
   ROW_4_LOGOS,
+  ROW_5_LOGOS,
+  ROW_6_LOGOS,
 } from '@/data/ecosystemLogos';
+
+const ROW_5_TRACK = [...ROW_5_LOGOS, ...ROW_5_LOGOS];
+const ROW_6_TRACK = [...ROW_6_LOGOS, ...ROW_6_LOGOS];
 
 export const CryptoLogosMarquee: React.FC = () => {
   return (
@@ -27,13 +32,13 @@ export const CryptoLogosMarquee: React.FC = () => {
         </h2>
       </div>
 
-      {/* Main 4-Row Marquee Track Wrapper with Gradient Edge Masks */}
+      {/* Main 6-Row Marquee Track Wrapper with Gradient Edge Masks */}
       <div className="relative w-full overflow-hidden space-y-3 sm:space-y-4 lg:space-y-5">
         
-        {/* Left Gradient Fade (Covers all 4 Rows) */}
+        {/* Left Gradient Fade (Covers all 6 Rows) */}
         <div className="pointer-events-none absolute left-0 inset-y-0 w-20 sm:w-32 lg:w-48 bg-gradient-to-r from-[#f3f2e6] via-[#f3f2e6]/90 to-transparent z-20" />
 
-        {/* Right Gradient Fade (Covers all 4 Rows) */}
+        {/* Right Gradient Fade (Covers all 6 Rows) */}
         <div className="pointer-events-none absolute right-0 inset-y-0 w-20 sm:w-32 lg:w-48 bg-gradient-to-l from-[#f3f2e6] via-[#f3f2e6]/90 to-transparent z-20" />
 
         {/* ── ROW 1: Consumer & Daily Apps (Moving LEFT) ── */}
@@ -166,6 +171,74 @@ export const CryptoLogosMarquee: React.FC = () => {
                   src={logo.src}
                   alt={logo.alt}
                   className="h-8 sm:h-9 lg:h-10 w-auto max-w-[130px] sm:max-w-[160px] lg:max-w-[180px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── ROW 5: DeFi, AI Agent & Web3 Infrastructure Protocols (Moving LEFT) ── */}
+        <div className="relative w-full overflow-hidden flex items-center group">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-left group-hover:[animation-play-state:paused]">
+            {/* Sequence 1 */}
+            {ROW_5_TRACK.map((logo, idx) => (
+              <div
+                key={`r5-a-${idx}-${logo.id}`}
+                title={logo.alt}
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[140px] sm:max-w-[170px] lg:max-w-[190px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                />
+              </div>
+            ))}
+            {/* Seamless Continuation */}
+            {ROW_5_TRACK.map((logo, idx) => (
+              <div
+                key={`r5-b-${idx}-${logo.id}`}
+                title={logo.alt}
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[140px] sm:max-w-[170px] lg:max-w-[190px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── ROW 6: US Lifestyle Apps & Web3 Analytics / L1s (Moving RIGHT) ── */}
+        <div className="relative w-full overflow-hidden flex items-center group">
+          <div className="flex w-max shrink-0 items-center animate-crypto-marquee-right group-hover:[animation-play-state:paused]">
+            {/* Sequence 1 */}
+            {ROW_6_TRACK.map((logo, idx) => (
+              <div
+                key={`r6-a-${idx}-${logo.id}`}
+                title={logo.alt}
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[140px] sm:max-w-[170px] lg:max-w-[190px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
+                />
+              </div>
+            ))}
+            {/* Seamless Continuation */}
+            {ROW_6_TRACK.map((logo, idx) => (
+              <div
+                key={`r6-b-${idx}-${logo.id}`}
+                title={logo.alt}
+                className="flex items-center justify-center mx-4 sm:mx-6 lg:mx-8 shrink-0 h-12 sm:h-14 lg:h-16 px-2 transition-transform duration-300 hover:scale-110 cursor-pointer"
+              >
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-8 sm:h-9 lg:h-10 w-auto max-w-[140px] sm:max-w-[170px] lg:max-w-[190px] object-contain shrink-0 opacity-95 hover:opacity-100 transition-all duration-300 drop-shadow-xs"
                 />
               </div>
             ))}

@@ -16,7 +16,14 @@ import githubLogo from '../assets/app_logos/github.svg';
 import canvaLogo from '../assets/app_logos/canva.svg';
 import baseAppLogo from '../assets/app_logos/base_app.svg';
 
-// Crypto wallet and exchange logos
+// US Lifestyle apps
+import lyftLogo from '../assets/app_logos/lyft.svg';
+import airbnbLogo from '../assets/app_logos/airbnb.svg';
+import instacartLogo from '../assets/app_logos/instacart.svg';
+import netflixLogo from '../assets/app_logos/netflix.svg';
+import redditLogo from '../assets/app_logos/reddit.svg';
+
+// Crypto wallet, exchange, and protocol logos
 import logo01 from '../assets/crypto_logos/logo_01.webp';
 import logo02 from '../assets/crypto_logos/logo_02.webp';
 import logo03 from '../assets/crypto_logos/logo_03.webp';
@@ -42,10 +49,24 @@ import zerionLogo from '../assets/crypto_logos/zerion.webp';
 import oneinchLogo from '../assets/crypto_logos/oneinch.webp';
 import rabbyLogo from '../assets/crypto_logos/rabby.webp';
 
+// New DeFi, AI & Web3 Infrastructure Protocols
+import aerodromeLogo from '../assets/crypto_logos/aerodrome.svg';
+import virtualsLogo from '../assets/crypto_logos/virtuals.svg';
+import moonwellLogo from '../assets/crypto_logos/moonwell.webp';
+import morphoLogo from '../assets/crypto_logos/morpho.svg';
+import uniswapLogo from '../assets/crypto_logos/uniswap.webp';
+import coinbaseCdpLogo from '../assets/crypto_logos/coinbase_cdp.svg';
+import chainlinkLogo from '../assets/crypto_logos/chainlink.svg';
+import thegraphLogo from '../assets/crypto_logos/thegraph.svg';
+import clusterLogo from '../assets/crypto_logos/cluster.webp';
+import bubblemapsLogo from '../assets/crypto_logos/bubblemaps.svg';
+import nearLogo from '../assets/crypto_logos/near.svg';
+
 export interface EcosystemLogo {
   id: string;
   src: string;
   alt: string;
+  href?: string;
 }
 
 // ── ROW 1: Everyday Lifestyle & Consumer Apps (10 Unique, Moving Left) ──
@@ -102,4 +123,29 @@ export const ROW_4_LOGOS: EcosystemLogo[] = [
   { id: 'w-exodus', src: logo07, alt: 'Exodus' },
   { id: 'w-ledger', src: logo08, alt: 'Ledger' },
   { id: 'w-trezor', src: logo09, alt: 'Trezor' },
+];
+
+// ── ROW 5: DeFi, AI Agent & Web3 Infrastructure Protocols (9 Unique, Moving Left) ──
+export const ROW_5_LOGOS: EcosystemLogo[] = [
+  { id: 'p-aerodrome', src: aerodromeLogo, alt: 'Aerodrome Finance', href: 'https://aerodrome.finance/' },
+  { id: 'p-virtuals', src: virtualsLogo, alt: 'Virtuals Protocol', href: 'https://www.virtuals.io/' },
+  { id: 'p-moonwell', src: moonwellLogo, alt: 'Moonwell', href: 'https://moonwell.fi/' },
+  { id: 'p-morpho', src: morphoLogo, alt: 'Morpho', href: 'https://morpho.org/' },
+  { id: 'p-uniswap', src: uniswapLogo, alt: 'Uniswap', href: 'https://app.uniswap.org/' },
+  { id: 'p-coinbase-cdp', src: coinbaseCdpLogo, alt: 'Coinbase Developer Platform', href: 'https://www.coinbase.com/developer-platform' },
+  { id: 'p-chainlink', src: chainlinkLogo, alt: 'Chainlink', href: 'https://chain.link/' },
+  { id: 'p-thegraph', src: thegraphLogo, alt: 'The Graph', href: 'https://thegraph.com/' },
+  { id: 'p-cluster', src: clusterLogo, alt: 'Cluster Protocol', href: 'https://clusterprotocol.xyz/' },
+];
+
+// ── ROW 6: US Lifestyle Apps & Web3 Analytics / L1s (8 Unique, Moving Right) ──
+export const ROW_6_LOGOS: EcosystemLogo[] = [
+  { id: 'us-lyft', src: lyftLogo, alt: 'Lyft', href: 'https://www.lyft.com/' },
+  { id: 'us-airbnb', src: airbnbLogo, alt: 'Airbnb', href: 'https://www.airbnb.com/' },
+  { id: 'us-instacart', src: instacartLogo, alt: 'Instacart', href: 'https://www.instacart.com/' },
+  { id: 'us-netflix', src: netflixLogo, alt: 'Netflix', href: 'https://www.netflix.com/' },
+  { id: 'us-reddit', src: redditLogo, alt: 'Reddit', href: 'https://www.reddit.com/' },
+  { id: 'us-discord', src: discordLogo, alt: 'Discord', href: 'https://discord.com/' },
+  { id: 'p-bubblemaps', src: bubblemapsLogo, alt: 'Bubblemaps', href: 'https://bubblemaps.io/' },
+  { id: 'p-near', src: nearLogo, alt: 'NEAR', href: 'https://near.com/' },
 ];
