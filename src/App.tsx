@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { RootLayout } from '@/layouts/RootLayout';
 import { HomePage } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@/ErrorBoundary';
@@ -26,16 +26,8 @@ const router = createBrowserRouter([
         element: <WaitlistPage />,
       },
       {
-        path: 'terms',
-        element: <Navigate to="/terms-and-conditions" replace />,
-      },
-      {
         path: 'terms-and-conditions',
         element: <TermsPage />,
-      },
-      {
-        path: 'privacy',
-        element: <Navigate to="/privacy-policy" replace />,
       },
       {
         path: 'privacy-policy',
