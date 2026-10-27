@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { RootLayout } from '@/layouts/RootLayout';
 import { HomePage } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@/ErrorBoundary';
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'terms',
-        element: <TermsPage />,
+        element: <Navigate to="/terms-and-conditions" replace />,
       },
       {
         path: 'terms-and-conditions',
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'privacy',
-        element: <PrivacyPage />,
+        element: <Navigate to="/privacy-policy" replace />,
       },
       {
         path: 'privacy-policy',

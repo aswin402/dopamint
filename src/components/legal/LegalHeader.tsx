@@ -41,7 +41,7 @@ export const LegalHeader: React.FC<LegalHeaderProps> = ({ currentDoc }) => {
         <div className="flex items-center gap-2 sm:gap-3">
           <nav aria-label="Legal document selection" className="flex items-center p-1 rounded-full bg-[#141820]/5 border border-[#141820]/10 text-xs font-mono">
             <Link
-              to="/terms"
+              to="/terms-and-conditions"
               className={`px-3 sm:px-4 py-1.5 rounded-full transition-all duration-200 ${
                 currentDoc === 'terms'
                   ? 'bg-[#141820] text-[#f3f2e6] font-semibold shadow-xs'
@@ -51,7 +51,7 @@ export const LegalHeader: React.FC<LegalHeaderProps> = ({ currentDoc }) => {
               Terms
             </Link>
             <Link
-              to="/privacy"
+              to="/privacy-policy"
               className={`px-3 sm:px-4 py-1.5 rounded-full transition-all duration-200 ${
                 currentDoc === 'privacy'
                   ? 'bg-[#141820] text-[#f3f2e6] font-semibold shadow-xs'

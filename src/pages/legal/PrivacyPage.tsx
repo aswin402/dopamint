@@ -230,7 +230,7 @@ export const PrivacyPage: React.FC = () => {
                   <ArrowUp className="w-3.5 h-3.5" />
                   <span>Top of page</span>
                 </button>
-                <Link to="/terms" className="hover:text-[#25362a] transition-colors">
+                <Link to="/terms-and-conditions" className="hover:text-[#25362a] transition-colors">
                   Terms & Conditions →
                 </Link>
               </div>
@@ -322,7 +322,7 @@ export const PrivacyPage: React.FC = () => {
               </div>
 
               <Link
-                to="/terms"
+                to="/terms-and-conditions"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#dfc28d] text-[#141820] font-mono text-xs uppercase tracking-[0.14em] font-bold hover:bg-white transition-all shadow-xs shrink-0"
               >
                 <span>Read Terms & Conditions</span>
