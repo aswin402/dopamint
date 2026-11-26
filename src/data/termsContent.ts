@@ -19,8 +19,8 @@ export const TERMS_DATA: TermsData = {
   "lastUpdated": "March 2026",
   "effectiveDate": "March 2026",
   "intro": [
-    "These Terms & Conditions (\"Terms\") govern your access to and use of DopaMint, including our website, applications, interfaces, artificial intelligence systems, agents, agent infrastructure, APIs, software, tools, integrations, and related products and services (collectively, the \"Services\").",
-    "For purposes of these Terms, \"DopaMint,\" \"we,\" \"us,\" and \"our\" refer to the provider and operator of the Services.",
+    "These Terms & Conditions (\"Terms\") govern your access to and use of DopaMint, operated by Dopelabs, including our website (https://dopamint.xyz/), applications, interfaces, artificial intelligence systems, agents, agent infrastructure, APIs, software, tools, integrations, and related products and services (collectively, the \"Services\").",
+    "For purposes of these Terms, \"Dopelabs,\" \"DopaMint,\" \"we,\" \"us,\" and \"our\" refer to Dopelabs, the legal entity that provides and operates the Services.",
     "By accessing or using the Services, creating an account, connecting a wallet, submitting an instruction or intent, authorizing an agent, initiating a transaction, or otherwise using any part of the Services, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. If you do not agree to these Terms, do not access or use the Services."
   ],
   "sections": [
@@ -512,9 +512,10 @@ export const TERMS_DATA: TermsData = {
       "number": 50,
       "title": "Contact",
       "paragraphs": [
-        "If you have questions about these Terms & Conditions, you can contact DopaMint through the official communication channels made available on our website.",
-        "Website: dopamint.xyz",
-        "© 2026 DopaMint. All rights reserved."
+        "If you have questions about these Terms & Conditions, you can contact Dopelabs (operator of DopaMint) through the official communication channels made available on our website.",
+        "Legal Business Name: Dopelabs",
+        "Website: https://dopamint.xyz/",
+        "© 2026 Dopelabs. All rights reserved."
       ],
       "isDisclaimer": false
     }

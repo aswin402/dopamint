@@ -79,13 +79,16 @@ export const FooterSection: React.FC = () => {
         {/* Main Bottom Nav Row */}
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 pb-6 border-b border-white/25 text-xs sm:text-sm">
           
-          {/* Brand Logo */}
+          {/* Brand Logo & Legal Attribution */}
           <div className="hidden sm:flex items-center gap-3">
             <img
               src={logoDope}
-              alt="Dopamint"
+              alt={`${SITE_CONFIG.name} by ${SITE_CONFIG.legalName}`}
               className="h-8 sm:h-10 w-auto object-contain brightness-0 invert drop-shadow-md"
             />
+            <span className="text-xs font-sans tracking-wide text-white/75 border-l border-white/25 pl-3">
+              by <strong className="font-semibold text-white/95">{SITE_CONFIG.legalName}</strong>
+            </span>
           </div>
 
           {/* Socials Container */}
@@ -113,14 +116,16 @@ export const FooterSection: React.FC = () => {
         </div>
 
         {/* Sub-Footer Legal & Disclaimer Bar */}
-        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/70">
-          <div>
-            <span>© {SITE_CONFIG.copyrightYear} {SITE_CONFIG.name}. All rights reserved.</span>
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] sm:text-xs text-white/75 text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-y-1">
+            <span>© {SITE_CONFIG.copyrightYear} {SITE_CONFIG.legalName}. All rights reserved.</span>
+            <span className="mx-2 text-white/40">|</span>
+            <span>{SITE_CONFIG.name} is operated by {SITE_CONFIG.legalName}.</span>
             <span className="mx-2 text-white/40">|</span>
             <span className="font-serif italic text-white/90">Powered by $DOPE.</span>
           </div>
 
-          <div className="flex items-center gap-6 font-serif italic text-white/80">
+          <div className="flex items-center gap-6 font-serif italic text-white/80 shrink-0">
             {SITE_CONFIG.legal.map((item) => (
               <Link key={item.name} to={item.href} className="hover:text-white transition-colors">
                 {item.name}

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import confetti from 'canvas-confetti';
 import { ArrowLeft, CheckCircle2, Link2, Shield, Zap } from 'lucide-react';
 import { getLenisInstance } from '@/lib/lenis';
+import { SITE_CONFIG } from '@/data/siteConfig';
 import iconDopeImg from '@/assets/Icondope.webp';
 import logoDopeImg from '@/assets/logo_dope.webp';
 
@@ -339,6 +340,22 @@ export function WaitlistPage() {
 
         </div>
       </main>
+
+      {/* =========================================================================
+          4. SUBTLE LEGAL FOOTER
+          ========================================================================= */}
+      <footer className="w-full max-w-6xl mx-auto px-4 sm:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] sm:text-xs font-mono text-[#55604e]/85 z-10 border-t border-[#141820]/10 text-center sm:text-left">
+        <span>
+          © {SITE_CONFIG.copyrightYear} {SITE_CONFIG.legalName}. {SITE_CONFIG.name} is operated by {SITE_CONFIG.legalName}.
+        </span>
+        <div className="flex items-center gap-4">
+          {SITE_CONFIG.legal.map((item) => (
+            <Link key={item.name} to={item.href} className="hover:text-[#141820] transition-colors">
+              {item.name}
+            </Link>
+          ))}
+        </div>
+      </footer>
 
     </div>
   );

@@ -23,7 +23,7 @@ export const PRIVACY_DATA: PrivacyData = {
   "lastUpdated": "March 2026",
   "effectiveDate": "March 2026",
   "intro": [
-    "This Privacy Policy (“Privacy Policy”) describes the types of personal data that DopaMint (“DopaMint,” “we,” “our,” and/or “us”) collects, uses, and discloses from individuals (“you” or “your”) who use our website at https://dopamint.xyz/ and our related services (collectively, the “Service”).",
+    "This Privacy Policy (“Privacy Policy”) describes the types of personal data that Dopelabs, the operator of DopaMint (“Dopelabs,” “DopaMint,” “we,” “our,” and/or “us”), collects, uses, and discloses from individuals (“you” or “your”) who use our website at https://dopamint.xyz/ and our related services (collectively, the “Service”).",
     "DopaMint is a House of Intent-based Agents built on Base. The Service allows users to express objectives, interact with AI agents, access financial intelligence, connect wallets, and interact with supported onchain applications and services.",
     "As used in this Privacy Policy, “personal data” means any information relating to an identified or identifiable individual and includes any information that constitutes “personally identifiable information,” “personal data,” or “personal information” under applicable privacy or data protection laws or regulations.",
     "Your use of the Service is also subject to our Terms of Service."
@@ -572,7 +572,15 @@ export const PRIVACY_DATA: PrivacyData = {
       "items": [
         {
           "type": "paragraph",
-          "text": "If you have questions, comments, or concerns about this Privacy Policy or our processing of personal data, please contact us through https://dopamint.xyz/."
+          "text": "If you have questions, comments, or concerns about this Privacy Policy or our processing of personal data, please contact Dopelabs (operator of DopaMint) through https://dopamint.xyz/."
+        },
+        {
+          "type": "paragraph",
+          "text": "Legal Business Name: Dopelabs"
+        },
+        {
+          "type": "paragraph",
+          "text": "Website: https://dopamint.xyz/"
         }
       ]
     }

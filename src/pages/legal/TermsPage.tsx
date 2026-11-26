@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, ArrowRight, ArrowUp, AlertTriangle, FileText, ChevronDown } from 'lucide-react';
+import { ArrowRight, ArrowUp, AlertTriangle, FileText, ChevronDown } from 'lucide-react';
 import { LegalHeader } from '@/components/legal/LegalHeader';
 import { FooterSection } from '@/pages/home/sections/Footer';
 import { TERMS_DATA } from '@/data/termsContent';
@@ -22,7 +22,7 @@ export const TermsPage: React.FC = () => {
     document.documentElement.style.overflow = '';
     delete document.documentElement.dataset.scrollLocked;
 
-    document.title = 'Terms & Conditions — DopaMint';
+    document.title = 'Terms & Conditions — DopaMint by Dopelabs';
   }, []);
 
   useEffect(() => {
@@ -122,6 +122,8 @@ export const TermsPage: React.FC = () => {
             <span>Last Updated: {TERMS_DATA.lastUpdated}</span>
             <span className="text-[#141820]/20">•</span>
             <span>Effective Date: {TERMS_DATA.effectiveDate}</span>
+            <span className="text-[#141820]/20">•</span>
+            <span>Operated by Dopelabs</span>
             <span className="text-[#141820]/20">•</span>
             <span>50 Articles</span>
           </div>

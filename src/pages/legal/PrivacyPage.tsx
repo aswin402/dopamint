@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Shield, ArrowRight, ArrowUp, Lock, CheckCircle2, ChevronDown } from 'lucide-react';
+import { ArrowRight, ArrowUp, Lock, ChevronDown } from 'lucide-react';
 import { LegalHeader } from '@/components/legal/LegalHeader';
 import { FooterSection } from '@/pages/home/sections/Footer';
 import { PRIVACY_DATA } from '@/data/privacyContent';
@@ -22,7 +22,7 @@ export const PrivacyPage: React.FC = () => {
     document.documentElement.style.overflow = '';
     delete document.documentElement.dataset.scrollLocked;
 
-    document.title = 'Privacy Policy — DopaMint';
+    document.title = 'Privacy Policy — DopaMint by Dopelabs';
   }, []);
 
   useEffect(() => {
@@ -122,6 +122,8 @@ export const PrivacyPage: React.FC = () => {
             <span>Last Updated: {PRIVACY_DATA.lastUpdated}</span>
             <span className="text-[#141820]/20">•</span>
             <span>Effective Date: {PRIVACY_DATA.effectiveDate}</span>
+            <span className="text-[#141820]/20">•</span>
+            <span>Operated by Dopelabs</span>
             <span className="text-[#141820]/20">•</span>
             <span>House of Intent-Based Agents on Base</span>
           </div>

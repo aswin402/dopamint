@@ -17,6 +17,7 @@ export interface LegalLink {
 
 export const SITE_CONFIG = {
   name: 'Dopamint',
+  legalName: 'Dopelabs',
   tagline: 'Your last App. Powered by $DOPE.',
   copyrightYear: 2026,
   nav: [
