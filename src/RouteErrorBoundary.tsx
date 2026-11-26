@@ -7,12 +7,22 @@ import { useEffect } from 'react';
  * automatically handles stale deployment chunk 404 errors.
  */
 export function RouteErrorBoundary() {
-  const error = useRouteError() as any;
+  const error = useRouteError();
+  const errorMessage =
+    error instanceof Error
+      ? error.message
+      : typeof error === 'object' &&
+          error !== null &&
+          'message' in error &&
+          typeof (error as { message?: unknown }).message === 'string'
+        ? (error as { message: string }).message
+        : undefined;
 
   const isChunkError =
-    error?.message?.includes?.('Failed to fetch dynamically imported module') ||
-    error?.message?.includes?.('error loading dynamically imported module') ||
-    error?.message?.includes?.('Importing a module script failed');
+    errorMessage?.includes('Failed to fetch dynamically imported module') ||
+    errorMessage?.includes('error loading dynamically imported module') ||
+    errorMessage?.includes('Importing a module script failed') ||
+    false;
 
   useEffect(() => {
     if (isChunkError) {
@@ -41,7 +51,9 @@ export function RouteErrorBoundary() {
           onClick={() => {
             try {
               sessionStorage.removeItem('route_chunk_retry_ts');
-            } catch {}
+            } catch {
+              // Storage restricted (e.g. mobile private mode)
+            }
             window.location.reload();
           }}
           className="rounded-xl bg-[#141820] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-neutral-700"
@@ -58,7 +70,7 @@ export function RouteErrorBoundary() {
       <p className="max-w-md text-sm text-neutral-600">
         {isRouteErrorResponse(error)
           ? `${error.status} ${error.statusText}`
-          : error?.message || 'An unexpected error occurred while loading this page.'}
+          : errorMessage || 'An unexpected error occurred while loading this page.'}
       </p>
       <div className="flex gap-3">
         <button

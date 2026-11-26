@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence, useTransform, type MotionValue } from 'framer-motion';
 
@@ -207,21 +207,26 @@ function HeroOverlay({
   );
 }
 
+function subscribeDesktopQuery(callback: () => void) {
+  const mql = window.matchMedia('(min-width: 1024px)');
+  mql.addEventListener('change', callback);
+  return () => mql.removeEventListener('change', callback);
+}
+
+function getDesktopSnapshot() {
+  return window.matchMedia('(min-width: 1024px)').matches;
+}
+
+function getDesktopServerSnapshot() {
+  return true;
+}
+
 function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return window.innerWidth >= 1024;
-  });
-
-  useEffect(() => {
-    const mql = window.matchMedia('(min-width: 1024px)');
-    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    setIsDesktop(mql.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
-
-  return isDesktop;
+  return useSyncExternalStore(
+    subscribeDesktopQuery,
+    getDesktopSnapshot,
+    getDesktopServerSnapshot
+  );
 }
 
 {/* =========================================================================

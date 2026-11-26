@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import iconDopeImg from '../../../assets/Icondope.webp';
 import { useAssetPreloader } from './useAssetPreloader';
@@ -14,7 +14,7 @@ export interface PreloaderProps {
 
 export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_MS }: PreloaderProps) {
   const { progress, statusMessage, isComplete } = useAssetPreloader({ minDurationMs });
-  const [shouldRender, setShouldRender] = useState(true);
+  const shouldRender = typeof window === 'undefined' ? true : !isComplete;
 
   // Lock scroll while preloader is active
   useEffect(() => {
@@ -23,13 +23,6 @@ export function Preloader({ onComplete, minDurationMs = PRELOADER_MIN_DURATION_M
       unlockPageScroll(PRELOADER_SCROLL_LOCK_OWNER);
     };
   }, []);
-
-  // When loading finishes, immediately trigger exit transition
-  useEffect(() => {
-    if (isComplete) {
-      setShouldRender(false);
-    }
-  }, [isComplete]);
 
   const handleExitComplete = () => {
     document.documentElement.dataset.preloaderComplete = 'true';

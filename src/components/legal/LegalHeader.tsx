@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import logoDopeImg from '@/assets/logo_dope.webp';
 
@@ -8,8 +8,6 @@ interface LegalHeaderProps {
 }
 
 export const LegalHeader: React.FC<LegalHeaderProps> = ({ currentDoc }) => {
-  const location = useLocation();
-
   return (
     <header className="sticky top-0 z-40 w-full bg-[#f3f2e6]/90 backdrop-blur-md border-b border-[#141820]/10 transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">

@@ -6,21 +6,35 @@ import { lazy, type ComponentType } from 'react';
  * because the old hashed file name no longer exists on the server), this wrapper
  * automatically reloads the window once to fetch the latest application bundle.
  */
-export function lazyWithRetry<T extends ComponentType<any>>(
-  componentImport: () => Promise<{ default: T } | any>
+export function lazyWithRetry<P extends object = Record<string, never>>(
+  componentImport: () => Promise<{ default: ComponentType<P> } | ComponentType<P>>
 ) {
-  return lazy(async () => {
+  return lazy<ComponentType<P>>(async () => {
     try {
       const component = await componentImport();
       try {
         sessionStorage.removeItem('chunk_retry_ts');
-      } catch {}
-      return component.default ? component : { default: component };
-    } catch (error: any) {
+      } catch {
+        // Storage restricted (e.g. mobile private mode)
+      }
+      return typeof component === 'object' && component !== null && 'default' in component
+        ? component
+        : { default: component };
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'object' &&
+              error !== null &&
+              'message' in error &&
+              typeof (error as { message?: unknown }).message === 'string'
+            ? (error as { message: string }).message
+            : '';
+
       const isChunkError =
-        error?.message?.includes('Failed to fetch dynamically imported module') ||
-        error?.message?.includes('error loading dynamically imported module') ||
-        error?.message?.includes('Importing a module script failed');
+        errorMessage.includes('Failed to fetch dynamically imported module') ||
+        errorMessage.includes('error loading dynamically imported module') ||
+        errorMessage.includes('Importing a module script failed');
 
       let canRetry = false;
       try {
@@ -30,11 +44,13 @@ export function lazyWithRetry<T extends ComponentType<any>>(
           sessionStorage.setItem('chunk_retry_ts', String(now));
           canRetry = true;
         }
-      } catch {}
+      } catch {
+        // Storage restricted (e.g. mobile private mode)
+      }
 
       if (isChunkError && canRetry) {
         window.location.reload();
-        return { default: (() => null) as unknown as T };
+        return { default: (() => null) as ComponentType<P> };
       }
 
       // If already refreshed or not a chunk error, rethrow to ErrorBoundary

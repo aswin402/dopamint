@@ -413,7 +413,7 @@ const DesktopGenieSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { amount: 0.2, once: false });
   const [isOpen, setIsOpen] = useState(false);
-  const [isFullyOpen, setIsFullyOpen] = useState(false);
+  const [openSettled, setOpenSettled] = useState(false);
 
   // 6 card refs (Desktop)
   const card1Ref = useRef<HTMLDivElement>(null); // top-left    QA: Birthday
@@ -479,15 +479,16 @@ const DesktopGenieSection: React.FC = () => {
 
   // Once genie entrance is complete (~1.6s), remove clip-path to unlock GPU acceleration and crisp antialiasing
   useEffect(() => {
-    if (sectionOpen) {
-      const timer = setTimeout(() => setIsFullyOpen(true), 1600);
-      return () => clearTimeout(timer);
-    } else {
-      setIsFullyOpen(false);
-    }
+    const timer = setTimeout(() => setOpenSettled(sectionOpen), sectionOpen ? 1600 : 0);
+    return () => clearTimeout(timer);
   }, [sectionOpen]);
 
-  const handleToggle = () => setIsOpen((p) => !p);
+  const isFullyOpen = sectionOpen && openSettled;
+
+  const handleToggle = () => {
+    setOpenSettled(false);
+    setIsOpen((p) => !p);
+  };
 
   const path1Ref = useGenieMorph(sectionOpen, 0);
   const path2Ref = useGenieMorph(sectionOpen, 100);

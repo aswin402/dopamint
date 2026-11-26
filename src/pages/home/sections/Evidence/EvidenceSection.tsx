@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useMotionValueEvent, useInView, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useMotionValueEvent, useInView, useTransform, useSpring } from 'framer-motion';
 import { 
   Target, 
   Command, 
@@ -28,7 +28,6 @@ export const EvidenceSection: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
-  const [isManual, setIsManual] = useState<boolean>(false);
 
   const mobileContainerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -56,23 +55,21 @@ export const EvidenceSection: React.FC = () => {
     if (typeof window !== 'undefined' && window.innerWidth >= 768) {
       return;
     }
-    if (!isManual) {
-      const cur = activeStepRef.current;
-      let next = cur;
+    const cur = activeStepRef.current;
+    let next = cur;
 
-      if (cur === 0 && p > 0.16) next = 1;
-      else if (cur === 1) {
-        if (p < 0.10) next = 0;
-        else if (p > 0.48) next = 2;
-      } else if (cur === 2) {
-        if (p < 0.42) next = 1;
-        else if (p > 0.80) next = 3;
-      } else if (cur === 3 && p < 0.74) next = 2;
+    if (cur === 0 && p > 0.16) next = 1;
+    else if (cur === 1) {
+      if (p < 0.10) next = 0;
+      else if (p > 0.48) next = 2;
+    } else if (cur === 2) {
+      if (p < 0.42) next = 1;
+      else if (p > 0.80) next = 3;
+    } else if (cur === 3 && p < 0.74) next = 2;
 
-      if (next !== cur) {
-        activeStepRef.current = next;
-        setActiveStep(next);
-      }
+    if (next !== cur) {
+      activeStepRef.current = next;
+      setActiveStep(next);
     }
   });
 

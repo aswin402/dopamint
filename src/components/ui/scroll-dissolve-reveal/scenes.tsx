@@ -66,7 +66,7 @@ export function VideoShaderScene({
   const uniforms1 = useMemo(
     () => ({
       uTexture: { value: texture1 },
-      uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uResolution: { value: new THREE.Vector2(1920, 1080) },
       uImageResolution: {
         value: new THREE.Vector2(1920, 1080),
       },
@@ -80,32 +80,41 @@ export function VideoShaderScene({
     [texture1]
   );
 
-  useFrame((state) => {
-    const timeInSeconds = state.clock.getElapsedTime();
-
+  useEffect(() => {
     if (material1Ref.current) {
       material1Ref.current.uniforms.uTexture.value = texture1;
-      texture1.needsUpdate = true;
+    }
+  }, [texture1]);
 
-      const video = texture1.image as HTMLVideoElement | undefined;
-      if (video && video.videoWidth > 0 && video.videoHeight > 0) {
-        if (
-          material1Ref.current.uniforms.uImageResolution.value.x !== video.videoWidth ||
-          material1Ref.current.uniforms.uImageResolution.value.y !== video.videoHeight
-        ) {
-          material1Ref.current.uniforms.uImageResolution.value.set(video.videoWidth, video.videoHeight);
+  useFrame((state) => {
+    const timeInSeconds = state.clock.getElapsedTime();
+    const material = material1Ref.current;
+
+    if (material) {
+      const activeTexture = material.uniforms.uTexture.value as THREE.VideoTexture | null;
+      if (activeTexture) {
+        activeTexture.needsUpdate = true;
+
+        const video = activeTexture.image as HTMLVideoElement | undefined;
+        if (video && video.videoWidth > 0 && video.videoHeight > 0) {
+          if (
+            material.uniforms.uImageResolution.value.x !== video.videoWidth ||
+            material.uniforms.uImageResolution.value.y !== video.videoHeight
+          ) {
+            material.uniforms.uImageResolution.value.set(video.videoWidth, video.videoHeight);
+          }
         }
       }
 
-      material1Ref.current.uniforms.uTime.value = timeInSeconds;
-      material1Ref.current.uniforms.uResolution.value.set(size.width, size.height);
+      material.uniforms.uTime.value = timeInSeconds;
+      material.uniforms.uResolution.value.set(size.width, size.height);
       
       const dissolveProgress = toDissolveProgress(progress);
-      material1Ref.current.uniforms.uDissolve.value = dissolveProgress;
+      material.uniforms.uDissolve.value = dissolveProgress;
       const grayscaleProgress = Math.min(1.0, dissolveProgress / 0.30);
-      material1Ref.current.uniforms.uGrayscale.value = grayscaleProgress;
-      material1Ref.current.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
-      material1Ref.current.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
+      material.uniforms.uGrayscale.value = grayscaleProgress;
+      material.uniforms.uEdgeIntensity.value = dissolveProgress * 0.5;
+      material.uniforms.uEdgeBrightness.value = Math.max(0.0, 1.0 - dissolveProgress);
     }
   });
 
@@ -137,7 +146,7 @@ export function ImageShaderScene({
   const uniforms1 = useMemo(
     () => ({
       uTexture: { value: texture1 },
-      uResolution: { value: new THREE.Vector2(size.width, size.height) },
+      uResolution: { value: new THREE.Vector2(1920, 1080) },
       uImageResolution: {
         value: new THREE.Vector2(
           (texture1.image as HTMLImageElement)?.naturalWidth || 1920,

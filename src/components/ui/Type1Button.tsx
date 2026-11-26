@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-interface Type1ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface Type1ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
   children: React.ReactNode;
   variant?: 'dark' | 'light';
   href?: string;
   to?: string;
   className?: string;
-  onClick?: React.MouseEventHandler<any>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
 export const Type1Button: React.FC<Type1ButtonProps> = ({
